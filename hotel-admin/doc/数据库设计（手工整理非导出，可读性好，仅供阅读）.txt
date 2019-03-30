@@ -195,7 +195,7 @@ CREATE TABLE `biz_hotl` (
   `Last_Update_By` varchar(50) DEFAULT NULL COMMENT '更新人员',
   `Last_Update_Time` datetime DEFAULT 0 COMMENT '更新时间',
   PRIMARY KEY (`Hotel_Code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='酒店信息表';
 
 
 -- --------------------------------------
