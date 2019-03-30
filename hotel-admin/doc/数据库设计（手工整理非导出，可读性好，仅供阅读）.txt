@@ -176,6 +176,28 @@ CREATE TABLE `sys_dict` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典表';
 
+
+-- ------------------------------------------------
+--  Table structure for `biz_hotl`  酒店信息表  creat by licy
+-- ------------------------------------------------
+DROP TABLE IF EXISTS `biz_hotl`;
+CREATE TABLE `biz_hotl` (
+  `Hotel_Code` varchar(10) NOT NULL  COMMENT '酒店编号',
+  `Country_Code` varchar(3) NOT NULL COMMENT '国家编码',
+  `Province_Code` varchar(3) NOT NULL COMMENT '都道府县',
+  `City_Code` varchar(2) NOT NULL COMMENT '区市町村',
+  `Hotel_Type` varchar(3) NOT NULL COMMENT '酒店类型',
+  `Hotel_Level` varchar(3) NOT NULL COMMENT '酒店星级',
+  `Hotel_Cname` varchar(100) COMMENT '酒店中文名称',
+  `Hotel_Ename` varchar(100) COMMENT '酒店英文名称',
+  `Creat_By` varchar(50) COMMENT '创建人员',
+  `Creat_Time` datetime COMMENT '创建时间',
+  `Last_Update_By` varchar(50) DEFAULT NULL COMMENT '更新人员',
+  `Last_Update_Time` datetime DEFAULT 0 COMMENT '更新时间',
+  PRIMARY KEY (`Hotel_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典表';
+
+
 -- --------------------------------------
 -- 初始数据
 -- --------------------------------------
