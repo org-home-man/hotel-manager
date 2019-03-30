@@ -178,7 +178,7 @@ CREATE TABLE `sys_dict` (
 
 
 -- ------------------------------------------------
---  Table structure for `biz_hotl`  酒店信息表  creat by licy
+--  Table structure for `biz_hotl`  酒店信息表  creat  by licy
 -- ------------------------------------------------
 DROP TABLE IF EXISTS `biz_hotl`;
 CREATE TABLE `biz_hotl` (
