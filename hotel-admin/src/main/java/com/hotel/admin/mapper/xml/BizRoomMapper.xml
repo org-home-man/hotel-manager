@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hotel.admin.mapper.BizRoomMapper">
+
+  <resultMap id="BaseResultMap" type="com.hotel.admin.model.BizRoom">
+	<id column="room_code" jdbcType="VARCHAR" property="roomCode" />
+	<result column="hotel_code" jdbcType="VARCHAR" property="hotelCode" />
+	<result column="room_type" jdbcType="VARCHAR" property="roomType" />
+	<result column="room_style" jdbcType="VARCHAR" property="roomStyle" />
+	<result column="bed_type" jdbcType="VARCHAR" property="bedType" />
+	<result column="break_type" jdbcType="VARCHAR" property="breakType" />
+	<result column="room_area" jdbcType="DOUBLE" property="roomArea" />
+	<result column="intro_c" jdbcType="VARCHAR" property="introC" />
+	<result column="intro_e" jdbcType="VARCHAR" property="introE" />
+	<result column="photo" jdbcType="BINARY" property="photo" />
+	<result column="room_stock" jdbcType="INTEGER" property="roomStock" />
+	<result column="recommended" jdbcType="VARCHAR" property="recommended" />
+	<result column="creat_by" jdbcType="VARCHAR" property="creatBy" />
+	<result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+	<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
+	<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+  </resultMap>
+  
+  <insert id="add" parameterType="com.hotel.admin.model.BizRoom">
+    insert into biz_room
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roomCode != null">
+        room_code,
+      </if>
+      <if test="hotelCode != null">
+        hotel_code,
+      </if>
+      <if test="roomType != null">
+        room_type,
+      </if>
+      <if test="roomStyle != null">
+        room_style,
+      </if>
+      <if test="bedType != null">
+        bed_type,
+      </if>
+      <if test="breakType != null">
+        break_type,
+      </if>
+      <if test="roomArea != null">
+        room_area,
+      </if>
+      <if test="introC != null">
+        intro_c,
+      </if>
+      <if test="introE != null">
+        intro_e,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="roomStock != null">
+        room_stock,
+      </if>
+      <if test="recommended != null">
+        recommended,
+      </if>
+      <if test="creatBy != null">
+        creat_by,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+      <if test="lastUpdateBy != null">
+        last_update_by,
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roomCode != null">
+        #{roomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelCode != null">
+        #{hotelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roomType != null">
+        #{roomType,jdbcType=VARCHAR},
+      </if>
+      <if test="roomStyle != null">
+        #{roomStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="bedType != null">
+        #{bedType,jdbcType=VARCHAR},
+      </if>
+      <if test="breakType != null">
+        #{breakType,jdbcType=VARCHAR},
+      </if>
+      <if test="roomArea != null">
+        #{roomArea,jdbcType=DOUBLE},
+      </if>
+      <if test="introC != null">
+        #{introC,jdbcType=VARCHAR},
+      </if>
+      <if test="introE != null">
+        #{introE,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=BINARY},
+      </if>
+      <if test="roomStock != null">
+        #{roomStock,jdbcType=INTEGER},
+      </if>
+      <if test="recommended != null">
+        #{recommended,jdbcType=VARCHAR},
+      </if>
+      <if test="creatBy != null">
+        #{creatBy,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="delete" parameterType="java.lang.String">
+    delete from biz_room
+    where room_code = #{roomCode,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="update" parameterType="com.hotel.admin.model.BizRoom">
+    update biz_room
+    <set>
+      <if test="roomCode != null">
+        room_code = #{roomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelCode != null">
+        hotel_code = #{hotelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roomType != null">
+        room_type = #{roomType,jdbcType=VARCHAR},
+      </if>
+      <if test="roomStyle != null">
+        room_style = #{roomStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="bedType != null">
+        bed_type = #{bedType,jdbcType=VARCHAR},
+      </if>
+      <if test="breakType != null">
+        break_type = #{breakType,jdbcType=VARCHAR},
+      </if>
+      <if test="roomArea != null">
+        room_area = #{roomArea,jdbcType=DOUBLE},
+      </if>
+      <if test="introC != null">
+        intro_c = #{introC,jdbcType=VARCHAR},
+      </if>
+      <if test="introE != null">
+        intro_e = #{introE,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=BINARY},
+      </if>
+      <if test="roomStock != null">
+        room_stock = #{roomStock,jdbcType=INTEGER},
+      </if>
+      <if test="recommended != null">
+        recommended = #{recommended,jdbcType=VARCHAR},
+      </if>
+      <if test="creatBy != null">
+        creat_by = #{creatBy,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where room_code = #{roomCode,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from biz_room
+    where room_code = #{roomCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findPage" resultMap="BaseResultMap">
+    select * from biz_room
+  </select>
+  
+</mapper>
