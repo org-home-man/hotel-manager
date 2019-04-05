@@ -49,5 +49,12 @@ public interface SysParaConfigMapper {
      * @return
      */    
     List<SysParaConfig> findPage();
+
+    /**
+     * 根据主键查询
+     * @param paraSubCode2
+     * @return
+     */
+    List<SysParaConfig> findKeyValue(SysParaConfig record);
     
 }

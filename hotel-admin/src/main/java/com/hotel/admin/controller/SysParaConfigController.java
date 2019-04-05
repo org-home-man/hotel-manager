@@ -70,4 +70,15 @@ public class SysParaConfigController {
 	public HttpResult findById(@RequestParam String paraCode) {
 		return HttpResult.ok(sysParaConfigService.findById(paraCode));
 	}
+
+	/**
+	 * 根据主键查询
+	 * @param SysParaConfig
+	 * @return
+	 */
+	@PostMapping(value="/findListData")
+	public HttpResult findKeyValue(@RequestBody SysParaConfig record) {
+
+		return HttpResult.ok(sysParaConfigService.findKeyValue(record));
+	}
 }

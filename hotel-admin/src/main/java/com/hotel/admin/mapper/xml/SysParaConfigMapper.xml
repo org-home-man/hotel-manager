@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hotel.admin.model.SysParaConfigMapper">
+<mapper namespace="com.hotel.admin.mapper.SysParaConfigMapper">
 
   <resultMap id="BaseResultMap" type="com.hotel.admin.model.SysParaConfig">
 	<id column="para_code" jdbcType="VARCHAR" property="paraCode" />
@@ -142,6 +142,43 @@
   
   <select id="findPage" resultMap="BaseResultMap">
     select * from sys_para_config
+  </select>
+
+  <select id="findKeyValue" parameterType="com.hotel.admin.model.SysParaConfig" resultMap="BaseResultMap">
+    select * from sys_para_config where 1=1
+    <if test="paraCode != null">
+     and para_code = #{paraCode,jdbcType=VARCHAR}
+    </if>
+    <if test="paraSubCode1 != null">
+     AND para_sub_code1 = #{paraSubCode1,jdbcType=VARCHAR}
+    </if>
+    <if test="paraSubCode2 != null">
+      AND para_sub_code2 = #{paraSubCode2,jdbcType=VARCHAR}
+    </if>
+    <if test="paraValue1 != null">
+      AND para_value1 = #{paraValue1,jdbcType=VARCHAR}
+    </if>
+    <if test="paraValue2 != null">
+      AND  para_value2 = #{paraValue2,jdbcType=VARCHAR}
+    </if>
+    <if test="paraValue3 != null">
+      AND para_value3 = #{paraValue3,jdbcType=VARCHAR}
+    </if>
+    <if test="remark != null">
+      AND remark = #{remark,jdbcType=VARCHAR}
+    </if>
+    <if test="creatBy != null">
+      AND creat_by = #{creatBy,jdbcType=VARCHAR}
+    </if>
+    <if test="creatTime != null">
+      AND creat_time = #{creatTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="lastUpdateBy != null">
+      AND last_update_by = #{lastUpdateBy,jdbcType=VARCHAR}
+    </if>
+    <if test="lastUpdateTime != null">
+      AND last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
+    </if>
   </select>
   
 </mapper>

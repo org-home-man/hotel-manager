@@ -59,6 +59,11 @@ public class BizHotlServiceImpl implements BizHotlService {
 	}
 
 	@Override
+	public List<BizHotl> findAllData(BizHotl bizHotl) {
+		return bizHotlMapper.findPage();
+	}
+
+	@Override
 	public PageResult findPage(PageRequest pageRequest) {
 		return MybatisPageHelper.findPage(pageRequest, bizHotlMapper);
 	}

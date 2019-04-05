@@ -3,6 +3,8 @@ package com.hotel.admin.service;
 import com.hotel.admin.model.BizHotl;
 import com.hotel.core.service.CurdService;
 
+import java.util.List;
+
 
 /**
  * ---------------------------
@@ -16,4 +18,6 @@ import com.hotel.core.service.CurdService;
 public interface BizHotlService extends CurdService<BizHotl> {
 
     BizHotl findById(String id);
+
+    List<BizHotl> findAllData(BizHotl bizHotl);
 }

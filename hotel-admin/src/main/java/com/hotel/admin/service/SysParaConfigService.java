@@ -3,6 +3,9 @@ package com.hotel.admin.service;
 import com.hotel.admin.model.SysParaConfig;
 import com.hotel.core.service.CurdService;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * ---------------------------
  * 参数配置表 (SysParaConfigService)         
@@ -15,5 +18,7 @@ import com.hotel.core.service.CurdService;
 public interface SysParaConfigService extends CurdService<SysParaConfig> {
 
     public SysParaConfig findById(String id);
+
+    public Map<String,List> findKeyValue(SysParaConfig record);
 
 }
