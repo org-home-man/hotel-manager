@@ -72,4 +72,14 @@ public class BizHotlController {
 	public HttpResult findById(@RequestParam String hotelCode) {
 		return HttpResult.ok(bizHotlService.findById(hotelCode));
 	}
+
+	/**
+	 * 根据主键查询
+	 * @param hotelCode
+	 * @return
+	 */
+	@PostMapping(value="/findAllData")
+	public HttpResult findAllData(@RequestBody BizHotl bizHotl) {
+		return HttpResult.ok(bizHotlService.findAllData(bizHotl));
+	}
 }

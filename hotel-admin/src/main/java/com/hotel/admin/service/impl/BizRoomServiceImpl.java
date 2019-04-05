@@ -29,9 +29,14 @@ public class BizRoomServiceImpl implements BizRoomService {
 
 	@Override
 	public int save(BizRoom record) {
+
 		if(record.getRoomCode() == null || record.getRoomCode() == "0") {
+
+			record.setRoomCode("123457");
+			System.out.println("进入了add");
 			return bizRoomMapper.add(record);
 		}
+		System.out.println("进入了update");
 		return bizRoomMapper.update(record);
 	}
 
