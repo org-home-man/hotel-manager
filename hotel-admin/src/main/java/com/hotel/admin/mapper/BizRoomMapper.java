@@ -3,6 +3,10 @@ package com.hotel.admin.mapper;
 import java.util.List;
 
 import com.hotel.admin.model.BizRoom;
+import com.hotel.admin.model.CrtId;
+import com.hotel.admin.service.CrtIdService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * ---------------------------
@@ -49,5 +53,6 @@ public interface BizRoomMapper {
      * @return
      */    
     List<BizRoom> findPage();
-    
+
+
 }

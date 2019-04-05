@@ -1,54 +1,54 @@
 package com.hotel.admin.mapper;
 
-import com.hotel.admin.model.BizHotl;
-
 import java.util.List;
 
+import com.hotel.admin.model.CrtId;
 
 /**
  * ---------------------------
- * 酒店信息表 (BizHotlMapper)         
+ * 自增序列表 (CrtIdMapper)         
  * ---------------------------
  * 作者：  kitty-generator
- * 时间：  2019-03-30 17:15:22
+ * 时间：  2019-04-05 14:24:29
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public interface BizHotlMapper {
+public interface CrtIdMapper {
 
 	/**
-	 * 添加酒店信息表
+	 * 添加自增序列表
 	 * @param record
 	 * @return
 	 */
-    int add(BizHotl record);
+    int add(CrtId record);
 
     /**
-     * 删除酒店信息表
-     * @param hotelCode
+     * 删除自增序列表
+     * @param crtNo
      * @return
      */
-    int delete(String hotelCode);
+    int delete(String crtNo);
     
     /**
-     * 修改酒店信息表
+     * 修改自增序列表
      * @param record
      * @return
      */
-    int update(BizHotl record);
+    int update(CrtId record);
     
     /**
      * 根据主键查询
-     * @param hotelCode
+     * @param crt_type
      * @return
      */    
-    BizHotl findById(String hotelCode);
+    CrtId findById(String crt_type);
 
     /**
      * 基础分页查询
      * @param record
      * @return
      */    
-    List<BizHotl> findPage();
-    
+    List<CrtId> findPage();
+
+    int autoAddUp(String crtNo);
 }
