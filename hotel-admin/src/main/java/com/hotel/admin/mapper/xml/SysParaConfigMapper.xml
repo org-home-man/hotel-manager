@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hotel.admin.model.SysParaConfigMapper">
+
+  <resultMap id="BaseResultMap" type="com.hotel.admin.model.SysParaConfig">
+	<id column="para_code" jdbcType="VARCHAR" property="paraCode" />
+	<id column="para_sub_code1" jdbcType="VARCHAR" property="paraSubCode1" />
+	<id column="para_sub_code2" jdbcType="VARCHAR" property="paraSubCode2" />
+	<result column="para_value1" jdbcType="VARCHAR" property="paraValue1" />
+	<result column="para_value2" jdbcType="VARCHAR" property="paraValue2" />
+	<result column="para_value3" jdbcType="VARCHAR" property="paraValue3" />
+	<result column="remark" jdbcType="VARCHAR" property="remark" />
+	<result column="creat_by" jdbcType="VARCHAR" property="creatBy" />
+	<result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+	<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
+	<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+  </resultMap>
+  
+  <insert id="add" parameterType="com.hotel.admin.model.SysParaConfig">
+    insert into sys_para_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paraCode != null">
+        para_code,
+      </if>
+      <if test="paraSubCode1 != null">
+        para_sub_code1,
+      </if>
+      <if test="paraSubCode2 != null">
+        para_sub_code2,
+      </if>
+      <if test="paraValue1 != null">
+        para_value1,
+      </if>
+      <if test="paraValue2 != null">
+        para_value2,
+      </if>
+      <if test="paraValue3 != null">
+        para_value3,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="creatBy != null">
+        creat_by,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+      <if test="lastUpdateBy != null">
+        last_update_by,
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paraCode != null">
+        #{paraCode,jdbcType=VARCHAR},
+      </if>
+      <if test="paraSubCode1 != null">
+        #{paraSubCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="paraSubCode2 != null">
+        #{paraSubCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="paraValue1 != null">
+        #{paraValue1,jdbcType=VARCHAR},
+      </if>
+      <if test="paraValue2 != null">
+        #{paraValue2,jdbcType=VARCHAR},
+      </if>
+      <if test="paraValue3 != null">
+        #{paraValue3,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creatBy != null">
+        #{creatBy,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="delete" parameterType="java.lang.String">
+    delete from sys_para_config
+    where para_sub_code2 = #{paraSubCode2,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="update" parameterType="com.hotel.admin.model.SysParaConfig">
+    update sys_para_config
+    <set>
+      <if test="paraCode != null">
+        para_code = #{paraCode,jdbcType=VARCHAR},
+      </if>
+      <if test="paraSubCode1 != null">
+        para_sub_code1 = #{paraSubCode1,jdbcType=VARCHAR},
+      </if>
+      <if test="paraSubCode2 != null">
+        para_sub_code2 = #{paraSubCode2,jdbcType=VARCHAR},
+      </if>
+      <if test="paraValue1 != null">
+        para_value1 = #{paraValue1,jdbcType=VARCHAR},
+      </if>
+      <if test="paraValue2 != null">
+        para_value2 = #{paraValue2,jdbcType=VARCHAR},
+      </if>
+      <if test="paraValue3 != null">
+        para_value3 = #{paraValue3,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creatBy != null">
+        creat_by = #{creatBy,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where para_sub_code2 = #{paraSubCode2,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from sys_para_config
+    where para_sub_code2 = #{paraSubCode2,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findPage" resultMap="BaseResultMap">
+    select * from sys_para_config
+  </select>
+  
+</mapper>
