@@ -38,6 +38,8 @@ public class BizHotlController {
 	 */	
 	@PostMapping(value="/save")
 	public HttpResult save(@RequestBody BizHotl record) {
+
+		System.out.println("licy12347");
 		return HttpResult.ok(bizHotlService.save(record));
 	}
 
