@@ -26,7 +26,7 @@ import com.hotel.admin.service.SysParaConfigService;
  * ---------------------------
  */
 @Service
-public class SysParaConfigServiceImpl implements SysParaConfigService, com.hotel.admin.service.impl.SysParaConfigService {
+public class SysParaConfigServiceImpl implements SysParaConfigService {
 
 	@Autowired
 	private SysParaConfigMapper sysParaConfigMapper;
