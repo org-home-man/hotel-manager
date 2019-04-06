@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hotel.admin.mapper.CrtIdMapper">
+
+  <resultMap id="BaseResultMap" type="com.hotel.admin.model.CrtId">
+	<id column="crt_no" jdbcType="VARCHAR" property="crtNo" />
+	<result column="crt_type" jdbcType="VARCHAR" property="crtType" />
+  </resultMap>
+  
+  <insert id="add" parameterType="com.hotel.admin.model.CrtId">
+    insert into crt_id
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="crtNo != null">
+        crt_no,
+      </if>
+      <if test="crtType != null">
+        crt_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="crtNo != null">
+        #{crtNo,jdbcType=VARCHAR},
+      </if>
+      <if test="crtType != null">
+        #{crtType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="delete" parameterType="java.lang.String">
+    delete from crt_id
+    where crt_no = #{crtNo,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="update" parameterType="com.hotel.admin.model.CrtId">
+    update crt_id
+    <set>
+      <if test="crtNo != null">
+        crt_no = #{crtNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where crt_type = #{crtType,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from crt_id
+    where crt_type = #{crt_type,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findPage" resultMap="BaseResultMap">
+    select * from crt_id
+  </select>
+
+  <update id="autoAddUp" parameterType="com.hotel.admin.model.CrtId">
+    update crt_id
+    <set>
+      <if test="crtNo != null">
+        crt_no = #{crtNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where crt_type = #{crtType,jdbcType=VARCHAR}
+  </update>
+
+</mapper>
