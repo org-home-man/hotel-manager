@@ -49,13 +49,15 @@ public class BizHotlServiceImpl implements BizHotlService {
 					 ncrt.setCrtNo("1");
 					 ncrt.setCrtType("hotel");
 					 crtIdMapper.add(ncrt);
-					 record.setHotelCode("1");
+					 record.setHotelCode("0000001");
 				 }
 				 else {
 					 String crtno = crt.getCrtNo();
 					 System.out.println(crtno);
-//					 String newCrt = String.valueOf(Integer.parseInt(crt.getCrtNo()) + 1);
       			     String newCrt = String.valueOf(Integer.parseInt(crtno) + 1);
+      			     while (newCrt.length() < 7) {
+                         newCrt = "0" + newCrt;
+                     }
 					 System.out.println(newCrt);
 					 crt.setCrtNo(newCrt);
 					 crtIdMapper.update(crt);
@@ -63,6 +65,7 @@ public class BizHotlServiceImpl implements BizHotlService {
 				 }
 				 try
 				 {
+                     System.out.println(record.getHotelAddr());
 					 bizHotlMapper.add(record);
 				 }
 				 catch (Exception e)
@@ -73,11 +76,7 @@ public class BizHotlServiceImpl implements BizHotlService {
                 return 0;
             }
 		System.out.println(record.getHotelCode());
-
 		return bizHotlMapper.update(record);
-
-       // return bizHotlMapper.add(record);
-
     }
 
 	@Override
