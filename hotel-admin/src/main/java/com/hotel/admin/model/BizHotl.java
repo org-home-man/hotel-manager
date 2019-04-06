@@ -27,6 +27,14 @@ public class BizHotl extends BaseModel{
 	private String hotelCname;
 	/** 酒店英文名称 */
 	private String hotelEname;
+	/** 酒店地址 */
+	private String hotelAddr;
+	/** 酒店电话 */
+	private String hotelPhone;
+	/** 酒店传真 */
+	private String hotelFax;
+	/** 酒店网址 */
+	private String hotelWeb;
 	/** 创建人员 */
 	private String creatCy;
 	/** 创建时间 */
@@ -46,6 +54,32 @@ public class BizHotl extends BaseModel{
 
 	public String getCountryCode() {
 		return countryCode;
+	}
+
+
+	public String getHotelAddr() {
+		return hotelAddr;
+	}
+	public String getHotelPhone() {
+		return hotelPhone;
+	}
+	public String getHotelFax() {
+		return hotelFax;
+	}
+	public String getHotelWeb() {
+		return hotelWeb;
+	}
+	public void setHotelAddr() {
+		this.hotelAddr = hotelAddr;
+	}
+	public void setHotelPhone() {
+		this.hotelPhone = hotelPhone;
+	}
+	public void setHotelFax() {
+		this.hotelFax= hotelFax;
+	}
+	public void setHotelWeb() {
+		this.hotelWeb = hotelWeb;
 	}
 
 	public void setCountryCode(String countryCode) {
