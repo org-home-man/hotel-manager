@@ -11,7 +11,11 @@
 	<result column="hotel_level" jdbcType="VARCHAR" property="hotelLevel" />
 	<result column="hotel_cname" jdbcType="VARCHAR" property="hotelCname" />
 	<result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
-	<result column="creat_cy" jdbcType="VARCHAR" property="creatCy" />
+    <result column="hotel_addr" jdbcType="VARCHAR" property="hotelAddr" />
+    <result column="hotel_phone" jdbcType="VARCHAR" property="hotelPhone" />
+    <result column="hotel_fax" jdbcType="VARCHAR" property="hotelFax" />
+    <result column="hotel_web" jdbcType="VARCHAR" property="hotelWeb" />
+    <result column="creat_cy" jdbcType="VARCHAR" property="creatCy" />
 	<result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
 	<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
 	<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
@@ -43,6 +47,18 @@
       </if>
       <if test="hotelEname != null">
         hotel_ename,
+      </if>
+      <if test="hotelAddr != null">
+        hotel_addr,
+      </if>
+      <if test="hotelPhone != null">
+        hotel_phone,
+      </if>
+      <if test="hotelFax != null">
+        hotel_fax,
+      </if>
+      <if test="hotelWeb != null">
+        hotel_web,
       </if>
       <if test="creatCy != null">
         creat_cy,
@@ -81,6 +97,18 @@
       </if>
       <if test="hotelEname != null">
         #{hotelEname,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelAddr != null">
+        #{hotelAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelPhone != null">
+        #{hotelPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelFax != null">
+        #{hotelFax,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelWeb != null">
+        #{hotelWeb,jdbcType=VARCHAR},
       </if>
       <if test="creatCy != null">
         #{creatCy,jdbcType=VARCHAR},
@@ -128,6 +156,18 @@
       </if>
       <if test="hotelEname != null">
         hotel_ename = #{hotelEname,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelAddr != null">
+        hotel_addr = #{hotelAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelPhone != null">
+        hotel_phone = #{hotelPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelFax != null">
+        hotel_fax = #{hotelFax,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelWeb != null">
+        hotel_web = #{hotelWeb,jdbcType=VARCHAR},
       </if>
       <if test="creatCy != null">
         creat_cy = #{creatCy,jdbcType=VARCHAR},
