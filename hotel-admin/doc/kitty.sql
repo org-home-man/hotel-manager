@@ -15,6 +15,82 @@ Date: 2018-12-27 11:10:48
 
 SET FOREIGN_KEY_CHECKS=0;
 
+DROP TABLE IF EXISTS 'sys_para_config';
+CREATE TABLE `sys_para_config` (
+  `para_code` varchar(30) NOT NULL COMMENT '参数编码',
+  `para_sub_code1` varchar(10) NOT NULL COMMENT '参数子码1',
+  `para_sub_code2` varchar(10) NOT NULL COMMENT '参数子码2',
+  `para_value1` varchar(250) DEFAULT NULL COMMENT '参数值1',
+  `para_value2` varchar(250) DEFAULT NULL COMMENT '参数值2',
+  `para_value3` varchar(250) DEFAULT NULL COMMENT '参数值3',
+  `remark` varchar(250) DEFAULT NULL COMMENT '备注信息',
+  `creat_by` varchar(50) DEFAULT NULL COMMENT '创建人员',
+  `creat_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `last_update_by` varchar(50) DEFAULT NULL COMMENT '更新人员',
+  `last_update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`para_code`,`para_sub_code1`,`para_sub_code2`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='参数配置表';
+
+
+
+DROP TABLE IF EXISTS 'biz_room';
+CREATE TABLE `biz_room` (
+  `room_code` varchar(16) NOT NULL COMMENT '客房编号',
+  `hotel_code` varchar(10) NOT NULL COMMENT '酒店编码',
+  `room_type` varchar(2) NOT NULL COMMENT '房间类型',
+  `room_style` varchar(2) NOT NULL COMMENT '房间样式',
+  `bed_type` varchar(2) NOT NULL COMMENT '床铺类型',
+  `break_type` varchar(2) NOT NULL COMMENT '餐食条件',
+  `room_area` double DEFAULT NULL COMMENT '客房面积',
+  `intro_c` varchar(2000) DEFAULT NULL COMMENT '中文文字介绍',
+  `intro_e` varchar(2000) DEFAULT NULL COMMENT '英文文字介绍',
+  `photo` binary(1) DEFAULT NULL COMMENT '宣传照片',
+  `room_stock` int(11) NOT NULL COMMENT '默认库存数',
+  `recommended` varchar(2) DEFAULT NULL COMMENT '是否本期推荐',
+  `creat_by` varchar(50) DEFAULT NULL COMMENT '创建人员',
+  `creat_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `last_update_by` varchar(50) DEFAULT NULL COMMENT '更新时间',
+  `last_update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`room_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客房信息表';
+
+
+DROP TABLE if EXISTS 'biz_room_ext';
+CREATE TABLE `biz_room_ext` (
+  `room_code` varchar(16) NOT NULL COMMENT '客房编号',
+  `iswify` varchar(1) NOT NULL DEFAULT '2' COMMENT '免费WIFY',
+  `isfront` varchar(1) NOT NULL DEFAULT '2' COMMENT '24H front',
+  `isbarrifr` varchar(1) NOT NULL DEFAULT '2' COMMENT '无障碍通道',
+  `isbalcony` varchar(1) NOT NULL DEFAULT '2' COMMENT '阳台/露台',
+  `iskitchen` varchar(1) NOT NULL DEFAULT '2' COMMENT '厨房',
+  `iswindow` VARCHAR(1) DEFAULT '2' COMMENT '窗户',
+  `isheat` varchar(1) DEFAULT '2' COMMENT '空调',
+  `isicebox` varchar(1) DEFAULT '2' COMMENT '冰箱',
+  `isiron` varchar(1) DEFAULT '2' COMMENT '熨衣设备',
+  `isnosmk` varchar(1) DEFAULT '2' COMMENT '禁烟房',
+  `islandscape` varchar(1) DEFAULT '2' COMMENT '景观房',
+  `ishighrise` varchar(1) DEFAULT '2' COMMENT '高楼层',
+	`ispark` varchar(1) DEFAULT '2' COMMENT '停车场',
+	`isgym` varchar(1) DEFAULT '2' COMMENT '健身房',
+	`isswmp` varchar(1) DEFAULT '2' COMMENT '游泳池',
+	`isbeach` varchar(1) DEFAULT '2' COMMENT '海滩',
+	`ishotsp` varchar(1) DEFAULT '2' COMMENT '温泉',
+	`ischildct` varchar(1) DEFAULT '2' COMMENT '儿童中心',
+	`isroomserv` varchar(1) DEFAULT '2' COMMENT '客房服务',
+	`isknead` varchar(1) DEFAULT '2' COMMENT '按摩',
+	`islounge` varchar(1) DEFAULT '2' COMMENT '行政酒廊',
+  `issuper` varchar(1) DEFAULT '2' COMMENT '附近有24H便利店',
+	`isbus` varchar(1) DEFAULT '2' COMMENT '附近有公交车',
+	`istrafic` varchar(1) DEFAULT '2' COMMENT '附近有轨道交通站',
+	`isrestau` varchar(1) DEFAULT '2' COMMENT '附近有餐厅',
+	`creat_by` varchar(50) DEFAULT NULL COMMENT '创建人员',
+	`creat_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `last_update_by` varchar(50) DEFAULT NULL COMMENT '更新人员',
+  `last_update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`room_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客房信息铺表';
+
+
 -- ----------------------------
 -- Table structure for sys_dept
 -- ----------------------------
