@@ -1,5 +1,7 @@
 package com.hotel.admin.model;
 
+import java.util.List;
+
 /**
  * ---------------------------
  * 客房信息表 (BizRoom)         
@@ -43,6 +45,100 @@ public class BizRoom {
 	private String lastUpdateBy;
 	/** 更新时间 */
 	private java.util.Date lastUpdateTime;
+
+	private List<BizHotl> bizHotls;
+
+	private List<BizInv> bizInvs;
+
+	private List<BizPrise> bizPrises;
+
+	/** 都道府县 */
+	private String provinceCode;
+	/** 区市町村 */
+	private String cityCode;
+
+	/** 酒店中文名称 */
+	private String hotelCname;
+	/** 酒店英文名称 */
+	private String hotelEname;
+
+	/** 库存数量 */
+	private Integer inventory;
+
+	/** 销售房价 */
+	private Double sRoomPrice;
+
+	public String getProvinceCode() {
+		return provinceCode;
+	}
+
+	public void setProvinceCode(String provinceCode) {
+		this.provinceCode = provinceCode;
+	}
+
+	public String getCityCode() {
+		return cityCode;
+	}
+
+	public void setCityCode(String cityCode) {
+		this.cityCode = cityCode;
+	}
+
+	public String getHotelCname() {
+		return hotelCname;
+	}
+
+	public void setHotelCname(String hotelCname) {
+		this.hotelCname = hotelCname;
+	}
+
+	public String getHotelEname() {
+		return hotelEname;
+	}
+
+	public void setHotelEname(String hotelEname) {
+		this.hotelEname = hotelEname;
+	}
+
+	public Integer getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(Integer inventory) {
+		this.inventory = inventory;
+	}
+
+	public Double getsRoomPrice() {
+		return sRoomPrice;
+	}
+
+	public void setsRoomPrice(Double sRoomPrice) {
+		this.sRoomPrice = sRoomPrice;
+	}
+
+	public List<BizInv> getBizInvs() {
+		return bizInvs;
+	}
+
+	public void setBizInvs(List<BizInv> bizInvs) {
+		this.bizInvs = bizInvs;
+	}
+
+	public List<BizPrise> getBizPrises() {
+		return bizPrises;
+	}
+
+	public void setBizPrises(List<BizPrise> bizPrises) {
+		this.bizPrises = bizPrises;
+	}
+
+	public List<BizHotl> getBizHotls() {
+		return bizHotls;
+	}
+
+	public void setBizHotls(List<BizHotl> bizHotls) {
+		this.bizHotls = bizHotls;
+	}
 
 	public String getRoomCode() {
 		return roomCode;

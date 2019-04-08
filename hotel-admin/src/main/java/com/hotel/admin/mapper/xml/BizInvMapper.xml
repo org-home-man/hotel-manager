@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hotel.admin.mapper.BizInvMapper">
+
+  <resultMap id="BaseResultMap" type="com.hotel.admin.model.BizInv">
+	<id column="room_code" jdbcType="VARCHAR" property="roomCode" />
+	<result column="inv_date" jdbcType="VARCHAR" property="invDate" />
+	<result column="inventory" jdbcType="INTEGER" property="inventory" />
+	<result column="auto_close" jdbcType="VARCHAR" property="autoClose" />
+	<result column="creat_by" jdbcType="VARCHAR" property="creatBy" />
+	<result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+	<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
+	<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+  </resultMap>
+  
+  <insert id="add" parameterType="com.hotel.admin.model.BizInv">
+    insert into biz_inv
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roomCode != null">
+        room_code,
+      </if>
+      <if test="invDate != null">
+        inv_date,
+      </if>
+      <if test="inventory != null">
+        inventory,
+      </if>
+      <if test="autoClose != null">
+        auto_close,
+      </if>
+      <if test="creatBy != null">
+        creat_by,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+      <if test="lastUpdateBy != null">
+        last_update_by,
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roomCode != null">
+        #{roomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invDate != null">
+        #{invDate,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null">
+        #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="autoClose != null">
+        #{autoClose,jdbcType=VARCHAR},
+      </if>
+      <if test="creatBy != null">
+        #{creatBy,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="delete" parameterType="java.lang.String">
+    delete from biz_inv
+    where room_code = #{roomCode,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="update" parameterType="com.hotel.admin.model.BizInv">
+    update biz_inv
+    <set>
+      <if test="roomCode != null">
+        room_code = #{roomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invDate != null">
+        inv_date = #{invDate,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null">
+        inventory = #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="autoClose != null">
+        auto_close = #{autoClose,jdbcType=VARCHAR},
+      </if>
+      <if test="creatBy != null">
+        creat_by = #{creatBy,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where room_code = #{roomCode,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from biz_inv
+    where room_code = #{roomCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findPage" resultMap="BaseResultMap">
+    select * from biz_inv
+  </select>
+  
+</mapper>

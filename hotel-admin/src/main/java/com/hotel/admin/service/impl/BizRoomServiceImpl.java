@@ -1,8 +1,12 @@
 package com.hotel.admin.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hotel.admin.mapper.BizRoomMapper;
+import com.hotel.admin.model.BizHotl;
+import com.hotel.admin.model.BizInv;
+import com.hotel.admin.model.BizPrise;
 import com.hotel.core.page.MybatisPageHelper;
 import com.hotel.core.page.PageRequest;
 import com.hotel.core.page.PageResult;
@@ -65,7 +69,35 @@ public class BizRoomServiceImpl implements BizRoomService {
 	@Override
 	public PageResult findPage(PageRequest pageRequest) {
 
-		return MybatisPageHelper.findPage(pageRequest, bizRoomMapper);
+		PageResult pr =  MybatisPageHelper.findPage(pageRequest, bizRoomMapper);
+		List prList =  pr.getContent();
+		System.out.println(prList.size());
+		if (prList.size() > 0 ) {
+			for (int i=0;i<prList.size();i++) {
+				BizRoom bizRoom = (BizRoom) prList.get(i);
+				List hotlList = bizRoom.getBizHotls();
+				if(hotlList.size() >0) {
+					BizHotl bizHotl = (BizHotl) hotlList.get(0);
+					bizRoom.setHotelCname(bizHotl.getHotelCname());
+					bizRoom.setHotelEname(bizHotl.getHotelEname());
+					bizRoom.setProvinceCode(bizHotl.getProvinceCode());
+					bizRoom.setCityCode(bizHotl.getCityCode());
+
+				}
+				List invList =  bizRoom.getBizInvs();
+				if(invList.size() >0) {
+					BizInv bizInv = (BizInv) invList.get(0);
+					bizRoom.setInventory(bizInv.getInventory());
+				}
+				List priseList = bizRoom.getBizPrises();
+				if(priseList.size() >0) {
+					BizPrise bizPrise = (BizPrise) priseList.get(0);
+					bizRoom.setsRoomPrice(bizPrise.getSRoomPrice());
+				}
+			}
+		}
+
+		return pr;
 	}
 	
 }

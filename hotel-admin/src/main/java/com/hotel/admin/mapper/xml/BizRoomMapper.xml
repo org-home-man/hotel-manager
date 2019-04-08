@@ -19,6 +19,36 @@
 	<result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
 	<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
 	<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+    <collection property="bizHotls" ofType="com.hotel.admin.model.BizHotl">
+      <id column="hotel_code" jdbcType="VARCHAR" property="hotelCode" />
+      <result column="country_code" jdbcType="VARCHAR" property="countryCode" />
+      <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
+      <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
+      <result column="hotel_cname" jdbcType="VARCHAR" property="hotelCname" />
+      <result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
+    </collection>
+    <collection property="bizInvs" ofType="com.hotel.admin.model.BizInv">
+      <id column="room_code" jdbcType="VARCHAR" property="roomCode" />
+      <result column="inv_date" jdbcType="VARCHAR" property="invDate" />
+      <result column="inventory" jdbcType="INTEGER" property="inventory" />
+      <result column="auto_close" jdbcType="VARCHAR" property="autoClose" />
+      <result column="creat_by" jdbcType="VARCHAR" property="creatBy" />
+      <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+      <result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
+      <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+    </collection>
+    <collection property="bizPrises" ofType="com.hotel.admin.model.BizPrise">
+      <result column="room_type" jdbcType="VARCHAR" property="roomType" />
+      <result column="price_date" jdbcType="VARCHAR" property="priceDate" />
+      <result column="s_price" jdbcType="DOUBLE" property="sPrice" />
+      <result column="t_price" jdbcType="DOUBLE" property="tPrice" />
+      <result column="s_room_price" jdbcType="DOUBLE" property="sRoomPrice" />
+      <result column="t_room_price" jdbcType="DOUBLE" property="tRoomPrice" />
+      <result column="creat_by" jdbcType="VARCHAR" property="creatBy" />
+      <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+      <result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
+      <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+    </collection>
   </resultMap>
   
   <insert id="add" parameterType="com.hotel.admin.model.BizRoom">
@@ -191,7 +221,38 @@
   </select>
   
   <select id="findPage" resultMap="BaseResultMap">
-    select * from biz_room
+    select
+    a.hotel_code hotel_code,
+    d.hotel_cname hotel_cname,
+    d.hotel_ename hotel_ename,
+    d.province_code province_code,
+    d.city_code city_code,
+    (select para_code from sys_para_config where para_code LIKE 'roomtype%' and para_sub_code1='bizroom' AND para_value1=a.room_type) room_type,
+    a.bed_type bed_type,
+    b.inventory inventory,
+    c.s_room_price s_room_price
+    from biz_room a LEFT JOIN biz_inv b ON a.room_code=b.room_code LEFT JOIN biz_prise c ON  a.room_code=c.room_code and b.inv_date=c.price_date LEFT JOIN
+    biz_hotl d ON a.hotel_code = d.hotel_code
+    WHERE 1=1
+    <if test="hotelCode != null">
+     AND d.hotel_code = #{hotelCode,jdbcType=VARCHAR}
+    </if>
+    <if test="hotelName != null">
+     AND d.hotel_cname LIKE '%'#{hotelName,jdbcType=VARCHAR}'%' OR d.hotel_ename LIKE '%'#{hotelName,jdbcType=VARCHAR}'%'
+    </if>
+    <if test="roomType != null">
+     AND a.room_type = #{roomType,jdbcType=VARCHAR}
+    </if>
+    <if test="bedType != null">
+     AND a.bed_type = #{bedType,jdbcType=VARCHAR}
+    </if>
+    <if test="breakType != null">
+     AND a.break_type = #{breakType,jdbcType=VARCHAR}
+    </if>
+    <if test="inventory != null">
+      AND b.inventory = #{inventory,jdbcType=VARCHAR} AND c.inv_date = to_char(sysdate,'yyyyMMdd')
+    </if>
+
   </select>
   
 </mapper>
