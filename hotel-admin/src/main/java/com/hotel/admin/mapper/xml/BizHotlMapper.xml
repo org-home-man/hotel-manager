@@ -191,7 +191,10 @@
   </select>
   
   <select id="findPage" resultMap="BaseResultMap">
-    select * from biz_hotl
+    select a.hotel_code, a.country_code, a.province_code, a.city_code, (select para_code from sys_para_config where para_code LIKE 'hotelType%' and para_sub_code1='hotelType' AND para_value1=a.hotel_type) hotel_type,
+    (select para_code from sys_para_config where para_code LIKE 'hotelLevel%' and para_sub_code1='hotelLevel' AND para_value1=a.hotel_Level) hotel_Level,
+     a.hotel_cname, a.hotel_ename, a.creat_cy, a.creat_time, a.last_update_by, a.last_update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web
+ from biz_hotl a
   </select>
   
 </mapper>
