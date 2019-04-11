@@ -60,17 +60,17 @@ public class BizRoomServiceImpl implements BizRoomService {
 			auto.setType(record.getRoomType());
 			CrtId ci =  crtIdMapper.findByRoomId(auto);
 			if (ci == null) {
-				auto.setCrtNo("00001");
+				auto.setCrtNo("0001");
 				int i = crtIdMapper.add(auto);
 				if (i==1) {
-					roomCode = roomCode+"00001";
+					roomCode = roomCode+"0001";
 				} else {
 					throw new RuntimeException("bizRoom");
 				}
 
 			} else {
 				String crtNo = ci.getCrtNo();
-				String ncrtNo = String.format("%07d",Integer.parseInt(crtNo)+1 );
+				String ncrtNo = String.format("%04d",Integer.parseInt(crtNo)+1 );
 				auto.setCrtNo(ncrtNo);
 				int i = crtIdMapper.roomAutoAddUp(auto);
 				if(i==1) {
