@@ -1,6 +1,9 @@
 package com.hotel.admin.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.page.PageRequest;
@@ -14,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hotel.admin.model.BizRoom;
 import com.hotel.admin.service.BizRoomService;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * ---------------------------
@@ -69,5 +75,40 @@ public class BizRoomController {
 	@GetMapping(value="/findById")
 	public HttpResult findById(@RequestParam String roomCode) {
 		return HttpResult.ok(bizRoomService.findById(roomCode));
+	}
+
+	/**
+	 * 上传宣传图片
+	 * @return
+	 */
+	@RequestMapping(value="/uploadFile")
+	public String uploadFile(@RequestParam(name="file") MultipartFile uploadFile,HttpServletRequest request)  {
+		String rootPath = "D:\\upload";
+		System.out.println("rootPath:"+rootPath);
+		if(uploadFile != null) {
+			//获取上传文件的名字
+			String fileName = uploadFile.getOriginalFilename();
+			System.out.println("上传文件的名字:"+fileName);
+			String suffix = fileName.substring(fileName.lastIndexOf("."));
+			if(!( "jpg".equals(suffix) || "png".equals(suffix)) ){
+
+			}
+			String tempFileName = UUID.randomUUID().toString()+suffix;
+			File fileTemp = new File(rootPath);
+			if(!fileTemp.exists()) {
+				fileTemp.mkdirs();
+			}
+			File file = new File(rootPath+File.separator+tempFileName);
+
+			try {
+				uploadFile.transferTo(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			request.setAttribute("uploadFilePath",rootPath+File.separator+tempFileName);
+
+			return rootPath+File.separator+tempFileName;
+		}
+		return  null;
 	}
 }

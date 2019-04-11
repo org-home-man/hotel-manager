@@ -51,4 +51,19 @@ public interface CrtIdMapper {
     List<CrtId> findPage();
 
     int autoAddUp(String crtNo);
+
+    /**
+     * 客房信息新增根据三个条件新增序列号
+     * @param record
+     * @return
+     */
+    int roomAutoAddUp(CrtId record);
+
+    /**
+     * 客房信息查询编号
+     * @param record
+     * @return
+     */
+    CrtId findByRoomId(CrtId record);
+
 }

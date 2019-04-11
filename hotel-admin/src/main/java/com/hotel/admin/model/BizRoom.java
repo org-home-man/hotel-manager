@@ -21,6 +21,12 @@ public class BizRoom {
 	private String roomType;
 	/** 房间样式 */
 	private String roomStyle;
+
+	/** 房间类型key */
+	private String roomTypeKey;
+
+	/** 床铺类型key */
+	private String bedTypeKey;
 	/** 床铺类型 */
 	private String bedType;
 	/** 餐食条件 */
@@ -56,17 +62,283 @@ public class BizRoom {
 	private String provinceCode;
 	/** 区市町村 */
 	private String cityCode;
-
 	/** 酒店中文名称 */
 	private String hotelCname;
-	/** 酒店英文名称 */
-	private String hotelEname;
 
+	/** 酒店英文名称 */
+
+	private String hotelEname;
 	/** 库存数量 */
 	private Integer inventory;
-
 	/** 销售房价 */
 	private Double sRoomPrice;
+
+
+	/** 免费WIFY */
+	private String iswify;
+	/** 24H front */
+	private String isfront;
+	/** 无障碍通道 */
+	private String isbarrifr;
+	/** 阳台/露台 */
+	private String isbalcony;
+	/** 厨房 */
+	private String iskitchen;
+	/** 窗户 */
+	private String iswindow;
+	/** 空调 */
+	private String isheat;
+	/** 冰箱 */
+	private String isicebox;
+	/** 熨衣设备 */
+	private String isiron;
+	/** 禁烟房 */
+	private String isnosmk;
+	/** 景观房 */
+	private String islandscape;
+	/** 高楼层 */
+	private String ishighrise;
+	/** 停车场 */
+	private String ispark;
+	/** 健身房 */
+	private String isgym;
+	/** 游泳池 */
+	private String isswmp;
+	/** 海滩 */
+	private String isbeach;
+	/** 温泉 */
+	private String ishotsp;
+	/** 儿童中心 */
+	private String ischildct;
+	/** 客房服务 */
+	private String isroomserv;
+	/** 按摩 */
+	private String isknead;
+	/** 行政酒廊 */
+	private String islounge;
+	/** 附近有24H便利店 */
+	private String issuper;
+	/** 附近有公交车 */
+	private String isbus;
+	/** 附近有轨道交通站 */
+	private String istrafic;
+	/** 附近有餐厅 */
+	private String isrestau;
+
+	public String getRoomTypeKey() {
+		return roomTypeKey;
+	}
+
+	public void setRoomTypeKey(String roomTypeKey) {
+		this.roomTypeKey = roomTypeKey;
+	}
+	public String getBedTypeKey() {
+		return bedTypeKey;
+	}
+
+	public void setBedTypeKey(String bedTypeKey) {
+		this.bedTypeKey = bedTypeKey;
+	}
+
+	public String getIswify() {
+		return iswify;
+	}
+
+	public void setIswify(String iswify) {
+		this.iswify = iswify;
+	}
+
+	public String getIsfront() {
+		return isfront;
+	}
+
+	public void setIsfront(String isfront) {
+		this.isfront = isfront;
+	}
+
+	public String getIsbarrifr() {
+		return isbarrifr;
+	}
+
+	public void setIsbarrifr(String isbarrifr) {
+		this.isbarrifr = isbarrifr;
+	}
+
+	public String getIsbalcony() {
+		return isbalcony;
+	}
+
+	public void setIsbalcony(String isbalcony) {
+		this.isbalcony = isbalcony;
+	}
+
+	public String getIskitchen() {
+		return iskitchen;
+	}
+
+	public void setIskitchen(String iskitchen) {
+		this.iskitchen = iskitchen;
+	}
+
+	public String getIswindow() {
+		return iswindow;
+	}
+
+	public void setIswindow(String iswindow) {
+		this.iswindow = iswindow;
+	}
+
+	public String getIsheat() {
+		return isheat;
+	}
+
+	public void setIsheat(String isheat) {
+		this.isheat = isheat;
+	}
+
+	public String getIsicebox() {
+		return isicebox;
+	}
+
+	public void setIsicebox(String isicebox) {
+		this.isicebox = isicebox;
+	}
+
+	public String getIsiron() {
+		return isiron;
+	}
+
+	public void setIsiron(String isiron) {
+		this.isiron = isiron;
+	}
+
+	public String getIsnosmk() {
+		return isnosmk;
+	}
+
+	public void setIsnosmk(String isnosmk) {
+		this.isnosmk = isnosmk;
+	}
+
+	public String getIslandscape() {
+		return islandscape;
+	}
+
+	public void setIslandscape(String islandscape) {
+		this.islandscape = islandscape;
+	}
+
+	public String getIshighrise() {
+		return ishighrise;
+	}
+
+	public void setIshighrise(String ishighrise) {
+		this.ishighrise = ishighrise;
+	}
+
+	public String getIspark() {
+		return ispark;
+	}
+
+	public void setIspark(String ispark) {
+		this.ispark = ispark;
+	}
+
+	public String getIsgym() {
+		return isgym;
+	}
+
+	public void setIsgym(String isgym) {
+		this.isgym = isgym;
+	}
+
+	public String getIsswmp() {
+		return isswmp;
+	}
+
+	public void setIsswmp(String isswmp) {
+		this.isswmp = isswmp;
+	}
+
+	public String getIsbeach() {
+		return isbeach;
+	}
+
+	public void setIsbeach(String isbeach) {
+		this.isbeach = isbeach;
+	}
+
+	public String getIshotsp() {
+		return ishotsp;
+	}
+
+	public void setIshotsp(String ishotsp) {
+		this.ishotsp = ishotsp;
+	}
+
+	public String getIschildct() {
+		return ischildct;
+	}
+
+	public void setIschildct(String ischildct) {
+		this.ischildct = ischildct;
+	}
+
+	public String getIsroomserv() {
+		return isroomserv;
+	}
+
+	public void setIsroomserv(String isroomserv) {
+		this.isroomserv = isroomserv;
+	}
+
+	public String getIsknead() {
+		return isknead;
+	}
+
+	public void setIsknead(String isknead) {
+		this.isknead = isknead;
+	}
+
+	public String getIslounge() {
+		return islounge;
+	}
+
+	public void setIslounge(String islounge) {
+		this.islounge = islounge;
+	}
+
+	public String getIssuper() {
+		return issuper;
+	}
+
+	public void setIssuper(String issuper) {
+		this.issuper = issuper;
+	}
+
+	public String getIsbus() {
+		return isbus;
+	}
+
+	public void setIsbus(String isbus) {
+		this.isbus = isbus;
+	}
+
+	public String getIstrafic() {
+		return istrafic;
+	}
+
+	public void setIstrafic(String istrafic) {
+		this.istrafic = istrafic;
+	}
+
+	public String getIsrestau() {
+		return isrestau;
+	}
+
+	public void setIsrestau(String isrestau) {
+		this.isrestau = isrestau;
+	}
 
 	public String getProvinceCode() {
 		return provinceCode;
