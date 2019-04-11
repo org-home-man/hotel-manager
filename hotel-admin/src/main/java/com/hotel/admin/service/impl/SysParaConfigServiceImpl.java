@@ -70,6 +70,7 @@ public class SysParaConfigServiceImpl implements SysParaConfigService {
 		List bedtypeLi = new ArrayList();
 		List breaktypeLi = new ArrayList();
 		List hoteltypeLi = new ArrayList();
+		List hotelLevelLi = new ArrayList();
 		Map<String,List> temp = new HashMap<String,	List>();
 		for (int i=0;i<lists.size();i++) {
 			SysParaConfig sysPara = lists.get(i);
@@ -89,12 +90,17 @@ public class SysParaConfigServiceImpl implements SysParaConfigService {
 				System.out.println(sysPara.getParaCode());
 				hoteltypeLi.add(sysPara);
 			}
+			if (sysPara.getParaCode().contains("hotelLevel")){
+				System.out.println(sysPara.getParaCode());
+				hotelLevelLi.add(sysPara);
+			}
 		}
 		temp.put("roomtype",roomtypeLi);
 		temp.put("roomstyle",roomstyleLi);
 		temp.put("bedtype",bedtypeLi);
 		temp.put("breaktype",breaktypeLi);
 		temp.put("hotelType",hoteltypeLi);
+		temp.put("hotelLevel",hotelLevelLi);
 		return temp;
 	}
 
