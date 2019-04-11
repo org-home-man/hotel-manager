@@ -5,6 +5,8 @@
   <resultMap id="BaseResultMap" type="com.hotel.admin.model.CrtId">
 	<id column="crt_no" jdbcType="VARCHAR" property="crtNo" />
 	<result column="crt_type" jdbcType="VARCHAR" property="crtType" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="typeno" jdbcType="VARCHAR" property="typeno" />
   </resultMap>
   
   <insert id="add" parameterType="com.hotel.admin.model.CrtId">
@@ -16,6 +18,12 @@
       <if test="crtType != null">
         crt_type,
       </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="typeno != null">
+        typeno,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="crtNo != null">
@@ -23,6 +31,12 @@
       </if>
       <if test="crtType != null">
         #{crtType,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="typeno != null">
+        #{typeno,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -60,5 +74,20 @@
     </set>
     where crt_type = #{crtType,jdbcType=VARCHAR}
   </update>
+
+  <update id="roomAutoAddUp" parameterType="com.hotel.admin.model.CrtId">
+    update crt_id
+    <set>
+      <if test="crtNo != null">
+        crt_no = #{crtNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where crt_type = #{crtType,jdbcType=VARCHAR} AND TYPE = #{type,jdbcType=VARCHAR} and typeno = #{typeno,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findByRoomId" parameterType="com.hotel.admin.model.CrtId" resultMap="BaseResultMap">
+    select * from crt_id
+    where crt_type = #{crtType,jdbcType=VARCHAR} AND TYPE = #{type,jdbcType=VARCHAR} and typeno = #{typeno,jdbcType=VARCHAR}
+  </select>
 
 </mapper>

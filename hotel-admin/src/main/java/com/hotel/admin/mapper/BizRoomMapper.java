@@ -1,9 +1,11 @@
 package com.hotel.admin.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.hotel.admin.model.BizRoom;
+import com.hotel.admin.model.BizRoomQuery;
 import com.hotel.admin.model.CrtId;
 import com.hotel.admin.service.CrtIdService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,13 @@ public interface BizRoomMapper {
      * @param record
      * @return
      */    
+    List<Map> findPageByPara(HashMap<String, Object> record);
+
+    /**
+     * 基础分页查询
+     * @param record
+     * @return
+     */
     List<Map> findPage();
 
 
