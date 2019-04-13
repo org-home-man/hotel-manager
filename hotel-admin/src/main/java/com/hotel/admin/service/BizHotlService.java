@@ -16,7 +16,7 @@ import java.util.List;
  * ---------------------------
  */
 public interface BizHotlService extends CurdService<BizHotl> {
-    BizHotl findByName(String username);
+//    BizHotl findByName(String username);
     BizHotl findById(String id);
     List<BizHotl> findAllData(BizHotl bizHotl);
 }
