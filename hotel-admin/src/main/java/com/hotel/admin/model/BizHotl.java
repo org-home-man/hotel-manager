@@ -23,6 +23,10 @@ public class BizHotl extends BaseModel{
 	private String hotelType;
 	/** 酒店星级 */
 	private String hotelLevel;
+	/** 酒店类型 */
+	private String hotelTypeKey;
+	/** 酒店星级 */
+	private String hotelLevelKey;
 	/** 酒店中文名称 */
 	private String hotelCname;
 	/** 酒店英文名称 */
@@ -105,18 +109,31 @@ public class BizHotl extends BaseModel{
 	public String getHotelType() {
 		return hotelType;
 	}
+	public String getHotelTypeKey() {
+		return hotelTypeKey;
+	}
 
 	public void setHotelType(String hotelType) {
 		this.hotelType = hotelType;
+	}
+	public void setHotelTypeKey(String hotelTypeKey) {
+		this.hotelTypeKey = hotelTypeKey;
 	}
 
 	public String getHotelLevel() {
 		return hotelLevel;
 	}
+	public String getHotelLevelKey() {
+		return hotelLevelKey;
+	}
 
 	public void setHotelLevel(String hotelLevel) {
 		this.hotelLevel = hotelLevel;
 	}
+	public void setHotelLevelKey(String hotelLevelKey) {
+		this.hotelLevelKey = hotelLevelKey;
+	}
+
 
 	public String getHotelCname() {
 		return hotelCname;
