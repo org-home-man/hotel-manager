@@ -2,7 +2,9 @@ package com.hotel.admin.mapper;
 
 import com.hotel.admin.model.BizHotl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -43,6 +45,8 @@ public interface BizHotlMapper {
      * @return
      */    
     BizHotl findById(String hotelCode);
+
+    List<Map> findPageByPara(HashMap<String, Object> record);
 
     /**
      * 基础分页查询
