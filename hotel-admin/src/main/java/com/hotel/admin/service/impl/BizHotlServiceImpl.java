@@ -112,5 +112,7 @@ public class BizHotlServiceImpl implements BizHotlService {
 	public PageResult findPage(PageRequest pageRequest) {
 		return MybatisPageHelper.findPage(pageRequest, bizHotlMapper);
 	}
-	
+//	public PageResult findByName(PageRequest pageRequest) {
+//		return MybatisPageHelper.findPage(pageRequest, bizHotlMapper);
+//	}
 }

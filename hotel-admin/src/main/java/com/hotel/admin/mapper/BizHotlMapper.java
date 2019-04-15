@@ -50,5 +50,5 @@ public interface BizHotlMapper {
      * @return
      */    
     List<BizHotl> findPage();
-    
+
 }
