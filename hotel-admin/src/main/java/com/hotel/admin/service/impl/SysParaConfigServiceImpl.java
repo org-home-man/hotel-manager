@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.hotel.admin.mapper.HotelAreaMapper;
 import com.hotel.admin.mapper.SysParaConfigMapper;
+import com.hotel.admin.model.HotelArea;
 import com.hotel.core.page.MybatisPageHelper;
 import com.hotel.core.page.PageRequest;
 import com.hotel.core.page.PageResult;
@@ -30,6 +32,9 @@ public class SysParaConfigServiceImpl implements SysParaConfigService {
 
 	@Autowired
 	private SysParaConfigMapper sysParaConfigMapper;
+	@Autowired
+	private HotelAreaMapper hotelAreaMapper;
+
 
 	@Override
 	public int save(SysParaConfig record) {
@@ -110,6 +115,42 @@ public class SysParaConfigServiceImpl implements SysParaConfigService {
 	}
 
 
+	@Override
+	public Map<String,List> findKeyValueHotel(SysParaConfig record) {
+		List<SysParaConfig> lists =  sysParaConfigMapper.findKeyValue(record);
+		List hoteltypeLi = new ArrayList();
+		List hotelLevelLi = new ArrayList();
+		List provinceLevelLi = new ArrayList();
+		List cityCodeLevelLi = new ArrayList();
+		Map<String,List> temp = new HashMap<String,	List>();
+		for (int i=0;i<lists.size();i++) {
+			SysParaConfig sysPara = lists.get(i);
+			if (sysPara.getParaCode().contains("hotelType")){
+
+				hoteltypeLi.add(sysPara);
+			}
+			if (sysPara.getParaCode().contains("hotelLevel")){
+
+				hotelLevelLi.add(sysPara);
+			}
+			if (sysPara.getParaCode().contains("cityCode")){
+				cityCodeLevelLi.add(sysPara);
+			}
+			if (sysPara.getParaCode().contains("provinceCode")){
+				provinceLevelLi.add(sysPara);
+			}
+		}
+		temp.put("hotelType",hoteltypeLi);
+		temp.put("hotelLevel",hotelLevelLi);
+		temp.put("provinceCode",provinceLevelLi);
+		temp.put("cityCode",cityCodeLevelLi);
+
+		List<HotelArea>  listsArea =  hotelAreaMapper.findPage();
+		 //crtIdMapper.findPage();
+
+
+		return temp;
+	}
 	@Override
 	public PageResult findPage(PageRequest pageRequest) {
 		return MybatisPageHelper.findPage(pageRequest, sysParaConfigMapper);
