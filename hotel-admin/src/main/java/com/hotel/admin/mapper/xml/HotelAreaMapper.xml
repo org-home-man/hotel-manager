@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hotel.admin.mapper.HotelAreaMapper">
+
+  <resultMap id="BaseResultMap" type="com.hotel.admin.model.HotelArea">
+	<id column="area_Lvl" jdbcType="VARCHAR" property="areaLvl" />
+	<id column="area_Code" jdbcType="VARCHAR" property="areaCode" />
+	<result column="Code_Key" jdbcType="VARCHAR" property="codeKey" />
+	<result column="area_Cname" jdbcType="VARCHAR" property="areaCname" />
+	<result column="area_Ename" jdbcType="VARCHAR" property="areaEname" />
+	<result column="remark" jdbcType="VARCHAR" property="remark" />
+	<result column="creat_by" jdbcType="VARCHAR" property="creatBy" />
+	<result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+  </resultMap>
+  
+  <insert id="add" parameterType="com.hotel.admin.model.HotelArea">
+    insert into hotel_area
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="areaLvl != null">
+        area_Lvl,
+      </if>
+      <if test="areaCode != null">
+        area_Code,
+      </if>
+      <if test="codeKey != null">
+        Code_Key,
+      </if>
+      <if test="areaCname != null">
+        area_Cname,
+      </if>
+      <if test="areaEname != null">
+        area_Ename,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="creatBy != null">
+        creat_by,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="areaLvl != null">
+        #{areaLvl,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="codeKey != null">
+        #{codeKey,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCname != null">
+        #{areaCname,jdbcType=VARCHAR},
+      </if>
+      <if test="areaEname != null">
+        #{areaEname,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creatBy != null">
+        #{creatBy,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="delete" parameterType="java.lang.String">
+    delete from hotel_area
+    where area_Code = #{areaCode,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="update" parameterType="com.hotel.admin.model.HotelArea">
+    update hotel_area
+    <set>
+      <if test="areaLvl != null">
+        area_Lvl = #{areaLvl,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        area_Code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="codeKey != null">
+        Code_Key = #{codeKey,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCname != null">
+        area_Cname = #{areaCname,jdbcType=VARCHAR},
+      </if>
+      <if test="areaEname != null">
+        area_Ename = #{areaEname,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="creatBy != null">
+        creat_by = #{creatBy,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where area_Code = #{areaCode,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select  * from hotel_area
+    where  1=1
+    <if test="areaLvl != null">
+     and  areaLvl = #{areaLvl,jdbcType=VARCHAR},
+    </if>
+    <if test="areaCode != null">
+      and areaCode = #{areaCode,jdbcType=VARCHAR},
+    </if>
+    <if test="codeKey != null">
+      and codeKey  = #{codeKey,jdbcType=VARCHAR},
+    </if>
+    <if test="areaCname != null">
+      and areaCname = #{areaCname,jdbcType=VARCHAR},
+    </if>
+    <if test="areaEname != null">
+      and areaEname = #{areaEname,jdbcType=VARCHAR},
+    </if>
+  </select>
+  
+  <select id="findPage" resultMap="BaseResultMap">
+    select * from hotel_area
+  </select>
+
+  <select id="findAreaPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select area_Code,Code_Key provinceCode from hotel_area where 1=1 and area_Lvl = "1"
+  </select>
+
+</mapper>
