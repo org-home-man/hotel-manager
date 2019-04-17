@@ -19,6 +19,12 @@ public class BizHotl extends BaseModel{
 	private String provinceCode;
 	/** 区市町村 */
 	private String cityCode;
+
+	/** 都道府县 */
+	private String provinceCodeKey;
+	/** 区市町村 */
+	private String cityCodeKey;
+
 	/** 酒店类型 */
 	private String hotelType;
 	/** 酒店星级 */
@@ -93,18 +99,31 @@ public class BizHotl extends BaseModel{
 	public String getProvinceCode() {
 		return provinceCode;
 	}
+	public String getProvinceCodeKey() {
+		return provinceCodeKey;
+	}
 
 	public void setProvinceCode(String provinceCode) {
 		this.provinceCode = provinceCode;
+	}
+	public void setProvinceCodeKey(String provinceCodeKey) {
+		this.provinceCodeKey = provinceCodeKey;
 	}
 
 	public String getCityCode() {
 		return cityCode;
 	}
+	public String getCityCodeKey() {
+		return cityCodeKey;
+	}
 
 	public void setCityCode(String cityCode) {
 		this.cityCode = cityCode;
 	}
+	public void setCityCodeKey(String cityCodeKey) {
+		this.cityCodeKey = cityCodeKey;
+	}
+
 
 	public String getHotelType() {
 		return hotelType;
