@@ -19,10 +19,20 @@ public class BizHotl extends BaseModel{
 	private String provinceCode;
 	/** 区市町村 */
 	private String cityCode;
+
+	/** 都道府县 */
+	private String provinceCodeKey;
+	/** 区市町村 */
+	private String cityCodeKey;
+
 	/** 酒店类型 */
 	private String hotelType;
 	/** 酒店星级 */
 	private String hotelLevel;
+	/** 酒店类型 */
+	private String hotelTypeKey;
+	/** 酒店星级 */
+	private String hotelLevelKey;
 	/** 酒店中文名称 */
 	private String hotelCname;
 	/** 酒店英文名称 */
@@ -89,34 +99,60 @@ public class BizHotl extends BaseModel{
 	public String getProvinceCode() {
 		return provinceCode;
 	}
+	public String getProvinceCodeKey() {
+		return provinceCodeKey;
+	}
 
 	public void setProvinceCode(String provinceCode) {
 		this.provinceCode = provinceCode;
+	}
+	public void setProvinceCodeKey(String provinceCodeKey) {
+		this.provinceCodeKey = provinceCodeKey;
 	}
 
 	public String getCityCode() {
 		return cityCode;
 	}
+	public String getCityCodeKey() {
+		return cityCodeKey;
+	}
 
 	public void setCityCode(String cityCode) {
 		this.cityCode = cityCode;
 	}
+	public void setCityCodeKey(String cityCodeKey) {
+		this.cityCodeKey = cityCodeKey;
+	}
+
 
 	public String getHotelType() {
 		return hotelType;
+	}
+	public String getHotelTypeKey() {
+		return hotelTypeKey;
 	}
 
 	public void setHotelType(String hotelType) {
 		this.hotelType = hotelType;
 	}
+	public void setHotelTypeKey(String hotelTypeKey) {
+		this.hotelTypeKey = hotelTypeKey;
+	}
 
 	public String getHotelLevel() {
 		return hotelLevel;
+	}
+	public String getHotelLevelKey() {
+		return hotelLevelKey;
 	}
 
 	public void setHotelLevel(String hotelLevel) {
 		this.hotelLevel = hotelLevel;
 	}
+	public void setHotelLevelKey(String hotelLevelKey) {
+		this.hotelLevelKey = hotelLevelKey;
+	}
+
 
 	public String getHotelCname() {
 		return hotelCname;

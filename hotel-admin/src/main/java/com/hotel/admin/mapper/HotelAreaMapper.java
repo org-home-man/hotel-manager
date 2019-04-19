@@ -1,58 +1,58 @@
 package com.hotel.admin.mapper;
 
-import com.hotel.admin.model.BizHotl;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.hotel.admin.model.HotelArea;
+import com.hotel.core.page.PageRequest;
 
 /**
  * ---------------------------
- * 酒店信息表 (BizHotlMapper)         
+ * 地区码表 (HotelAreaMapper)         
  * ---------------------------
  * 作者：  kitty-generator
- * 时间：  2019-03-30 17:15:22
+ * 时间：  2019-04-13 16:24:13
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public interface BizHotlMapper {
+public interface HotelAreaMapper {
 
 	/**
-	 * 添加酒店信息表
+	 * 添加地区码表
 	 * @param record
 	 * @return
 	 */
-    int add(BizHotl record);
+    int add(HotelArea record);
 
     /**
-     * 删除酒店信息表
-     * @param hotelCode
+     * 删除地区码表
+     * @param areaCode
      * @return
      */
-    int delete(String hotelCode);
+    int delete(String areaCode);
     
     /**
-     * 修改酒店信息表
+     * 修改地区码表
      * @param record
      * @return
      */
-    int update(BizHotl record);
+    int update(HotelArea record);
     
     /**
      * 根据主键查询
-     * @param hotelCode
+     * @param areaCode
      * @return
      */    
-    BizHotl findById(String hotelCode);
-
-    List<Map> findPageByPara(HashMap<String, Object> record);
+    HotelArea findById(String areaCode);
 
     /**
      * 基础分页查询
      * @param record
      * @return
      */    
-    List<BizHotl> findPage();
+    List<HotelArea> findPage();
 
+    List<Map>  findAreaPage(HashMap<String, Object> record);
+    
 }

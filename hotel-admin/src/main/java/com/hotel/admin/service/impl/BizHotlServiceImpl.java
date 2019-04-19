@@ -5,7 +5,9 @@ import com.hotel.admin.mapper.BizHotlMapper;
 import com.hotel.admin.mapper.CrtIdMapper;
 import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.service.BizHotlService;
+import com.hotel.common.utils.StringUtils;
 import com.hotel.core.http.HttpResult;
+import com.hotel.core.page.ColumnFilter;
 import com.hotel.core.page.MybatisPageHelper;
 import com.hotel.core.page.PageRequest;
 import com.hotel.core.page.PageResult;
@@ -13,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -110,7 +114,18 @@ public class BizHotlServiceImpl implements BizHotlService {
 
 	@Override
 	public PageResult findPage(PageRequest pageRequest) {
-		return MybatisPageHelper.findPage(pageRequest, bizHotlMapper);
+		Map<String,Object> map = new HashMap<String ,Object>();
+		Map<String, ColumnFilter> temp = pageRequest.getColumnFilters();
+		for (Map.Entry<String,ColumnFilter> entry : temp.entrySet() ) {
+			ColumnFilter columnFilter = entry.getValue();
+			if (!StringUtils.isBlank(columnFilter.getValue())) {
+				map.put(columnFilter.getName(),columnFilter.getValue());
+			}
+		}
+		PageResult pr =  MybatisPageHelper.findPage(pageRequest, bizHotlMapper,"findPageByPara",map);
+		return pr;
+
+//		return MybatisPageHelper.findPage(pageRequest, bizHotlMapper);
 	}
 //	public PageResult findByName(PageRequest pageRequest) {
 //		return MybatisPageHelper.findPage(pageRequest, bizHotlMapper);
