@@ -57,7 +57,7 @@ public class BizRoom {
 	private List<BizInv> bizInvs;
 
 	private List<BizPrise> bizPrises;
-
+	private String hotelType;
 	/** 都道府县 */
 	private String provinceCode;
 	/** 区市町村 */
@@ -138,6 +138,14 @@ public class BizRoom {
 
 	public void setBedTypeKey(String bedTypeKey) {
 		this.bedTypeKey = bedTypeKey;
+	}
+
+	public String getHotelType() {
+		return hotelType;
+	}
+
+	public void setHotelType(String hotelType) {
+		this.hotelType = hotelType;
 	}
 
 	public String getIswify() {
