@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hotel.admin.mapper.DocumentMapper" >
+  <resultMap id="BaseResultMap" type="com.hotel.admin.model.Document" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="RELEATION_ID" property="releationId" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="SIZE" property="size" jdbcType="DECIMAL" />
+    <result column="STORE_PATH" property="storePath" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="queryByReleationId" parameterType="long" resultMap="BaseResultMap">
+    SELECT * FROM so_document a
+    <where>
+      <if test="releationId !=null and releationId !=''">
+        and a.RELEATION_ID =#{releationId} and a.STATUS != '2'
+      </if>
+    </where>
+
+  </select>
+  
+  <select id="deleteByDoc" parameterType="long" resultMap="BaseResultMap" >
+  delete  from so_document where id=#{docId}; 
+  </select>
+  
+  
+
+
+</mapper>
