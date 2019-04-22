@@ -10,7 +10,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	
-	<groupId>com.louis</groupId>
+	<groupId>com.hotel</groupId>
 	<artifactId>hotel-core</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.0</version>
@@ -32,7 +32,7 @@
 			<version>${pagehelper.spring.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.louis</groupId>
+			<groupId>com.hotel</groupId>
 			<artifactId>hotel-common</artifactId>
 			<version>1.0.0</version>
 		</dependency>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper</artifactId>
-            <version>3.4.6</version>
+            <version>3.3.9</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>

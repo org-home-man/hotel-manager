@@ -12,97 +12,149 @@ import javax.servlet.http.HttpServletRequest;
  * @Date:Created in 2019-04-20
  */
 public class PageContext {
-    private static final ThreadLocal<Boolean> pagination = new ThreadLocal();
-    private static final ThreadLocal<Boolean> authDataSql = new ThreadLocal();
-    private static final ThreadLocal<Boolean> apiRequest = new ThreadLocal();
-    private static final String TOTAL_COLUMNS = "_TOTAL_COLUMNS";
-    private static final String TOTAL_NAME = "_TOTAL_NAME";
-    public static final ThreadLocal<Page> localPage = new ThreadLocal();
-    private static final ThreadLocal<String> totalCols = new ThreadLocal();
-    private static final ThreadLocal<String> nameCols = new ThreadLocal();
 
-    public PageContext() {
+    /**
+     * 是否分页
+     */
+    private static final ThreadLocal<Boolean> pagination = new ThreadLocal<>();
+    /**
+     * 是否数据授权
+     */
+    private static final ThreadLocal<Boolean> authDataSql = new ThreadLocal<>();
+
+    /**
+     * 是否是接口访问
+     */
+    private static final ThreadLocal<Boolean> apiRequest = new ThreadLocal<>();
+
+
+    /**
+     * 判断是否是需要分页
+     * @return
+
+     * @date 2019年4月23日 00:04:34
+     */
+    public static boolean isPager(){
+        Boolean pager = pagination.get();
+        if(pager == null) return false;
+        return pager;
     }
 
-    public static boolean isPager() {
-        Boolean pager = (Boolean)pagination.get();
-        return pager == null ? false : pager;
+    /**
+     * 判断是否是需要数据授权
+     * @return
+
+     * @date 2019年4月23日 00:04:30
+     */
+    public static boolean isAuthDataSql(){
+        Boolean authData = authDataSql.get();
+        if(authData == null) return false;
+        return authData;
     }
 
-    public static boolean isAuthDataSql() {
-        Boolean authData = (Boolean)authDataSql.get();
-        return authData == null ? false : authData;
+    /**
+     * 判断是否是api接口访问
+     * @return
+
+     * @date 2019年4月23日 00:04:27
+     */
+    public static boolean isApi(){
+        Boolean isApi = apiRequest.get();
+        if(isApi == null) return false;
+        return isApi;
     }
 
-    public static boolean isApi() {
-        Boolean isApi = (Boolean)apiRequest.get();
-        return isApi == null ? false : isApi;
-    }
-
-    public static void setPagination(boolean flag) {
+    public static void setPagination(boolean flag){
         pagination.set(flag);
     }
-
-    public static void setAuthDataSql(boolean flag) {
+    public static void setAuthDataSql(boolean flag){
         authDataSql.set(flag);
     }
-
-    public static void setApiFlag(boolean flag) {
+    public static void setApiFlag(boolean flag){
         apiRequest.set(flag);
     }
 
-    public static void init(HttpServletRequest request) {
+    private static final String TOTAL_COLUMNS = "_TOTAL_COLUMNS";
+    private static final String TOTAL_NAME = "_TOTAL_NAME";
+
+    /**
+     * 缓存分页信息
+     */
+    public static final ThreadLocal<Page> localPage = new ThreadLocal<Page>();
+
+
+    /**
+     * 总计字段缓存
+     */
+    private static final ThreadLocal<String> totalCols = new ThreadLocal<>();
+    private static final ThreadLocal<String> nameCols = new ThreadLocal<>();
+    /**
+     * 初始化分页信息
+     * @param request
+
+     * @date 2019年4月23日 00:04:47
+     */
+    public static void init(HttpServletRequest request){
         localPage.set(null);
-        setNameCols((String)null);
-        setTotalCols((String)null);
+        setNameCols(null);
+        setTotalCols(null);
         String rowStr = request.getParameter("rows");
         String pageStr = request.getParameter("page");
-        if (Utils.isNotNull(pageStr) && Utils.isNotNull(rowStr)) {
+        if(Utils.isNotNull(pageStr) && Utils.isNotNull(rowStr)){
             pagination.set(true);
-            localPage.set(new Page(Integer.valueOf(pageStr), Integer.valueOf(rowStr)));
-        } else {
+            localPage.set(new Page(Integer.valueOf(pageStr),Integer.valueOf(rowStr) ));
+        }else{
             localPage.set(new Page());
         }
 
-        String colsStr = request.getParameter("_TOTAL_COLUMNS");
-        String nameStr = request.getParameter("_TOTAL_NAME");
-        if (Utils.isNotNull(colsStr) && Utils.isNotNull(nameStr)) {
+        /**
+         * 设置总计信息
+         */
+        String colsStr = request.getParameter(TOTAL_COLUMNS);
+        String nameStr = request.getParameter(TOTAL_NAME);
+        if(Utils.isNotNull(colsStr) && Utils.isNotNull(nameStr)){
             setTotalCols(colsStr);
             setNameCols(nameStr);
-        }
 
+        }
     }
 
-    public static void setPage(int rowNum, int rowSize) {
+    public static void setPage(int rowNum,int rowSize){
         localPage.set(new Page(rowNum, rowSize));
     }
 
-    public static void setPage(Page page) {
+    public static void setPage(Page page){
         localPage.set(page);
     }
 
-    public static ThreadLocal<Page> getLocalPage() {
+    public static ThreadLocal<Page> getLocalPage(){
         return localPage;
     }
 
-    public static void setTotalCols(String str) {
+    public static void setTotalCols(String str){
         totalCols.set(str);
     }
 
-    public static void setNameCols(String str) {
+    public static void setNameCols(String str){
         nameCols.set(str);
     }
 
-    public static String getTotalCols() {
-        return (String)totalCols.get();
+    public static String getTotalCols(){
+        return totalCols.get();
     }
 
-    public static String getNameCols() {
-        return (String)nameCols.get();
+    public static String getNameCols(){
+        return nameCols.get();
     }
 
-    public static Page getPage() {
-        Page result = (Page)localPage.get();
+    /**
+     * 获取分页后的查询结果
+     * @return
+
+     * @date 2019年4月23日 00:04:51
+     */
+    public static Page getPage(){
+        Page result = localPage.get();
         localPage.remove();
         return result;
     }
