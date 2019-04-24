@@ -56,7 +56,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/webjars/springfox-swagger-ui/**").permitAll()
             // 验证码
             .antMatchers("/captcha.jpg**").permitAll()
-            .antMatchers("/demo/**").permitAll()
             // 服务监控
 //            .antMatchers("/actuator/**").permitAll()
             // 其他所有请求需要身份认证
@@ -65,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
         // token验证过滤器
         http.addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Bean

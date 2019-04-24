@@ -1,11 +1,8 @@
 package com.hotel.admin.config;
 
-import java.sql.SQLException;
-
-import javax.servlet.Filter;
-import javax.servlet.Servlet;
-import javax.sql.DataSource;
-
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.support.http.StatViewServlet;
+import com.alibaba.druid.support.http.WebStatFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -14,9 +11,10 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.druid.support.http.StatViewServlet;
-import com.alibaba.druid.support.http.WebStatFilter;
+import javax.servlet.Filter;
+import javax.servlet.Servlet;
+import javax.sql.DataSource;
+import java.sql.SQLException;
 
 /**
  * Druid数据源配置
@@ -59,6 +57,7 @@ public class DruidConfig {
 
         return druidDataSource;
     }
+
 
     /**
      * 注册Servlet信息， 配置监控视图

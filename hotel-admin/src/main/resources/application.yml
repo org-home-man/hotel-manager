@@ -4,7 +4,6 @@ server:
     max-threads: 1000
     min-spare-threads: 30
   port: 8001
-    #context-path: /kitty-admin
 # DataSource
 spring:
   datasource:
@@ -32,26 +31,7 @@ spring:
   # spring boot admin
   application:
     name: hotel-admin
-#  cloud:
-#    consul:
-#      host: localhost
-#      port: 8500
-#      discovery:
-#        serviceName: ${spring.application.name}	# 注册到consul的服务名称
-#  boot:
-#    admin:
-#      client:
-#        url: "http://localhost:8000"
-# 开放健康检查接口
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: "*"
-#  endpoint:
-#    health:
-#      show-details: ALWAYS
-# pagehelper   
+# pagehelper
 pagehelper:
     helperDialect: mysql
     reasonable: true
@@ -59,6 +39,6 @@ pagehelper:
     params: count=countSql
 #mybatis
 mybatis:
-  type-aliases-package: com.hotel.core.page
-  mapper-locations: classpath:com/hotel/**/mapper/xml/*.xml
-  config-location: classpath:mybatis/mybatis-config.xml
+  type-aliases-package: com.hotel.admin.entity,com.hotel.admin.model
+  mapper-locations: classpath:com/hotel/admin/mapper/xml/*.xml
+  config-location: classpath:mybatis-config.xml
