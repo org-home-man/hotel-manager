@@ -63,16 +63,16 @@ public class SysLoginController {
 	 * 登录接口
 	 */
 	@PostMapping(value = "/login")
-	public HttpResult login(@RequestBody LoginBean loginBean, HttpServletRequest request) throws IOException {
+	public HttpResult login(LoginBean loginBean, HttpServletRequest request) throws IOException {
 		String username = loginBean.getAccount();
 		String password = loginBean.getPassword();
 		String captcha = loginBean.getCaptcha();
 		
 		// 从session中获取之前保存的验证码跟前台传来的验证码进行匹配
-		Object kaptcha = request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-		if(kaptcha == null){
-			return HttpResult.error("验证码已失效");
-		}
+//		Object kaptcha = request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+//		if(kaptcha == null){
+//			return HttpResult.error("验证码已失效");
+//		}
 //		if(!captcha.equals(kaptcha)){
 //			return HttpResult.error("验证码不正确");
 //		}

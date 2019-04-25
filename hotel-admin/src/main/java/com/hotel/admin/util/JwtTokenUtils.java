@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.hotel.admin.security.GrantedAuthorityImpl;
 import com.hotel.admin.security.JwtAuthenticatioToken;
+import com.hotel.core.context.PageContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -127,6 +128,10 @@ public class JwtTokenUtils implements Serializable {
 					authentication = SecurityUtils.getAuthentication();
 				}
 			}
+		}
+		if(null!=authentication){
+			PageContext.init(request);
+			System.out.println("初始化分页信息!!");
 		}
 		return authentication;
 	}

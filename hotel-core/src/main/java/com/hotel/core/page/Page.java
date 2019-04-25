@@ -9,24 +9,32 @@ import com.hotel.core.model.GridResult;
  * @Date:Created in 2019-04-20
  */
 public class Page extends GridResult {
+
     private static final long serialVersionUID = -3654849016503970448L;
+
     private String msg;
 
+    /**
+     * @param pageNum  页数
+     * @param pageSize  每页数据量
+     */
+
     public Page(int pageNum, int pageSize) {
-        this.setPageNum(pageNum);
-        this.setPageSize(pageSize);
-        this.setStartRow(pageNum > 0 ? (pageNum - 1) * pageSize + 1 : 1);
-        this.setEndRow(pageNum * pageSize + 1);
+        setPageNum(pageNum);;
+        setPageSize(pageSize);
+        setStartRow(pageNum > 0 ? (pageNum - 1) * pageSize : 0);
+        setEndRow(pageNum * pageSize);
     }
 
     public Page() {
     }
 
     public String getMsg() {
-        return this.msg;
+        return msg;
     }
 
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
 }

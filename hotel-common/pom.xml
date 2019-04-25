@@ -10,7 +10,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.louis</groupId>
+	<groupId>com.hotel</groupId>
 	<artifactId>hotel-common</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.0</version>
