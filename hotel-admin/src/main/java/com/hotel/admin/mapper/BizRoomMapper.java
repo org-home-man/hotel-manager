@@ -55,7 +55,7 @@ public interface BizRoomMapper {
      * @param record
      * @return
      */    
-    List<Map> findPageByPara(HashMap<String, Object> record);
+    List<Map> findPageByPara(Map<String, Object> record);
 
     /**
      * 基础分页查询

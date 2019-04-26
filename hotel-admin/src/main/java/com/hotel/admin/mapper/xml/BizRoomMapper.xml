@@ -31,6 +31,8 @@
 
     <result column="inventory" jdbcType="INTEGER" property="inventory" />
 
+    <result column="s_price" jdbcType="DOUBLE" property="sPrice" />
+    <result column="t_price" jdbcType="DOUBLE" property="tPrice" />
     <result column="s_room_price" jdbcType="DOUBLE" property="sRoomPrice" />
 
     <result column="iswify" jdbcType="VARCHAR" property="iswify" />
@@ -291,8 +293,10 @@
     a.bed_type     bed_type,
     (select para_code from sys_para_config where para_code LIKE 'roomtype%' and para_sub_code1='bizroom' AND para_value1=a.room_type) room_type_key,
     (select para_code from sys_para_config where para_code LIKE 'bedtype%' and para_sub_code1='bizroom' AND para_value1=a.bed_type)  bed_type_key,
-    b.inventory    inventory,
+    ifnull(b.inventory,a.room_stock)    inventory,
     c.s_room_price s_room_price,
+    c.s_price      s_price,
+    c.t_price      t_price,
     a.room_style   room_style,
     a.break_type   break_type,
     a.room_area    room_area,
@@ -325,7 +329,7 @@
     e.isbus        isbus      ,
     e.istrafic     istrafic   ,
     e.isrestau     isrestau
-    from biz_room a LEFT JOIN biz_inv b ON a.room_code=b.room_code LEFT JOIN biz_prise c ON  a.room_code=c.room_code and b.inv_date=c.price_date LEFT JOIN
+    from biz_room a LEFT JOIN biz_inv b ON a.room_code=b.room_code  LEFT JOIN biz_prise c ON  a.room_code=c.room_code and c.price_date=date_format(SYSDATE(),'%Y%m%d') LEFT JOIN
     biz_hotl d ON a.hotel_code = d.hotel_code LEFT JOIN biz_room_ext e on a.room_code = e.room_code
     WHERE 1=1
     <if test="hotelCode != null">
@@ -344,7 +348,7 @@
       AND a.break_type = #{breakType,jdbcType=VARCHAR}
     </if>
     <if test="inventory != null">
-      AND b.inventory = #{inventory,jdbcType=VARCHAR} AND c.inv_date = to_char(sysdate,'yyyyMMdd')
+      AND ifnull(b.inventory,a.room_stock) = #{inventory,jdbcType=VARCHAR}  AND ifnull(b.inv_date,date_format(SYSDATE(),'%Y%m%d')) = date_format(SYSDATE(),'%Y%m%d')
     </if>
 
   </select>
