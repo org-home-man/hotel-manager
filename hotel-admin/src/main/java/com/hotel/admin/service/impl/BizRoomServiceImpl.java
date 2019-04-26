@@ -1,14 +1,12 @@
 package com.hotel.admin.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
+import com.hotel.admin.dto.BizRoomQuery;
 import com.hotel.admin.mapper.BizPriseMapper;
 import com.hotel.admin.mapper.BizRoomExtMapper;
 import com.hotel.admin.mapper.BizRoomMapper;
 import com.hotel.admin.mapper.CrtIdMapper;
 import com.hotel.admin.model.*;
+import com.hotel.admin.service.BizRoomService;
 import com.hotel.common.utils.StringUtils;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.page.*;
@@ -16,10 +14,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.hotel.admin.service.BizRoomService;
 import org.springframework.transaction.annotation.Transactional;
-import sun.nio.cs.ext.MacArabic;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * ---------------------------
@@ -245,8 +244,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 	}
 
 	@Override
-	public Page findPagePara() {
-		Map<String,Object> map = new HashMap<String ,Object>();
+	public Page findPagePara(BizRoomQuery bizRoomQuery) {
 //		Map<String,ColumnFilter> temp = pageRequest.getColumnFilters();
 //		for (Map.Entry<String,ColumnFilter> entry : temp.entrySet() ) {
 //			ColumnFilter columnFilter = entry.getValue();
@@ -255,7 +253,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 //			}
 //		}
 //		PageResult pr =  MybatisPageHelper.findPage(pageRequest, bizRoomMapper,"findPageByPara",map);
-		List<Map> bizList = bizRoomMapper.findPageByPara(map);
+		List<Map> bizList = bizRoomMapper.findPageByPara(bizRoomQuery);
 		System.out.println(bizList);
 		return PageContext.getPage();
 	}

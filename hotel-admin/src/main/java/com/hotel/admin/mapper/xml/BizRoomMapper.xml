@@ -280,7 +280,7 @@
 
   </select>
 
-  <select id="findPageByPara" parameterType="java.util.Map" resultMap="BaseResultMap">
+  <select id="findPageByPara" parameterType="com.hotel.admin.dto.BizRoomQuery" resultMap="BaseResultMap">
 
     select
     a.room_code     room_code,

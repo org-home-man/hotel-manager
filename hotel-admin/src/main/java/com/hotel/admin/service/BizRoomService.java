@@ -1,10 +1,9 @@
 package com.hotel.admin.service;
 
+import com.hotel.admin.dto.BizRoomQuery;
 import com.hotel.admin.model.BizProPrice;
 import com.hotel.admin.model.BizRoom;
 import com.hotel.core.page.Page;
-import com.hotel.core.page.PageRequest;
-import com.hotel.core.page.SimplePageReq;
 import com.hotel.core.service.CurdService;
 
 import java.util.Map;
@@ -29,5 +28,5 @@ public interface BizRoomService extends CurdService<BizRoom> {
 
     Map producePriceCalendar(BizProPrice bizProPrice);
 
-    Page findPagePara();
+    Page findPagePara(BizRoomQuery bizRoomQuery);
 }

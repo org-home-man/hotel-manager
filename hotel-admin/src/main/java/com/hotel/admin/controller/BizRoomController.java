@@ -1,27 +1,19 @@
 package com.hotel.admin.controller;
 
+import com.hotel.admin.dto.BizRoomQuery;
+import com.hotel.admin.model.BizProPrice;
+import com.hotel.admin.model.BizRoom;
+import com.hotel.admin.service.BizRoomService;
+import com.hotel.core.http.HttpResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-
-import com.hotel.admin.model.BizProPrice;
-import com.hotel.core.http.HttpResult;
-import com.hotel.core.page.PageRequest;
-import com.hotel.core.page.SimplePageReq;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.hotel.admin.model.BizRoom;
-import com.hotel.admin.service.BizRoomService;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * ---------------------------
@@ -61,12 +53,12 @@ public class BizRoomController {
 
     /**
      * 基础分页查询
-     * @param pageRequest
+     * @param bizRoomQuery 条件查询对象
      * @return
      */    
 	@PostMapping(value="/page")
-	public HttpResult findPage() {
-		return HttpResult.ok(bizRoomService.findPagePara());
+	public HttpResult findPage(@RequestBody BizRoomQuery bizRoomQuery) {
+		return HttpResult.ok(bizRoomService.findPagePara(bizRoomQuery));
 	}
 
 
