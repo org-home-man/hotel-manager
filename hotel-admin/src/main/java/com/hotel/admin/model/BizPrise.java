@@ -1,5 +1,9 @@
 package com.hotel.admin.model;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 /**
  * ---------------------------
  * 客房牌价表 (BizPrise)         
@@ -25,6 +29,14 @@ public class BizPrise {
 	private Double sRoomPrice;
 	/** 结算房价 */
 	private Double tRoomPrice;
+
+	/** 批量插入数据 */
+	private List<BizPrise> priceDateData;
+
+	private String operaBy;
+
+	private Date operaTime;
+
 	/** 创建人员 */
 	private String creatBy;
 	/** 创建时间 */
@@ -33,6 +45,22 @@ public class BizPrise {
 	private String lastUpdateBy;
 	/** 更新时间 */
 	private java.util.Date lastUpdateTime;
+
+	public String getOperaBy() {
+		return operaBy;
+	}
+
+	public void setOperaBy(String operaBy) {
+		this.operaBy = operaBy;
+	}
+
+	public Date getOperaTime() {
+		return operaTime;
+	}
+
+	public void setOperaTime(Date operaTime) {
+		this.operaTime = operaTime;
+	}
 
 	public String getRoomCode() {
 		return roomCode;
@@ -104,6 +132,31 @@ public class BizPrise {
 
 	public void setCreatTime(java.util.Date creatTime) {
 		this.creatTime = creatTime;
+	}
+
+	public List<BizPrise> getPriceDateData() {
+		return priceDateData;
+	}
+
+	public void setPriceDateData(List<BizPrise> priceDateData) {
+		this.priceDateData = priceDateData;
+	}
+
+	@Override
+	public String toString() {
+		return "BizPrise{" +
+				"roomCode='" + roomCode + '\'' +
+				", roomType='" + roomType + '\'' +
+				", priceDate='" + priceDate + '\'' +
+				", sPrice=" + sPrice +
+				", tPrice=" + tPrice +
+				", sRoomPrice=" + sRoomPrice +
+				", tRoomPrice=" + tRoomPrice +
+				", creatBy='" + creatBy + '\'' +
+				", creatTime=" + creatTime +
+				", lastUpdateBy='" + lastUpdateBy + '\'' +
+				", lastUpdateTime=" + lastUpdateTime +
+				'}';
 	}
 
 	public String getLastUpdateBy() {

@@ -22,6 +22,7 @@ public class ReflectionUtils {
 		Object result = null;
 		Class<? extends Object> clazz = object.getClass();
 		Method queryMethod = getMethod(clazz, method, args);
+//		System.out.println("++++++queryMethod:"+ queryMethod.getName() );
 		if(queryMethod != null) {
 			try {
 				result = queryMethod.invoke(object, args);
@@ -30,6 +31,7 @@ public class ReflectionUtils {
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
+//				e.getTargetException();
 				e.printStackTrace();
 			}
 		} else {
@@ -54,7 +56,10 @@ public class ReflectionUtils {
 		Method[] methods = clazz.getMethods();
 		for(Method method:methods) {
 			if(method.getName().equals(name)) {
+//				System.out.println("方法名找到了++++++++");
 				Class<?>[] parameterTypes = method.getParameterTypes();
+//				System.out.println("参数个数+++++："+parameterTypes.length);
+//				System.out.println("传入的参数长度："+args.length);
 				if(parameterTypes.length == args.length) {
 					boolean isSameMethod = true;
 					for(int i=0; i<parameterTypes.length; i++) {
@@ -62,6 +67,8 @@ public class ReflectionUtils {
 						if(arg == null) {
 							arg = "";
 						}
+//						System.out.println("传入参数的镜像："+args[i].getClass());
+//						System.out.println("方法参数的镜像："+parameterTypes[i]);
 						if(!parameterTypes[i].equals(args[i].getClass())) {
 							isSameMethod = false;
 						}

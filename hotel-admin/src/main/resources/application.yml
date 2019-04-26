@@ -4,6 +4,7 @@ server:
     max-threads: 1000
     min-spare-threads: 30
   port: 8001
+    #context-path: /kitty-admin
 # DataSource
 spring:
   datasource:
