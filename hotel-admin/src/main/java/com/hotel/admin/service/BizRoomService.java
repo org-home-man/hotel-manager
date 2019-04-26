@@ -1,7 +1,13 @@
 package com.hotel.admin.service;
 
+import com.hotel.admin.model.BizProPrice;
 import com.hotel.admin.model.BizRoom;
+import com.hotel.core.page.Page;
+import com.hotel.core.page.PageRequest;
+import com.hotel.core.page.SimplePageReq;
 import com.hotel.core.service.CurdService;
+
+import java.util.Map;
 
 /**
  * ---------------------------
@@ -14,12 +20,14 @@ import com.hotel.core.service.CurdService;
  */
 public interface BizRoomService extends CurdService<BizRoom> {
 
+
     /**
-     * 根据ID查询
-     * @param id
-     * @return
+     * 根据用户输入的日期或日期范围生成相应日期的数据
      */
-    BizRoom  findById(String id);
+    Map productDatePrice(BizProPrice bizProPrice);
 
 
+    Map producePriceCalendar(BizProPrice bizProPrice);
+
+    Page findPagePara(SimplePageReq map);
 }

@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import com.hotel.admin.model.BizProPrice;
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.page.PageRequest;
+import com.hotel.core.page.SimplePageReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,20 +64,11 @@ public class BizRoomController {
      * @param pageRequest
      * @return
      */    
-	@PostMapping(value="/findPage")
-	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
-		return HttpResult.ok(bizRoomService.findPage(pageRequest));
+	@PostMapping(value="/page")
+	public HttpResult findPage(SimplePageReq pageRequest) {
+		return HttpResult.ok(bizRoomService.findPagePara(pageRequest));
 	}
-	
-    /**
-     * 根据主键查询
-     * @param roomCode
-     * @return
-     */ 	
-	@GetMapping(value="/findById")
-	public HttpResult findById(@RequestParam String roomCode) {
-		return HttpResult.ok(bizRoomService.findById(roomCode));
-	}
+
 
 	/**
 	 * 上传宣传图片
@@ -83,7 +76,9 @@ public class BizRoomController {
 	 */
 	@RequestMapping(value="/uploadFile")
 	public String uploadFile(@RequestParam(name="file") MultipartFile uploadFile,HttpServletRequest request)  {
-		String rootPath = "D:\\upload";
+		String rootPath = request.getServletContext().getRealPath("/upload");
+//		System.out.println(str);
+//		String rootPath = "D:\\upload";
 		System.out.println("rootPath:"+rootPath);
 		if(uploadFile != null) {
 			//获取上传文件的名字
@@ -111,4 +106,25 @@ public class BizRoomController {
 		}
 		return  null;
 	}
+
+	/**
+	 * 根据主键查询
+	 * @param
+	 * @return
+	 */
+	@PostMapping(value="/producePriceCalendar")
+	public HttpResult producePriceDateData(@RequestBody BizProPrice bizProPrice) {
+		return HttpResult.ok(bizRoomService.producePriceCalendar(bizProPrice));
+	}
+
+	/**
+	 * 生成用户输入的牌价数据，根据输入的和之前的做对比
+	 *
+	 * @return
+	 */
+	@PostMapping(value="/priceDatePro")
+	public HttpResult priceDatePro(@RequestBody BizProPrice bizProPrice) {
+		return HttpResult.ok(bizRoomService.productDatePrice(bizProPrice));
+	}
+
 }

@@ -102,6 +102,11 @@ public class BizHotlServiceImpl implements BizHotlService {
 		return null;
 	}
 
+//	@Override
+//	public BizHotl findByName(String username) {
+//		return null;
+//	}
+
 	@Override
 	public BizHotl findById(String id) {
 		return bizHotlMapper.findById(id);
