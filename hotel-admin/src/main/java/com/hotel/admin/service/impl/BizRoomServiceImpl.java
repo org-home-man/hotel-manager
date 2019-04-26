@@ -245,15 +245,15 @@ public class BizRoomServiceImpl implements BizRoomService {
 	}
 
 	@Override
-	public Page findPagePara(SimplePageReq pageRequest) {
+	public Page findPagePara() {
 		Map<String,Object> map = new HashMap<String ,Object>();
-		Map<String,ColumnFilter> temp = pageRequest.getColumnFilters();
-		for (Map.Entry<String,ColumnFilter> entry : temp.entrySet() ) {
-			ColumnFilter columnFilter = entry.getValue();
-			if (!StringUtils.isBlank(columnFilter.getValue())) {
-				map.put(columnFilter.getName(),columnFilter.getValue());
-			}
-		}
+//		Map<String,ColumnFilter> temp = pageRequest.getColumnFilters();
+//		for (Map.Entry<String,ColumnFilter> entry : temp.entrySet() ) {
+//			ColumnFilter columnFilter = entry.getValue();
+//			if (!StringUtils.isBlank(columnFilter.getValue())) {
+//				map.put(columnFilter.getName(),columnFilter.getValue());
+//			}
+//		}
 //		PageResult pr =  MybatisPageHelper.findPage(pageRequest, bizRoomMapper,"findPageByPara",map);
 		List<Map> bizList = bizRoomMapper.findPageByPara(map);
 		System.out.println(bizList);

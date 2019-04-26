@@ -65,8 +65,8 @@ public class BizRoomController {
      * @return
      */    
 	@PostMapping(value="/page")
-	public HttpResult findPage(SimplePageReq pageRequest) {
-		return HttpResult.ok(bizRoomService.findPagePara(pageRequest));
+	public HttpResult findPage() {
+		return HttpResult.ok(bizRoomService.findPagePara());
 	}
 
 

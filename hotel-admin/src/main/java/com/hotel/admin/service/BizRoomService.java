@@ -29,5 +29,5 @@ public interface BizRoomService extends CurdService<BizRoom> {
 
     Map producePriceCalendar(BizProPrice bizProPrice);
 
-    Page findPagePara(SimplePageReq map);
+    Page findPagePara();
 }

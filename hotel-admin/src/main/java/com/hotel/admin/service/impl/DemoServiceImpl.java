@@ -1,14 +1,11 @@
 package com.hotel.admin.service.impl;
 
-import com.hotel.admin.entity.Demo;
 import com.hotel.admin.mapper.DemoMapper;
 import com.hotel.admin.service.IDemoService;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @ProjectName: hotel-admin
@@ -25,8 +22,8 @@ public class DemoServiceImpl implements IDemoService {
     private DemoMapper demoMapper;
 
     @Override
-    public Page findPage() {
-        List<Demo> demos = demoMapper.selectBy();
+    public Page findPage(String name) {
+        demoMapper.selectBy();
         return PageContext.getPage();
     }
 }
