@@ -63,7 +63,7 @@ public class SysLoginController {
 	 * 登录接口
 	 */
 	@PostMapping(value = "/login")
-	public HttpResult login(LoginBean loginBean, HttpServletRequest request) throws IOException {
+	public HttpResult login(@RequestBody LoginBean loginBean, HttpServletRequest request) throws IOException {
 		String username = loginBean.getAccount();
 		String password = loginBean.getPassword();
 		String captcha = loginBean.getCaptcha();
