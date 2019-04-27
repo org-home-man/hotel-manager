@@ -31,6 +31,7 @@ public class BizRoom {
 	private String bedType;
 	/** 餐食条件 */
 	private String breakType;
+	private String breakTypeKey;
 	/** 客房面积 */
 	private Double roomArea;
 	/** 中文文字介绍 */
@@ -58,10 +59,18 @@ public class BizRoom {
 
 	private List<BizPrise> bizPrises;
 	private String hotelType;
+	private String hotelTypeKey;
+
+	private String outDateEnd;
+	private String inDateStart;
 	/** 都道府县 */
 	private String provinceCode;
 	/** 区市町村 */
 	private String cityCode;
+	/** 都道府县 */
+	private String provinceCodeKey;
+	/** 区市町村 */
+	private String cityCodeKey;
 	/** 酒店中文名称 */
 	private String hotelCname;
 
@@ -72,7 +81,8 @@ public class BizRoom {
 	private Integer inventory;
 	/** 销售房价 */
 	private Double sRoomPrice;
-
+	/** 销售房价 */
+	private Double sPrice;
 
 	/** 免费WIFY */
 	private String iswify;
@@ -132,6 +142,23 @@ public class BizRoom {
 	public void setRoomTypeKey(String roomTypeKey) {
 		this.roomTypeKey = roomTypeKey;
 	}
+
+	public String getoutDateEnd() {
+		return outDateEnd;
+	}
+
+	public void setoutDateEnd(String outDateEnd) {
+		this.outDateEnd = outDateEnd;
+	}
+
+	public String getinDateStart() {
+		return inDateStart;
+	}
+
+	public void setinDateStart(String inDateStart) {
+		this.inDateStart = inDateStart;
+	}
+
 	public String getBedTypeKey() {
 		return bedTypeKey;
 	}
@@ -146,6 +173,13 @@ public class BizRoom {
 
 	public void setHotelType(String hotelType) {
 		this.hotelType = hotelType;
+	}
+	public String getHotelTypeKey() {
+		return hotelTypeKey;
+	}
+
+	public void setHotelTypeKey(String hotelTypeKey) {
+		this.hotelTypeKey = hotelTypeKey;
 	}
 
 	public String getIswify() {
@@ -364,6 +398,22 @@ public class BizRoom {
 		this.cityCode = cityCode;
 	}
 
+	public String getProvinceCodeKey() {
+		return provinceCodeKey;
+	}
+
+	public void setProvinceCodeKey(String provinceCodeKey) {
+		this.provinceCodeKey = provinceCodeKey;
+	}
+
+	public String getCityCodeKey() {
+		return cityCodeKey;
+	}
+
+	public void setCityCodeKey(String cityCodeKey) {
+		this.cityCodeKey = cityCodeKey;
+	}
+
 	public String getHotelCname() {
 		return hotelCname;
 	}
@@ -394,6 +444,14 @@ public class BizRoom {
 
 	public void setsRoomPrice(Double sRoomPrice) {
 		this.sRoomPrice = sRoomPrice;
+	}
+
+	public Double getsPrice() {
+		return sPrice;
+	}
+
+	public void setsPrice(Double sRoomPrice) {
+		this.sPrice = sPrice;
 	}
 
 	public List<BizInv> getBizInvs() {
@@ -467,6 +525,15 @@ public class BizRoom {
 	public void setBreakType(String breakType) {
 		this.breakType = breakType;
 	}
+
+	public String getBreakTypeKey() {
+		return breakTypeKey;
+	}
+
+	public void setBreakTypeKey(String breakTypeKey) {
+		this.breakTypeKey = breakTypeKey;
+	}
+
 
 	public Double getRoomArea() {
 		return roomArea;
