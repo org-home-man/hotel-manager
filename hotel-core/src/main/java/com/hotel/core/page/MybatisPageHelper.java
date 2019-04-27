@@ -41,6 +41,7 @@ public class MybatisPageHelper {
 		int pageSize = pageRequest.getPageSize();
 		PageHelper.startPage(pageNum, pageSize);
 		// 利用反射调用查询方法
+//		System.out.println("findAreaPage=" + queryMethodName);
 		Object result = ReflectionUtils.invoke(mapper, queryMethodName, args);
 		return getPageResult(pageRequest, new PageInfo((List) result));
 	}

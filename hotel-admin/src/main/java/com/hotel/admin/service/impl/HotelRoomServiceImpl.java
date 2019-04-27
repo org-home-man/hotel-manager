@@ -19,11 +19,13 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.hotel.admin.model.SysParaConfig;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+
+import java.util.*;
 
 /**
  * ---------------------------
@@ -93,10 +95,47 @@ public class HotelRoomServiceImpl implements HotelRoomService {
 				map.put(columnFilter.getName(),columnFilter.getValue());
 			}
 		}
-
 		PageResult pr =  MybatisPageHelper.findPage(pageRequest, hotelRoomMapper,"findPageByPara",map);
-
-		return pr;
+		if(map.get("outDateEnd") == null || map.get("inDateStart") == null)
+		{
+			System.out.println("查询条件" + map.get("outDateEnd") +  map.get("inDateStart"));
+			return pr;
+		}
+		int invDate = 0;
+		 try {
+			 SimpleDateFormat stodate = new SimpleDateFormat("yyyyMMdd");
+			 Date date1 = stodate.parse((String)map.get("outDateEnd"));
+			 Date date2 = stodate.parse((String)map.get("inDateStart"));
+			 /* 取时间跨度，需要加1*/
+			 invDate = (int) ((date1.getTime() - date2.getTime()) / (1000*3600*24)) +1;
+			 if(invDate - 1< 0)
+			 {
+				 System.out.println("退房日期应该大于等于入住时间");
+			 }
+			 System.out.println("invDate=" + invDate);
+		 } catch (ParseException e) {
+		 	e.printStackTrace();
+		 }
+		int j = 1;
+		 List lists = new ArrayList();
+		PageResult prRet = new PageResult();
+		for (int i = 0; i <pr.getContent().size(); i++) {
+			System.out.println("roomcode = " + ((BizRoom) pr.getContent().get(i))  +" i = " +i);
+			if (i < pr.getContent().size() - 1) {
+				if (((BizRoom) pr.getContent().get(i)).getRoomCode().equals(((BizRoom) pr.getContent().get(i + 1)).getRoomCode())) {
+					j++;
+				} else {
+					j = 1;
+				}
+				if (invDate == j) {
+					System.out.println("房间牌价在时间范围内都满足要求 " + "j = "+ j + "roomcode=" + ((BizRoom) pr.getContent().get(i)).getRoomCode());
+//					prRet.setContent(pr.getContent().get(i));
+					lists.add(pr.getContent().get(i));
+					prRet.setContent(lists);
+				}
+			}
+		}
+		return prRet;
 	}
 
 	private BizRoomExt getBizRoomExtObject(BizRoom br,String str) {

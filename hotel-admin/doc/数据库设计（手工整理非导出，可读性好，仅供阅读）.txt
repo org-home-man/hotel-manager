@@ -182,22 +182,50 @@ CREATE TABLE `sys_dict` (
 -- ------------------------------------------------
 DROP TABLE IF EXISTS `biz_hotl`;
 CREATE TABLE `biz_hotl` (
-  `Hotel_Code` varchar(10) NOT NULL  COMMENT '酒店编号',
-  `Country_Code` varchar(3) NOT NULL COMMENT '国家编码',
-  `Province_Code` varchar(3) NOT NULL COMMENT '都道府县',
-  `City_Code` varchar(2) NOT NULL COMMENT '区市町村',
-  `Hotel_Type` varchar(3) NOT NULL COMMENT '酒店类型',
-  `Hotel_Level` varchar(3) NOT NULL COMMENT '酒店星级',
-  `Hotel_Cname` varchar(100) COMMENT '酒店中文名称',
-  `Hotel_Ename` varchar(100) COMMENT '酒店英文名称',
-  `Creat_By` varchar(50) COMMENT '创建人员',
-  `Creat_Time` datetime COMMENT '创建时间',
-  `Last_Update_By` varchar(50) DEFAULT NULL COMMENT '更新人员',
-  `Last_Update_Time` datetime DEFAULT 0 COMMENT '更新时间',
-  PRIMARY KEY (`Hotel_Code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='酒店信息表';
+  `hotel_code` varchar(10) NOT NULL COMMENT '酒店编号',
+  `country_code` varchar(3) NOT NULL COMMENT '国家编码',
+  `province_code` varchar(150) NOT NULL COMMENT '都道府县',
+  `city_code` varchar(150) NOT NULL COMMENT '区市町村',
+  `hotel_type` varchar(3) NOT NULL COMMENT '酒店类型',
+  `hotel_level` varchar(3) NOT NULL COMMENT '酒店星级',
+  `hotel_cname` varchar(100) DEFAULT NULL COMMENT '酒店中文名称',
+  `hotel_ename` varchar(100) DEFAULT NULL COMMENT '酒店英文名称',
+   hotel_addr varchar(100) DEFAULT NULL COMMENT '酒店地址';
+   hotel_phone varchar(30) DEFAULT NULL COMMENT '酒店电话';
+   hotel_fax varchar(50) DEFAULT NULL COMMENT '酒店传真';
+   hotel_web varchar(100) DEFAULT NULL COMMENT '酒店网址';
+  `creat_cy` varchar(50) DEFAULT NULL COMMENT '创建人员',
+  `creat_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `last_update_by` varchar(50) DEFAULT NULL COMMENT '更新人员',
+  `last_update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`hotel_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='酒店信息表'
+
+-- ------------------------------------------------
+--  Table structure for `hotel_id`  酒店信息表  creat  by licy
+-- ------------------------------------------------
+DROP TABLE IF EXISTS `crt_id`;
+CREATE TABLE `crt_id` (
+  `crt_no` varchar(10) NOT NULL COMMENT '当前可用编号',
+  `crt_type` varchar(10)  DEFAULT NULL COMMENT '编号类型',
+  PRIMARY KEY (`crt_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='自增序列表'
 
 
+ CREATE TABLE
+    hotel_area
+    (
+        area_Lvl VARCHAR(2) NOT NULL COMMENT '地区级别',
+        area_Code VARCHAR(50) NOT NULL COMMENT '地区码',
+        Code_Key VARCHAR(100) COMMENT '地区码key',
+        area_Cname VARCHAR(200) COMMENT '地区中文名称',
+        area_Ename VARCHAR(200) COMMENT '地区英文名称',
+        remark VARCHAR(200) COMMENT '备注信息',
+        creat_by VARCHAR(50) COMMENT '创建人员',
+        creat_time DATETIME COMMENT '创建时间',
+        PRIMARY KEY (area_Lvl, area_Code)
+    )
+    ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='地区码表';
 -- --------------------------------------
 -- 初始数据
 -- --------------------------------------
