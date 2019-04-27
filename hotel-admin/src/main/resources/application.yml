@@ -42,3 +42,7 @@ mybatis:
   type-aliases-package: com.hotel.admin.entity,com.hotel.admin.model
   mapper-locations: classpath:com/hotel/admin/mapper/xml/*.xml
   config-location: classpath:mybatis-config.xml
+logging:
+  file: ./logs/hotel-log.log
+  level:
+    com.hotel.admin.mapper: debug
