@@ -1,6 +1,4 @@
-package com.hotel.admin.model;
-
-import java.util.List;
+package com.hotel.admin.dto;
 
 /**
  * ---------------------------

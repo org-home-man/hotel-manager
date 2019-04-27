@@ -189,10 +189,10 @@ public class PaginationInterceptor implements Interceptor {
         String countSql = "select count(0) from (" + sql + ") t";
         String ysql = sql.toLowerCase();
         boolean join = false;
-        if (ysql.indexOf("left") != -1 && ysql.indexOf("join") != -1 ) {
-            join = true;
-            countSql = countSql + " group by t.id ";
-        }
+//        if (ysql.indexOf("left") != -1 && ysql.indexOf("join") != -1 ) {
+//            join = true;
+//            countSql = countSql + " group by t.id ";
+//        }
         PreparedStatement countStmt = null;
         ResultSet rs = null;
         try {

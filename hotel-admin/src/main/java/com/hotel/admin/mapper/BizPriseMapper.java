@@ -1,6 +1,7 @@
 package com.hotel.admin.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hotel.admin.model.BizPrise;
 
@@ -38,10 +39,10 @@ public interface BizPriseMapper {
     
     /**
      * 根据主键查询
-     * @param roomCode
+     * @param
      * @return
      */    
-    BizPrise findById(String roomCode);
+    List<BizPrise> findById(BizPrise code);
 
     /**
      * 基础分页查询
@@ -49,5 +50,15 @@ public interface BizPriseMapper {
      * @return
      */    
     List<BizPrise> findPage();
+
+    /*
+    根据roomCode查询
+     */
+    List<BizPrise> queryById(String roomCode);
+
+    /*
+     merge 更新插入数据库
+    */
+    int mergeByKey(BizPrise code);
     
 }
