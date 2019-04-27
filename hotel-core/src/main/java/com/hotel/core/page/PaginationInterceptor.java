@@ -1,31 +1,23 @@
 package com.hotel.core.page;
 
+import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
-import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
-import org.apache.ibatis.reflection.DefaultReflectorFactory;
 import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.reflection.ReflectorFactory;
-import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
-import org.apache.ibatis.reflection.factory.ObjectFactory;
-import org.apache.ibatis.reflection.wrapper.DefaultObjectWrapperFactory;
-import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
+import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
-import org.apache.ibatis.session.ResultHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 
@@ -36,38 +28,64 @@ import java.util.Properties;
  * @date 2019年4月22日 23:25:47
  */
 @Component
-@Intercepts({@Signature(type = StatementHandler.class, method = "query", args = { StatementHandler.class, ResultHandler.class})})
-public class PaginationInterceptor implements Interceptor{
+@Intercepts({
+        @Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class,Integer.class}),
+        @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class})})
+public class PaginationInterceptor implements Interceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(PaginationInterceptor.class);
-
-    private static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();
-    private static final ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY = new DefaultObjectWrapperFactory();
-    private static final ReflectorFactory DEFAULT_REFLECTOR_FACTORY = new DefaultReflectorFactory();
-    private static String dialect = "mysql";
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         if (PageContext.getLocalPage().get() == null) {
             return invocation.proceed();
         }
-        // 获得拦截的对象
-        StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
         if (invocation.getTarget() instanceof StatementHandler) {
-
-            // 待执行的sql的包装对象
-            BoundSql boundSql = statementHandler.getBoundSql();
-            // 判断是否是查询语句
-            if (isSelect(boundSql.getSql())) {
-                // 获得参数集合
-                Object params = boundSql.getParameterObject();
-
-                if (params instanceof Map) { // 请求为多个参数，参数采用Map封装
-                    return complexParamsHandler(invocation, boundSql, (Map<?, ?>) params);
-                } else if (params instanceof Page) { // 单个参数且为Page，则表示该操作需要进行分页处理
-                    return simpleParamHandler(invocation, boundSql, (Page) params);
-                }
+            StatementHandler statementHandler = (StatementHandler) invocation
+                    .getTarget();
+            MetaObject metaStatementHandler = SystemMetaObject
+                    .forObject(statementHandler);
+            // 分离代理对象链(由于目标类可能被多个拦截器拦截，从而形成多次代理，通过下面的两次循环
+            // 可以分离出最原始的的目标类)
+            while (metaStatementHandler.hasGetter("h")) {
+                Object object = metaStatementHandler.getValue("h");
+                metaStatementHandler = SystemMetaObject.forObject(object);
             }
+            // 分离最后一个代理对象的目标类
+            while (metaStatementHandler.hasGetter("target")) {
+                Object object = metaStatementHandler.getValue("target");
+                metaStatementHandler = SystemMetaObject.forObject(object);
+            }
+            MappedStatement mappedStatement = (MappedStatement) metaStatementHandler
+                    .getValue("delegate.mappedStatement");
+
+            SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
+
+            if (sqlCommandType == SqlCommandType.SELECT) {
+                // 分页信息if (localPage.get() != null) {
+                Page page = PageContext.getLocalPage().get();
+                BoundSql boundSql = (BoundSql) metaStatementHandler
+                        .getValue("delegate.boundSql");
+                // 分页参数作为参数对象parameterObject的一个属性
+                String sql = boundSql.getSql();
+
+                // 重写sql
+                String pageSql = buildPageSql(sql, page);
+
+                // 重写分页sql
+                metaStatementHandler.setValue("delegate.boundSql.sql", pageSql);
+                Connection connection = (Connection) invocation.getArgs()[0];
+
+                // 重设分页参数里的总页数等
+                if (PageContext.getLocalPage().get() != null
+                        && PageContext.getLocalPage().get().getPageNum() != 0) {
+                    setPageParameter(sql, connection, mappedStatement,
+                            boundSql, page);
+                }
+
+            }
+
+            // 将执行权交给下一个拦截器
             return invocation.proceed();
         } else if (invocation.getTarget() instanceof ResultSetHandler) {
             Object result = invocation.proceed();
@@ -79,107 +97,10 @@ public class PaginationInterceptor implements Interceptor{
         return null;
     }
 
-    private Object complexParamsHandler(Invocation invocation, BoundSql boundSql, Map<?, ?> params) throws Throwable {
-        //判断参数中是否指定分页
-        if (containsPage(params)) {
-            return pageHandlerExecutor(invocation, boundSql, (Page) params.get("page"));
-        } else {
-            return invocation.proceed();
-        }
-    }
-
-    private boolean containsPage(Map<?, ?> params) {
-        if(params==null){
-            return false;
-        }else if(!params.containsKey("page")){
-            return false;
-        }
-        Object page = params.get("page");
-        if(page==null){
-            return false;
-        }else if(page instanceof SimplePage){
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isSelect(String sql) {
-        if (!StringUtils.isEmpty(sql) && sql.toUpperCase().trim().startsWith("SELECT")) {
-            return true;
-        }
-        return false;
-    }
-
-    private Object simpleParamHandler(Invocation invocation, BoundSql boundSql, Page page) throws Throwable {
-        return pageHandlerExecutor(invocation, boundSql, page);
-    }
-
-    private Object pageHandlerExecutor(Invocation invocation, BoundSql boundSql, Page page) throws Throwable {
-        // 获得数据库连接
-        Connection connection = (Connection) invocation.getArgs()[0];
-        // 使用Mybatis提供的MetaObject，该对象主要用于获取包装对象的属性值
-        MetaObject statementHandler = MetaObject.forObject(invocation.getTarget(), DEFAULT_OBJECT_FACTORY,
-                DEFAULT_OBJECT_WRAPPER_FACTORY, DEFAULT_REFLECTOR_FACTORY);
-
-        // 获取该sql执行的结果集总数
-        int maxSize = getTotalSize(connection, (MappedStatement) statementHandler.getValue("delegate.mappedStatement"),
-                boundSql);
-
-        // 生成分页sql
-        page.setTotal(maxSize);
-        String wrapperSql = getPageSql(boundSql.getSql(), page);
-
-        MetaObject boundSqlMeta = MetaObject.forObject(boundSql, DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY,
-                DEFAULT_REFLECTOR_FACTORY);
-        // 修改boundSql的sql
-        boundSqlMeta.setValue("sql", wrapperSql);
-        return invocation.proceed();
-    }
-
-    private int getTotalSize(Connection connection, MappedStatement mappedStatement, BoundSql boundSql) {
-        String countSql = getCountSql(boundSql.getSql());
-        PreparedStatement countStmt;
-        ResultSet rs;
-        List<AutoCloseable> closeableList = new ArrayList<AutoCloseable>();
-
-        try {
-            countStmt = connection.prepareStatement(countSql);
-            BoundSql countBS = new BoundSql(mappedStatement.getConfiguration(), countSql,
-                    boundSql.getParameterMappings(), boundSql.getParameterObject());
-            setParameters(countStmt, mappedStatement, countBS, boundSql.getParameterObject());
-            rs = countStmt.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-            closeableList.add(countStmt);
-            closeableList.add(rs);
-        } catch (SQLException e) {
-            logger.error("append an exception[{}] when execute sql[{}] with {}", e, countSql,
-                    boundSql.getParameterObject());
-        } finally {
-            for (AutoCloseable closeable : closeableList) {
-                try {
-                    if (closeable != null)
-                        closeable.close();
-                } catch (Exception e) {
-                    logger.error("append an exception[{}] when close resource[{}] ", e, closeable);
-                }
-            }
-        }
-        return 0;
-    }
-
-    private void setParameters(PreparedStatement ps, MappedStatement mappedStatement, BoundSql boundSql,
-                               Object parameterObject) throws SQLException {
-        ParameterHandler parameterHandler = new DefaultParameterHandler(mappedStatement, parameterObject, boundSql);
-        parameterHandler.setParameters(ps);
-    }
-
     @Override
     public Object plugin(Object target) {
-        // 当目标类是StatementHandler类型时，才包装目标类，否者直接返回目标本身,减少目标被代理的次数
-        if (target instanceof StatementHandler) {
+        if (target instanceof StatementHandler
+                || target instanceof ResultSetHandler) {
             return Plugin.wrap(target, this);
         } else {
             return target;
@@ -191,19 +112,143 @@ public class PaginationInterceptor implements Interceptor{
 
     }
 
-    public String getCountSql(String sql) {
-        if("mysql".equals(dialect)){
-            return "select count(0) from (" + sql + ") as total";
-        }
-        return sql;
+    /**
+     * 修改原SQL为分页SQL
+     *
+     * @param sql
+     * @param page
+     * @return
+
+     * @date 2016年6月29日
+     */
+    private String buildPageSql(String sql, Page page) {
+        if (Utils.isEmpty(page.getPageSize()))
+            return sql;
+        StringBuilder pageSql = new StringBuilder(200);
+        pageSql.append(sql);
+        pageSql.append(" limit ");
+        pageSql.append(page.getStartRow());
+        pageSql.append(",");
+        pageSql.append(page.getPageSize());
+        // 判断是否有order by
+
+        return pageSql.toString();
     }
 
-    public String getPageSql(String sql, Page page) {
+    StringBuilder bindOrberBy(String sql, StringBuilder pageSql) {
+        sql = sql.toLowerCase();
+        String s = "order by";
+        if (sql.indexOf("order by") > 0) {
+            // 需要截取
+            String orderByStr = sql.substring(sql.lastIndexOf(s), sql.length());
+            String cls = sql.substring(0, sql.lastIndexOf(s)).toLowerCase();
+            String orf = "";
+            String s1 = orderByStr.toLowerCase().replaceAll("order by", "");
+            String[] ayy = s1.split(",");
+            int i = 0;
+            for (String string : ayy) {
 
-        if("mysql".equals(dialect)){
-            return sql+" limit "+page.getStartRow()+", "+page.getRows();
+                if (string.indexOf(".") > 0) {
+                    String c = string.substring(string.indexOf(".") + 1,
+                            string.length());
+                    if (cls.indexOf(c) > 0) {
+                        i++;
+                        orf = orf + " t." + c + " and ";
+                    }
+                } else {
+                    i++;
+                    orf = orf + " t." + string + " and ";
+                }
+
+            }
+            if (i > 0) {
+                orf = " order by " + (orf.substring(0, orf.lastIndexOf("and")));
+                return pageSql.append(" ").append(orf);
+            }
+
         }
-        return sql;
+        //
+        return pageSql;
+
     }
 
+    /**
+     * 获取总记录数
+     *
+     * @param sql
+     * @param connection
+     * @param mappedStatement
+     * @param boundSql
+     * @param page
+
+     * @date 2016年6月29日
+     */
+    private void setPageParameter(String sql, Connection connection,
+                                  MappedStatement mappedStatement, BoundSql boundSql, Page page) {
+        // 记录总记录数
+        String countSql = "select count(0) from (" + sql + ") t";
+        String ysql = sql.toLowerCase();
+        boolean join = false;
+//        if (ysql.indexOf("left") != -1 && ysql.indexOf("join") != -1 ) {
+//            join = true;
+//            countSql = countSql + " group by t.id ";
+//        }
+        PreparedStatement countStmt = null;
+        ResultSet rs = null;
+        try {
+            countStmt = connection.prepareStatement(countSql);
+            BoundSql countBS = new BoundSql(mappedStatement.getConfiguration(),
+                    countSql, boundSql.getParameterMappings(),
+                    boundSql.getParameterObject());
+            setParameters(countStmt, mappedStatement, boundSql,
+                    boundSql.getParameterObject());
+            rs = countStmt.executeQuery();
+            int totalCount = 0;
+            if (join) {
+                while(rs.next()) {
+                    totalCount++;
+                }
+            } else {
+                if (rs.next()) {
+                    totalCount = rs.getInt(1);
+                }
+            }
+            page.setTotal(totalCount);
+        } catch (SQLException e) {
+            logger.error("Ignore this exception", e);
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                logger.error("Ignore this exception", e);
+            }
+            try {
+                if (countStmt != null) {
+                    countStmt.close();
+                }
+            } catch (SQLException e) {
+                logger.error("Ignore this exception", e);
+            }
+        }
+    }
+
+    /**
+     * 代入参数值
+     *
+     * @param ps
+     * @param mappedStatement
+     * @param boundSql
+     * @param parameterObject
+     * @throws SQLException
+     */
+    private void setParameters(PreparedStatement ps,
+                               MappedStatement mappedStatement, BoundSql boundSql,
+                               Object parameterObject) throws SQLException {
+        ParameterHandler parameterHandler = new DefaultParameterHandler(
+                mappedStatement, parameterObject, boundSql);
+        parameterHandler.setParameters(ps);
+    }
 }

@@ -22,8 +22,8 @@ public class DemoServiceImpl implements IDemoService {
     private DemoMapper demoMapper;
 
     @Override
-    public Page findPage() {
-        demoMapper.selectAll();
+    public Page findPage(String name) {
+        demoMapper.selectBy();
         return PageContext.getPage();
     }
 }

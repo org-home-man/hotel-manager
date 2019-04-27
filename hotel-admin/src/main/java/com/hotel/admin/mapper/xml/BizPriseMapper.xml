@@ -92,7 +92,7 @@
 
   <delete id="delete" parameterType="java.lang.String">
     delete from biz_prise
-    where room_code = #{roomCode,jdbcType=VARCHAR}
+    where room_code = #{roomCode,jdbcType=VARCHAR} AND price_date = #{priceDate,jdbcType=TIMESTAMP}
   </delete>
   
   <update id="update" parameterType="com.hotel.admin.model.BizPrise">
@@ -132,16 +132,28 @@
         last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where room_code = #{roomCode,jdbcType=VARCHAR}
+    where room_code = #{roomCode,jdbcType=VARCHAR} AND price_date = #{priceDate,jdbcType=TIMESTAMP}
   </update>
 
-  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="findById" parameterType="com.hotel.admin.model.BizPrise" resultMap="BaseResultMap">
     select * from biz_prise
-    where room_code = #{roomCode,jdbcType=VARCHAR}
+    where room_code = #{roomCode,jdbcType=VARCHAR} and price_date = #{priceDate,jdbcType=VARCHAR}
   </select>
   
   <select id="findPage" resultMap="BaseResultMap">
     select * from biz_prise
   </select>
+
+  <select id="queryById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select
+  room_code,
+  price_date,
+  s_price,
+  t_price
+  from
+  biz_prise
+  where room_code = #{roomCode,jdbcType=VARCHAR} ORDER  BY price_date
+  </select>
+
   
 </mapper>

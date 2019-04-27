@@ -135,6 +135,27 @@ public class BizRoom {
 	/** 附近有餐厅 */
 	private String isrestau;
 
+	/** 结算价格  */
+	private Double tPrice;
+	/** 销售价格  */
+	private Double sPrice;
+
+	public Double getSPrice() {
+		return sPrice;
+	}
+
+	public void setSPrice(Double sPrice) {
+		this.sPrice = sPrice;
+	}
+
+	public Double getTPrice() {
+		return tPrice;
+	}
+
+	public void setTPrice(Double tPrice) {
+		this.tPrice = tPrice;
+	}
+
 	public String getRoomTypeKey() {
 		return roomTypeKey;
 	}

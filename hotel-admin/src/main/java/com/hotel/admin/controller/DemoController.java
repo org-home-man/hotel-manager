@@ -3,6 +3,7 @@ package com.hotel.admin.controller;
 import com.hotel.admin.service.IDemoService;
 import com.hotel.core.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ public class DemoController {
     private IDemoService demoService;
 
     @RequestMapping("page")
-    public Page findPage(){
-        return demoService.findPage();
+    public Page findPage(@RequestBody String name){
+        return demoService.findPage(name);
     }
 }

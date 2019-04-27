@@ -8,4 +8,10 @@
   <sql id="Base_Column_List" >
     id, name
   </sql>
+    <select id="selectBy" resultType="com.hotel.admin.entity.Demo">
+      SELECT
+      <include refid="Base_Column_List"/>
+      from demo
+
+    </select>
 </mapper>

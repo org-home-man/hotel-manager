@@ -2,6 +2,9 @@ package com.hotel.admin.config;
 
 import javax.sql.DataSource;
 
+import com.github.pagehelper.PageInterceptor;
+import com.hotel.core.page.PaginationInterceptor;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,7 @@ public class MybatisConfig {
     
 	PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 	sessionFactory.setMapperLocations(resolver.getResources("classpath*:**/mapper/xml/*.xml"));	// 扫描映射文件
-	
+    sessionFactory.setPlugins(new Interceptor[]{new PaginationInterceptor()});
     return sessionFactory.getObject();
   }
 }

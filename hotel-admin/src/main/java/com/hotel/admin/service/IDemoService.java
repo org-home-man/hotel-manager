@@ -11,5 +11,5 @@ import com.hotel.core.page.Page;
  * @Version: 1.0
  */
 public interface IDemoService {
-    Page findPage();
+    Page findPage(String name);
 }
