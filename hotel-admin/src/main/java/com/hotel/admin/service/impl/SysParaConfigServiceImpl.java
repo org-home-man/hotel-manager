@@ -140,7 +140,7 @@ public class SysParaConfigServiceImpl implements SysParaConfigService {
 		temp.put("provinceCode",provinceLevelLi);
 		temp.put("cityCode",cityCodeLevelLi);
 
-		List<HotelArea>  listsArea =  hotelAreaMapper.findPage();
+		//List<HotelArea>  listsArea =  hotelAreaMapper.findPage();
 		 //crtIdMapper.findPage();
 
 
@@ -151,5 +151,68 @@ public class SysParaConfigServiceImpl implements SysParaConfigService {
 		return MybatisPageHelper.findPage(pageRequest, sysParaConfigMapper);
 	}
 
+
+	public Map<String,List> findKeyValueHotelRoom(SysParaConfig record) {
+		List<SysParaConfig> lists =  sysParaConfigMapper.findKeyValue(record);
+		List hoteltypeLi = new ArrayList();
+		List hotelLevelLi = new ArrayList();
+		List provinceLevelLi = new ArrayList();
+		List cityCodeLevelLi = new ArrayList();
+		List roomtypeLi = new ArrayList();
+		List roomstyleLi = new ArrayList();
+		List bedtypeLi = new ArrayList();
+		List recommendedLi = new ArrayList();
+		List breaktypeLi = new ArrayList();
+		Map<String,List> temp = new HashMap<String,	List>();
+		for (int i=0;i<lists.size();i++) {
+			SysParaConfig sysPara = lists.get(i);
+			if (sysPara.getParaCode().contains("hotelType")){
+
+				hoteltypeLi.add(sysPara);
+			}
+			if (sysPara.getParaCode().contains("hotelLevel")){
+
+				hotelLevelLi.add(sysPara);
+			}
+			if (sysPara.getParaCode().contains("cityCode")){
+				cityCodeLevelLi.add(sysPara);
+			}
+			if (sysPara.getParaCode().contains("provinceCode")){
+				provinceLevelLi.add(sysPara);
+			}
+
+			if (sysPara.getParaCode().contains("roomtype")) {
+				roomtypeLi.add(sysPara);
+			}
+			if(sysPara.getParaCode().contains("roomstyle")) {
+				roomstyleLi.add(sysPara);
+			}
+			if(sysPara.getParaCode().contains("bedtype")){
+				bedtypeLi.add(sysPara);
+			}
+			if (sysPara.getParaCode().contains("breaktype")){
+				breaktypeLi.add(sysPara);
+			}
+			if(sysPara.getParaCode().contains("recommended")) {
+				recommendedLi.add(sysPara);
+			}
+
+		}
+		temp.put("hotelType",hoteltypeLi);
+		temp.put("hotelLevel",hotelLevelLi);
+		temp.put("provinceCode",provinceLevelLi);
+		temp.put("cityCode",cityCodeLevelLi);
+		temp.put("roomtype",roomtypeLi);
+		temp.put("roomstyle",roomstyleLi);
+		temp.put("bedtype",bedtypeLi);
+		temp.put("breaktype",breaktypeLi);
+		temp.put("recommended",recommendedLi);
+
+		//List<HotelArea>  listsArea =  hotelAreaMapper.findPage();
+		//crtIdMapper.findPage();
+
+
+		return temp;
+	}
 	
 }

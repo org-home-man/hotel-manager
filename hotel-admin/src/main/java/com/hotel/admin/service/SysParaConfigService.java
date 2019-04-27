@@ -21,5 +21,7 @@ public interface SysParaConfigService extends CurdService<SysParaConfig> {
 
     public Map<String,List> findKeyValue(SysParaConfig record);
     public Map<String,List> findKeyValueHotel(SysParaConfig record);
+    public Map<String,List> findKeyValueHotelRoom(SysParaConfig record);
+
 
 }
