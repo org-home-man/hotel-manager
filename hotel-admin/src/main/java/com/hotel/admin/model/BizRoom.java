@@ -70,6 +70,9 @@ public class BizRoom {
 	private String hotelEname;
 	/** 库存数量 */
 	private Integer inventory;
+
+	private String autoClose;
+
 	/** 销售房价 */
 	private Double sRoomPrice;
 
@@ -129,6 +132,14 @@ public class BizRoom {
 	private Double tPrice;
 	/** 销售价格  */
 	private Double sPrice;
+
+	public String getAutoClose() {
+		return autoClose;
+	}
+
+	public void setAutoClose(String autoClose) {
+		this.autoClose = autoClose;
+	}
 
 	public Double getSPrice() {
 		return sPrice;

@@ -1,5 +1,7 @@
 package com.hotel.admin.model;
 
+import java.util.List;
+
 /**
  * ---------------------------
  * 客房库存表 (BizInv)         
@@ -27,6 +29,17 @@ public class BizInv {
 	private String lastUpdateBy;
 	/** 更新时间 */
 	private java.util.Date lastUpdateTime;
+
+	/** 批量插入数据 */
+	private List<BizInv> stockDateData;
+
+	public List<BizInv> getStockDateData() {
+		return stockDateData;
+	}
+
+	public void setStockDateData(List<BizInv> stockDateData) {
+		this.stockDateData = stockDateData;
+	}
 
 	public String getRoomCode() {
 		return roomCode;
@@ -92,4 +105,18 @@ public class BizInv {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 
+	@Override
+	public String toString() {
+		return "BizInv{" +
+				"roomCode='" + roomCode + '\'' +
+				", invDate='" + invDate + '\'' +
+				", inventory=" + inventory +
+				", autoClose='" + autoClose + '\'' +
+				", creatBy='" + creatBy + '\'' +
+				", creatTime=" + creatTime +
+				", lastUpdateBy='" + lastUpdateBy + '\'' +
+				", lastUpdateTime=" + lastUpdateTime +
+				", stockDateData=" + stockDateData +
+				'}';
+	}
 }
