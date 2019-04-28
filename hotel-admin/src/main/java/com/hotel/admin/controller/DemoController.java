@@ -22,7 +22,7 @@ public class DemoController {
     private IDemoService demoService;
 
     @RequestMapping("page")
-    public Page findPage(@RequestBody String name){
+    public Page findPage(String name){
         return demoService.findPage(name);
     }
 }
