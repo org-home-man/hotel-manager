@@ -1,19 +1,29 @@
 package com.hotel.admin.controller;
 
-import com.hotel.admin.dto.BizRoomQuery;
-import com.hotel.admin.model.BizProPrice;
-import com.hotel.admin.model.BizRoom;
-import com.hotel.admin.service.BizRoomService;
-import com.hotel.core.http.HttpResult;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+
+import com.hotel.admin.dto.BizProInv;
+import com.hotel.admin.dto.BizRoomQuery;
+import com.hotel.admin.model.BizProPrice;
+import com.hotel.core.http.HttpResult;
+import com.hotel.core.page.PageRequest;
+import com.hotel.core.page.SimplePageReq;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hotel.admin.model.BizRoom;
+import com.hotel.admin.service.BizRoomService;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * ---------------------------
@@ -53,12 +63,12 @@ public class BizRoomController {
 
     /**
      * 基础分页查询
-     * @param bizRoomQuery 条件查询对象
+     * @param pageRequest
      * @return
      */    
 	@PostMapping(value="/page")
-	public HttpResult findPage(@RequestBody BizRoomQuery bizRoomQuery) {
-		return HttpResult.ok(bizRoomService.findPagePara(bizRoomQuery));
+	public HttpResult findPage(BizRoomQuery simplePageReq) {
+		return HttpResult.ok(bizRoomService.findPagePara(simplePageReq));
 	}
 
 
@@ -105,7 +115,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@PostMapping(value="/producePriceCalendar")
-	public HttpResult producePriceDateData(@RequestBody BizProPrice bizProPrice) {
+	public HttpResult producePriceCalendar(@RequestBody BizProPrice bizProPrice) {
 		return HttpResult.ok(bizRoomService.producePriceCalendar(bizProPrice));
 	}
 
@@ -117,6 +127,26 @@ public class BizRoomController {
 	@PostMapping(value="/priceDatePro")
 	public HttpResult priceDatePro(@RequestBody BizProPrice bizProPrice) {
 		return HttpResult.ok(bizRoomService.productDatePrice(bizProPrice));
+	}
+
+	/**
+	 * 查询出库存信息展示给客户
+	 * @param
+	 * @return
+	 */
+	@PostMapping(value="/produceStockCalendar")
+	public HttpResult produceStockCalendar(@RequestBody BizProInv bizProInv) {
+		return HttpResult.ok(bizRoomService.produceStockCalendar(bizProInv));
+	}
+
+	/**
+	 * 生成用户输入的库存数据，根据输入的和之前的做对比
+	 *
+	 * @return
+	 */
+	@PostMapping(value="/stockDatePro")
+	public HttpResult stockDatePro(@RequestBody BizProInv bizProInv) {
+		return HttpResult.ok(bizRoomService.productDateStock(bizProInv));
 	}
 
 }

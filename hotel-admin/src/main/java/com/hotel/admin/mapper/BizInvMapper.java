@@ -41,7 +41,7 @@ public interface BizInvMapper {
      * @param roomCode
      * @return
      */    
-    BizInv findById(String roomCode);
+    List<BizInv> findById(BizInv roomCode);
 
     /**
      * 基础分页查询
@@ -49,5 +49,13 @@ public interface BizInvMapper {
      * @return
      */    
     List<BizInv> findPage();
+
+    List<BizInv> queryById(String roomCode);
+
+    /*
+   merge 更新插入数据库
+  */
+    int addByUser(BizInv code);
+    int updateByUser(BizInv code);
     
 }

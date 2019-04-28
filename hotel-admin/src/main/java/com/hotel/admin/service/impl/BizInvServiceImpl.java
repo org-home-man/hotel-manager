@@ -1,8 +1,10 @@
 package com.hotel.admin.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.hotel.admin.mapper.BizInvMapper;
+import com.hotel.core.exception.GlobalException;
 import com.hotel.core.page.MybatisPageHelper;
 import com.hotel.core.page.PageRequest;
 import com.hotel.core.page.PageResult;
@@ -32,10 +34,41 @@ public class BizInvServiceImpl implements BizInvService {
 
 	@Override
 	public int save(BizInv record) {
-		if(record.getRoomCode() == null ) {
-			return bizInvMapper.add(record);
+
+		if (record.getStockDateData() ==null) {
+			return 0;
 		}
-		return bizInvMapper.update(record);
+
+		if (record.getStockDateData() !=null && record.getStockDateData().size()==0) {
+			return 0;
+		}
+		List<BizInv> li = record.getStockDateData();
+		System.out.println("传入进来的BizPrise:"+record);
+		for (int i=0 ; i<li.size() ; i++) {
+			BizInv bp = li.get(i);
+			record.setInvDate(bp.getInvDate());
+			record.setCreatBy(record.getLastUpdateBy());
+			record.setCreatTime(new Date());
+			record.setLastUpdateTime(new Date());
+
+			List<BizInv> bpLi = bizInvMapper.findById(record);
+
+			if (bpLi.size() >0) {
+				int j = bizInvMapper.updateByUser(record);
+				if (j != 1) {
+					throw  new GlobalException("submitException",10001);
+				}
+			} else {
+				int j = bizInvMapper.addByUser(record);
+				if (j != 1) {
+					throw  new GlobalException("submitException",10001);
+				}
+			}
+
+		}
+
+		return 1;
+
 	}
 
 	@Override
@@ -57,7 +90,7 @@ public class BizInvServiceImpl implements BizInvService {
 	}
 
 	public BizInv findById(String id) {
-		return bizInvMapper.findById(id);
+		return null;
 	}
 
 	@Override

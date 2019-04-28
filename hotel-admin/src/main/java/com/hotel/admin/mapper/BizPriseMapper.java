@@ -59,6 +59,7 @@ public interface BizPriseMapper {
     /*
      merge 更新插入数据库
     */
-    int mergeByKey(BizPrise code);
+    int addByUser(BizPrise code);
+    int updateByUser(BizPrise code);
     
 }
