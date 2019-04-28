@@ -24,7 +24,7 @@ public class BizRoomQuery {
 	/** 餐食条件 */
 	private String breakType;
 	/** 默认库存数 */
-	private Integer roomStock;
+	private Integer inventory;
 
 
 	public String getRoomCode() {
@@ -75,11 +75,24 @@ public class BizRoomQuery {
 		this.breakType = breakType;
 	}
 
-	public Integer getRoomStock() {
-		return roomStock;
+	public Integer getInventory() {
+		return inventory;
 	}
 
-	public void setRoomStock(Integer roomStock) {
-		this.roomStock = roomStock;
+	public void setInventory(Integer inventory) {
+		this.inventory = inventory;
+	}
+
+	@Override
+	public String toString() {
+		return "BizRoomQuery{" +
+				"roomCode='" + roomCode + '\'' +
+				", hotelCode='" + hotelCode + '\'' +
+				", hotelName='" + hotelName + '\'' +
+				", roomType='" + roomType + '\'' +
+				", bedType='" + bedType + '\'' +
+				", breakType='" + breakType + '\'' +
+				", inventory=" + inventory +
+				'}';
 	}
 }
