@@ -86,4 +86,9 @@ public class SysParaConfigController {
 
 		return HttpResult.ok(sysParaConfigService.findKeyValueHotel(record));
 	}
+	@PostMapping(value="/findListDataHotelRoom")
+	public HttpResult findKeyValueHotelRoom(@RequestBody SysParaConfig record) {
+
+		return HttpResult.ok(sysParaConfigService.findKeyValueHotelRoom(record));
+	}
 }

@@ -131,7 +131,6 @@ public class JwtTokenUtils implements Serializable {
 		}
 		if(null!=authentication){
 			PageContext.init(request);
-			System.out.println("初始化分页信息!!");
 		}
 		return authentication;
 	}

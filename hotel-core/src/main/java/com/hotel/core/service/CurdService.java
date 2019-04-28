@@ -1,5 +1,6 @@
 package com.hotel.core.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.hotel.core.page.PageRequest;
@@ -45,6 +46,6 @@ public interface CurdService<T> {
 	 * @param pageRequest 自定义，统一分页查询请求
 	 * @return PageResult 自定义，统一分页查询结果
      */
-	PageResult findPage(PageRequest pageRequest);
+	PageResult findPage(PageRequest pageRequest) ;
 	
 }
