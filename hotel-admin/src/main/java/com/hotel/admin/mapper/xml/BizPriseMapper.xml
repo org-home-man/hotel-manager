@@ -155,5 +155,101 @@
   where room_code = #{roomCode,jdbcType=VARCHAR} ORDER  BY price_date
   </select>
 
+  <insert id="addByUser" parameterType="com.hotel.admin.model.BizPrise">
+    insert into biz_prise
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roomCode != null">
+        room_code,
+      </if>
+      <if test="roomType != null">
+        room_type,
+      </if>
+      <if test="priceDate != null">
+        price_date,
+      </if>
+      <if test="sPrice != null">
+        s_price,
+      </if>
+      <if test="tPrice != null">
+        t_price,
+      </if>
+      <if test="sRoomPrice != null">
+        s_room_price,
+      </if>
+      <if test="tRoomPrice != null">
+        t_room_price,
+      </if>
+      <if test="creatBy != null">
+        creat_by,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roomCode != null">
+        #{roomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roomType != null">
+        #{roomType,jdbcType=VARCHAR},
+      </if>
+      <if test="priceDate != null">
+        #{priceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sPrice != null">
+        #{sPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="tPrice != null">
+        #{tPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="sRoomPrice != null">
+        #{sRoomPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="tRoomPrice != null">
+        #{tRoomPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="creatBy != null">
+        #{creatBy,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByUser" parameterType="com.hotel.admin.model.BizPrise">
+    update biz_prise
+    <set>
+      <if test="roomCode != null">
+        room_code = #{roomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roomType != null">
+        room_type = #{roomType,jdbcType=VARCHAR},
+      </if>
+      <if test="priceDate != null">
+        price_date = #{priceDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sPrice != null">
+        s_price = #{sPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="tPrice != null">
+        t_price = #{tPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="sRoomPrice != null">
+        s_room_price = #{sRoomPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="tRoomPrice != null">
+        t_room_price = #{tRoomPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="lastUpdateBy != null">
+        last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where room_code = #{roomCode,jdbcType=VARCHAR} AND price_date = #{priceDate,jdbcType=TIMESTAMP}
+  </update>
+
   
 </mapper>

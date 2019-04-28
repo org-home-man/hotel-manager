@@ -1,12 +1,13 @@
 package com.hotel.admin.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import com.hotel.admin.dto.BizProInv;
 import com.hotel.admin.dto.BizRoomQuery;
-import com.hotel.admin.mapper.BizPriseMapper;
-import com.hotel.admin.mapper.BizRoomExtMapper;
-import com.hotel.admin.mapper.BizRoomMapper;
-import com.hotel.admin.mapper.CrtIdMapper;
+import com.hotel.admin.mapper.*;
 import com.hotel.admin.model.*;
-import com.hotel.admin.service.BizRoomService;
 import com.hotel.common.utils.StringUtils;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.page.*;
@@ -14,11 +15,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import com.hotel.admin.service.BizRoomService;
+import org.springframework.transaction.annotation.Transactional;
+import sun.nio.cs.ext.MacArabic;
 
 /**
  * ---------------------------
@@ -46,10 +46,12 @@ public class BizRoomServiceImpl implements BizRoomService {
 	@Autowired
 	private BizPriseMapper bizPriseMapper;
 
+	@Autowired
+	private BizInvMapper bizInvMapper;
+
 	@Override
 	@Transactional
 	public int save(BizRoom record) {
-
 		if(StringUtils.isBlank( record.getRoomCode() )  ) {
 			System.out.println("进入了新增");
 			//新增客房信息，
@@ -227,24 +229,115 @@ public class BizRoomServiceImpl implements BizRoomService {
 		return null;
 	}
 
+	/*   库存信息维护   */
+	/**
+	 * 生成用户输入的库存信息
+	 * @param bizProInv
+	 * @return
+	 */
+	@Override
+	public Map productDateStock(BizProInv bizProInv) {
+		Map bkMap = new HashMap();
+		/*
+		先查询是否已经有提交牌价信息（根据客房id查询）
+		 */
+		List<BizInv> pli = bizInvMapper.queryById(bizProInv.getRoomCode());
+		Date  priceYear = bizProInv.getStockYear();
+		Date[] priceDateInterval = bizProInv.getStockDateInterval();
+		if (StringUtils.isBlank(bizProInv.getInventory())) {
+			bkMap.put("code" ,"");
+			return bkMap;
+		}
+		List<Map> list = new ArrayList<>();
+		if (priceYear != null) {
+			System.out.println(bizProInv);
+			//直接生成一年的数据
+			list = onceYearDataStock(bizProInv);
+		} else {
+			if (priceDateInterval==null) {
+				bkMap.put("code","");
+				return bkMap;
+			}
+			//根据用户输入的范围生成数据
+			list = dateIntervalDataStock(bizProInv);
+			System.out.println("范围生成数据："+list.toString());
+		}
+		if ( pli.size() > 0 ) {
+			System.out.println("pli大于0");
+			System.out.println("pli数据库的数据为："+pli.toString());
+			list = mergeStockList(list,pli);
+			System.out.println("合并数据库中的数据："+list.toString());
+		}
+		if (bizProInv.getStockDateData() != null) {
+			if (bizProInv.getStockDateData().size() > 0) {
+				System.out.println("priceDateData大于0");
+				for (int i = 0;i<bizProInv.getStockDateData().size();i++) {
+					System.out.println("前台缓存的数据:"+i+",,"+bizProInv.getStockDateData().get(i).toString());
+				}
+				list = mergeStockList(list,bizProInv.getStockDateData());
+				System.out.println("合并前台缓存数据组："+list.toString());
+			}
+		}
+		bkMap.put("list",list);
+		bkMap.put("code" ,"0000");
+
+		return bkMap;
+	}
+
+	/*
+	展示库存信息，合并客户生成的库存信息
+	 */
+	@Override
+	public Map produceStockCalendar(BizProInv bizProInv) {
+		Map bkMap = new HashMap();
+		if (StringUtils.isBlank(bizProInv.getDate())) {
+			bkMap.put("code","0001");
+			return bkMap;
+		}
+		System.out.println(bizProInv);
+		List<BizInv> bpLi =  bizInvMapper.queryById(bizProInv.getRoomCode());
+		if (bpLi.size() > 0) {
+			System.out.println("组库存信息查询到数据");
+			if(bizProInv.getDateArray() != null && bizProInv.getDateArray().size()>0) {
+				bizProInv.setDateArray(mergeStockList(bizProInv.getDateArray(),bpLi));
+			} else {
+				List<Map> tmLi = new ArrayList<Map>();
+
+				for (int i = 0;i<bpLi.size();i++) {
+					Map tmp = new HashMap();
+					tmp.put("invDate",bpLi.get(i).getInvDate());
+					tmp.put("inventory",bpLi.get(i).getInventory());
+					tmLi.add(tmp);
+				}
+				bizProInv.setDateArray(tmLi);
+			}
+		}
+		/*
+		根据前端传入的日期生成日历这一月的数据
+		 */
+		try {
+			List<Map> list =  productStockThisWeekDate(bizProInv);
+			bkMap.put("code","0000");
+			bkMap.put("list",list);
+			return bkMap;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 
 	@Override
 	public PageResult findPage(PageRequest pageRequest) {
-		Map<String,Object> map = new HashMap<String ,Object>();
-		Map<String,ColumnFilter> temp = pageRequest.getColumnFilters();
-		for (Map.Entry<String,ColumnFilter> entry : temp.entrySet() ) {
-			ColumnFilter columnFilter = entry.getValue();
-			if (!StringUtils.isBlank(columnFilter.getValue())) {
-				map.put(columnFilter.getName(),columnFilter.getValue());
-			}
-		}
-		PageResult pr =  MybatisPageHelper.findPage(pageRequest, bizRoomMapper,"findPageByPara",map);
-//		List<Map> bizList = bizRoomMapper.findPageByPara(map);
-		return pr;
+		return null;
 	}
+
 
 	@Override
 	public Page findPagePara(BizRoomQuery bizRoomQuery) {
+
+		System.out.println(bizRoomQuery);
 //		Map<String,ColumnFilter> temp = pageRequest.getColumnFilters();
 //		for (Map.Entry<String,ColumnFilter> entry : temp.entrySet() ) {
 //			ColumnFilter columnFilter = entry.getValue();
@@ -321,6 +414,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 		}
 		return li;
 	}
+
 	/*
 	生成牌价范围数据，需要根据范围数据做筛选，选择出客户选择的周几，再插入到集合里面
 	 */
@@ -537,14 +631,239 @@ public class BizRoomServiceImpl implements BizRoomService {
 					return map;
 				}
 			}
-
-
 		}
 		map.put("sprice","");
 		map.put("tprice","");
 		return map;
 
+	}
 
+
+
+	/* 库存私有方法以下*/
+	/*
+	生成一年的数据(库存)
+	 */
+	private List<Map> onceYearDataStock(BizProInv bizProInv) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		List<Map> li = new ArrayList<Map>() ;
+		Date priceYear = bizProInv.getStockYear();
+		System.out.println(sdf.format(priceYear));
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(priceYear);
+		//获取年
+		int days = calendar.getActualMaximum(Calendar.DAY_OF_YEAR);
+		System.out.println("days:"+days);
+		for (int i = 0 ; i<days ; i++) {
+			Map tmp = new HashMap();
+			tmp.put("invDate",sdf.format( calendar.getTime() ));
+			tmp.put("inventory",bizProInv.getInventory());
+			li.add(tmp);
+
+			calendar.add(calendar.DATE,1); //日期加1
+		}
+		return li;
+	}
+	/*
+	生成库存范围数据，需要根据范围数据做筛选，选择出客户选择的周几，再插入到集合里面（库存）
+	 */
+	private List<Map> dateIntervalDataStock(BizProInv bizProInv) {
+		System.out.println("传入到日期范围的数据为："+bizProInv);
+		List<Map> list = new ArrayList<Map>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Date[] dates = bizProInv.getStockDateInterval();
+		Calendar calendar = Calendar.getInstance();
+		long days ;
+		if (dates[1].getTime()>=dates[0].getTime()) {
+			days = (Long)(dates[1].getTime()-dates[0].getTime())/(1000*3600*24);
+			calendar.setTime(dates[0]);
+		} else {
+			days = (Long)(dates[0].getTime()-dates[1].getTime())/(1000*3600*24);
+			calendar.setTime(dates[1]);
+		}
+
+		System.out.println("库存日期范围数据为："+days);
+		for (int i=0;i<=days;i++) {
+			System.out.println("当前是星期几："+calendar.get(Calendar.DAY_OF_WEEK));
+			Map tmp = new HashMap();
+			if ("1".equals(bizProInv.getIsMonday()) && 2 == calendar.get(Calendar.DAY_OF_WEEK) ) {
+				tmp.put("invDate",sdf.format(calendar.getTime()));
+				tmp.put("inventory",bizProInv.getInventory());
+				list.add(tmp);
+			}
+			if ("1".equals(bizProInv.getIsTuesday()) && 3 == calendar.get(Calendar.DAY_OF_WEEK) ) {
+				tmp.put("invDate",sdf.format(calendar.getTime()));
+				tmp.put("inventory",bizProInv.getInventory());
+				list.add(tmp);
+
+			}
+			if ("1".equals(bizProInv.getIsThursday()) && 4 == calendar.get(Calendar.DAY_OF_WEEK) ) {
+				tmp.put("invDate",sdf.format(calendar.getTime()));
+				tmp.put("inventory",bizProInv.getInventory());
+				list.add(tmp);
+			}
+			if ("1".equals(bizProInv.getIsFourday()) && 5 == calendar.get(Calendar.DAY_OF_WEEK) ) {
+				tmp.put("invDate",sdf.format(calendar.getTime()));
+				tmp.put("inventory",bizProInv.getInventory());
+				list.add(tmp);
+			}
+			if ("1".equals(bizProInv.getIsFriday()) && 6 == calendar.get(Calendar.DAY_OF_WEEK) ) {
+				tmp.put("invDate",sdf.format(calendar.getTime()));
+				tmp.put("inventory",bizProInv.getInventory());
+				list.add(tmp);
+			}
+			if ("1".equals(bizProInv.getIsSaterday()) && 7 == calendar.get(Calendar.DAY_OF_WEEK) ) {
+				tmp.put("invDate",sdf.format(calendar.getTime()));
+				tmp.put("inventory",bizProInv.getInventory());
+				list.add(tmp);
+			}
+			if ("1".equals(bizProInv.getIsSunday()) && 1 == calendar.get(Calendar.DAY_OF_WEEK) ) {
+				tmp.put("invDate",sdf.format(calendar.getTime()));
+				tmp.put("inventory",bizProInv.getInventory());
+				list.add(tmp);
+			}
+			if (!"1".equals(bizProInv.getIsSunday()) && !"1".equals(bizProInv.getIsSaterday()) && !"1".equals(bizProInv.getIsFriday()) &&
+					!"1".equals(bizProInv.getIsFourday())	&& !"1".equals(bizProInv.getIsThursday()) && !"1".equals(bizProInv.getIsTuesday())&&
+					!"1".equals(bizProInv.getIsMonday())) {
+				tmp.put("invDate",sdf.format(calendar.getTime()));
+				tmp.put("inventory",bizProInv.getInventory());
+				list.add(tmp);
+			}
+			calendar.add(Calendar.DATE,1);
+		}
+		return list;
+	}
+	/*
+	根据两个list查找两个日期相同的，根据用第一个list的sprice和tprice，替换第二个list的值合成一个list（库存）
+	 */
+	private List<Map> mergeStockList(List<Map> li,List<BizInv> lv) {
+		List<Map> result = new ArrayList<Map>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
+		result.addAll(li);
+		System.out.println("result前:"+result);
+		System.out.println("lv:"+lv);
+		int min = 0;
+		int mark = 0;
+		int mark2 = 0;
+		int num = 0;
+		for (int i = 0; i<lv.size() ; i++) {
+			for (int j = 0;j<li.size();j++) {
+				if ( Integer.parseInt( lv.get(i).getInvDate()) < Integer.parseInt(  String.valueOf( li.get(0).get("invDate"))) ) {
+
+					Map map = new HashMap();
+					map.put("invDate",lv.get(i).getInvDate());
+					map.put("inventory",lv.get(i).getInventory());
+					result.add(min,map);
+					min++;
+					break;
+
+				}
+				if (Integer.parseInt( lv.get(i).getInvDate()) > Integer.parseInt( String.valueOf(li.get(j).get("invDate"))) && j+1<li.size() &&
+						Integer.parseInt( lv.get(i).getInvDate() ) < Integer.parseInt( String.valueOf(li.get(j+1).get("invDate")))) {
+
+					Map map = new HashMap();
+					map.put("invDate",lv.get(i).getInvDate());
+					map.put("inventory",lv.get(i).getInventory());
+					result.add(j+1+min+num ,map);
+
+					num ++;
+					break;
+				}
+				if ( Integer.parseInt( lv.get(i).getInvDate()) > Integer.parseInt( String.valueOf(li.get(li.size()-1 ).get("invDate"))) ) {
+
+					Map map = new HashMap();
+					map.put("invDate",lv.get(i).getInvDate());
+					map.put("inventory",lv.get(i).getInventory());
+					result.add(result.size(),map);
+					break;
+				}
+
+			}
+		}
+		System.out.println("result:"+result);
+		return result;
 
 	}
+	/*
+	前端传入的日期是每月的1号，定位该日期是周几，java获取一周的第几天是0-6，	根据java的定位生成1号这周的数据(库存)
+	 */
+	private List<Map> productStockThisWeekDate(BizProInv bizProInv) throws ParseException {
+		List<Map> list = new ArrayList<Map>();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = sdf.parse(bizProInv.getDate());
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+
+		int week = calendar.get(Calendar.DAY_OF_WEEK) -1;
+		System.out.println(week);
+		//获取本周的数据
+		for (int i = week -1;i>=0 ; i--) {
+			calendar.setTime(date);
+			Map map = new HashMap();
+			calendar.add(calendar.DATE , -i);
+			if (bizProInv.getDateArray() != null ) {
+				if (bizProInv.getDateArray().size() > 0) {
+					getMatchingStockValue(map,calendar,bizProInv.getDateArray());
+				} else {
+					map.put("inventory","");
+				}
+			} else {
+				map.put("inventory","");
+			}
+			map.put("invDate",calendar.getTime());
+			list.add(map);
+		}
+
+		//获取其他周的数据
+		for (int i = 1;i<= 35 - week;i++) {
+			calendar.setTime(date);
+			Map map = new HashMap();
+			calendar.add(calendar.DATE, i);
+			if (bizProInv.getDateArray() != null ) {
+				if (bizProInv.getDateArray().size() > 0) {
+					getMatchingStockValue(map,calendar,bizProInv.getDateArray());
+
+				} else {
+					map.put("inventory","");
+				}
+			} else {
+				map.put("inventory","");
+			}
+			map.put("invDate",calendar.getTime());
+			list.add(map);
+		}
+		return list;
+
+	}
+
+    /*
+    二分法查找是否有相同日期的一个为日期字段，另一个为list集合查询是否有相同的值， 如果有就将list中的牌价信息赋值给map (库存)
+     */
+    private Map getMatchingStockValue(Map map,Calendar calendar,List<Map> list) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String str = sdf.format(calendar.getTime());
+        int date = Integer.parseInt(str);
+        int start = 0;
+        int end = list.size() -1;
+        while (start <= end) {
+            int middle = (start+end)/2;
+            if(list.get(middle).get("invDate") instanceof  String) {
+                if (date <  Integer.parseInt( String.valueOf( list.get(middle).get("invDate")) ) ) {
+                    end = middle - 1;
+                } else if (date >  Integer.parseInt(String.valueOf(list.get(middle).get("invDate")))) {
+                    start = middle + 1;
+                } else {
+                    map.put("inventory",list.get(middle).get("inventory"));
+                    return map;
+                }
+            }
+        }
+        map.put("inventory","");
+
+        return map;
+    }
+
+
 }

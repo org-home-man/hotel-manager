@@ -77,12 +77,12 @@ public class BizPriseServiceImpl implements BizPriseService {
 			List<BizPrise> bpLi = bizPriseMapper.findById(record);
 
 			if (bpLi.size() >0) {
-				int j = bizPriseMapper.update(record);
+				int j = bizPriseMapper.updateByUser(record);
 				if (j != 1) {
 					throw  new GlobalException("submitException",10001);
 				}
 			} else {
-				int j = bizPriseMapper.add(record);
+				int j = bizPriseMapper.addByUser(record);
 				if (j != 1) {
 					throw  new GlobalException("submitException",10001);
 				}

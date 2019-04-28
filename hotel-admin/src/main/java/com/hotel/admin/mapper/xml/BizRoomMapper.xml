@@ -30,6 +30,8 @@
     <result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
 
     <result column="inventory" jdbcType="INTEGER" property="inventory" />
+    <result column="auto_close" jdbcType="INTEGER" property="autoClose" />
+
 
     <result column="s_price" jdbcType="DOUBLE" property="sPrice" />
     <result column="t_price" jdbcType="DOUBLE" property="tPrice" />
@@ -245,40 +247,40 @@
     where room_code = #{roomCode,jdbcType=VARCHAR}
   </select>
   
-  <select id="findPage" parameterType="java.util.Map" resultMap="BaseResultMap">
-    select
-    a.hotel_code hotel_code,
-    d.hotel_cname hotel_cname,
-    d.hotel_ename hotel_ename,
-    d.province_code province_code,
-    d.city_code city_code,
-    (select para_code from sys_para_config where para_code LIKE 'roomtype%' and para_sub_code1='bizroom' AND para_value1=a.room_type) room_type,
-    (select para_code from sys_para_config where para_code LIKE 'bedtype%' and para_sub_code1='bizroom' AND para_value1=a.bed_type)  bed_type,
-    b.inventory inventory,
-    c.s_room_price s_room_price
-    from biz_room a LEFT JOIN biz_inv b ON a.room_code=b.room_code LEFT JOIN biz_prise c ON  a.room_code=c.room_code and b.inv_date=c.price_date LEFT JOIN
-    biz_hotl d ON a.hotel_code = d.hotel_code
-    WHERE 1=1
-    <if test="hotelCode != null">
-     AND d.hotel_code = #{hotelCode,jdbcType=VARCHAR}
-    </if>
-    <if test="hotelName != null">
-     AND d.hotel_cname LIKE '%'#{hotelName,jdbcType=VARCHAR}'%' OR d.hotel_ename LIKE '%'#{hotelName,jdbcType=VARCHAR}'%'
-    </if>
-    <if test="roomType != null">
-     AND a.room_type = #{roomType,jdbcType=VARCHAR}
-    </if>
-    <if test="bedType != null">
-     AND a.bed_type = #{bedType,jdbcType=VARCHAR}
-    </if>
-    <if test="breakType != null">
-     AND a.break_type = #{breakType,jdbcType=VARCHAR}
-    </if>
-    <if test="inventory != null">
-      AND b.inventory = #{inventory,jdbcType=VARCHAR} AND c.inv_date = to_char(sysdate,'yyyyMMdd')
-    </if>
+  <!--<select id="findPage" parameterType="java.util.Map" resultMap="BaseResultMap">-->
+    <!--select-->
+    <!--a.hotel_code hotel_code,-->
+    <!--d.hotel_cname hotel_cname,-->
+    <!--d.hotel_ename hotel_ename,-->
+    <!--d.province_code province_code,-->
+    <!--d.city_code city_code,-->
+    <!--(select para_code from sys_para_config where para_code LIKE 'roomtype%' and para_sub_code1='bizroom' AND para_value1=a.room_type) room_type,-->
+    <!--(select para_code from sys_para_config where para_code LIKE 'bedtype%' and para_sub_code1='bizroom' AND para_value1=a.bed_type)  bed_type,-->
+    <!--b.inventory inventory,-->
+    <!--c.s_room_price s_room_price-->
+    <!--from biz_room a LEFT JOIN biz_inv b ON a.room_code=b.room_code LEFT JOIN biz_prise c ON  a.room_code=c.room_code and b.inv_date=c.price_date LEFT JOIN-->
+    <!--biz_hotl d ON a.hotel_code = d.hotel_code-->
+    <!--WHERE 1=1-->
+    <!--<if test="hotelCode != null">-->
+     <!--AND d.hotel_code = #{hotelCode,jdbcType=VARCHAR}-->
+    <!--</if>-->
+    <!--<if test="hotelName != null">-->
+     <!--AND d.hotel_cname LIKE '%'#{hotelName,jdbcType=VARCHAR}'%' OR d.hotel_ename LIKE '%'#{hotelName,jdbcType=VARCHAR}'%'-->
+    <!--</if>-->
+    <!--<if test="roomType != null">-->
+     <!--AND a.room_type = #{roomType,jdbcType=VARCHAR}-->
+    <!--</if>-->
+    <!--<if test="bedType != null">-->
+     <!--AND a.bed_type = #{bedType,jdbcType=VARCHAR}-->
+    <!--</if>-->
+    <!--<if test="breakType != null">-->
+     <!--AND a.break_type = #{breakType,jdbcType=VARCHAR}-->
+    <!--</if>-->
+    <!--<if test="inventory != null">-->
+      <!--AND b.inventory = #{inventory,jdbcType=VARCHAR} AND c.inv_date = to_char(sysdate,'yyyyMMdd')-->
+    <!--</if>-->
 
-  </select>
+  <!--</select>-->
 
   <select id="findPageByPara" parameterType="com.hotel.admin.dto.BizRoomQuery" resultMap="BaseResultMap">
 
@@ -294,6 +296,7 @@
     (select para_code from sys_para_config where para_code LIKE 'roomtype%' and para_sub_code1='bizroom' AND para_value1=a.room_type) room_type_key,
     (select para_code from sys_para_config where para_code LIKE 'bedtype%' and para_sub_code1='bizroom' AND para_value1=a.bed_type)  bed_type_key,
     ifnull(b.inventory,a.room_stock)    inventory,
+    b.auto_close   auto_close,
     c.s_room_price s_room_price,
     c.s_price      s_price,
     c.t_price      t_price,
@@ -329,25 +332,26 @@
     e.isbus        isbus      ,
     e.istrafic     istrafic   ,
     e.isrestau     isrestau
-    from biz_room a LEFT JOIN biz_inv b ON a.room_code=b.room_code  LEFT JOIN biz_prise c ON  a.room_code=c.room_code and c.price_date=date_format(SYSDATE(),'%Y%m%d') LEFT JOIN
+    from biz_room a LEFT JOIN biz_inv b ON a.room_code=b.room_code AND ifnull(b.inv_date,date_format(SYSDATE(),'%Y%m%d')) = date_format(SYSDATE(),'%Y%m%d')
+    LEFT JOIN biz_prise c ON  a.room_code=c.room_code and c.price_date=date_format(SYSDATE(),'%Y%m%d') LEFT JOIN
     biz_hotl d ON a.hotel_code = d.hotel_code LEFT JOIN biz_room_ext e on a.room_code = e.room_code
     WHERE 1=1
-    <if test="hotelCode != null">
+    <if test="hotelCode != null and hotelCode != ''">
       AND d.hotel_code = #{hotelCode,jdbcType=VARCHAR}
     </if>
-    <if test="hotelName != null">
+    <if test="hotelName != null and hotelName !=''">
       AND d.hotel_cname LIKE concat('%',#{hotelName,jdbcType=VARCHAR},'%') OR d.hotel_ename LIKE concat('%',#{hotelName,jdbcType=VARCHAR},'%')
     </if>
-    <if test="roomType != null">
+    <if test="roomType != null and roomType !=''">
       AND a.room_type = #{roomType,jdbcType=VARCHAR}
     </if>
-    <if test="bedType != null">
+    <if test="bedType != null and bedType !=''">
       AND a.bed_type = #{bedType,jdbcType=VARCHAR}
     </if>
-    <if test="breakType != null">
+    <if test="breakType != null and breakType !=''">
       AND a.break_type = #{breakType,jdbcType=VARCHAR}
     </if>
-    <if test="inventory != null">
+    <if test="inventory != null and inventory !=''"  >
       AND ifnull(b.inventory,a.room_stock) = #{inventory,jdbcType=VARCHAR}  AND ifnull(b.inv_date,date_format(SYSDATE(),'%Y%m%d')) = date_format(SYSDATE(),'%Y%m%d')
     </if>
 
