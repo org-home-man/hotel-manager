@@ -140,8 +140,6 @@ public class BizRoom {
 
 	/** 结算价格  */
 	private Double tPrice;
-	/** 销售价格  */
-	private Double sPrice;
 
 	public String getAutoClose() {
 		return autoClose;
@@ -151,13 +149,7 @@ public class BizRoom {
 		this.autoClose = autoClose;
 	}
 
-	public Double getSPrice() {
-		return sPrice;
-	}
 
-	public void setSPrice(Double sPrice) {
-		this.sPrice = sPrice;
-	}
 
 	public Double getTPrice() {
 		return tPrice;
