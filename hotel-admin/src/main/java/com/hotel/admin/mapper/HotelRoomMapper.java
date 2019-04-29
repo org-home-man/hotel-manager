@@ -1,5 +1,6 @@
 package com.hotel.admin.mapper;
 
+import com.hotel.admin.dto.HotelRoomQry;
 import com.hotel.admin.model.BizRoom;
 
 import java.util.HashMap;
@@ -50,7 +51,7 @@ public interface HotelRoomMapper {
      * @param record
      * @return
      */    
-    List<Map> findPageByPara(HashMap<String, Object> record);
+    List<Map> findPageByPara(HotelRoomQry HotelRoomQry);
 
     /**
      * 基础分页查询
