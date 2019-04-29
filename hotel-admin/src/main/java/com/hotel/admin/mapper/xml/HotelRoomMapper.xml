@@ -272,8 +272,7 @@
 
   </select>
 
-  <select id="findPageByPara" parameterType="java.util.Map" resultMap="BaseResultMap">
-
+  <select id="findPageByPara" parameterType="com.hotel.admin.dto.HotelRoomQry" resultMap="BaseResultMap">
     select
     a.room_code     room_code,
     a.hotel_code    hotel_code,
@@ -286,7 +285,6 @@
     a.bed_type     bed_type,
     (select para_code from sys_para_config where para_code LIKE 'roomtype%' and para_sub_code1='bizroom' AND para_value1=a.room_type) room_type_key,
     (select para_code from sys_para_config where para_code LIKE 'bedtype%' and para_sub_code1='bizroom' AND para_value1=a.bed_type)  bed_type_key,
-    b.inventory    inventory,
     c.s_price s_price,
     a.room_style   room_style,
     (select para_code from sys_para_config where para_code LIKE 'breaktype%' and para_sub_code1='bizroom' AND para_value1=a.break_type)  break_type_key,
@@ -320,7 +318,7 @@
     e.isbus        isbus      ,
     e.istrafic     istrafic   ,
     e.isrestau     isrestau
-    from biz_room a , biz_inv b,biz_prise c,biz_hotl d ,biz_room_ext e   where 1=1 and a.room_code=b.room_code and   a.room_code=c.room_code  and
+    from biz_room a , biz_prise c,biz_hotl d ,biz_room_ext e   where 1=1  and   a.room_code=c.room_code  and
     a.hotel_code = d.hotel_code and  a.room_code = e.room_code
     <if test="provinceCode != null">
       AND d.province_code = #{provinceCode,jdbcType=VARCHAR}
@@ -334,9 +332,9 @@
     <if test="cityCode != null">
       AND d.city_code = #{cityCode,jdbcType=VARCHAR}
     </if>
-    <if test="hotelName != null">
-      AND d.hotel_cname LIKE concat('%',#{hotelName,jdbcType=VARCHAR},'%') OR d.hotel_ename LIKE concat('%',#{hotelName,jdbcType=VARCHAR},'%')
-    </if>
+    <!--<if test="hotelName != null">-->
+      <!--AND d.hotel_cname LIKE concat('%',#{hotelName,jdbcType=VARCHAR},'%') OR d.hotel_ename LIKE concat('%',#{hotelName,jdbcType=VARCHAR},'%')-->
+    <!--</if>-->
     <if test="roomType != null">
       AND a.room_type = #{roomType,jdbcType=VARCHAR}
     </if>
