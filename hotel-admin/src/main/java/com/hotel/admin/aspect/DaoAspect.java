@@ -69,19 +69,19 @@ public class DaoAspect {
 			return pjp.proceed();
 		}
 		Object[] objects = pjp.getArgs();
-		if (objects != null && objects.length > 0) {
-			for (Object arg : objects) {
-				String username = getUserName();
-				if (username != null) {
-					if (StringUtils.isBlank(BeanUtils.getProperty(arg, createBy))) {
-						BeanUtils.setProperty(arg, createBy, username);
-					}
-					if (StringUtils.isBlank(BeanUtils.getProperty(arg, createTime))) {
-						BeanUtils.setProperty(arg, createTime, new Date());
-					}
-				}
-			}
-		}
+//		if (objects != null && objects.length > 0) {
+//			for (Object arg : objects) {
+//				String username = getUserName();
+//				if (username != null) {
+//					if (StringUtils.isBlank(BeanUtils.getProperty(arg, createBy))) {
+//						BeanUtils.setProperty(arg, createBy, username);
+//					}
+//					if (StringUtils.isBlank(BeanUtils.getProperty(arg, createTime))) {
+//						BeanUtils.setProperty(arg, createTime, new Date());
+//					}
+//				}
+//			}
+//		}
 		Object object = pjp.proceed();
 		return object;
 	}

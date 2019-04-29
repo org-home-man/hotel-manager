@@ -2,6 +2,9 @@ package com.hotel.admin.model;
 
 import com.hotel.common.entity.Entity;
 
+import javax.persistence.Table;
+
+@Table(name = "so_document")
 public class Document extends Entity{
 
     private Long releationId;
