@@ -1,14 +1,17 @@
 package com.hotel.admin.controller;
 
+import com.hotel.admin.dto.HotelRoomQry;
 import com.hotel.admin.model.BizRoom;
 import com.hotel.admin.service.BizRoomService;
 import com.hotel.admin.service.HotelRoomService;
+import com.hotel.core.context.PageContext;
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.hotel.core.page.Page;
+import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -36,13 +39,24 @@ public class HotelRoomController {
      * 基础分页查询
      * @param pageRequest
      * @return
-     */    
-	@PostMapping(value="/findPage")
-	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
-		return HttpResult.ok(hotelRoomService.findPage(pageRequest));
+     */
+//	@PostMapping(value="/findPage")
+//	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
+////		@RequestMapping("page")
+//
+//		return HttpResult.ok(hotelRoomService.findPage(pageRequest));
+////		hotelRoomService.findPage(pageRequest);
+////		return PageContext.getPage();
+//	}
+
+	@PostMapping(value="/page")
+	public HttpResult findPage(HotelRoomQry HotelRoomQry) {
+		System.out.println("进入controller");
+		return HttpResult.ok(hotelRoomService.findPagePara(HotelRoomQry));
 	}
-	
-    /**
+
+
+	/**
      * 根据主键查询
      * @param roomCode
      * @return
