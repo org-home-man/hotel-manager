@@ -1,6 +1,9 @@
 package com.hotel.admin.service;
 
+import com.hotel.admin.dto.HotelRoomQry;
 import com.hotel.admin.model.BizRoom;
+import com.hotel.core.page.Page;
+import com.hotel.core.page.PageRequest;
 import com.hotel.core.service.CurdService;
 
 /**
@@ -20,5 +23,7 @@ public interface HotelRoomService extends CurdService<BizRoom> {
      * @return
      */
     BizRoom  findById(String id);
+//    Page findById(String id);
+    Page findPagePara(HotelRoomQry HotelRoomQry);
 
 }
