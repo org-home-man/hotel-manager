@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hotel.admin.mapper.BizPuchsExtMapper">
+
+  <resultMap id="BaseResultMap" type="com.hotel.admin.model.BizPuchsExt">
+	<id column="order_code" jdbcType="VARCHAR" property="orderCode" />
+	<id column="room_code" jdbcType="VARCHAR" property="roomCode" />
+	<result column="live_date" jdbcType="TIMESTAMP" property="liveDate" />
+	<result column="s_amount" jdbcType="DOUBLE" property="sAmount" />
+	<result column="t_amount" jdbcType="DOUBLE" property="tAmount" />
+	<result column="creat_by" jdbcType="VARCHAR" property="creatBy" />
+	<result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+	<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
+	<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+  </resultMap>
+  
+  <insert id="add" parameterType="com.hotel.admin.model.BizPuchsExt">
+    insert into biz_puchs_ext
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderCode != null">
+        order_code,
+      </if>
+      <if test="roomCode != null">
+        room_code,
+      </if>
+      <if test="liveDate != null">
+        live_date,
+      </if>
+      <if test="sAmount != null">
+        s_amount,
+      </if>
+      <if test="tAmount != null">
+        t_amount,
+      </if>
+      <if test="creatBy != null">
+        creat_by,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+      <if test="lastUpdateBy != null">
+        last_update_by,
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderCode != null">
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roomCode != null">
+        #{roomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="liveDate != null">
+        #{liveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sAmount != null">
+        #{sAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="tAmount != null">
+        #{tAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="creatBy != null">
+        #{creatBy,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="delete" parameterType="java.lang.String">
+    delete from biz_puchs_ext
+    where room_code = #{roomCode,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="update" parameterType="com.hotel.admin.model.BizPuchsExt">
+    update biz_puchs_ext
+    <set>
+      <if test="orderCode != null">
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="roomCode != null">
+        room_code = #{roomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="liveDate != null">
+        live_date = #{liveDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sAmount != null">
+        s_amount = #{sAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="tAmount != null">
+        t_amount = #{tAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="creatBy != null">
+        creat_by = #{creatBy,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where room_code = #{roomCode,jdbcType=VARCHAR}
+  </update>
+
+  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from biz_puchs_ext
+    where room_code = #{roomCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findPage" resultMap="BaseResultMap">
+    select * from biz_puchs_ext
+  </select>
+  
+</mapper>
