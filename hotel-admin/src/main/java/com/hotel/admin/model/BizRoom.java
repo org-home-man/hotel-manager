@@ -140,6 +140,9 @@ public class BizRoom {
 
 	/** 结算价格  */
 	private Double tPrice;
+	private String hotelAddr;
+	private String hotelPhone;
+	private String hotelWeb;
 
 
 	public String getAutoClose() {
@@ -171,10 +174,34 @@ public class BizRoom {
 	public String getoutDateEnd() {
 		return outDateEnd;
 	}
-
 	public void setoutDateEnd(String outDateEnd) {
 		this.outDateEnd = outDateEnd;
 	}
+
+
+
+	public void sethotelAddr(String hotelAddr) {
+		this.hotelAddr = hotelAddr;
+	}
+
+	public String gethotelAddr() {
+		return hotelAddr;
+	}
+	public void sethotelPhone(String hotelPhone) {
+		this.hotelPhone = hotelPhone;
+	}
+
+	public String gethotelPhone() {
+		return hotelPhone;
+	}
+	public void sethotelWeb(String hotelWeb) {
+		this.hotelWeb = hotelWeb;
+	}
+
+	public String gethotelWeb() {
+		return hotelWeb;
+	}
+
 
 	public String getinDateStart() {
 		return inDateStart;
@@ -475,7 +502,7 @@ public class BizRoom {
 		return sPrice;
 	}
 
-	public void setsPrice(Double sRoomPrice) {
+	public void setsPrice(Double sPrice) {
 		this.sPrice = sPrice;
 	}
 
