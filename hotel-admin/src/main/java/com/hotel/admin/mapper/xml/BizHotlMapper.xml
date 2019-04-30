@@ -207,7 +207,7 @@
     (select para_code from sys_para_config where para_code LIKE 'cityCode%' and para_sub_code1='cityCode' AND para_value1=a.city_code) city_code_key,
    (select para_code from sys_para_config where para_code LIKE 'hotelType%' and para_sub_code1='hotelType' AND para_value1=a.hotel_type) hotel_type_key,
   a.hotel_type, a.hotel_Level, (select para_code from sys_para_config where para_code LIKE 'hotelLevel%' and para_sub_code1='hotelLevel' AND para_value1=a.hotel_Level) hotel_Level_key,
-  a.hotel_cname, a.hotel_ename, a.creat_cy, a.creat_time, a.last_update_by, a.last_update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web
+  a.hotel_cname, a.hotel_ename, a.creat_cy, a.creat_time, a.last_update_by, a.last_update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web,a.province_code,a.city_code
   from biz_hotl a where  1=1
   <if test="hotelCode != null">
     AND  a.hotel_code = #{hotelCode,jdbcType=VARCHAR}
