@@ -39,7 +39,7 @@ public class BizRoom {
 	/** 英文文字介绍 */
 	private String introE;
 	/** 宣传照片 */
-	private byte[] photo;
+	private String photo;
 	/** 默认库存数 */
 	private Integer roomStock;
 	/** 是否本期推荐 */
@@ -140,6 +140,7 @@ public class BizRoom {
 
 	/** 结算价格  */
 	private Double tPrice;
+
 
 	public String getAutoClose() {
 		return autoClose;
@@ -583,11 +584,11 @@ public class BizRoom {
 		this.introE = introE;
 	}
 
-	public byte[] getPhoto() {
+	public String getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(byte[] photo) {
+	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
 

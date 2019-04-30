@@ -52,6 +52,24 @@ public class BizRoomServiceImpl implements BizRoomService {
 	@Override
 	@Transactional
 	public int save(BizRoom record) {
+		/*
+		检查是否推荐为空， 如果被用户选择，那就必须查询客房信息表里面是否存在推荐房源，如果有，就更新为普通，如果没有就不做操作
+		 */
+		if ("01".equals( record.getRecommended() )) {
+			List<BizRoom> reLi =  bizRoomMapper.findByRecommend();
+			if (reLi.size() > 0) {
+				for (int i = 0 ;i<reLi.size(); i++) {
+					BizRoom br = reLi.get(i);
+					BizRoom upBr = new BizRoom();
+					upBr.setRoomCode(br.getRoomCode());
+					upBr.setRecommended("02");
+					bizRoomMapper.update(upBr);
+				}
+			}
+		}
+		/*
+		新增及更新操作
+		 */
 		if(StringUtils.isBlank( record.getRoomCode() )  ) {
 			System.out.println("进入了新增");
 			//新增客房信息，
