@@ -16,6 +16,10 @@ public class BizPuchs {
 	/** 客房编号 */
 	private String roomCode;
 	/** 入住日期 */
+	private String inDateStart;
+	/** 退房日期 */
+	private String outDateEnd;
+	/** 入住日期 */
 	private java.util.Date inDate;
 	/** 退房日期 */
 	private java.util.Date outDate;
@@ -70,20 +74,36 @@ public class BizPuchs {
 		this.roomCode = roomCode;
 	}
 
-	public java.util.Date getInDate() {
+	public java.util.Date getinDate() {
 		return inDate;
 	}
 
-	public void setInDate(java.util.Date inDate) {
+	public void setinDate(java.util.Date inDate) {
 		this.inDate = inDate;
 	}
 
-	public java.util.Date getOutDate() {
+	public java.util.Date getoutDate() {
 		return outDate;
 	}
 
 	public void setOutDate(java.util.Date outDate) {
 		this.outDate = outDate;
+	}
+
+	public String getinDateStart() {
+		return inDateStart;
+	}
+
+	public void setinDateStart(String inDateStart) {
+		this.inDateStart = inDateStart;
+	}
+
+	public String getoutDateEnd() {
+		return outDateEnd;
+	}
+
+	public void setOutDateEnd(String outDateEnd) {
+		this.outDateEnd = outDateEnd;
 	}
 
 	public String getPName() {
@@ -222,4 +242,32 @@ public class BizPuchs {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 
+	@Override
+	public String toString() {
+		return "BizPuchs{" +
+				"orderCode='" + orderCode + '\'' +
+				", roomCode='" + roomCode + '\'' +
+				", inDateStart=" + inDateStart +
+				", outDateEnd=" + outDateEnd +
+				", inDate=" + inDate +
+				", outDate=" + outDate +
+				", pName='" + pName + '\'' +
+				", passport='" + passport + '\'' +
+				", birth='" + birth + '\'' +
+				", phone='" + phone + '\'' +
+				", emailAddress='" + emailAddress + '\'' +
+				", aNum=" + aNum +
+				", bNum=" + bNum +
+				", cNum=" + cNum +
+				", roomNum=" + roomNum +
+				", currency='" + currency + '\'' +
+				", totalSAmount=" + totalSAmount +
+				", remark='" + remark + '\'' +
+				", status='" + status + '\'' +
+				", creatBy='" + creatBy + '\'' +
+				", creatTime=" + creatTime +
+				", lastUpdateBy='" + lastUpdateBy + '\'' +
+				", lastUpdateTime=" + lastUpdateTime +
+				'}';
+	}
 }
