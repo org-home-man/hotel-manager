@@ -70,8 +70,8 @@ public class DocumentController extends BaseController {
             return;
         }
         try {
-            response.setCharacterEncoding("UTF-8");
-            response.reset();
+//            response.setCharacterEncoding("UTF-8");
+//            response.reset();
             response.setContentType("image/png;charset=UTF-8");
             OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
             outputStream.write(fileInfo.getContent());

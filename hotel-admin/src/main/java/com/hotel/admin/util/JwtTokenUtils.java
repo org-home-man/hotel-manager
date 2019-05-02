@@ -17,6 +17,7 @@ import org.springframework.security.core.GrantedAuthority;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 /**
  * JWT工具类
@@ -121,7 +122,9 @@ public class JwtTokenUtils implements Serializable {
 						authorities.add(new GrantedAuthorityImpl((String) ((Map) object).get("authority")));
 					}
 				}
-				authentication = new JwtAuthenticatioToken(username, null, authorities, token);
+				JwtAuthenticatioToken tk = new JwtAuthenticatioToken(username, null, authorities, token);
+				tk.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				authentication = tk;
 			} else {
 				if(validateToken(token, SecurityUtils.getUsername())) {
 					// 如果上下文中Authentication非空，且请求令牌合法，直接返回当前登录认证信息
