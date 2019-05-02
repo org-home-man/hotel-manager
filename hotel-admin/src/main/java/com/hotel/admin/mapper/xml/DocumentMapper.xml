@@ -25,11 +25,7 @@
   </select>
   <select id="selectByRelationId" resultType="java.lang.String">
     SELECT id FROM so_document a
-    <where>
-      <if test="relationId !=null and relationId !=''">
-        and a.RELATION_ID =#{relationId} and a.STATUS != '2'
-      </if>
-    </where>
+    and a.RELATION_ID =#{relationId} and a.STATUS != '2'
   </select>
 
 
