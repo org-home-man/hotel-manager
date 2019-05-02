@@ -59,5 +59,10 @@ public interface BizRoomMapper {
      */
     List<Map> findPage();
 
+    /**
+     * 查询是否存在推荐房间
+     */
+    List<BizRoom> findByRecommend();
+
 
 }
