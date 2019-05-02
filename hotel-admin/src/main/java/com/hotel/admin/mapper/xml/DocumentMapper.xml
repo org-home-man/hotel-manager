@@ -25,7 +25,7 @@
   </select>
   <select id="selectByRelationId" resultType="java.lang.String">
     SELECT id FROM so_document a
-    and a.RELATION_ID =#{relationId} and a.STATUS != '2'
+    where a.RELATION_ID =#{relationId} and a.STATUS != '2'
   </select>
 
 
