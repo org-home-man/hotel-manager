@@ -173,8 +173,10 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
 
     @Override
     public ResultInfo queryByRelId(String relationId) {
+        ResultInfo instance = ResultInfo.instance();
         List<String> relationIds = documentMapper.selectByRelationId(relationId);
-        return null;
+        instance.setData(relationIds);
+        return instance;
     }
 
     private String generate32BitUUID() {
