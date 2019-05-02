@@ -47,5 +47,5 @@ public interface CurdService<T> {
 	 * @return PageResult 自定义，统一分页查询结果
      */
 	PageResult findPage(PageRequest pageRequest) ;
-	
+
 }
