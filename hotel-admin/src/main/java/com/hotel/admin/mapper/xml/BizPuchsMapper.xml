@@ -3,8 +3,9 @@
 <mapper namespace="com.hotel.admin.mapper.BizPuchsMapper">
 
   <resultMap id="BaseResultMap" type="com.hotel.admin.model.BizPuchs">
-	<id column="order_code" jdbcType="VARCHAR" property="orderCode" />
-	<id column="room_code" jdbcType="VARCHAR" property="roomCode" />
+  	<id column="id" jdbcType="BIGINT" property="id" />
+	<result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+	<result column="room_code" jdbcType="VARCHAR" property="roomCode" />
 	<result column="in_date" jdbcType="TIMESTAMP" property="inDate" />
 	<result column="out_date" jdbcType="TIMESTAMP" property="outDate" />
 	<result column="p_name" jdbcType="VARCHAR" property="pName" />
@@ -25,223 +26,24 @@
 	<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
 	<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
   </resultMap>
-  
-  <insert id="add" parameterType="com.hotel.admin.model.BizPuchs">
-    insert into biz_puchs
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="orderCode != null">
-        order_code,
-      </if>
-      <if test="roomCode != null">
-        room_code,
-      </if>
-      <if test="inDate != null">
-        in_date,
-      </if>
-      <if test="outDate != null">
-        out_date,
-      </if>
-      <if test="pName != null">
-        p_name,
-      </if>
-      <if test="passport != null">
-        passport,
-      </if>
-      <if test="birth != null">
-        birth,
-      </if>
-      <if test="phone != null">
-        phone,
-      </if>
-      <if test="emailAddress != null">
-        email_address,
-      </if>
-      <if test="aNum != null">
-        a_num,
-      </if>
-      <if test="bNum != null">
-        b_num,
-      </if>
-      <if test="cNum != null">
-        c_num,
-      </if>
-      <if test="roomNum != null">
-        room_num,
-      </if>
-      <if test="currency != null">
-        currency,
-      </if>
-      <if test="totalSAmount != null">
-        total_s_amount,
-      </if>
-      <if test="remark != null">
-        remark,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="creatBy != null">
-        creat_by,
-      </if>
-      <if test="creatTime != null">
-        creat_time,
-      </if>
-      <if test="lastUpdateBy != null">
-        last_update_by,
-      </if>
-      <if test="lastUpdateTime != null">
-        last_update_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="orderCode != null">
-        #{orderCode,jdbcType=VARCHAR},
-      </if>
-      <if test="roomCode != null">
-        #{roomCode,jdbcType=VARCHAR},
-      </if>
-      <if test="inDate != null">
-        #{inDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="outDate != null">
-        #{outDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="pName != null">
-        #{pName,jdbcType=VARCHAR},
-      </if>
-      <if test="passport != null">
-        #{passport,jdbcType=VARCHAR},
-      </if>
-      <if test="birth != null">
-        #{birth,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="emailAddress != null">
-        #{emailAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="aNum != null">
-        #{aNum,jdbcType=INTEGER},
-      </if>
-      <if test="bNum != null">
-        #{bNum,jdbcType=INTEGER},
-      </if>
-      <if test="cNum != null">
-        #{cNum,jdbcType=INTEGER},
-      </if>
-      <if test="roomNum != null">
-        #{roomNum,jdbcType=INTEGER},
-      </if>
-      <if test="currency != null">
-        #{currency,jdbcType=VARCHAR},
-      </if>
-      <if test="totalSAmount != null">
-        #{totalSAmount,jdbcType=DOUBLE},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="creatBy != null">
-        #{creatBy,jdbcType=VARCHAR},
-      </if>
-      <if test="creatTime != null">
-        #{creatTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastUpdateBy != null">
-        #{lastUpdateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="lastUpdateTime != null">
-        #{lastUpdateTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
 
-  <delete id="delete" parameterType="java.lang.String">
-    delete from biz_puchs
-    where room_code = #{roomCode,jdbcType=VARCHAR}
-  </delete>
-  
-  <update id="update" parameterType="com.hotel.admin.model.BizPuchs">
-    update biz_puchs
-    <set>
-      <if test="orderCode != null">
-        order_code = #{orderCode,jdbcType=VARCHAR},
-      </if>
-      <if test="roomCode != null">
-        room_code = #{roomCode,jdbcType=VARCHAR},
-      </if>
-      <if test="inDate != null">
-        in_date = #{inDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="outDate != null">
-        out_date = #{outDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="pName != null">
-        p_name = #{pName,jdbcType=VARCHAR},
-      </if>
-      <if test="passport != null">
-        passport = #{passport,jdbcType=VARCHAR},
-      </if>
-      <if test="birth != null">
-        birth = #{birth,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="emailAddress != null">
-        email_address = #{emailAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="aNum != null">
-        a_num = #{aNum,jdbcType=INTEGER},
-      </if>
-      <if test="bNum != null">
-        b_num = #{bNum,jdbcType=INTEGER},
-      </if>
-      <if test="cNum != null">
-        c_num = #{cNum,jdbcType=INTEGER},
-      </if>
-      <if test="roomNum != null">
-        room_num = #{roomNum,jdbcType=INTEGER},
-      </if>
-      <if test="currency != null">
-        currency = #{currency,jdbcType=VARCHAR},
-      </if>
-      <if test="totalSAmount != null">
-        total_s_amount = #{totalSAmount,jdbcType=DOUBLE},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="creatBy != null">
-        creat_by = #{creatBy,jdbcType=VARCHAR},
-      </if>
-      <if test="creatTime != null">
-        creat_time = #{creatTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastUpdateBy != null">
-        last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="lastUpdateTime != null">
-        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where room_code = #{roomCode,jdbcType=VARCHAR}
-  </update>
+	<sql id="where_query">
+		<where>
+			<if test="orderCode != null and orderCode != ''">
+				AND order_code = #{orderCode}
+			</if>
+			<if test="roomCode != null and roomCode != ''">
+				AND room_code = #{roomCode}
+			</if>
+			<if test="pName != null and pName != ''">
+				AND p_name = #{pName}
+			</if>
+		</where>
+	</sql>
 
-  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select * from biz_puchs
-    where room_code = #{roomCode,jdbcType=VARCHAR}
-  </select>
-  
-  <select id="findPage" resultMap="BaseResultMap">
-    select * from biz_puchs
-  </select>
-  
+	<select id="findPage" resultMap="BaseResultMap">
+		select * from biz_puchs <include refid="where_query"/>
+	</select>
+
+
 </mapper>

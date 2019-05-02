@@ -1,6 +1,7 @@
 package com.hotel.admin.mapper;
 
 import com.hotel.admin.model.SysUser;
+import com.hotel.admin.qo.SysUserQuery;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface SysUserMapper {
 
     int updateByPrimaryKey(SysUser record);
     
-    List<SysUser> findPage();
+    List<SysUser> findPage(SysUserQuery qo);
     
     SysUser findByName(@Param(value = "name") String name);
 

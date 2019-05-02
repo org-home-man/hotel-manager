@@ -15,10 +15,17 @@
     <result column="last_update_by" jdbcType="BIGINT" property="lastUpdateBy" />
     <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
     <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="dept_number" jdbcType="VARCHAR" property="deptNumber" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="region" jdbcType="VARCHAR" property="region" />
+    <result column="net" jdbcType="VARCHAR" property="net" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
     id, name, password, salt, email, mobile, status, dept_id, create_by, create_time, 
-    last_update_by, last_update_time, del_flag
+    last_update_by, last_update_time, del_flag,birthday,dept_number,phone,address,region,net,remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -35,12 +42,12 @@
       salt, email, mobile, 
       status, dept_id, create_by, 
       create_time, last_update_by, last_update_time, 
-      del_flag)
+      del_flag,birthday,dept_number,phone,address,region,net,remark)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{deptId,jdbcType=BIGINT}, #{createBy,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateBy,jdbcType=BIGINT}, #{lastUpdateTime,jdbcType=TIMESTAMP}, 
-      #{delFlag,jdbcType=TINYINT})
+      #{delFlag,jdbcType=TINYINT},#{birthday,jdbcType=TIMESTAMP},#{deptNumber,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{region,jdbcType=VARCHAR},#{net,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hotel.admin.model.SysUser">
     insert into sys_user
@@ -84,6 +91,27 @@
       <if test="delFlag != null">
         del_flag,
       </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="deptNumber != null">
+        dept_number,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="net != null">
+        net,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -124,6 +152,30 @@
       </if>
       <if test="delFlag != null">
         #{delFlag,jdbcType=TINYINT},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptNumber != null">
+        #{deptNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="net != null">
+        #{net,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +218,30 @@
       <if test="delFlag != null">
         del_flag = #{delFlag,jdbcType=TINYINT},
       </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deptNumber != null">
+        dept_number = #{deptNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="net != null">
+        net = #{net,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -182,11 +258,28 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_update_by = #{lastUpdateBy,jdbcType=BIGINT},
       last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=TINYINT}
+      del_flag = #{delFlag,jdbcType=TINYINT},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      dept_number = #{deptNumber,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
+      net = #{net,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="findPage" resultMap="BaseResultMap">
-    select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u
+  <sql id="QUERY">
+    <where>
+      <if test="name != null and name != ''">
+        AND u.name = #{name}
+      </if>
+      <if test="email != null and email != ''">
+        AND u.email = #{email}
+      </if>
+    </where>
+  </sql>
+  <select id="findPage" resultMap="BaseResultMap" parameterType="com.hotel.admin.qo.SysUserQuery">
+    select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u <include refid="QUERY"></include>
   </select>
   <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u

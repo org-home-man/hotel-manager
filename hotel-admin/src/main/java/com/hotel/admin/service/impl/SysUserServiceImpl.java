@@ -7,12 +7,11 @@ import com.hotel.admin.model.SysMenu;
 import com.hotel.admin.model.SysRole;
 import com.hotel.admin.model.SysUser;
 import com.hotel.admin.model.SysUserRole;
+import com.hotel.admin.qo.SysUserQuery;
 import com.hotel.admin.service.SysMenuService;
 import com.hotel.admin.service.SysUserService;
-import com.hotel.core.page.ColumnFilter;
-import com.hotel.core.page.MybatisPageHelper;
-import com.hotel.core.page.PageRequest;
-import com.hotel.core.page.PageResult;
+import com.hotel.core.context.PageContext;
+import com.hotel.core.page.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,22 +86,14 @@ public class SysUserServiceImpl  implements SysUserService {
 	}
 	
 	@Override
-	public PageResult findPage(PageRequest pageRequest) {
-		PageResult pageResult = null;
-		String name = getColumnFilterValue(pageRequest, "name");
-		String email = getColumnFilterValue(pageRequest, "email");
-		if(name != null) {
-			if(email != null) {
-				pageResult = MybatisPageHelper.findPage(pageRequest, sysUserMapper, "findPageByNameAndEmail", name, email);
-			} else {
-				pageResult = MybatisPageHelper.findPage(pageRequest, sysUserMapper, "findPageByName", name);
-			}
-		} else {
-			pageResult = MybatisPageHelper.findPage(pageRequest, sysUserMapper);
+	public Page findPage(SysUserQuery qo) {
+		List<SysUser> list = sysUserMapper.findPage(qo);
+		Page page = PageContext.getPage();
+		for (SysUser sysUser : list) {
+			findUserRoles(sysUser);
 		}
-		// 加载用户角色信息
-		findUserRoles(pageResult);
-		return pageResult;
+		page.setRows(list);
+		return page;
 	}
 
 	/**
@@ -114,23 +105,22 @@ public class SysUserServiceImpl  implements SysUserService {
 		String value = null;
 		ColumnFilter columnFilter = pageRequest.getColumnFilter(filterName);
 		if(columnFilter != null) {
-			value = columnFilter.getValue();
+			String v = columnFilter.getValue();
+			if(!v.isEmpty()){
+				value = v;
+			}
 		}
 		return value;
 	}
-	
+
 	/**
 	 * 加载用户角色
-	 * @param pageResult
+	 * @param
 	 */
-	private void findUserRoles(PageResult pageResult) {
-		List<?> content = pageResult.getContent();
-		for(Object object:content) {
-			SysUser sysUser = (SysUser) object;
-			List<SysUserRole> userRoles = findUserRoles(sysUser.getId());
-			sysUser.setUserRoles(userRoles);
-			sysUser.setRoleNames(getRoleNames(userRoles));
-		}
+	private void findUserRoles(SysUser sysUser) {
+		List<SysUserRole> userRoles = findUserRoles(sysUser.getId());
+		sysUser.setUserRoles(userRoles);
+		sysUser.setRoleNames(getRoleNames(userRoles));
 	}
 
 	private String getRoleNames(List<SysUserRole> userRoles) {
