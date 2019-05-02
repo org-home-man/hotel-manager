@@ -5,8 +5,8 @@
   <resultMap id="BaseResultMap" type="com.hotel.admin.model.BizPuchs">
 	<id column="order_code" jdbcType="VARCHAR" property="orderCode" />
 	<id column="room_code" jdbcType="VARCHAR" property="roomCode" />
-	<result column="in_date" jdbcType="TIMESTAMP" property="inDate" />
-	<result column="out_date" jdbcType="TIMESTAMP" property="outDate" />
+	<result column="in_date" jdbcType="TIMESTAMP" property="inDateStart" />
+	<result column="out_date" jdbcType="TIMESTAMP" property="outDateEnd" />
 	<result column="p_name" jdbcType="VARCHAR" property="pName" />
 	<result column="passport" jdbcType="VARCHAR" property="passport" />
 	<result column="birth" jdbcType="VARCHAR" property="birth" />
@@ -35,10 +35,10 @@
       <if test="roomCode != null">
         room_code,
       </if>
-      <if test="inDate != null">
+      <if test="inDateStart != null">
         in_date,
       </if>
-      <if test="outDate != null">
+      <if test="outDateEnd != null">
         out_date,
       </if>
       <if test="pName != null">
@@ -100,11 +100,11 @@
       <if test="roomCode != null">
         #{roomCode,jdbcType=VARCHAR},
       </if>
-      <if test="inDate != null">
-        #{inDate,jdbcType=TIMESTAMP},
+      <if test="inDateStart != null">
+        #{inDateStart,jdbcType=TIMESTAMP},
       </if>
-      <if test="outDate != null">
-        #{outDate,jdbcType=TIMESTAMP},
+      <if test="outDateEnd != null">
+        #{outDateEnd,jdbcType=TIMESTAMP},
       </if>
       <if test="pName != null">
         #{pName,jdbcType=VARCHAR},
