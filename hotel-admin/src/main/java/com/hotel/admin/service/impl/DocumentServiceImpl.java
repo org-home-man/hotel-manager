@@ -56,23 +56,25 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
 
 
     @Override
-    public List<String> uploadFiles(MultipartFile[] files) {
+    public ResultInfo uploadFiles(MultipartFile[] files) {
+        ResultInfo instance = ResultInfo.instance();
         if (files == null) {
-            return Collections.emptyList();
+            return instance;
         }
-        List<String> documentIds = new ArrayList<>();
         for (MultipartFile file : files) {
             Document document = new Document();
             writeFile2Dist(file, document);
             InsertContext.setInsertion(false);
             document.setId(IdUtil.nextId());
             document.setStatus(Constant.BOOL_NO);
+            String relationId = generate32BitUUID();
+            document.setReleationId(relationId);
             //开始保存文件
             documentMapper.insertSelective(document);
             InsertContext.setInsertion(true);
-            documentIds.add(document.getId() + "");
+            instance.setData(relationId);
         }
-        return documentIds;
+        return instance;
     }
 
     @Override
@@ -169,6 +171,11 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
         return SimpleUtils.success(document);
     }
 
+    @Override
+    public ResultInfo queryByRelId(String relationId) {
+        List<String> relationIds = documentMapper.selectByRelationId(relationId);
+        return null;
+    }
 
     private String generate32BitUUID() {
         return UUID.randomUUID().toString().replaceAll("-", "");

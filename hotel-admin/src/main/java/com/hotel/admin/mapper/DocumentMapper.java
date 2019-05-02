@@ -14,4 +14,5 @@ public interface DocumentMapper extends AbstractMapper<Document> {
 	 */
 	void deleteByDoc(@Param(value = "docId") Long docId);
 
+    List<String> selectByRelationId(String relationId);
 }

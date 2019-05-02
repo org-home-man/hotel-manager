@@ -38,8 +38,8 @@ public class DocumentController extends BaseController {
 
 
     @RequestMapping("/upload")
-    public void fileUpload(MultipartFile[] files, HttpServletResponse resp) {
-        writeData2Resp(resp, JSON.toJSONString(documentService.uploadFiles(files)));
+    public ResultInfo fileUpload(MultipartFile[] files) {
+        return documentService.uploadFiles(files);
     }
 
 
@@ -91,6 +91,11 @@ public class DocumentController extends BaseController {
     @RequestMapping("/query/{documentId}")
     public ResultInfo queryById(@PathVariable Long documentId) {
         return documentService.queryById(documentId);
+    }
+
+    @RequestMapping("/queryByRelId")
+    public ResultInfo queryByRelId(String relationId) {
+        return documentService.queryByRelId(relationId);
     }
 
 
