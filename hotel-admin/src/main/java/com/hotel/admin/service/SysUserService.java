@@ -5,14 +5,18 @@ import java.util.Set;
 
 import com.hotel.admin.model.SysUser;
 import com.hotel.admin.model.SysUserRole;
+import com.hotel.admin.qo.SysUserQuery;
+import com.hotel.core.page.Page;
+import com.hotel.core.page.PageRequest;
 import com.hotel.core.service.CurdService;
+import com.hotel.core.service.NewCurdService;
 
 /**
  * 用户管理
  * @author Louis
  * @date Oct 29, 2018
  */
-public interface SysUserService extends CurdService<SysUser> {
+public interface SysUserService extends NewCurdService<SysUser> {
 
 	SysUser findByName(String username);
 
@@ -29,5 +33,8 @@ public interface SysUserService extends CurdService<SysUser> {
 	 * @return
 	 */
 	List<SysUserRole> findUserRoles(Long userId);
+
+
+    Page findPage(SysUserQuery qo);
 
 }

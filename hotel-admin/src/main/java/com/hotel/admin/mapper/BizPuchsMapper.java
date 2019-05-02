@@ -3,6 +3,8 @@ package com.hotel.admin.mapper;
 import java.util.List;
 
 import com.hotel.admin.model.BizPuchs;
+import com.hotel.admin.qo.BizPuchsQuery;
+import com.hotel.core.mybatis.mapper.AbstractMapper;
 
 /**
  * ---------------------------
@@ -13,41 +15,7 @@ import com.hotel.admin.model.BizPuchs;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public interface BizPuchsMapper {
+public interface BizPuchsMapper extends AbstractMapper<BizPuchs> {
 
-	/**
-	 * 添加订单信息表
-	 * @param record
-	 * @return
-	 */
-    int add(BizPuchs record);
-
-    /**
-     * 删除订单信息表
-     * @param roomCode
-     * @return
-     */
-    int delete(String roomCode);
-    
-    /**
-     * 修改订单信息表
-     * @param record
-     * @return
-     */
-    int update(BizPuchs record);
-    
-    /**
-     * 根据主键查询
-     * @param roomCode
-     * @return
-     */    
-    BizPuchs findById(String roomCode);
-
-    /**
-     * 基础分页查询
-     * @param record
-     * @return
-     */    
-    List<BizPuchs> findPage();
-    
+    List<BizPuchs> findPage(BizPuchsQuery bizPuchsQuery);
 }

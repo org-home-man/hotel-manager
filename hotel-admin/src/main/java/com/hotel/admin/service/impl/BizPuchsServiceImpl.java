@@ -10,8 +10,10 @@ import com.hotel.admin.mapper.CrtIdMapper;
 import com.hotel.admin.model.BizPuchsExt;
 import com.hotel.admin.model.BizRoomExt;
 import com.hotel.admin.model.CrtId;
+import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.util.SecurityUtils;
+import com.hotel.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +36,7 @@ import com.hotel.admin.service.BizPuchsService;
  * ---------------------------
  */
 @Service
-public class BizPuchsServiceImpl implements BizPuchsService {
+public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements BizPuchsService {
 
 	@Autowired
 	private BizPuchsMapper bizPuchsMapper;
@@ -47,7 +49,7 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 	@Autowired
 	private SysUserService sysUser;
 	@Override
-	public int save(BizPuchs record) {
+	public int saveInfo(BizPuchs record) {
 		System.out.println("订单生成开始"+ record);
 		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
 			CrtId crt =crtIdMapper.findById("puchs");
@@ -86,7 +88,7 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 			//1为订单预订未确认状态
 			record.setStatus("1");
 			System.out.println("record = "+record.getPName());
-			bizPuchsMapper.add(record);
+			bizPuchsMapper.insertSelective(record);
 			BizPuchsExt recordExt = new BizPuchsExt();
 			recordExt.setCreatBy(record.getCreatBy());
 			recordExt.setCreatTime(record.getCreatTime());
@@ -95,33 +97,17 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 			return  bizPuchsExtMapper.add(recordExt);
 		}
 
-		return bizPuchsMapper.update(record);
-	}
-	@Override
-	public BizPuchs findById(Long id) {
-		return null;
-	}
-	@Override
-	public int delete(BizPuchs record) {
-		return bizPuchsMapper.delete(record.getOrderCode());
-	}
-
-	@Override
-	public int delete(List<BizPuchs> records) {
-		for(BizPuchs record:records) {
-			delete(record);
-		}
-		return 1;
+		return bizPuchsMapper.updateByPrimaryKey(record);
 	}
 
 	@Override
 	public BizPuchs findById(String id) {
-		return bizPuchsMapper.findById(id);
+		return bizPuchsMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
-	public PageResult findPage(PageRequest pageRequest) {
-		return MybatisPageHelper.findPage(pageRequest, bizPuchsMapper);
+	public List<BizPuchs> findPage(BizPuchsQuery bizPuchsQuery) {
+		return bizPuchsMapper.findPage(bizPuchsQuery);
 	}
-	
+
 }

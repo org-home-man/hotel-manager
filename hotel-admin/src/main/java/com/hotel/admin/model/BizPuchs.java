@@ -1,5 +1,7 @@
 package com.hotel.admin.model;
 
+import com.hotel.common.entity.Entity;
+
 /**
  * ---------------------------
  * 订单信息表 (BizPuchs)         
@@ -9,7 +11,7 @@ package com.hotel.admin.model;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public class BizPuchs {
+public class BizPuchs extends Entity {
 
 	/** 订单号 */
 	private String orderCode;
@@ -55,7 +57,17 @@ public class BizPuchs {
 	private java.util.Date creatTime;
 	/** 更新时间 */
 	private String lastUpdateBy;
+
+	public Integer getcNum() {
+		return cNum;
+	}
+
+	public void setcNum(Integer cNum) {
+		this.cNum = cNum;
+	}
+
 	/** 更新时间 */
+
 	private java.util.Date lastUpdateTime;
 
 	public String getOrderCode() {

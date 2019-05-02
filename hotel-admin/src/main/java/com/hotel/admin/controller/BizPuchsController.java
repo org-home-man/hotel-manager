@@ -2,6 +2,9 @@ package com.hotel.admin.controller;
 
 import java.util.List;
 
+import com.hotel.admin.qo.BizPuchsQuery;
+import com.hotel.core.context.PageContext;
+import com.hotel.core.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +42,7 @@ public class BizPuchsController {
 	 */	
 	@PostMapping(value="/save")
 	public HttpResult save(@RequestBody BizPuchs record) {
-		return HttpResult.ok(bizPuchsService.save(record));
+		return HttpResult.ok(bizPuchsService.saveInfo(record));
 	}
 
     /**
@@ -54,12 +57,13 @@ public class BizPuchsController {
 
     /**
      * 基础分页查询
-     * @param pageRequest
+     * @param bizPuchsQuery
      * @return
      */    
 	@PostMapping(value="/findPage")
-	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
-		return HttpResult.ok(bizPuchsService.findPage(pageRequest));
+	public Page findPage(BizPuchsQuery bizPuchsQuery) {
+		bizPuchsService.findPage(bizPuchsQuery);
+		return PageContext.getPage();
 	}
 	
     /**

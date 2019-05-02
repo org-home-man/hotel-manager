@@ -1,9 +1,12 @@
 package com.hotel.admin.model;
 
+import com.hotel.common.entity.Entity;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class SysUser extends BaseModel {
+public class SysUser extends Entity {
 
     private String name;
 
@@ -15,104 +18,224 @@ public class SysUser extends BaseModel {
 
     private String mobile;
 
+    private String phone;
+
     private Byte status;
 
     private Long deptId;
-    
+
     private String deptName;
-    
+
     private Byte delFlag;
-    
+
     private String roleNames;
-    
+
     private List<SysUserRole> userRoles = new ArrayList<>();
 
-	public String getName() {
-		return name;
-	}
+    private Date birthday;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private String deptNumber;
 
-	public String getPassword() {
-		return password;
-	}
+    private String address;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    private String region;
 
-	public String getSalt() {
-		return salt;
-	}
+    private String net;
 
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
+    private String remark;
 
-	public String getEmail() {
-		return email;
-	}
+    private String path;
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    private String createBy;
 
-	public String getMobile() {
-		return mobile;
-	}
+    private Date createTime;
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
+    private String lastUpdateBy;
 
-	public Byte getStatus() {
-		return status;
-	}
+    private Date lastUpdateTime;
 
-	public void setStatus(Byte status) {
-		this.status = status;
-	}
 
-	public Long getDeptId() {
-		return deptId;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setDeptId(Long deptId) {
-		this.deptId = deptId;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getDeptName() {
-		return deptName;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setDeptName(String deptName) {
-		this.deptName = deptName;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public Byte getDelFlag() {
-		return delFlag;
-	}
+    public String getSalt() {
+        return salt;
+    }
 
-	public void setDelFlag(Byte delFlag) {
-		this.delFlag = delFlag;
-	}
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
-	public String getRoleNames() {
-		return roleNames;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setRoleNames(String roleNames) {
-		this.roleNames = roleNames;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public List<SysUserRole> getUserRoles() {
-		return userRoles;
-	}
+    public String getMobile() {
+        return mobile;
+    }
 
-	public void setUserRoles(List<SysUserRole> userRoles) {
-		this.userRoles = userRoles;
-	}
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    public Long getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Long deptId) {
+        this.deptId = deptId;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public Byte getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Byte delFlag) {
+        this.delFlag = delFlag;
+    }
+
+    public String getRoleNames() {
+        return roleNames;
+    }
+
+    public void setRoleNames(String roleNames) {
+        this.roleNames = roleNames;
+    }
+
+    public List<SysUserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<SysUserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getDeptNumber() {
+        return deptNumber;
+    }
+
+    public void setDeptNumber(String deptNumber) {
+        this.deptNumber = deptNumber;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getNet() {
+        return net;
+    }
+
+    public void setNet(String net) {
+        this.net = net;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getLastUpdateBy() {
+        return lastUpdateBy;
+    }
+
+    public void setLastUpdateBy(String lastUpdateBy) {
+        this.lastUpdateBy = lastUpdateBy;
+    }
+
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(Date lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+    }
 }
