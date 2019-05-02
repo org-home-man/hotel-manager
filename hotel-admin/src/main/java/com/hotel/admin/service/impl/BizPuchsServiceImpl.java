@@ -4,7 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.hotel.admin.mapper.BizPuchsExtMapper;
+import com.hotel.admin.mapper.BizRoomExtMapper;
 import com.hotel.admin.mapper.CrtIdMapper;
+import com.hotel.admin.model.BizPuchsExt;
+import com.hotel.admin.model.BizRoomExt;
 import com.hotel.admin.model.CrtId;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.util.SecurityUtils;
@@ -34,6 +38,9 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 
 	@Autowired
 	private BizPuchsMapper bizPuchsMapper;
+
+	@Autowired
+	private BizPuchsExtMapper bizPuchsExtMapper;
 
 	@Autowired
 	private CrtIdMapper crtIdMapper;
@@ -76,8 +83,16 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 				crtIdMapper.update(crt);
 				record.setOrderCode(id+timeNow+newCrt);
 			}
+			//1为订单预订未确认状态
+			record.setStatus("1");
 			System.out.println("record = "+record.getPName());
-			return bizPuchsMapper.add(record);
+			bizPuchsMapper.add(record);
+			BizPuchsExt recordExt = new BizPuchsExt();
+			recordExt.setCreatBy(record.getCreatBy());
+			recordExt.setCreatTime(record.getCreatTime());
+			recordExt.setRoomCode(record.getRoomCode());
+			recordExt.setOrderCode(record.getOrderCode());
+			return  bizPuchsExtMapper.add(recordExt);
 		}
 
 		return bizPuchsMapper.update(record);
