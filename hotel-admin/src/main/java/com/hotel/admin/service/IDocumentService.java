@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface IDocumentService extends IService<Document> {
-    List<String> uploadFiles(MultipartFile[] files);
+    ResultInfo uploadFiles(MultipartFile[] files);
 
     FileInfo queryFileInfo(Long documentId);
 
@@ -17,4 +17,6 @@ public interface IDocumentService extends IService<Document> {
 
 
     ResultInfo queryById(Long documentId);
+
+    ResultInfo queryByRelId(String relationId);
 }
