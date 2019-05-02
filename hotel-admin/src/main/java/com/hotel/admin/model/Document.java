@@ -7,7 +7,7 @@ import javax.persistence.Table;
 @Table(name = "so_document")
 public class Document extends Entity{
 
-    private String releationId;
+    private String relationId;
 
     private String name;
 
@@ -45,12 +45,12 @@ public class Document extends Entity{
         this.status = status == null ? null : status.trim();
     }
 
-    public String getReleationId() {
-        return releationId;
+    public String getRelationId() {
+        return relationId;
     }
 
-    public void setReleationId(String releationId) {
-        this.releationId = releationId;
+    public void setRelationId(String relationId) {
+        this.relationId = relationId;
     }
 
     public Long getSize() {

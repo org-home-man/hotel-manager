@@ -3,7 +3,7 @@
 <mapper namespace="com.hotel.admin.mapper.DocumentMapper" >
   <resultMap id="BaseResultMap" type="com.hotel.admin.model.Document" >
     <id column="ID" property="id" jdbcType="DECIMAL" />
-    <result column="RELEATION_ID" property="releationId" jdbcType="VARCHAR" />
+    <result column="RELATION_ID" property="relationId" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="SIZE" property="size" jdbcType="DECIMAL" />
     <result column="STORE_PATH" property="storePath" jdbcType="VARCHAR" />
@@ -13,8 +13,8 @@
   <select id="queryByReleationId"  resultMap="BaseResultMap">
     SELECT * FROM so_document a
     <where>
-      <if test="releationId !=null and releationId !=''">
-        and a.RELEATION_ID =#{releationId} and a.STATUS != '2'
+      <if test="relationId !=null and relationId !=''">
+        and a.RELATION_ID =#{relationId} and a.STATUS != '2'
       </if>
     </where>
 
@@ -26,8 +26,8 @@
   <select id="selectByRelationId" resultType="java.lang.String">
     SELECT id FROM so_document a
     <where>
-      <if test="releationId !=null and releationId !=''">
-        and a.RELEATION_ID =#{releationId} and a.STATUS != '2'
+      <if test="relationId !=null and relationId !=''">
+        and a.RELATION_ID =#{relationId} and a.STATUS != '2'
       </if>
     </where>
   </select>

@@ -68,7 +68,7 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
             document.setId(IdUtil.nextId());
             document.setStatus(Constant.BOOL_NO);
             String relationId = generate32BitUUID();
-            document.setReleationId(relationId);
+            document.setRelationId(relationId);
             //开始保存文件
             documentMapper.insertSelective(document);
             InsertContext.setInsertion(true);
