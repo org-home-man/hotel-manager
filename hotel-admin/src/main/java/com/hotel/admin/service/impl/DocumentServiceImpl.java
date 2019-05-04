@@ -58,7 +58,7 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
     @Override
     public ResultInfo uploadFiles(MultipartFile[] files) {
         ResultInfo instance = ResultInfo.instance();
-        if (files == null) {
+        if (files == null || files.length <=0) {
             return instance;
         }
         for (MultipartFile file : files) {
