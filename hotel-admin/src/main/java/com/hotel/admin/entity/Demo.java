@@ -1,26 +1,15 @@
 package com.hotel.admin.entity;
 
-import com.hotel.common.entity.Entity;
+import com.hotel.common.entity.BusinessEntity;
 
-public class Demo extends Entity {
-    /**
-     * 
-     */
-    private Integer id;
+public class Demo extends BusinessEntity {
+
 
     /**
      * 
      */
     private String name;
 
-
-    /**
-     * 
-     * @param id 
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     /**
      * 

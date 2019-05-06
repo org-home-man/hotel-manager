@@ -3,6 +3,7 @@ package com.hotel.core.service;
 import java.text.ParseException;
 import java.util.List;
 
+import com.hotel.core.page.Page;
 import com.hotel.core.page.PageRequest;
 import com.hotel.core.page.PageResult;
 

@@ -5,20 +5,16 @@ import java.util.List;
 import com.hotel.admin.model.SysMenu;
 import com.hotel.admin.model.SysRole;
 import com.hotel.admin.model.SysRoleMenu;
+import com.hotel.core.page.Page;
 import com.hotel.core.service.CurdService;
+import com.hotel.core.service.IService;
 
 /**
  * 角色管理
  * @author Louis
  * @date Oct 29, 2018
  */
-public interface SysRoleService extends CurdService<SysRole> {
-
-	/**
-	 * 查询全部
-	 * @return
-	 */
-	List<SysRole> findAll();
+public interface SysRoleService extends IService<SysRole> {
 
 	/**
 	 * 查询角色菜单集合
@@ -39,5 +35,12 @@ public interface SysRoleService extends CurdService<SysRole> {
 	 * @return
 	 */
 	List<SysRole> findByName(String name);
+
+	/**
+	 * 通过名称分页查询
+	 * @param name
+	 * @return
+	 */
+	Page findPage(String name);
 
 }

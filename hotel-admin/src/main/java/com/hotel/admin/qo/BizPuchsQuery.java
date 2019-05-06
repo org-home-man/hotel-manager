@@ -1,8 +1,8 @@
 package com.hotel.admin.qo;
 
-import com.hotel.common.entity.Entity;
+import com.hotel.common.entity.BusinessEntity;
 
-public class BizPuchsQuery extends Entity {
+public class BizPuchsQuery extends BusinessEntity {
 
     /** 订单号 */
     private String orderCode;

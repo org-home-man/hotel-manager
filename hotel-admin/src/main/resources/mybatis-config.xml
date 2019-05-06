@@ -6,8 +6,9 @@
         <package name="com.hotel.core.page"/>
     </typeAliases>
     <plugins>
-        <plugin interceptor="com.hotel.core.page.PaginationInterceptor">
+        <plugin interceptor="com.hotel.core.mybatis.interceptor.PaginationInterceptor">
             <property name="dialect" value="mysql"/>
         </plugin>
+        <plugin interceptor="com.hotel.admin.mybatis.interceptor.BusinessInfoInterceptor"/>
     </plugins>
 </configuration>

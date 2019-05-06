@@ -6,7 +6,7 @@ import com.hotel.admin.dto.FileInfo;
 import com.hotel.admin.mapper.DocumentMapper;
 import com.hotel.admin.model.Document;
 import com.hotel.admin.service.IDocumentService;
-import com.hotel.admin.util.IdUtil;
+import com.hotel.common.utils.IdUtil;
 import com.hotel.core.utils.SimpleUtils;
 import com.hotel.common.utils.SystemUtil;
 import com.hotel.common.utils.Utils;

@@ -22,9 +22,9 @@ import com.hotel.common.utils.StringUtils;
  * @author Louis
  * @date Oct 29, 2018
  */
-@Aspect
-@Component
-@Configuration
+//@Aspect
+//@Component
+//@Configuration
 public class DaoAspect {
 	private static final String createBy = "createBy";
 	private static final String createTime = "createTime";

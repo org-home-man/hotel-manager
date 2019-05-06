@@ -1,23 +1,10 @@
 package com.hotel.admin.mapper;
 
 import com.hotel.admin.model.SysDept;
+import com.hotel.core.mybatis.mapper.AbstractMapper;
 
 import java.util.List;
 
-public interface SysDeptMapper {
-    int deleteByPrimaryKey(Long id);
+public interface SysDeptMapper extends AbstractMapper<SysDept> {
 
-    int insert(SysDept record);
-
-    int insertSelective(SysDept record);
-
-    SysDept selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(SysDept record);
-
-    int updateByPrimaryKey(SysDept record);
-    
-    List<SysDept> findPage();
-    
-    List<SysDept> findAll();
 }

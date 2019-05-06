@@ -2,23 +2,13 @@ package com.hotel.admin.mapper;
 
 import com.hotel.admin.model.SysUser;
 import com.hotel.admin.qo.SysUserQuery;
+import com.hotel.core.mybatis.mapper.AbstractMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface SysUserMapper {
-    int deleteByPrimaryKey(Long id);
+public interface SysUserMapper extends AbstractMapper<SysUser>{
 
-    int insert(SysUser record);
-
-    int insertSelective(SysUser record);
-
-    SysUser selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(SysUser record);
-
-    int updateByPrimaryKey(SysUser record);
-    
     List<SysUser> findPage(SysUserQuery qo);
     
     SysUser findByName(@Param(value = "name") String name);

@@ -1,12 +1,13 @@
 package com.hotel.admin.model;
 
-import com.hotel.common.entity.Entity;
+import com.hotel.common.entity.BusinessEntity;
+import com.hotel.common.entity.auth.ISysUser;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SysUser extends Entity {
+public class SysUser extends BusinessEntity implements ISysUser {
 
     private String name;
 
@@ -45,14 +46,6 @@ public class SysUser extends Entity {
     private String remark;
 
     private String path;
-
-    private String createBy;
-
-    private Date createTime;
-
-    private String lastUpdateBy;
-
-    private Date lastUpdateTime;
 
 
     public String getName() {
@@ -205,37 +198,5 @@ public class SysUser extends Entity {
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getLastUpdateBy() {
-        return lastUpdateBy;
-    }
-
-    public void setLastUpdateBy(String lastUpdateBy) {
-        this.lastUpdateBy = lastUpdateBy;
-    }
-
-    public Date getLastUpdateTime() {
-        return lastUpdateTime;
-    }
-
-    public void setLastUpdateTime(Date lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
     }
 }

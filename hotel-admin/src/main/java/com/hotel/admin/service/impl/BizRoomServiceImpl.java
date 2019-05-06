@@ -1,24 +1,25 @@
 package com.hotel.admin.service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import com.hotel.admin.dto.BizProInv;
 import com.hotel.admin.dto.BizRoomQuery;
 import com.hotel.admin.mapper.*;
 import com.hotel.admin.model.*;
+import com.hotel.admin.service.BizRoomService;
 import com.hotel.common.utils.StringUtils;
 import com.hotel.core.context.PageContext;
-import com.hotel.core.page.*;
+import com.hotel.core.page.Page;
+import com.hotel.core.page.PageRequest;
+import com.hotel.core.page.PageResult;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.hotel.admin.service.BizRoomService;
 import org.springframework.transaction.annotation.Transactional;
-import sun.nio.cs.ext.MacArabic;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * ---------------------------
@@ -102,7 +103,6 @@ public class BizRoomServiceImpl implements BizRoomService {
 			}
 			//插入BizRoom表
 			record.setRoomCode(roomCode);
-			record.setCreatTime(new Date());
 			int room =  bizRoomMapper.add(record);
 			if(room !=1) {
 				throw new RuntimeException("bizRoom");
@@ -117,7 +117,6 @@ public class BizRoomServiceImpl implements BizRoomService {
 //			return bizRoomMapper.add(record);
 		}
 		System.out.println("进入了update");
-		record.setLastUpdateTime(new Date());
 
 		int room = bizRoomMapper.update(record);
 		if (room !=1) {
@@ -371,39 +370,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 
 	private BizRoomExt getBizRoomExtObject(BizRoom br,String str) {
 		BizRoomExt bizRoomExt = new BizRoomExt();
-		bizRoomExt.setIsbalcony(br.getIsbalcony());
-		bizRoomExt.setIsbarrifr(br.getIsbarrifr());
-		bizRoomExt.setIsbeach(br.getIsbeach());
-		bizRoomExt.setIsbus(br.getIsbus());
-		bizRoomExt.setIschildct(br.getIschildct());
-		bizRoomExt.setIsfront(br.getIsfront());
-		bizRoomExt.setIsgym(br.getIsgym());
-		bizRoomExt.setIsheat(br.getIsheat());
-		bizRoomExt.setIshighrise(br.getIshighrise());
-		bizRoomExt.setIshotsp(br.getIshotsp());
-		bizRoomExt.setIsicebox(br.getIsicebox());
-		bizRoomExt.setIsiron(br.getIsiron());
-		bizRoomExt.setIskitchen(br.getIskitchen());
-		bizRoomExt.setIsknead(br.getIsknead());
-		bizRoomExt.setIslandscape(br.getIslandscape());
-		bizRoomExt.setIslounge(br.getIslounge());
-		bizRoomExt.setIsnosmk(br.getIsnosmk());
-		bizRoomExt.setIspark(br.getIspark());
-		bizRoomExt.setIsrestau(br.getIsrestau());
-		bizRoomExt.setIsroomserv(br.getIsroomserv());
-		bizRoomExt.setIssuper(br.getIssuper());
-		bizRoomExt.setIsswmp(br.getIsswmp());
-		bizRoomExt.setIstrafic(br.getIstrafic());
-		bizRoomExt.setIswify(br.getIswify());
-		bizRoomExt.setIswindow(br.getIswindow());
-		bizRoomExt.setRoomCode(br.getRoomCode());
-		if ("add".equals(str)){
-			bizRoomExt.setCreatTime(new Date());
-			bizRoomExt.setCreatBy(br.getCreatBy());
-		} else if ("update".equals(str)){
-			bizRoomExt.setLastUpdateBy(br.getLastUpdateBy());
-			bizRoomExt.setLastUpdateTime(new Date());
-		}
+		BeanUtils.copyProperties(br,bizRoomExt);
 		return bizRoomExt;
 
 	}

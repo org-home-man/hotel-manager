@@ -1,18 +1,16 @@
 package com.hotel.admin.controller;
 
-import java.util.List;
-
+import com.hotel.admin.model.SysDept;
+import com.hotel.admin.service.SysDeptService;
+import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hotel.admin.model.SysDept;
-import com.hotel.admin.service.SysDeptService;
-import com.hotel.core.http.HttpResult;
+import java.util.List;
 
 /**
  * 机构控制器
@@ -28,14 +26,16 @@ public class SysDeptController {
 	
 	@PreAuthorize("hasAuthority('sys:dept:add') AND hasAuthority('sys:dept:edit')")
 	@PostMapping(value="/save")
-	public HttpResult save(@RequestBody SysDept record) {
-		return HttpResult.ok(sysDeptService.save(record));
+	public HttpResult save(SysDept record) {
+		sysDeptService.save(record);
+		return HttpResult.ok();
 	}
 
 	@PreAuthorize("hasAuthority('sys:dept:delete')")
 	@PostMapping(value="/delete")
-	public HttpResult delete(@RequestBody List<SysDept> records) {
-		return HttpResult.ok(sysDeptService.delete(records));
+	public HttpResult delete(List<SysDept> records) {
+		sysDeptService.delete(records);
+		return HttpResult.ok();
 	}
 
 	@PreAuthorize("hasAuthority('sys:dept:view')")

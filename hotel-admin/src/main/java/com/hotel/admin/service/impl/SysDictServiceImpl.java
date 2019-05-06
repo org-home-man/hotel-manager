@@ -3,17 +3,16 @@ package com.hotel.admin.service.impl;
 import com.hotel.admin.mapper.SysDictMapper;
 import com.hotel.admin.model.SysDict;
 import com.hotel.admin.service.SysDictService;
-import com.hotel.core.page.ColumnFilter;
-import com.hotel.core.page.MybatisPageHelper;
-import com.hotel.core.page.PageRequest;
-import com.hotel.core.page.PageResult;
+import com.hotel.core.context.PageContext;
+import com.hotel.core.page.*;
+import com.hotel.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class SysDictServiceImpl  implements SysDictService {
+public class SysDictServiceImpl extends AbstractService<SysDict> implements SysDictService {
 
 	@Autowired
 	private SysDictMapper sysDictMapper;
@@ -27,35 +26,13 @@ public class SysDictServiceImpl  implements SysDictService {
 	}
 
 	@Override
-	public int delete(SysDict record) {
-		return sysDictMapper.deleteByPrimaryKey(record.getId());
+	public List<SysDict> findByLable(String label) {
+		return sysDictMapper.findPageByLabel(label);
 	}
 
 	@Override
-	public int delete(List<SysDict> records) {
-		for(SysDict record:records) {
-			delete(record);
-		}
-		return 1;
+	public Page findPage(String label) {
+		sysDictMapper.findPageByLabel(label);
+		return PageContext.getPage();
 	}
-
-	@Override
-	public SysDict findById(Long id) {
-		return sysDictMapper.selectByPrimaryKey(id);
-	}
-
-	@Override
-	public PageResult findPage(PageRequest pageRequest) {
-		ColumnFilter columnFilter = pageRequest.getColumnFilter("label");
-		if(columnFilter != null) {
-			return MybatisPageHelper.findPage(pageRequest, sysDictMapper, "findPageByLabel", columnFilter.getValue());
-		}
-		return MybatisPageHelper.findPage(pageRequest, sysDictMapper);
-	}
-
-	@Override
-	public List<SysDict> findByLable(String lable) {
-		return sysDictMapper.findByLable(lable);
-	}
-
 }

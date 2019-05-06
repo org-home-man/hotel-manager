@@ -1,5 +1,7 @@
 package com.hotel.admin.model;
 
+import com.hotel.common.entity.BusinessEntity;
+
 /**
  * ---------------------------
  * 客房信息铺表 (BizRoomExt)         
@@ -9,7 +11,7 @@ package com.hotel.admin.model;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public class BizRoomExt {
+public class BizRoomExt extends BusinessEntity{
 
 	/** 客房编号 */
 	private String roomCode;
@@ -63,14 +65,6 @@ public class BizRoomExt {
 	private String istrafic;
 	/** 附近有餐厅 */
 	private String isrestau;
-	/** 创建人员 */
-	private String creatBy;
-	/** 创建时间 */
-	private java.util.Date creatTime;
-	/** 更新人员 */
-	private String lastUpdateBy;
-	/** 更新时间 */
-	private java.util.Date lastUpdateTime;
 
 	public String getRoomCode() {
 		return roomCode;
@@ -280,36 +274,5 @@ public class BizRoomExt {
 		this.isrestau = isrestau;
 	}
 
-	public String getCreatBy() {
-		return creatBy;
-	}
-
-	public void setCreatBy(String creatBy) {
-		this.creatBy = creatBy;
-	}
-
-	public java.util.Date getCreatTime() {
-		return creatTime;
-	}
-
-	public void setCreatTime(java.util.Date creatTime) {
-		this.creatTime = creatTime;
-	}
-
-	public String getLastUpdateBy() {
-		return lastUpdateBy;
-	}
-
-	public void setLastUpdateBy(String lastUpdateBy) {
-		this.lastUpdateBy = lastUpdateBy;
-	}
-
-	public java.util.Date getLastUpdateTime() {
-		return lastUpdateTime;
-	}
-
-	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
-		this.lastUpdateTime = lastUpdateTime;
-	}
 
 }

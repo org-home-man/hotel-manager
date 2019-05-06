@@ -1,23 +1,18 @@
 package com.hotel.admin.util;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import com.hotel.admin.security.GrantedAuthorityImpl;
 import com.hotel.admin.security.JwtAuthenticatioToken;
 import com.hotel.core.context.PageContext;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * JWT工具类

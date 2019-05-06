@@ -1,8 +1,11 @@
 package com.hotel.admin.model;
 
+import com.hotel.common.entity.BusinessEntity;
+
+import javax.persistence.Transient;
 import java.util.List;
 
-public class SysDept extends BaseModel {
+public class SysDept extends BusinessEntity {
 
     private String name;
     
@@ -15,8 +18,10 @@ public class SysDept extends BaseModel {
     private List<SysDept> children;
     
     // 非数据库字段
+	@Transient
     private String parentName;
     // 非数据库字段
+	@Transient
     private Integer level;
     
 	public String getName() {

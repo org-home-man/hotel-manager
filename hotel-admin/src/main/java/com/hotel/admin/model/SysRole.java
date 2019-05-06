@@ -1,6 +1,8 @@
 package com.hotel.admin.model;
 
-public class SysRole extends BaseModel {
+import com.hotel.common.entity.BusinessEntity;
+
+public class SysRole extends BusinessEntity {
 
     private String name;
 

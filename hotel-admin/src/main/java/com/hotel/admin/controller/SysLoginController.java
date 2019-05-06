@@ -1,21 +1,5 @@
 package com.hotel.admin.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.hotel.admin.model.SysUser;
@@ -26,6 +10,21 @@ import com.hotel.admin.util.SecurityUtils;
 import com.hotel.admin.vo.LoginBean;
 import com.hotel.common.utils.IOUtils;
 import com.hotel.core.http.HttpResult;
+import com.hotel.core.model.ResultInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.imageio.ImageIO;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * 登录控制器
@@ -63,7 +62,7 @@ public class SysLoginController {
 	 * 登录接口
 	 */
 	@PostMapping(value = "/login")
-	public HttpResult login(@RequestBody LoginBean loginBean, HttpServletRequest request) throws IOException {
+	public HttpResult login(LoginBean loginBean, HttpServletRequest request) throws IOException {
 		String username = loginBean.getAccount();
 		String password = loginBean.getPassword();
 		String captcha = loginBean.getCaptcha();
@@ -76,7 +75,7 @@ public class SysLoginController {
 //		if(!captcha.equals(kaptcha)){
 //			return HttpResult.error("验证码不正确");
 //		}
-		
+
 		// 用户信息
 		SysUser user = sysUserService.findByName(username);
 
@@ -96,7 +95,7 @@ public class SysLoginController {
 
 		// 系统登录认证
 		JwtAuthenticatioToken token = SecurityUtils.login(request, username, password, authenticationManager);
-				
+
 		return HttpResult.ok(token);
 	}
 

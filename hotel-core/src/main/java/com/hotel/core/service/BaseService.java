@@ -25,6 +25,9 @@ public class BaseService<T extends Entity> implements IService<T> {
     }
 
     public T selectByKey(Object key) {
+        if(Utils.isEmpty(key)){
+            return null;
+        }
         return this.mapper.selectByPrimaryKey(key);
     }
 
@@ -40,10 +43,10 @@ public class BaseService<T extends Entity> implements IService<T> {
         if (Utils.isEmpty(entities)) {
             return 0;
         } else {
-            Iterator var2 = entities.iterator();
+            Iterator<T> var2 = entities.iterator();
 
             while(var2.hasNext()) {
-                T t = (T) var2.next();
+                T t = var2.next();
                 this.save(t);
             }
 
@@ -55,15 +58,15 @@ public class BaseService<T extends Entity> implements IService<T> {
         return this.mapper.deleteByPrimaryKey(key);
     }
 
-    public int delete(Collection<Object> keys) {
+    public int delete(Collection<T> keys) {
         if (Utils.isEmpty(keys)) {
             return 0;
         } else {
-            Iterator var2 = keys.iterator();
+            Iterator<T> var2 = keys.iterator();
 
             while(var2.hasNext()) {
-                Object obj = var2.next();
-                this.delete(obj);
+                T obj = var2.next();
+                this.delete(obj.getId());
             }
 
             return keys.size();

@@ -1,15 +1,12 @@
 package com.hotel.admin.controller;
 
+import com.hotel.admin.service.SysLogService;
+import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.hotel.admin.service.SysLogService;
-import com.hotel.core.http.HttpResult;
-import com.hotel.core.page.PageRequest;
 
 /**
  * 日志控制器
@@ -25,7 +22,7 @@ public class SysLogController {
 
 	@PreAuthorize("hasAuthority('sys:log:view')")
 	@PostMapping(value="/findPage")
-	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
-		return HttpResult.ok(sysLogService.findPage(pageRequest));
+	public HttpResult findPage(String name) {
+		return HttpResult.ok(sysLogService.findPage(name));
 	}
 }

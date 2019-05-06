@@ -1,11 +1,11 @@
 package com.hotel.admin.model;
 
-import com.hotel.common.entity.Entity;
+import com.hotel.common.entity.BusinessEntity;
 
 import javax.persistence.Table;
 
 @Table(name = "so_document")
-public class Document extends Entity{
+public class Document extends BusinessEntity{
 
     private String relationId;
 

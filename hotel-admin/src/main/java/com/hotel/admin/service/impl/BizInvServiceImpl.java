@@ -1,9 +1,8 @@
 package com.hotel.admin.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
 import com.hotel.admin.mapper.BizInvMapper;
+import com.hotel.admin.model.BizInv;
+import com.hotel.admin.service.BizInvService;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.page.MybatisPageHelper;
 import com.hotel.core.page.PageRequest;
@@ -11,11 +10,7 @@ import com.hotel.core.page.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-
-import com.hotel.admin.model.BizInv;
-
-import com.hotel.admin.service.BizInvService;
+import java.util.List;
 
 /**
  * ---------------------------
@@ -47,9 +42,6 @@ public class BizInvServiceImpl implements BizInvService {
 		for (int i=0 ; i<li.size() ; i++) {
 			BizInv bp = li.get(i);
 			record.setInvDate(bp.getInvDate());
-			record.setCreatBy(record.getLastUpdateBy());
-			record.setCreatTime(new Date());
-			record.setLastUpdateTime(new Date());
 
 			List<BizInv> bpLi = bizInvMapper.findById(record);
 

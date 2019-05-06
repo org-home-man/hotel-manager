@@ -1,5 +1,7 @@
 package com.hotel.admin.model;
 
+import com.hotel.common.entity.BusinessEntity;
+
 import java.util.List;
 
 /**
@@ -11,7 +13,7 @@ import java.util.List;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public class BizRoom {
+public class BizRoom extends BusinessEntity{
 
 	/** 客房编号 */
 	private String roomCode;
@@ -44,14 +46,6 @@ public class BizRoom {
 	private Integer roomStock;
 	/** 是否本期推荐 */
 	private String recommended;
-	/** 创建人员 */
-	private String creatBy;
-	/** 创建时间 */
-	private java.util.Date creatTime;
-	/** 更新时间 */
-	private String lastUpdateBy;
-	/** 更新时间 */
-	private java.util.Date lastUpdateTime;
 
 	private List<BizHotl> bizHotls;
 
@@ -635,36 +629,5 @@ public class BizRoom {
 		this.recommended = recommended;
 	}
 
-	public String getCreatBy() {
-		return creatBy;
-	}
-
-	public void setCreatBy(String creatBy) {
-		this.creatBy = creatBy;
-	}
-
-	public java.util.Date getCreatTime() {
-		return creatTime;
-	}
-
-	public void setCreatTime(java.util.Date creatTime) {
-		this.creatTime = creatTime;
-	}
-
-	public String getLastUpdateBy() {
-		return lastUpdateBy;
-	}
-
-	public void setLastUpdateBy(String lastUpdateBy) {
-		this.lastUpdateBy = lastUpdateBy;
-	}
-
-	public java.util.Date getLastUpdateTime() {
-		return lastUpdateTime;
-	}
-
-	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
-		this.lastUpdateTime = lastUpdateTime;
-	}
 
 }

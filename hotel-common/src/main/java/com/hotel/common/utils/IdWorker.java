@@ -1,4 +1,4 @@
-package com.hotel.admin.util;
+package com.hotel.common.utils;
 
 
 /**

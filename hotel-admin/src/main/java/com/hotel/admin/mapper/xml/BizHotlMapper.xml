@@ -19,243 +19,45 @@
     <result column="hotel_phone" jdbcType="VARCHAR" property="hotelPhone" />
     <result column="hotel_fax" jdbcType="VARCHAR" property="hotelFax" />
     <result column="hotel_web" jdbcType="VARCHAR" property="hotelWeb" />
-    <result column="creat_cy" jdbcType="VARCHAR" property="creatCy" />
-	<result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
-	<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
-	<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_name" jdbcType="VARCHAR" property="updateName" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
   </resultMap>
-  
-  <insert id="add" parameterType="com.hotel.admin.model.BizHotl">
-    insert into biz_hotl
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="hotelCode != null">
-        hotel_code,
-      </if>
-      <if test="countryCode != null">
-        country_code,
-      </if>
-      <if test="provinceCode != null">
-        province_code,
-      </if>
-      <if test="cityCode != null">
-        city_code,
-      </if>
-      <if test="hotelType != null">
-        hotel_type,
-      </if>
-      <if test="hotelLevel != null">
-        hotel_level,
-      </if>
-      <if test="hotelCname != null">
-        hotel_cname,
-      </if>
-      <if test="hotelEname != null">
-        hotel_ename,
-      </if>
-      <if test="hotelAddr != null">
-        hotel_addr,
-      </if>
-      <if test="hotelPhone != null">
-        hotel_phone,
-      </if>
-      <if test="hotelFax != null">
-        hotel_fax,
-      </if>
-      <if test="hotelWeb != null">
-        hotel_web,
-      </if>
-      <if test="creatCy != null">
-        creat_cy,
-      </if>
-      <if test="creatTime != null">
-        creat_time,
-      </if>
-      <if test="lastUpdateBy != null">
-        last_update_by,
-      </if>
-      <if test="lastUpdateTime != null">
-        last_update_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="hotelCode != null">
-        #{hotelCode,jdbcType=VARCHAR},
-      </if>
-      <if test="countryCode != null">
-        #{countryCode,jdbcType=VARCHAR},
-      </if>
-      <if test="provinceCode != null">
-        #{provinceCode,jdbcType=VARCHAR},
-      </if>
-      <if test="cityCode != null">
-        #{cityCode,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelType != null">
-        #{hotelType,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelLevel != null">
-        #{hotelLevel,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelCname != null">
-        #{hotelCname,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelEname != null">
-        #{hotelEname,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelAddr != null">
-        #{hotelAddr,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelPhone != null">
-        #{hotelPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelFax != null">
-        #{hotelFax,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelWeb != null">
-        #{hotelWeb,jdbcType=VARCHAR},
-      </if>
-      <if test="creatCy != null">
-        #{creatCy,jdbcType=VARCHAR},
-      </if>
-      <if test="creatTime != null">
-        #{creatTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastUpdateBy != null">
-        #{lastUpdateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="lastUpdateTime != null">
-        #{lastUpdateTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
 
-  <delete id="delete" parameterType="java.lang.String">
-    delete from biz_hotl
-    where hotel_code = #{hotelCode,jdbcType=VARCHAR}
-  </delete>
-  
-  <update id="update" parameterType="com.hotel.admin.model.BizHotl">
-    update biz_hotl
-    <set>
-      <if test="hotelCode != null">
-        hotel_code = #{hotelCode,jdbcType=VARCHAR},
-      </if>
-      <if test="countryCode != null">
-        country_code = #{countryCode,jdbcType=VARCHAR},
-      </if>
-      <if test="provinceCode != null">
-        province_code = #{provinceCode,jdbcType=VARCHAR},
-      </if>
-      <if test="cityCode != null">
-        city_code = #{cityCode,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelType != null">
-        hotel_type = #{hotelType,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelLevel != null">
-        hotel_level = #{hotelLevel,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelCname != null">
-        hotel_cname = #{hotelCname,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelEname != null">
-        hotel_ename = #{hotelEname,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelAddr != null">
-        hotel_addr = #{hotelAddr,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelPhone != null">
-        hotel_phone = #{hotelPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelFax != null">
-        hotel_fax = #{hotelFax,jdbcType=VARCHAR},
-      </if>
-      <if test="hotelWeb != null">
-        hotel_web = #{hotelWeb,jdbcType=VARCHAR},
-      </if>
-      <if test="creatCy != null">
-        creat_cy = #{creatCy,jdbcType=VARCHAR},
-      </if>
-      <if test="creatTime != null">
-        creat_time = #{creatTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastUpdateBy != null">
-        last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="lastUpdateTime != null">
-        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where hotel_code = #{hotelCode,jdbcType=VARCHAR}
-  </update>
-
-  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select * from biz_hotl
-    where hotel_code = #{hotelCode,jdbcType=VARCHAR}
-  </select>
   
   <select id="findPage" resultMap="BaseResultMap">
     select a.hotel_code, a.country_code, a.province_code, a.city_code, (select para_code from sys_para_config where para_code LIKE 'hotelType%' and para_sub_code1='hotelType' AND para_value1=a.hotel_type) hotel_type_key,
     a.hotel_type, a.hotel_Level, (select para_code from sys_para_config where para_code LIKE 'hotelLevel%' and para_sub_code1='hotelLevel' AND para_value1=a.hotel_Level) hotel_Level_key,
-     a.hotel_cname, a.hotel_ename, a.creat_cy, a.creat_time, a.last_update_by, a.last_update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web
+     a.hotel_cname, a.hotel_ename, a.create_name,a.create_time,a.update_name, a.update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web
  from biz_hotl a
   </select>
 
-  <select id="findPageByPara" parameterType="java.util.Map" resultMap="BaseResultMap">
+  <select id="findPageByPara" parameterType="com.hotel.admin.dto.BizHotelQueryDto" resultMap="BaseResultMap">
       select
   a.hotel_code, a.country_code,(select para_code from sys_para_config where para_code LIKE 'provinceCode%' and para_sub_code1='provinceCode' AND para_value1=a.province_code) province_code_key,
     (select para_code from sys_para_config where para_code LIKE 'cityCode%' and para_sub_code1='cityCode' AND para_value1=a.city_code) city_code_key,
    (select para_code from sys_para_config where para_code LIKE 'hotelType%' and para_sub_code1='hotelType' AND para_value1=a.hotel_type) hotel_type_key,
   a.hotel_type, a.hotel_Level, (select para_code from sys_para_config where para_code LIKE 'hotelLevel%' and para_sub_code1='hotelLevel' AND para_value1=a.hotel_Level) hotel_Level_key,
-  a.hotel_cname, a.hotel_ename, a.creat_cy, a.creat_time, a.last_update_by, a.last_update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web,a.province_code,a.city_code
+  a.hotel_cname, a.hotel_ename, a.create_time,a.create_name,a.update_name, a.update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web,a.province_code,a.city_code
   from biz_hotl a where  1=1
-  <if test="hotelCode != null">
+  <if test="hotelCode != null and hotelCode!=''">
     AND  a.hotel_code = #{hotelCode,jdbcType=VARCHAR}
   </if>
-  <if test="countryCode != null">
-    AND a.country_code = #{countryCode,jdbcType=VARCHAR}
-  </if>
-  <if test="provinceCode != null">
+  <if test="provinceCode != null and provinceCode !=''">
     AND a.province_code = #{provinceCode,jdbcType=VARCHAR}
   </if>
-  <if test="cityCode != null">
+  <if test="cityCode != null and cityCode !=''">
     AND a.city_code = #{cityCode,jdbcType=VARCHAR}
   </if>
-  <if test="hotelType != null">
+  <if test="hotelType != null and hotelType !=''">
     AND a.hotel_type = #{hotelType,jdbcType=VARCHAR}
   </if>
-  <if test="hotelLevel != null">
+  <if test="hotelLevel != null and hotelLevel !=''">
     AND a.hotel_level = #{hotelLevel,jdbcType=VARCHAR}
   </if>
-  <if test="hotelCname != null">
+  <if test="hotelCname != null and hotelCname !=''">
     AND a.hotel_cname = #{hotelCname,jdbcType=VARCHAR}
-  </if>
-  <if test="hotelEname != null">
-    AND a.hotel_ename = #{hotelEname,jdbcType=VARCHAR}
-  </if>
-  <if test="hotelAddr != null">
-    AND a.hotel_addr = #{hotelAddr,jdbcType=VARCHAR}
-  </if>
-  <if test="hotelPhone != null">
-    AND a.hotel_phone = #{hotelPhone,jdbcType=VARCHAR}
-  </if>
-  <if test="hotelFax != null">
-    AND a.hotel_fax = #{hotelFax,jdbcType=VARCHAR}
-  </if>
-  <if test="hotelWeb != null">
-    AND a.hotel_web = #{hotelWeb,jdbcType=VARCHAR}
-  </if>
-  <if test="creatCy != null">
-    AND a.creat_cy = #{creatCy,jdbcType=VARCHAR}
-  </if>
-  <if test="creatTime != null">
-    AND a.creat_time = #{creatTime,jdbcType=TIMESTAMP}
-  </if>
-  <if test="lastUpdateBy != null">
-    AND  a.last_update_by = #{lastUpdateBy,jdbcType=VARCHAR}
-  </if>
-  <if test="lastUpdateTime != null">
-    AND a.last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
   </if>
   </select>
 

@@ -1,22 +1,12 @@
 package com.hotel.admin.mapper;
 
 import com.hotel.admin.model.SysUserRole;
+import com.hotel.core.mybatis.mapper.AbstractMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface SysUserRoleMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(SysUserRole record);
-
-    int insertSelective(SysUserRole record);
-
-    SysUserRole selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(SysUserRole record);
-
-    int updateByPrimaryKey(SysUserRole record);
+public interface SysUserRoleMapper extends AbstractMapper<SysUserRole>{
 
 	List<SysUserRole> findUserRoles(@Param(value = "userId") Long userId);
 
