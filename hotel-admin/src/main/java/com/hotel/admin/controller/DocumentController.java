@@ -1,22 +1,16 @@
 package com.hotel.admin.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.hotel.admin.controller.base.BaseController;
 import com.hotel.admin.dto.FileInfo;
 import com.hotel.admin.service.IDocumentService;
-import com.hotel.core.context.PageContext;
-import com.hotel.core.utils.SimpleUtils;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.model.ResultInfo;
+import com.hotel.core.utils.SimpleUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
-import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,9 +18,6 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/document")

@@ -258,7 +258,7 @@
      AND d.hotel_code = #{hotelCode,jdbcType=VARCHAR}
     </if>
     <if test="hotelName != null">
-     AND d.hotel_cname LIKE '%'#{hotelName,jdbcType=VARCHAR}'%' OR d.hotel_ename LIKE '%'#{hotelName,jdbcType=VARCHAR}'%'
+     AND d.hotel_cname LIKE concat('%',#{hotelName,jdbcType=VARCHAR},'%') OR d.hotel_ename LIKE concat('%',#{hotelName,jdbcType=VARCHAR},'%')
     </if>
     <if test="roomType != null">
      AND a.room_type = #{roomType,jdbcType=VARCHAR}
@@ -361,7 +361,7 @@
       AND a.room_code = #{roomCode,jdbcType=VARCHAR}
     </if>
     <if test="roomStyle != null">
-      AND a.room_style, = #{roomStyle,,jdbcType=VARCHAR}
+      AND a.room_style = #{roomStyle,jdbcType=VARCHAR}
     </if>
     <if test="roomArea != null">
       AND a.room_area >= #{roomArea,jdbcType=VARCHAR}
@@ -454,7 +454,7 @@
       AND e.isrestau = #{isrestau,jdbcType=VARCHAR}
     </if>
     <if test="sPrice != null">
-      AND  #{s_Price,jdbcType=VARCHAR} >= c.s_Price
+      AND  #{s_Price,jdbcType=VARCHAR} &gt;= c.s_Price
     </if>
     <if test="inDateStart != null">
       AND  c.price_date >= #{inDateStart,jdbcType=VARCHAR}

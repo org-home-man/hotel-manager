@@ -40,7 +40,7 @@ public class SysUserController {
 	
 	@PreAuthorize("hasAuthority('sys:user:add') AND hasAuthority('sys:user:edit')")
 	@PostMapping(value="/save")
-	public HttpResult save(@RequestBody SysUser record) {
+	public HttpResult save(SysUser record) {
 		SysUser user = sysUserService.findById(record.getId());
 		if(user != null) {
 			if(SysConstants.ADMIN.equalsIgnoreCase(user.getName())) {
@@ -66,36 +66,38 @@ public class SysUserController {
 				}
 			}
 		}
-		return HttpResult.ok(sysUserService.save(record));
+		sysUserService.save(record);
+		return HttpResult.ok();
 	}
 
 	@PreAuthorize("hasAuthority('sys:user:delete')")
 	@PostMapping(value="/delete")
-	public HttpResult delete(@RequestBody List<SysUser> records) {
+	public HttpResult delete(List<SysUser> records) {
 		for(SysUser record:records) {
 			SysUser sysUser = sysUserService.findById(record.getId());
 			if(sysUser != null && SysConstants.ADMIN.equalsIgnoreCase(sysUser.getName())) {
 				return HttpResult.error("超级管理员不允许删除!");
 			}
 		}
-		return HttpResult.ok(sysUserService.delete(records));
+		sysUserService.delete(records);
+		return HttpResult.ok();
 	}
 	
 	@PreAuthorize("hasAuthority('sys:user:view')")
-	@GetMapping(value="/findByName")
-	public HttpResult findByUserName(@RequestParam String name) {
+	@PostMapping(value="/findByName")
+	public HttpResult findByUserName(String name) {
 		return HttpResult.ok(sysUserService.findByName(name));
 	}
 	
 	@PreAuthorize("hasAuthority('sys:user:view')")
 	@GetMapping(value="/findPermissions")
-	public HttpResult findPermissions(@RequestParam String name) {
+	public HttpResult findPermissions(String name) {
 		return HttpResult.ok(sysUserService.findPermissions(name));
 	}
 	
 	@PreAuthorize("hasAuthority('sys:user:view')")
 	@GetMapping(value="/findUserRoles")
-	public HttpResult findUserRoles(@RequestParam Long userId) {
+	public HttpResult findUserRoles(Long userId) {
 		return HttpResult.ok(sysUserService.findUserRoles(userId));
 	}
 
@@ -106,7 +108,7 @@ public class SysUserController {
 	}
 
 	@PostMapping(value="/upload")
-	public HttpResult upload(@RequestBody MultipartFile file) {
+	public HttpResult upload(MultipartFile file) {
 		try {
 			// 获取文件名
 			String fileName = UUID.randomUUID().toString();

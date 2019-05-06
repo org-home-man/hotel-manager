@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * ---------------------------
- * 客房信息表 (BizRoom)         
+ * 客房信息表 (BizRoom)
  * ---------------------------
  * 作者：  kitty-generator
  * 时间：  2019-04-01 21:00:17
@@ -48,14 +48,6 @@ public class HotelRoomQry {
 	private Integer roomStock;
 	/** 是否本期推荐 */
 	private String recommended;
-	/** 创建人员 */
-	private String creatBy;
-	/** 创建时间 */
-	private java.util.Date creatTime;
-	/** 更新时间 */
-	private String lastUpdateBy;
-	/** 更新时间 */
-	private java.util.Date lastUpdateTime;
 
 	private List<BizHotl> bizHotls;
 
@@ -629,36 +621,5 @@ public class HotelRoomQry {
 		this.recommended = recommended;
 	}
 
-	public String getCreatBy() {
-		return creatBy;
-	}
-
-	public void setCreatBy(String creatBy) {
-		this.creatBy = creatBy;
-	}
-
-	public java.util.Date getCreatTime() {
-		return creatTime;
-	}
-
-	public void setCreatTime(java.util.Date creatTime) {
-		this.creatTime = creatTime;
-	}
-
-	public String getLastUpdateBy() {
-		return lastUpdateBy;
-	}
-
-	public void setLastUpdateBy(String lastUpdateBy) {
-		this.lastUpdateBy = lastUpdateBy;
-	}
-
-	public java.util.Date getLastUpdateTime() {
-		return lastUpdateTime;
-	}
-
-	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
-		this.lastUpdateTime = lastUpdateTime;
-	}
 
 }

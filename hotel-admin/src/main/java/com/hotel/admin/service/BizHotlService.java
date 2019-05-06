@@ -1,7 +1,10 @@
 package com.hotel.admin.service;
 
+import com.hotel.admin.dto.BizHotelQueryDto;
 import com.hotel.admin.model.BizHotl;
+import com.hotel.core.page.Page;
 import com.hotel.core.service.CurdService;
+import com.hotel.core.service.IService;
 
 import java.util.List;
 
@@ -15,8 +18,8 @@ import java.util.List;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public interface BizHotlService extends CurdService<BizHotl> {
+public interface BizHotlService extends IService<BizHotl> {
 //    BizHotl findByName(String username);
-    BizHotl findById(String id);
     List<BizHotl> findAllData(BizHotl bizHotl);
+    Page findPage(BizHotelQueryDto dto);
 }

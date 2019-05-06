@@ -1,16 +1,17 @@
 package com.hotel.admin.service.impl;
 
+import com.hotel.admin.dto.BizHotelQueryDto;
 import com.hotel.admin.model.CrtId;
 import com.hotel.admin.mapper.BizHotlMapper;
 import com.hotel.admin.mapper.CrtIdMapper;
 import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.service.BizHotlService;
 import com.hotel.common.utils.StringUtils;
+import com.hotel.common.utils.Utils;
+import com.hotel.core.context.PageContext;
 import com.hotel.core.http.HttpResult;
-import com.hotel.core.page.ColumnFilter;
-import com.hotel.core.page.MybatisPageHelper;
-import com.hotel.core.page.PageRequest;
-import com.hotel.core.page.PageResult;
+import com.hotel.core.page.*;
+import com.hotel.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ import java.util.Map;
  * ---------------------------
  */
 @Service
-public class BizHotlServiceImpl implements BizHotlService {
+public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizHotlService {
 
 	@Autowired
 	private BizHotlMapper bizHotlMapper;
@@ -41,7 +42,7 @@ public class BizHotlServiceImpl implements BizHotlService {
 	@Override
 	@Transactional
 	public int save(BizHotl record) {
-            if(record.getHotelCode() == null || record.getHotelCode() == "0") {
+            if(Utils.isEmpty(record.getHotelCode()) || record.getHotelCode() == "0") {
                 System.out.println("licy12345");
                 /* 获取自增序列并加1*/
                 System.out.println(record.getHotelCode());
@@ -70,7 +71,7 @@ public class BizHotlServiceImpl implements BizHotlService {
 				 try
 				 {
                      System.out.println(record.getHotelAddr());
-					 bizHotlMapper.add(record);
+					 bizHotlMapper.insertSelective(record);
 				 }
 				 catch (Exception e)
 				 {
@@ -80,37 +81,9 @@ public class BizHotlServiceImpl implements BizHotlService {
                 return 0;
             }
 		System.out.println(record.getHotelCode());
-		return bizHotlMapper.update(record);
+		return bizHotlMapper.updateByPrimaryKeySelective(record);
     }
 
-	@Override
-	public int delete(BizHotl record) {
-		System.out.println(record.getHotelCode());
-		return bizHotlMapper.delete(record.getHotelCode());
-	}
-
-	@Override
-	public int delete(List<BizHotl> records) {
-		for(BizHotl record:records) {
-			delete(record);
-		}
-		return 1;
-	}
-
-	@Override
-	public BizHotl findById(Long id) {
-		return null;
-	}
-
-//	@Override
-//	public BizHotl findByName(String username) {
-//		return null;
-//	}
-
-	@Override
-	public BizHotl findById(String id) {
-		return bizHotlMapper.findById(id);
-	}
 
 	@Override
 	public List<BizHotl> findAllData(BizHotl bizHotl) {
@@ -118,17 +91,18 @@ public class BizHotlServiceImpl implements BizHotlService {
 	}
 
 	@Override
-	public PageResult findPage(PageRequest pageRequest) {
-		Map<String,Object> map = new HashMap<String ,Object>();
-		Map<String, ColumnFilter> temp = pageRequest.getColumnFilters();
-		for (Map.Entry<String,ColumnFilter> entry : temp.entrySet() ) {
-			ColumnFilter columnFilter = entry.getValue();
-			if (!StringUtils.isBlank(columnFilter.getValue())) {
-				map.put(columnFilter.getName(),columnFilter.getValue());
-			}
-		}
-		PageResult pr =  MybatisPageHelper.findPage(pageRequest, bizHotlMapper,"findPageByPara",map);
-		return pr;
+	public Page findPage(BizHotelQueryDto dto) {
+//		Map<String,Object> map = new HashMap<String ,Object>();
+//		Map<String, ColumnFilter> temp = pageRequest.getColumnFilters();
+//		for (Map.Entry<String,ColumnFilter> entry : temp.entrySet() ) {
+//			ColumnFilter columnFilter = entry.getValue();
+//			if (!StringUtils.isBlank(columnFilter.getValue())) {
+//				map.put(columnFilter.getName(),columnFilter.getValue());
+//			}
+//		}
+		bizHotlMapper.findPageByPara(dto);
+//		PageResult pr =  MybatisPageHelper.findPage(pageRequest, bizHotlMapper,"findPageByPara",map);
+		return PageContext.getPage();
 
 //		return MybatisPageHelper.findPage(pageRequest, bizHotlMapper);
 	}

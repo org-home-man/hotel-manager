@@ -1,29 +1,20 @@
 package com.hotel.admin.controller;
 
+import com.hotel.admin.dto.BizProInv;
+import com.hotel.admin.dto.BizRoomQuery;
+import com.hotel.admin.model.BizProPrice;
+import com.hotel.admin.model.BizRoom;
+import com.hotel.admin.service.BizRoomService;
+import com.hotel.core.http.HttpResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-
-import com.hotel.admin.dto.BizProInv;
-import com.hotel.admin.dto.BizRoomQuery;
-import com.hotel.admin.model.BizProPrice;
-import com.hotel.core.http.HttpResult;
-import com.hotel.core.page.PageRequest;
-import com.hotel.core.page.SimplePageReq;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.hotel.admin.model.BizRoom;
-import com.hotel.admin.service.BizRoomService;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * ---------------------------
@@ -47,8 +38,9 @@ public class BizRoomController {
 	 * @return
 	 */	
 	@PostMapping(value="/save")
-	public HttpResult save(@RequestBody BizRoom record) {
-		return HttpResult.ok(bizRoomService.save(record));
+	public HttpResult save(BizRoom record) {
+		bizRoomService.save(record);
+		return HttpResult.ok();
 	}
 
     /**
@@ -58,7 +50,8 @@ public class BizRoomController {
      */
 	@PostMapping(value="/delete")
 	public HttpResult delete(@RequestBody List<BizRoom> records) {
-		return HttpResult.ok(bizRoomService.delete(records));
+		bizRoomService.delete(records);
+		return HttpResult.ok();
 	}
 
     /**
@@ -115,7 +108,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@PostMapping(value="/producePriceCalendar")
-	public HttpResult producePriceCalendar(@RequestBody BizProPrice bizProPrice) {
+	public HttpResult producePriceCalendar(BizProPrice bizProPrice) {
 		return HttpResult.ok(bizRoomService.producePriceCalendar(bizProPrice));
 	}
 
@@ -125,7 +118,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@PostMapping(value="/priceDatePro")
-	public HttpResult priceDatePro(@RequestBody BizProPrice bizProPrice) {
+	public HttpResult priceDatePro(BizProPrice bizProPrice) {
 		return HttpResult.ok(bizRoomService.productDatePrice(bizProPrice));
 	}
 
@@ -135,7 +128,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@PostMapping(value="/produceStockCalendar")
-	public HttpResult produceStockCalendar(@RequestBody BizProInv bizProInv) {
+	public HttpResult produceStockCalendar(BizProInv bizProInv) {
 		return HttpResult.ok(bizRoomService.produceStockCalendar(bizProInv));
 	}
 
@@ -145,7 +138,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@PostMapping(value="/stockDatePro")
-	public HttpResult stockDatePro(@RequestBody BizProInv bizProInv) {
+	public HttpResult stockDatePro(BizProInv bizProInv) {
 		return HttpResult.ok(bizRoomService.productDateStock(bizProInv));
 	}
 
