@@ -1,19 +1,13 @@
 package com.hotel.admin.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.hotel.admin.model.SysMenu;
 import com.hotel.admin.service.SysMenuService;
 import com.hotel.core.http.HttpResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 菜单控制器
@@ -29,19 +23,21 @@ public class SysMenuController {
 	
 	@PreAuthorize("hasAuthority('sys:menu:add') AND hasAuthority('sys:menu:edit')")
 	@PostMapping(value="/save")
-	public HttpResult save(@RequestBody SysMenu record) {
-		return HttpResult.ok(sysMenuService.save(record));
+	public HttpResult save(SysMenu record) {
+		sysMenuService.save(record);
+		return HttpResult.ok();
 	}
 
 	@PreAuthorize("hasAuthority('sys:menu:delete')")
 	@PostMapping(value="/delete")
 	public HttpResult delete(@RequestBody List<SysMenu> records) {
-		return HttpResult.ok(sysMenuService.delete(records));
+		sysMenuService.delete(records);
+		return HttpResult.ok();
 	}
 
 	@PreAuthorize("hasAuthority('sys:menu:view')")
 	@GetMapping(value="/findNavTree")
-	public HttpResult findNavTree(@RequestParam String userName) {
+	public HttpResult findNavTree(String userName) {
 		return HttpResult.ok(sysMenuService.findTree(userName, 1));
 	}
 	

@@ -1,8 +1,11 @@
 package com.hotel.admin.model;
 
+import com.hotel.common.entity.BusinessEntity;
+
+import javax.persistence.Transient;
 import java.util.List;
 
-public class SysMenu extends BaseModel {
+public class SysMenu extends BusinessEntity {
 
     private Long parentId;
 
@@ -21,10 +24,13 @@ public class SysMenu extends BaseModel {
     private Byte delFlag;
 
     // 非数据库字段
+	@Transient
     private String parentName;
     // 非数据库字段
+	@Transient
     private Integer level;
     // 非数据库字段
+	@Transient
     private List<SysMenu> children;
     
 	public Long getParentId() {

@@ -1,11 +1,13 @@
 package com.hotel.admin.model;
 
+import com.hotel.common.entity.BusinessEntity;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class BizProPrice {
+public class BizProPrice extends BusinessEntity{
     private String	roomCode;
     private String  hotelCode;
     private String  provinceCode;
@@ -196,30 +198,4 @@ public class BizProPrice {
         this.isSunday = isSunday;
     }
 
-    @Override
-    public String toString() {
-        return "BizProPrice{" +
-                "roomCode='" + roomCode + '\'' +
-                ", hotelCode='" + hotelCode + '\'' +
-                ", provinceCode='" + provinceCode + '\'' +
-                ", cityCode='" + cityCode + '\'' +
-                ", roomType='" + roomType + '\'' +
-                ", bedType='" + bedType + '\'' +
-                ", priceYear=" + priceYear +
-                ", priceDateInterval=" + Arrays.toString(priceDateInterval) +
-                ", sprice='" + sprice + '\'' +
-                ", tprice='" + tprice + '\'' +
-                ", sRoomPrice='" + sRoomPrice + '\'' +
-                ", isMonday='" + isMonday + '\'' +
-                ", isTuesday='" + isTuesday + '\'' +
-                ", isThursday='" + isThursday + '\'' +
-                ", isFourday='" + isFourday + '\'' +
-                ", isFriday='" + isFriday + '\'' +
-                ", isSaterday='" + isSaterday + '\'' +
-                ", isSunday='" + isSunday + '\'' +
-                ", priceDateData=" + priceDateData +
-                ", dateArray=" + dateArray +
-                ", date='" + date + '\'' +
-                '}';
-    }
 }

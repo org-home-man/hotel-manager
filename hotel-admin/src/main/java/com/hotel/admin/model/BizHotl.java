@@ -1,5 +1,7 @@
 package com.hotel.admin.model;
 
+import com.hotel.common.entity.BusinessEntity;
+
 /**
  * ---------------------------
  * 酒店信息表 (BizHotl)         
@@ -9,7 +11,7 @@ package com.hotel.admin.model;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public class BizHotl extends BaseModel{
+public class BizHotl extends BusinessEntity{
 
 	/** 酒店编号 */
 	private String hotelCode;
@@ -45,14 +47,6 @@ public class BizHotl extends BaseModel{
 	private String hotelFax;
 	/** 酒店网址 */
 	private String hotelWeb;
-	/** 创建人员 */
-	private String creatCy;
-	/** 创建时间 */
-	private java.util.Date creatTime;
-	/** 更新人员 */
-	private String lastUpdateBy;
-	/** 更新时间 */
-	private java.util.Date lastUpdateTime;
 
 	public String getHotelCode() {
 		return hotelCode;
@@ -170,36 +164,5 @@ public class BizHotl extends BaseModel{
 		this.hotelEname = hotelEname;
 	}
 
-	public String getCreatCy() {
-		return creatCy;
-	}
-
-	public void setCreatCy(String creatCy) {
-		this.creatCy = creatCy;
-	}
-
-	public java.util.Date getCreatTime() {
-		return creatTime;
-	}
-
-	public void setCreatTime(java.util.Date creatTime) {
-		this.creatTime = creatTime;
-	}
-
-	public String getLastUpdateBy() {
-		return lastUpdateBy;
-	}
-
-	public void setLastUpdateBy(String lastUpdateBy) {
-		this.lastUpdateBy = lastUpdateBy;
-	}
-
-	public java.util.Date getLastUpdateTime() {
-		return lastUpdateTime;
-	}
-
-	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
-		this.lastUpdateTime = lastUpdateTime;
-	}
 
 }

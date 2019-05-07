@@ -38,8 +38,9 @@ public class HotelAreaController {
 	 * @return
 	 */	
 	@PostMapping(value="/save")
-	public HttpResult save(@RequestBody HotelArea record) {
-		return HttpResult.ok(hotelAreaService.save(record));
+	public HttpResult save(HotelArea record) {
+		hotelAreaService.save(record);
+		return HttpResult.ok();
 	}
 
     /**
@@ -49,7 +50,8 @@ public class HotelAreaController {
      */
 	@PostMapping(value="/delete")
 	public HttpResult delete(@RequestBody List<HotelArea> records) {
-		return HttpResult.ok(hotelAreaService.delete(records));
+		hotelAreaService.delete(records);
+		return HttpResult.ok();
 	}
 
     /**
@@ -58,7 +60,7 @@ public class HotelAreaController {
      * @return
      */    
 	@PostMapping(value="/findPage")
-	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
+	public HttpResult findPage(PageRequest pageRequest) {
 		return HttpResult.ok(hotelAreaService.findPage(pageRequest));
 	}
 	
@@ -68,7 +70,7 @@ public class HotelAreaController {
      * @return
      */ 	
 	@GetMapping(value="/findById")
-	public HttpResult findById(@RequestParam String areaCode) {
+	public HttpResult findById(String areaCode) {
 		return HttpResult.ok(hotelAreaService.findById(areaCode));
 	}
 
@@ -78,7 +80,7 @@ public class HotelAreaController {
 	 * @return
 	 */
 	@PostMapping(value="/findAreaPage")
-	public HttpResult findAreaPage(@RequestBody PageRequest pageRequest) {
+	public HttpResult findAreaPage(PageRequest pageRequest) {
 		System.out.println("licy1");
 		return HttpResult.ok(hotelAreaService.findAreaPage(pageRequest));
 	}

@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * 角色控制器
- * @author Louis
+ * @author chenchao
  * @date Oct 29, 2018
  */
 @RestController
@@ -29,8 +29,8 @@ public class SysRoleController {
 	
 	@PreAuthorize("hasAuthority('sys:role:add') AND hasAuthority('sys:role:edit')")
 	@PostMapping(value="/save")
-	public HttpResult save(@RequestBody SysRole record) {
-		SysRole role = sysRoleService.findById(record.getId());
+	public HttpResult save(SysRole record) {
+		SysRole role = sysRoleService.selectByKey(record.getId());
 		if(role != null) {
 			if(SysConstants.ADMIN.equalsIgnoreCase(role.getName())) {
 				return HttpResult.error("超级管理员不允许修改!");
@@ -40,30 +40,32 @@ public class SysRoleController {
 		if((record.getId() == null || record.getId() ==0) && !sysRoleService.findByName(record.getName()).isEmpty()) {
 			return HttpResult.error("角色名已存在!");
 		}
-		return HttpResult.ok(sysRoleService.save(record));
+		sysRoleService.save(record);
+		return HttpResult.ok();
 	}
 
 	@PreAuthorize("hasAuthority('sys:role:delete')")
 	@PostMapping(value="/delete")
-	public HttpResult delete(@RequestBody List<SysRole> records) {
-		return HttpResult.ok(sysRoleService.delete(records));
+	public HttpResult delete(List<SysRole> records) {
+		sysRoleService.delete(records);
+		return HttpResult.ok();
 	}
 
 	@PreAuthorize("hasAuthority('sys:role:view')")
 	@PostMapping(value="/findPage")
-	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
-		return HttpResult.ok(sysRoleService.findPage(pageRequest));
+	public HttpResult findPage(String name) {
+		return HttpResult.ok(sysRoleService.findPage(name));
 	}
 	
 	@PreAuthorize("hasAuthority('sys:role:view')")
 	@GetMapping(value="/findAll")
 	public HttpResult findAll() {
-		return HttpResult.ok(sysRoleService.findAll());
+		return HttpResult.ok(sysRoleService.selectAll());
 	}
 	
 	@PreAuthorize("hasAuthority('sys:role:view')")
-	@GetMapping(value="/findRoleMenus")
-	public HttpResult findRoleMenus(@RequestParam Long roleId) {
+	@PostMapping(value="/findRoleMenus")
+	public HttpResult findRoleMenus(Long roleId) {
 		return HttpResult.ok(sysRoleService.findRoleMenus(roleId));
 	}
 	
@@ -77,6 +79,7 @@ public class SysRoleController {
 				return HttpResult.error("超级管理员拥有所有菜单权限，不允许修改！");
 			}
 		}
-		return HttpResult.ok(sysRoleService.saveRoleMenus(records));
+		sysRoleService.saveRoleMenus(records);
+		return HttpResult.ok();
 	}
 }

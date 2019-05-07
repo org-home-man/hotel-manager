@@ -1,5 +1,7 @@
 package com.hotel.admin.model;
 
+import com.hotel.common.entity.BusinessEntity;
+
 /**
  * ---------------------------
  * 参数配置表 (SysParaConfig)         
@@ -9,7 +11,7 @@ package com.hotel.admin.model;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public class SysParaConfig {
+public class SysParaConfig extends BusinessEntity {
 
 	/** 参数编码 */
 	private String paraCode;
@@ -25,14 +27,6 @@ public class SysParaConfig {
 	private String paraValue3;
 	/** 备注信息 */
 	private String remark;
-	/** 创建人员 */
-	private String creatBy;
-	/** 创建时间 */
-	private java.util.Date creatTime;
-	/** 更新人员 */
-	private String lastUpdateBy;
-	/** 更新时间 */
-	private java.util.Date lastUpdateTime;
 
 	public String getParaCode() {
 		return paraCode;
@@ -88,38 +82,6 @@ public class SysParaConfig {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	public String getCreatBy() {
-		return creatBy;
-	}
-
-	public void setCreatBy(String creatBy) {
-		this.creatBy = creatBy;
-	}
-
-	public java.util.Date getCreatTime() {
-		return creatTime;
-	}
-
-	public void setCreatTime(java.util.Date creatTime) {
-		this.creatTime = creatTime;
-	}
-
-	public String getLastUpdateBy() {
-		return lastUpdateBy;
-	}
-
-	public void setLastUpdateBy(String lastUpdateBy) {
-		this.lastUpdateBy = lastUpdateBy;
-	}
-
-	public java.util.Date getLastUpdateTime() {
-		return lastUpdateTime;
-	}
-
-	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
-		this.lastUpdateTime = lastUpdateTime;
 	}
 
 }

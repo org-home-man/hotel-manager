@@ -8,18 +8,19 @@ import com.hotel.admin.model.SysMenu;
 import com.hotel.admin.model.SysRole;
 import com.hotel.admin.model.SysRoleMenu;
 import com.hotel.admin.service.SysRoleService;
-import com.hotel.core.page.ColumnFilter;
-import com.hotel.core.page.MybatisPageHelper;
-import com.hotel.core.page.PageRequest;
-import com.hotel.core.page.PageResult;
+import com.hotel.common.utils.Utils;
+import com.hotel.core.context.PageContext;
+import com.hotel.core.page.Page;
+import com.hotel.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SysRoleServiceImpl  implements SysRoleService {
+public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysRoleService {
 
 	@Autowired
 	private SysRoleMapper sysRoleMapper;
@@ -37,51 +38,20 @@ public class SysRoleServiceImpl  implements SysRoleService {
 	}
 
 	@Override
-	public int delete(SysRole record) {
-		return sysRoleMapper.deleteByPrimaryKey(record.getId());
-	}
-
-	@Override
-	public int delete(List<SysRole> records) {
-		for(SysRole record:records) {
-			delete(record);
-		}
-		return 1;
-	}
-
-	@Override
-	public SysRole findById(Long id) {
-		return sysRoleMapper.selectByPrimaryKey(id);
-	}
-
-	@Override
-	public PageResult findPage(PageRequest pageRequest) {
-		ColumnFilter columnFilter = pageRequest.getColumnFilter("name");
-		if(columnFilter != null && columnFilter.getValue() != null) {
-			return MybatisPageHelper.findPage(pageRequest, sysRoleMapper, "findPageByName", columnFilter.getValue());
-		}
-		return MybatisPageHelper.findPage(pageRequest, sysRoleMapper);
-	}
-
-	@Override
-	public List<SysRole> findAll() {
-		return sysRoleMapper.findAll();
-	}
-
-	public SysRoleMapper getSysRoleMapper() {
-		return sysRoleMapper;
-	}
-
-	public void setSysRoleMapper(SysRoleMapper sysRoleMapper) {
-		this.sysRoleMapper = sysRoleMapper;
+	public Page findPage(String name) {
+		sysRoleMapper.findByName(name);
+		return PageContext.getPage();
 	}
 
 	@Override
 	public List<SysMenu> findRoleMenus(Long roleId) {
+		if(Utils.isEmpty(roleId)){
+			return new ArrayList<>();
+		}
 		SysRole sysRole = sysRoleMapper.selectByPrimaryKey(roleId);
 		if(SysConstants.ADMIN.equalsIgnoreCase(sysRole.getName())) {
 			// 如果是超级管理员，返回全部
-			return sysMenuMapper.findAll();
+			return sysMenuMapper.selectAll();
 		}
 		return sysMenuMapper.findRoleMenus(roleId);
 	}

@@ -1,5 +1,7 @@
 package com.hotel.admin.model;
 
+import com.hotel.common.entity.BusinessEntity;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +15,7 @@ import java.util.Map;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public class BizPrise {
+public class BizPrise extends BusinessEntity{
 
 	/** 客房编号 */
 	private String roomCode;
@@ -36,15 +38,6 @@ public class BizPrise {
 	private String operaBy;
 
 	private Date operaTime;
-
-	/** 创建人员 */
-	private String creatBy;
-	/** 创建时间 */
-	private java.util.Date creatTime;
-	/** 更新时间 */
-	private String lastUpdateBy;
-	/** 更新时间 */
-	private java.util.Date lastUpdateTime;
 
 	public String getOperaBy() {
 		return operaBy;
@@ -118,21 +111,6 @@ public class BizPrise {
 		this.tRoomPrice = tRoomPrice;
 	}
 
-	public String getCreatBy() {
-		return creatBy;
-	}
-
-	public void setCreatBy(String creatBy) {
-		this.creatBy = creatBy;
-	}
-
-	public java.util.Date getCreatTime() {
-		return creatTime;
-	}
-
-	public void setCreatTime(java.util.Date creatTime) {
-		this.creatTime = creatTime;
-	}
 
 	public List<BizPrise> getPriceDateData() {
 		return priceDateData;
@@ -142,37 +120,5 @@ public class BizPrise {
 		this.priceDateData = priceDateData;
 	}
 
-	@Override
-	public String toString() {
-		return "BizPrise{" +
-				"roomCode='" + roomCode + '\'' +
-				", roomType='" + roomType + '\'' +
-				", priceDate='" + priceDate + '\'' +
-				", sPrice=" + sPrice +
-				", tPrice=" + tPrice +
-				", sRoomPrice=" + sRoomPrice +
-				", tRoomPrice=" + tRoomPrice +
-				", creatBy='" + creatBy + '\'' +
-				", creatTime=" + creatTime +
-				", lastUpdateBy='" + lastUpdateBy + '\'' +
-				", lastUpdateTime=" + lastUpdateTime +
-				'}';
-	}
-
-	public String getLastUpdateBy() {
-		return lastUpdateBy;
-	}
-
-	public void setLastUpdateBy(String lastUpdateBy) {
-		this.lastUpdateBy = lastUpdateBy;
-	}
-
-	public java.util.Date getLastUpdateTime() {
-		return lastUpdateTime;
-	}
-
-	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
-		this.lastUpdateTime = lastUpdateTime;
-	}
 
 }

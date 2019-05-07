@@ -1,6 +1,8 @@
 package com.hotel.admin.model;
 
-public class SysDict extends BaseModel {
+import com.hotel.common.entity.BusinessEntity;
+
+public class SysDict extends BusinessEntity {
 
     private String value;
 

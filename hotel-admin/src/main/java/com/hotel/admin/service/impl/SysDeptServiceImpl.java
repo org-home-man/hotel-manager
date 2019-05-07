@@ -3,9 +3,12 @@ package com.hotel.admin.service.impl;
 import com.hotel.admin.mapper.SysDeptMapper;
 import com.hotel.admin.service.SysDeptService;
 import com.hotel.admin.model.SysDept;
+import com.hotel.core.context.PageContext;
 import com.hotel.core.page.MybatisPageHelper;
+import com.hotel.core.page.Page;
 import com.hotel.core.page.PageRequest;
 import com.hotel.core.page.PageResult;
+import com.hotel.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SysDeptServiceImpl implements SysDeptService {
+public class SysDeptServiceImpl extends AbstractService<SysDept> implements SysDeptService {
 
 	@Autowired
 	private SysDeptMapper sysDeptMapper;
@@ -27,32 +30,9 @@ public class SysDeptServiceImpl implements SysDeptService {
 	}
 
 	@Override
-	public int delete(SysDept record) {
-		return sysDeptMapper.deleteByPrimaryKey(record.getId());
-	}
-
-	@Override
-	public int delete(List<SysDept> records) {
-		for(SysDept record:records) {
-			delete(record);
-		}
-		return 1;
-	}
-
-	@Override
-	public SysDept findById(Long id) {
-		return sysDeptMapper.selectByPrimaryKey(id);
-	}
-
-	@Override
-	public PageResult findPage(PageRequest pageRequest) {
-		return MybatisPageHelper.findPage(pageRequest, sysDeptMapper);
-	}
-
-	@Override
 	public List<SysDept> findTree() {
 		List<SysDept> sysDepts = new ArrayList<>();
-		List<SysDept> depts = sysDeptMapper.findAll();
+		List<SysDept> depts = sysDeptMapper.selectAll();
 		for (SysDept dept : depts) {
 			if (dept.getParentId() == null || dept.getParentId() == 0) {
 				dept.setLevel(0);

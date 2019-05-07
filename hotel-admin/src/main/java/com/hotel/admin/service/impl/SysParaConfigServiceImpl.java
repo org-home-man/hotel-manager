@@ -1,26 +1,23 @@
 package com.hotel.admin.service.impl;
 
+import com.hotel.admin.mapper.HotelAreaMapper;
+import com.hotel.admin.mapper.SysParaConfigMapper;
+import com.hotel.admin.model.SysParaConfig;
+import com.hotel.admin.service.SysParaConfigService;
+import com.hotel.core.context.PageContext;
+import com.hotel.core.page.Page;
+import com.hotel.core.service.AbstractService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.hotel.admin.mapper.HotelAreaMapper;
-import com.hotel.admin.mapper.SysParaConfigMapper;
-import com.hotel.admin.model.HotelArea;
-import com.hotel.core.page.MybatisPageHelper;
-import com.hotel.core.page.PageRequest;
-import com.hotel.core.page.PageResult;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-
-import com.hotel.admin.model.SysParaConfig;
-import com.hotel.admin.service.SysParaConfigService;
-
 /**
  * ---------------------------
- * 参数配置表 (SysParaConfigServiceImpl)         
+ * 参数配置表 (SysParaConfigServiceImpl)
  * ---------------------------
  * 作者：  kitty-generator
  * 时间：  2019-04-05 11:24:48
@@ -28,44 +25,21 @@ import com.hotel.admin.service.SysParaConfigService;
  * ---------------------------
  */
 @Service
-public class SysParaConfigServiceImpl implements SysParaConfigService {
+public class SysParaConfigServiceImpl extends AbstractService<SysParaConfig> implements SysParaConfigService {
 
 	@Autowired
 	private SysParaConfigMapper sysParaConfigMapper;
 	@Autowired
 	private HotelAreaMapper hotelAreaMapper;
 
-
 	@Override
 	public int save(SysParaConfig record) {
 		if(record.getParaSubCode2() == null || record.getParaSubCode2() == "0") {
-			return sysParaConfigMapper.add(record);
+			return sysParaConfigMapper.insertSelective(record);
 		}
-		return sysParaConfigMapper.update(record);
+		return sysParaConfigMapper.updateByPrimaryKeySelective(record);
 	}
 
-	@Override
-	public int delete(SysParaConfig record) {
-		return sysParaConfigMapper.delete(record.getParaCode());
-	}
-
-	@Override
-	public int delete(List<SysParaConfig> records) {
-		for(SysParaConfig record:records) {
-			delete(record);
-		}
-		return 1;
-	}
-
-	@Override
-	public SysParaConfig findById(Long id) {
-		return null;
-	}
-
-	@Override
-	public SysParaConfig findById(String id) {
-		return null;
-	}
 
 	@Override
 	public Map<String,List> findKeyValue(SysParaConfig record) {
@@ -147,8 +121,9 @@ public class SysParaConfigServiceImpl implements SysParaConfigService {
 		return temp;
 	}
 	@Override
-	public PageResult findPage(PageRequest pageRequest) {
-		return MybatisPageHelper.findPage(pageRequest, sysParaConfigMapper);
+	public Page findPage() {
+		sysParaConfigMapper.selectAll();
+		return PageContext.getPage();
 	}
 
 
@@ -214,5 +189,5 @@ public class SysParaConfigServiceImpl implements SysParaConfigService {
 
 		return temp;
 	}
-	
+
 }

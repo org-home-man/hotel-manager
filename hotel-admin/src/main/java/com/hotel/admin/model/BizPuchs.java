@@ -1,6 +1,6 @@
 package com.hotel.admin.model;
 
-import com.hotel.common.entity.Entity;
+import com.hotel.common.entity.BusinessEntity;
 
 /**
  * ---------------------------
@@ -11,7 +11,7 @@ import com.hotel.common.entity.Entity;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public class BizPuchs extends Entity {
+public class BizPuchs extends BusinessEntity {
 
 	/** 订单号 */
 	private String orderCode;

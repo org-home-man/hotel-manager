@@ -1,6 +1,8 @@
 package com.hotel.admin.model;
 
-public class SysLog extends BaseModel {
+import com.hotel.common.entity.BusinessEntity;
+
+public class SysLog extends BusinessEntity {
 
     private String userName;
 

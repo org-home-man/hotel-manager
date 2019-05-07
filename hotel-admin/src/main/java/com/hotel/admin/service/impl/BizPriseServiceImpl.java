@@ -47,9 +47,6 @@ public class BizPriseServiceImpl implements BizPriseService {
 			record.setPriceDate(bp.getPriceDate());
 			record.setSPrice(bp.getSPrice());
 			record.setTPrice(bp.getTPrice());
-			record.setCreatBy(record.getLastUpdateBy());
-			record.setCreatTime(new Date());
-			record.setLastUpdateTime(new Date());
 			if("01".equals( record.getRoomType() ) ) {
 				record.setSRoomPrice(bp.getSPrice());
 			}

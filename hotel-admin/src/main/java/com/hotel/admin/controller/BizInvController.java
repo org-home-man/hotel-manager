@@ -1,19 +1,13 @@
 package com.hotel.admin.controller;
 
-import java.util.List;
-
+import com.hotel.admin.model.BizInv;
+import com.hotel.admin.service.BizInvService;
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.hotel.admin.model.BizInv;
-import com.hotel.admin.service.BizInvService;
+import java.util.List;
 
 /**
  * ---------------------------
@@ -37,8 +31,9 @@ public class BizInvController {
 	 * @return
 	 */	
 	@PostMapping(value="/save")
-	public HttpResult save(@RequestBody BizInv record) {
-		return HttpResult.ok(bizInvService.save(record));
+	public HttpResult save(BizInv record) {
+		bizInvService.save(record);
+		return HttpResult.ok();
 	}
 
     /**
@@ -48,7 +43,8 @@ public class BizInvController {
      */
 	@PostMapping(value="/delete")
 	public HttpResult delete(@RequestBody List<BizInv> records) {
-		return HttpResult.ok(bizInvService.delete(records));
+		bizInvService.delete(records);
+		return HttpResult.ok();
 	}
 
     /**
@@ -57,7 +53,7 @@ public class BizInvController {
      * @return
      */    
 	@PostMapping(value="/findPage")
-	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
+	public HttpResult findPage(PageRequest pageRequest) {
 		return HttpResult.ok(bizInvService.findPage(pageRequest));
 	}
 	
@@ -67,7 +63,7 @@ public class BizInvController {
      * @return
      */ 	
 	@GetMapping(value="/findById")
-	public HttpResult findById(@RequestParam String roomCode) {
+	public HttpResult findById(String roomCode) {
 		return HttpResult.ok(bizInvService.findById(roomCode));
 	}
 }

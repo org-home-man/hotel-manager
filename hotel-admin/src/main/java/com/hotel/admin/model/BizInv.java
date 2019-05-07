@@ -1,5 +1,7 @@
 package com.hotel.admin.model;
 
+import com.hotel.common.entity.BusinessEntity;
+
 import java.util.List;
 
 /**
@@ -11,7 +13,7 @@ import java.util.List;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public class BizInv {
+public class BizInv extends BusinessEntity {
 
 	/** 客房编号 */
 	private String roomCode;
@@ -21,14 +23,6 @@ public class BizInv {
 	private Integer inventory;
 	/** 是否自动关闭 Y 到期自动关闭 N到期不自动关闭 */
 	private String autoClose;
-	/** 创建人员 */
-	private String creatBy;
-	/** 创建时间 */
-	private java.util.Date creatTime;
-	/** 更新时间 */
-	private String lastUpdateBy;
-	/** 更新时间 */
-	private java.util.Date lastUpdateTime;
 
 	/** 批量插入数据 */
 	private List<BizInv> stockDateData;
@@ -73,50 +67,4 @@ public class BizInv {
 		this.autoClose = autoClose;
 	}
 
-	public String getCreatBy() {
-		return creatBy;
-	}
-
-	public void setCreatBy(String creatBy) {
-		this.creatBy = creatBy;
-	}
-
-	public java.util.Date getCreatTime() {
-		return creatTime;
-	}
-
-	public void setCreatTime(java.util.Date creatTime) {
-		this.creatTime = creatTime;
-	}
-
-	public String getLastUpdateBy() {
-		return lastUpdateBy;
-	}
-
-	public void setLastUpdateBy(String lastUpdateBy) {
-		this.lastUpdateBy = lastUpdateBy;
-	}
-
-	public java.util.Date getLastUpdateTime() {
-		return lastUpdateTime;
-	}
-
-	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
-		this.lastUpdateTime = lastUpdateTime;
-	}
-
-	@Override
-	public String toString() {
-		return "BizInv{" +
-				"roomCode='" + roomCode + '\'' +
-				", invDate='" + invDate + '\'' +
-				", inventory=" + inventory +
-				", autoClose='" + autoClose + '\'' +
-				", creatBy='" + creatBy + '\'' +
-				", creatTime=" + creatTime +
-				", lastUpdateBy='" + lastUpdateBy + '\'' +
-				", lastUpdateTime=" + lastUpdateTime +
-				", stockDateData=" + stockDateData +
-				'}';
-	}
 }

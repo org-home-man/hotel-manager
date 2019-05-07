@@ -38,8 +38,9 @@ public class BizPuchsExtController {
 	 * @return
 	 */	
 	@PostMapping(value="/save")
-	public HttpResult save(@RequestBody BizPuchsExt record) {
-		return HttpResult.ok(bizPuchsExtService.save(record));
+	public HttpResult save(BizPuchsExt record) {
+		bizPuchsExtService.save(record);
+		return HttpResult.ok();
 	}
 
     /**
@@ -49,7 +50,8 @@ public class BizPuchsExtController {
      */
 	@PostMapping(value="/delete")
 	public HttpResult delete(@RequestBody List<BizPuchsExt> records) {
-		return HttpResult.ok(bizPuchsExtService.delete(records));
+		bizPuchsExtService.delete(records);
+		return HttpResult.ok();
 	}
 
     /**
@@ -58,7 +60,7 @@ public class BizPuchsExtController {
      * @return
      */    
 	@PostMapping(value="/findPage")
-	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
+	public HttpResult findPage(PageRequest pageRequest) {
 		return HttpResult.ok(bizPuchsExtService.findPage(pageRequest));
 	}
 	
@@ -68,7 +70,7 @@ public class BizPuchsExtController {
      * @return
      */ 	
 	@GetMapping(value="/findById")
-	public HttpResult findById(@RequestParam String roomCode) {
+	public HttpResult findById(String roomCode) {
 		return HttpResult.ok(bizPuchsExtService.findById(roomCode));
 	}
 }

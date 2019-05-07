@@ -1,24 +1,12 @@
 package com.hotel.admin.mapper;
 
 import com.hotel.admin.model.SysLog;
+import com.hotel.core.mybatis.mapper.AbstractMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface SysLogMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(SysLog record);
-
-    int insertSelective(SysLog record);
-
-    SysLog selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(SysLog record);
-
-    int updateByPrimaryKey(SysLog record);
-    
-    List<SysLog> findPage();
+public interface SysLogMapper extends AbstractMapper<SysLog>{
     
     List<SysLog> findPageByUserName(@Param(value = "userName") String userName);
 }

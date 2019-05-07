@@ -9,6 +9,7 @@ public class HttpResult {
 
 	private int code = 200;
 	private String msg;
+	private Boolean success = true;
 	private Object data;
 	
 	public static HttpResult error() {
@@ -23,6 +24,7 @@ public class HttpResult {
 		HttpResult r = new HttpResult();
 		r.setCode(code);
 		r.setMsg(msg);
+		r.setSuccess(false);
 		return r;
 	}
 
@@ -65,5 +67,12 @@ public class HttpResult {
 	public void setData(Object data) {
 		this.data = data;
 	}
-	
+
+	public Boolean getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(Boolean success) {
+		this.success = success;
+	}
 }

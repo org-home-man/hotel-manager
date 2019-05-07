@@ -1,6 +1,8 @@
 package com.hotel.admin.model;
 
-public class SysRoleMenu extends BaseModel {
+import com.hotel.common.entity.BusinessEntity;
+
+public class SysRoleMenu extends BusinessEntity {
 
     private Long roleId;
 

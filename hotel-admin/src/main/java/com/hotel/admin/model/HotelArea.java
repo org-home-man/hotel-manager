@@ -1,5 +1,7 @@
 package com.hotel.admin.model;
 
+import com.hotel.common.entity.BusinessEntity;
+
 /**
  * ---------------------------
  * 地区码表 (HotelArea)         
@@ -9,7 +11,7 @@ package com.hotel.admin.model;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public class HotelArea {
+public class HotelArea extends BusinessEntity{
 
 	/** 地区级别 */
 	private String areaLvl;
@@ -23,10 +25,6 @@ public class HotelArea {
 	private String areaEname;
 	/** 备注信息 */
 	private String remark;
-	/** 创建人员 */
-	private String creatBy;
-	/** 创建时间 */
-	private java.util.Date creatTime;
 
 	public String getAreaLvl() {
 		return areaLvl;
@@ -74,22 +72,6 @@ public class HotelArea {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	public String getCreatBy() {
-		return creatBy;
-	}
-
-	public void setCreatBy(String creatBy) {
-		this.creatBy = creatBy;
-	}
-
-	public java.util.Date getCreatTime() {
-		return creatTime;
-	}
-
-	public void setCreatTime(java.util.Date creatTime) {
-		this.creatTime = creatTime;
 	}
 
 }

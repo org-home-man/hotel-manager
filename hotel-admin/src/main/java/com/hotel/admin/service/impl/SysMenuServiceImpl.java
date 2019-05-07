@@ -4,17 +4,16 @@ import com.hotel.admin.constants.SysConstants;
 import com.hotel.admin.mapper.SysMenuMapper;
 import com.hotel.admin.model.SysMenu;
 import com.hotel.admin.service.SysMenuService;
-import com.hotel.core.page.MybatisPageHelper;
-import com.hotel.core.page.PageRequest;
-import com.hotel.core.page.PageResult;
+import com.hotel.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
-public class SysMenuServiceImpl implements SysMenuService {
+public class SysMenuServiceImpl extends AbstractService<SysMenu> implements SysMenuService {
 
 	@Autowired
 	private SysMenuMapper sysMenuMapper;
@@ -30,29 +29,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 		return sysMenuMapper.updateByPrimaryKeySelective(record);
 	}
 
-	@Override
-	public int delete(SysMenu record) {
-		return sysMenuMapper.deleteByPrimaryKey(record.getId());
-	}
 
-	@Override
-	public int delete(List<SysMenu> records) {
-		for(SysMenu record:records) {
-			delete(record);
-		}
-		return 1;
-	}
-
-	@Override
-	public SysMenu findById(Long id) {
-		return sysMenuMapper.selectByPrimaryKey(id);
-	}
-
-	@Override
-	public PageResult findPage(PageRequest pageRequest) {
-		return MybatisPageHelper.findPage(pageRequest, sysMenuMapper);
-	}
-	
 	@Override
 	public List<SysMenu> findTree(String userName, int menuType) {
 		List<SysMenu> sysMenus = new ArrayList<>();
@@ -65,7 +42,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 				}
 			}
 		}
-		sysMenus.sort((o1, o2) -> o1.getOrderNum().compareTo(o2.getOrderNum()));
+		sysMenus.sort(Comparator.comparing(SysMenu::getOrderNum));
 		findChildren(sysMenus, menus, menuType);
 		return sysMenus;
 	}
@@ -73,7 +50,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 	@Override
 	public List<SysMenu> findByUser(String userName) {
 		if(userName == null || "".equals(userName) || SysConstants.ADMIN.equalsIgnoreCase(userName)) {
-			return sysMenuMapper.findAll();
+			return sysMenuMapper.selectAll();
 		}
 		return sysMenuMapper.findByUserName(userName);
 	}
@@ -95,7 +72,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 				}
 			}
 			SysMenu.setChildren(children);
-			children.sort((o1, o2) -> o1.getOrderNum().compareTo(o2.getOrderNum()));
+			children.sort(Comparator.comparing(com.hotel.admin.model.SysMenu::getOrderNum));
 			findChildren(children, menus, menuType);
 		}
 	}
@@ -109,5 +86,5 @@ public class SysMenuServiceImpl implements SysMenuService {
 		}
 		return exist;
 	}
-	
+
 }

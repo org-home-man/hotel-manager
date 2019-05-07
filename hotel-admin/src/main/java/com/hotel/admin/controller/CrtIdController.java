@@ -38,8 +38,9 @@ public class CrtIdController {
 	 * @return
 	 */	
 	@PostMapping(value="/save")
-	public HttpResult save(@RequestBody CrtId record) {
-		return HttpResult.ok(crtIdService.save(record));
+	public HttpResult save(CrtId record) {
+		crtIdService.save(record);
+		return HttpResult.ok();
 	}
 
     /**
@@ -49,7 +50,8 @@ public class CrtIdController {
      */
 	@PostMapping(value="/delete")
 	public HttpResult delete(@RequestBody List<CrtId> records) {
-		return HttpResult.ok(crtIdService.delete(records));
+		crtIdService.delete(records);
+		return HttpResult.ok();
 	}
 
     /**
@@ -58,7 +60,7 @@ public class CrtIdController {
      * @return
      */    
 	@PostMapping(value="/findPage")
-	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
+	public HttpResult findPage(PageRequest pageRequest) {
 		return HttpResult.ok(crtIdService.findPage(pageRequest));
 	}
 

@@ -1,19 +1,13 @@
 package com.hotel.admin.controller;
 
-import java.util.List;
-
+import com.hotel.admin.model.BizPrise;
+import com.hotel.admin.service.BizPriseService;
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.hotel.admin.model.BizPrise;
-import com.hotel.admin.service.BizPriseService;
+import java.util.List;
 
 /**
  * ---------------------------
@@ -37,8 +31,9 @@ public class BizPriseController {
 	 * @return
 	 */	
 	@PostMapping(value="/save")
-	public HttpResult save(@RequestBody BizPrise record) {
-		return HttpResult.ok(bizPriseService.save(record));
+	public HttpResult save(BizPrise record) {
+		bizPriseService.save(record);
+		return HttpResult.ok();
 	}
 
     /**
@@ -48,7 +43,8 @@ public class BizPriseController {
      */
 	@PostMapping(value="/delete")
 	public HttpResult delete(@RequestBody List<BizPrise> records) {
-		return HttpResult.ok(bizPriseService.delete(records));
+		bizPriseService.delete(records);
+		return HttpResult.ok();
 	}
 
     /**
@@ -57,7 +53,7 @@ public class BizPriseController {
      * @return
      */    
 	@PostMapping(value="/findPage")
-	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
+	public HttpResult findPage(PageRequest pageRequest) {
 		return HttpResult.ok(bizPriseService.findPage(pageRequest));
 	}
 	
@@ -67,7 +63,7 @@ public class BizPriseController {
      * @return
      */ 	
 	@GetMapping(value="/findById")
-	public HttpResult findById(@RequestParam String roomCode) {
+	public HttpResult findById(String roomCode) {
 		return HttpResult.ok(bizPriseService.findById(roomCode));
 	}
 }

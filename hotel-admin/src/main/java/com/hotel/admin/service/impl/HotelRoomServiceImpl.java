@@ -11,6 +11,7 @@ import com.hotel.admin.model.CrtId;
 import com.hotel.admin.service.BizRoomService;
 import com.hotel.admin.service.HotelRoomService;
 import com.hotel.common.utils.StringUtils;
+import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.page.*;
 import org.apache.commons.logging.Log;
@@ -96,7 +97,7 @@ public class HotelRoomServiceImpl implements HotelRoomService {
 //		PageResult pr =  MybatisPageHelper.findPage(pageRequest, hotelRoomMapper,"findPageByPara",map);
 		List<Map> retinfo = hotelRoomMapper.findPageByPara(HotelRoomQry);
 		System.out.println("返回数据 = "+retinfo );
-		if(HotelRoomQry.getoutDateEnd() == null || HotelRoomQry.getinDateStart()== null)
+		if(Utils.isEmpty(HotelRoomQry.getoutDateEnd()) || Utils.isEmpty(HotelRoomQry.getinDateStart()))
 		{
 			System.out.println("查询条件" );
 //			return pr;

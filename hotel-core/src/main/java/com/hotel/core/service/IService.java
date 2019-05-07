@@ -24,7 +24,7 @@ public interface IService<T extends Entity> {
 
     int delete(Object var1);
 
-    int delete(Collection<Object> var1);
+    int delete(Collection<T> var1);
 
     int updateAll(T var1);
 
