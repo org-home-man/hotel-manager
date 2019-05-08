@@ -63,19 +63,6 @@
     <result column="istrafic" jdbcType="VARCHAR" property="istrafic" />
     <result column="isrestau" jdbcType="VARCHAR" property="isrestau" />
 
-
-    <!--<collection property="bizPrises" ofType="com.hotel.admin.model.BizPrise">-->
-      <!--<result column="room_type" jdbcType="VARCHAR" property="roomType" />-->
-      <!--<result column="price_date" jdbcType="VARCHAR" property="priceDate" />-->
-      <!--<result column="s_price" jdbcType="DOUBLE" property="sPrice" />-->
-      <!--<result column="t_price" jdbcType="DOUBLE" property="tPrice" />-->
-      <!--<result column="s_room_price" jdbcType="DOUBLE" property="sRoomPrice" />-->
-      <!--<result column="t_room_price" jdbcType="DOUBLE" property="tRoomPrice" />-->
-      <!--<result column="creat_by" jdbcType="VARCHAR" property="creatBy" />-->
-      <!--<result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />-->
-      <!--<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />-->
-      <!--<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />-->
-    <!--</collection>-->
   </resultMap>
   
   <insert id="add" parameterType="com.hotel.admin.model.BizRoom">
@@ -123,12 +110,6 @@
       <if test="creatTime != null">
         creat_time,
       </if>
-      <if test="lastUpdateBy != null">
-        last_update_by,
-      </if>
-      <if test="lastUpdateTime != null">
-        last_update_time,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="roomCode != null">
@@ -172,12 +153,6 @@
       </if>
       <if test="creatTime != null">
         #{creatTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastUpdateBy != null">
-        #{lastUpdateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="lastUpdateTime != null">
-        #{lastUpdateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -226,12 +201,6 @@
       <if test="recommended != null">
         recommended = #{recommended,jdbcType=VARCHAR},
       </if>
-      <if test="creatBy != null">
-        creat_by = #{creatBy,jdbcType=VARCHAR},
-      </if>
-      <if test="creatTime != null">
-        creat_time = #{creatTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="lastUpdateBy != null">
         last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
       </if>
@@ -251,41 +220,6 @@
     select * from biz_room
     where room_code = #{roomCode,jdbcType=VARCHAR}
   </select>
-  
-  <!--<select id="findPage" parameterType="java.util.Map" resultMap="BaseResultMap">-->
-    <!--select-->
-    <!--a.hotel_code hotel_code,-->
-    <!--d.hotel_cname hotel_cname,-->
-    <!--d.hotel_ename hotel_ename,-->
-    <!--d.province_code province_code,-->
-    <!--d.city_code city_code,-->
-    <!--(select para_code from sys_para_config where para_code LIKE 'roomtype%' and para_sub_code1='bizroom' AND para_value1=a.room_type) room_type,-->
-    <!--(select para_code from sys_para_config where para_code LIKE 'bedtype%' and para_sub_code1='bizroom' AND para_value1=a.bed_type)  bed_type,-->
-    <!--b.inventory inventory,-->
-    <!--c.s_room_price s_room_price-->
-    <!--from biz_room a LEFT JOIN biz_inv b ON a.room_code=b.room_code LEFT JOIN biz_prise c ON  a.room_code=c.room_code and b.inv_date=c.price_date LEFT JOIN-->
-    <!--biz_hotl d ON a.hotel_code = d.hotel_code-->
-    <!--WHERE 1=1-->
-    <!--<if test="hotelCode != null">-->
-     <!--AND d.hotel_code = #{hotelCode,jdbcType=VARCHAR}-->
-    <!--</if>-->
-    <!--<if test="hotelName != null">-->
-     <!--AND d.hotel_cname LIKE '%'#{hotelName,jdbcType=VARCHAR}'%' OR d.hotel_ename LIKE '%'#{hotelName,jdbcType=VARCHAR}'%'-->
-    <!--</if>-->
-    <!--<if test="roomType != null">-->
-     <!--AND a.room_type = #{roomType,jdbcType=VARCHAR}-->
-    <!--</if>-->
-    <!--<if test="bedType != null">-->
-     <!--AND a.bed_type = #{bedType,jdbcType=VARCHAR}-->
-    <!--</if>-->
-    <!--<if test="breakType != null">-->
-     <!--AND a.break_type = #{breakType,jdbcType=VARCHAR}-->
-    <!--</if>-->
-    <!--<if test="inventory != null">-->
-      <!--AND b.inventory = #{inventory,jdbcType=VARCHAR} AND c.inv_date = to_char(sysdate,'yyyyMMdd')-->
-    <!--</if>-->
-
-  <!--</select>-->
 
   <select id="findPageByPara" parameterType="com.hotel.admin.dto.BizRoomQuery" resultMap="BaseResultMap">
 
@@ -298,6 +232,7 @@
     d.city_code    city_code,
     a.room_type    room_type,
     a.bed_type     bed_type,
+    a.photo        photo,
     (select para_code from sys_para_config where para_code LIKE 'roomtype%' and para_sub_code1='bizroom' AND para_value1=a.room_type) room_type_key,
     (select para_code from sys_para_config where para_code LIKE 'bedtype%' and para_sub_code1='bizroom' AND para_value1=a.bed_type)  bed_type_key,
     ifnull(b.inventory,a.room_stock)    inventory,
@@ -340,7 +275,7 @@
     from biz_room a LEFT JOIN biz_inv b ON a.room_code=b.room_code AND ifnull(b.inv_date,date_format(SYSDATE(),'%Y%m%d')) = date_format(SYSDATE(),'%Y%m%d')
     LEFT JOIN biz_prise c ON  a.room_code=c.room_code and c.price_date=date_format(SYSDATE(),'%Y%m%d') LEFT JOIN
     biz_hotl d ON a.hotel_code = d.hotel_code LEFT JOIN biz_room_ext e on a.room_code = e.room_code
-    WHERE 1=1
+    WHERE 1=1 AND A.DEL_FLAG = 0
     <if test="hotelCode != null and hotelCode != ''">
       AND d.hotel_code = #{hotelCode,jdbcType=VARCHAR}
     </if>
