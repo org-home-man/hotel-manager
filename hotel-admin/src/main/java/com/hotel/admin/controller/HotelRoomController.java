@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.hotel.core.page.Page;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +21,7 @@ import java.util.UUID;
 
 /**
  * ---------------------------
- * 客房信息表 (BizRoomController)         
+ * 客房信息表 (BizRoomController)
  * ---------------------------
  * 作者：  kitty-generator
  * 时间：  2019-04-01 21:00:17
@@ -31,39 +32,30 @@ import java.util.UUID;
 @RequestMapping("hotelRoom")
 public class HotelRoomController {
 
-	@Autowired
-	private HotelRoomService hotelRoomService;
+    @Autowired
+    private HotelRoomService hotelRoomService;
 
 
     /**
      * 基础分页查询
-     * @param pageRequest
+     *
+     * @param HotelRoomQry
      * @return
      */
-//	@PostMapping(value="/findPage")
-//	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
-////		@RequestMapping("page")
-//
-//		return HttpResult.ok(hotelRoomService.findPage(pageRequest));
-////		hotelRoomService.findPage(pageRequest);
-////		return PageContext.getPage();
-//	}
+    @PostMapping(value = "/page")
+    public HttpResult findPage(HotelRoomQry HotelRoomQry) {
+        return HttpResult.ok(hotelRoomService.findPagePara(HotelRoomQry));
+    }
 
-	@PostMapping(value="/page")
-	public HttpResult findPage(HotelRoomQry HotelRoomQry) {
-		System.out.println("进入controller");
-		return HttpResult.ok(hotelRoomService.findPagePara(HotelRoomQry));
-	}
-
-
-	/**
+    /**
      * 根据主键查询
-     * @param roomCode
+     *
+     * @param id
      * @return
-     */ 	
-	@GetMapping(value="/findById")
-	public HttpResult findById(@RequestParam String roomCode) {
-		return HttpResult.ok(hotelRoomService.findById(roomCode));
-	}
+     */
+    @GetMapping(value = "/findById")
+    public HttpResult findById(String id) {
+        return HttpResult.ok(hotelRoomService.selectByKey(id));
+    }
 
 }

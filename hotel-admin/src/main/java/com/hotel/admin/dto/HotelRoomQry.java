@@ -1,63 +1,26 @@
 package com.hotel.admin.dto;
 
-import com.hotel.admin.model.BizHotl;
-import com.hotel.admin.model.BizInv;
-import com.hotel.admin.model.BizPrise;
-
-import java.util.List;
-
 /**
- * ---------------------------
- * 客房信息表 (BizRoom)
- * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-01 21:00:17
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
+ * 酒店客房检索表
  */
 public class HotelRoomQry {
-
-	/** 客房编号 */
-	private String roomCode;
-	/** 酒店编码 */
-	private String hotelCode;
+	/** 酒店星级 */
+	private  String hotelLevel;
 	/** 房间类型 */
 	private String roomType;
 	/** 房间样式 */
 	private String roomStyle;
-
-	/** 房间类型key */
-	private String roomTypeKey;
-
-	/** 床铺类型key */
-	private String bedTypeKey;
 	/** 床铺类型 */
 	private String bedType;
 	/** 餐食条件 */
 	private String breakType;
-	private String breakTypeKey;
 	/** 客房面积 */
 	private Double roomArea;
-	/** 中文文字介绍 */
-	private String introC;
-	/** 英文文字介绍 */
-	private String introE;
-	/** 宣传照片 */
-	private byte[] photo;
 	/** 默认库存数 */
 	private Integer roomStock;
-	/** 是否本期推荐 */
-	private String recommended;
-
-	private List<BizHotl> bizHotls;
-
-	private List<BizInv> bizInvs;
-
-	private List<BizPrise> bizPrises;
-	private String hotelType;
-	private String hotelTypeKey;
-
+	/** 退房时间 */
 	private String outDateEnd;
+	/** 入住时间 */
 	private String inDateStart;
 	/** 都道府县 */
 	private String provinceCode;
@@ -67,21 +30,11 @@ public class HotelRoomQry {
 	private String provinceCodeKey;
 	/** 区市町村 */
 	private String cityCodeKey;
-	/** 酒店中文名称 */
-	private String hotelCname;
+	/** 房间价格 */
+	private Integer roomPrice;
+	/** 酒店名称 */
+	private  String hotelName;
 
-	/** 酒店英文名称 */
-
-	private String hotelEname;
-	/** 库存数量 */
-	private Integer inventory;
-
-	private String autoClose;
-
-	/** 销售房价 */
-	private Double sRoomPrice;
-	/** 销售房价 */
-	private Double sPrice;
 
 	/** 免费WIFY */
 	private String iswify;
@@ -134,90 +87,124 @@ public class HotelRoomQry {
 	/** 附近有餐厅 */
 	private String isrestau;
 
-	private  String hotelLevel;
-	private  String hotelName;
-	/** 结算价格  */
-	private Double tPrice;
-
-	public String getAutoClose() {
-		return autoClose;
-	}
-
-	public void setAutoClose(String autoClose) {
-		this.autoClose = autoClose;
-	}
-
-
-
-	public Double getTPrice() {
-		return tPrice;
-	}
-
-	public void setTPrice(Double tPrice) {
-		this.tPrice = tPrice;
-	}
-
-	public String getRoomTypeKey() {
-		return roomTypeKey;
-	}
-
-	public void setRoomTypeKey(String roomTypeKey) {
-		this.roomTypeKey = roomTypeKey;
-	}
-
-	public String getoutDateEnd() {
-		return outDateEnd;
-	}
-
-	public void setoutDateEnd(String outDateEnd) {
-		this.outDateEnd = outDateEnd;
-	}
-
-	public String gethotelLevel() {
+	public String getHotelLevel() {
 		return hotelLevel;
 	}
 
-	public void sethotelLevel(String hotelLevel) {
+	public void setHotelLevel(String hotelLevel) {
 		this.hotelLevel = hotelLevel;
 	}
-	public String getinDateStart() {
+
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
+
+	public String getRoomStyle() {
+		return roomStyle;
+	}
+
+	public void setRoomStyle(String roomStyle) {
+		this.roomStyle = roomStyle;
+	}
+
+	public String getBedType() {
+		return bedType;
+	}
+
+	public void setBedType(String bedType) {
+		this.bedType = bedType;
+	}
+
+	public String getBreakType() {
+		return breakType;
+	}
+
+	public void setBreakType(String breakType) {
+		this.breakType = breakType;
+	}
+
+	public Double getRoomArea() {
+		return roomArea;
+	}
+
+	public void setRoomArea(Double roomArea) {
+		this.roomArea = roomArea;
+	}
+
+	public Integer getRoomStock() {
+		return roomStock;
+	}
+
+	public void setRoomStock(Integer roomStock) {
+		this.roomStock = roomStock;
+	}
+
+	public String getOutDateEnd() {
+		return outDateEnd;
+	}
+
+	public void setOutDateEnd(String outDateEnd) {
+		this.outDateEnd = outDateEnd;
+	}
+
+	public String getInDateStart() {
 		return inDateStart;
 	}
 
-	public void setinDateStart(String inDateStart) {
+	public void setInDateStart(String inDateStart) {
 		this.inDateStart = inDateStart;
 	}
 
-	public String getBedTypeKey() {
-		return bedTypeKey;
+	public String getProvinceCode() {
+		return provinceCode;
 	}
 
-	public void setBedTypeKey(String bedTypeKey) {
-		this.bedTypeKey = bedTypeKey;
+	public void setProvinceCode(String provinceCode) {
+		this.provinceCode = provinceCode;
 	}
 
-	public String getHotelType() {
-		return hotelType;
+	public String getCityCode() {
+		return cityCode;
 	}
 
-	public void setHotelType(String hotelType) {
-		this.hotelType = hotelType;
+	public void setCityCode(String cityCode) {
+		this.cityCode = cityCode;
 	}
 
-	public String gethotelName() {
+	public String getProvinceCodeKey() {
+		return provinceCodeKey;
+	}
+
+	public void setProvinceCodeKey(String provinceCodeKey) {
+		this.provinceCodeKey = provinceCodeKey;
+	}
+
+	public String getCityCodeKey() {
+		return cityCodeKey;
+	}
+
+	public void setCityCodeKey(String cityCodeKey) {
+		this.cityCodeKey = cityCodeKey;
+	}
+
+	public Integer getRoomPrice() {
+		return roomPrice;
+	}
+
+	public void setRoomPrice(Integer roomPrice) {
+		this.roomPrice = roomPrice;
+	}
+
+	public String getHotelName() {
 		return hotelName;
 	}
 
-	public void sethotelName(String hotelName) {
+	public void setHotelName(String hotelName) {
 		this.hotelName = hotelName;
-	}
-
-	public String getHotelTypeKey() {
-		return hotelTypeKey;
-	}
-
-	public void setHotelTypeKey(String hotelTypeKey) {
-		this.hotelTypeKey = hotelTypeKey;
 	}
 
 	public String getIswify() {
@@ -419,207 +406,4 @@ public class HotelRoomQry {
 	public void setIsrestau(String isrestau) {
 		this.isrestau = isrestau;
 	}
-
-	public String getProvinceCode() {
-		return provinceCode;
-	}
-
-	public void setProvinceCode(String provinceCode) {
-		this.provinceCode = provinceCode;
-	}
-
-	public String getCityCode() {
-		return cityCode;
-	}
-
-	public void setCityCode(String cityCode) {
-		this.cityCode = cityCode;
-	}
-
-	public String getProvinceCodeKey() {
-		return provinceCodeKey;
-	}
-
-	public void setProvinceCodeKey(String provinceCodeKey) {
-		this.provinceCodeKey = provinceCodeKey;
-	}
-
-	public String getCityCodeKey() {
-		return cityCodeKey;
-	}
-
-	public void setCityCodeKey(String cityCodeKey) {
-		this.cityCodeKey = cityCodeKey;
-	}
-
-	public String getHotelCname() {
-		return hotelCname;
-	}
-
-	public void setHotelCname(String hotelCname) {
-		this.hotelCname = hotelCname;
-	}
-
-	public String getHotelEname() {
-		return hotelEname;
-	}
-
-	public void setHotelEname(String hotelEname) {
-		this.hotelEname = hotelEname;
-	}
-
-	public Integer getInventory() {
-		return inventory;
-	}
-
-	public void setInventory(Integer inventory) {
-		this.inventory = inventory;
-	}
-
-	public Double getsRoomPrice() {
-		return sRoomPrice;
-	}
-
-	public void setsRoomPrice(Double sRoomPrice) {
-		this.sRoomPrice = sRoomPrice;
-	}
-
-	public Double getsPrice() {
-		return sPrice;
-	}
-
-	public void setsPrice(Double sRoomPrice) {
-		this.sPrice = sPrice;
-	}
-
-	public List<BizInv> getBizInvs() {
-		return bizInvs;
-	}
-
-	public void setBizInvs(List<BizInv> bizInvs) {
-		this.bizInvs = bizInvs;
-	}
-
-	public List<BizPrise> getBizPrises() {
-		return bizPrises;
-	}
-
-	public void setBizPrises(List<BizPrise> bizPrises) {
-		this.bizPrises = bizPrises;
-	}
-
-	public List<BizHotl> getBizHotls() {
-		return bizHotls;
-	}
-
-	public void setBizHotls(List<BizHotl> bizHotls) {
-		this.bizHotls = bizHotls;
-	}
-
-	public String getRoomCode() {
-		return roomCode;
-	}
-
-	public void setRoomCode(String roomCode) {
-		this.roomCode = roomCode;
-	}
-
-	public String getHotelCode() {
-		return hotelCode;
-	}
-
-	public void setHotelCode(String hotelCode) {
-		this.hotelCode = hotelCode;
-	}
-
-	public String getRoomType() {
-		return roomType;
-	}
-
-	public void setRoomType(String roomType) {
-		this.roomType = roomType;
-	}
-
-	public String getRoomStyle() {
-		return roomStyle;
-	}
-
-	public void setRoomStyle(String roomStyle) {
-		this.roomStyle = roomStyle;
-	}
-
-	public String getBedType() {
-		return bedType;
-	}
-
-	public void setBedType(String bedType) {
-		this.bedType = bedType;
-	}
-
-	public String getBreakType() {
-		return breakType;
-	}
-
-	public void setBreakType(String breakType) {
-		this.breakType = breakType;
-	}
-
-	public String getBreakTypeKey() {
-		return breakTypeKey;
-	}
-
-	public void setBreakTypeKey(String breakTypeKey) {
-		this.breakTypeKey = breakTypeKey;
-	}
-
-
-	public Double getRoomArea() {
-		return roomArea;
-	}
-
-	public void setRoomArea(Double roomArea) {
-		this.roomArea = roomArea;
-	}
-
-	public String getIntroC() {
-		return introC;
-	}
-
-	public void setIntroC(String introC) {
-		this.introC = introC;
-	}
-
-	public String getIntroE() {
-		return introE;
-	}
-
-	public void setIntroE(String introE) {
-		this.introE = introE;
-	}
-
-	public byte[] getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(byte[] photo) {
-		this.photo = photo;
-	}
-
-	public Integer getRoomStock() {
-		return roomStock;
-	}
-
-	public void setRoomStock(Integer roomStock) {
-		this.roomStock = roomStock;
-	}
-
-	public String getRecommended() {
-		return recommended;
-	}
-
-	public void setRecommended(String recommended) {
-		this.recommended = recommended;
-	}
-
-
 }

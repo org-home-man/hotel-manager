@@ -51,12 +51,6 @@ public class BizPuchs extends BusinessEntity {
 	private String remark;
 	/** 订单状态 */
 	private String status;
-	/** 创建人员 */
-	private String creatBy;
-	/** 创建时间 */
-	private java.util.Date creatTime;
-	/** 更新时间 */
-	private String lastUpdateBy;
 
 	public Integer getcNum() {
 		return cNum;
@@ -222,29 +216,6 @@ public class BizPuchs extends BusinessEntity {
 		this.status = status;
 	}
 
-	public String getCreatBy() {
-		return creatBy;
-	}
-
-	public void setCreatBy(String creatBy) {
-		this.creatBy = creatBy;
-	}
-
-	public java.util.Date getCreatTime() {
-		return creatTime;
-	}
-
-	public void setCreatTime(java.util.Date creatTime) {
-		this.creatTime = creatTime;
-	}
-
-	public String getLastUpdateBy() {
-		return lastUpdateBy;
-	}
-
-	public void setLastUpdateBy(String lastUpdateBy) {
-		this.lastUpdateBy = lastUpdateBy;
-	}
 
 	public java.util.Date getLastUpdateTime() {
 		return lastUpdateTime;
@@ -254,32 +225,4 @@ public class BizPuchs extends BusinessEntity {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 
-	@Override
-	public String toString() {
-		return "BizPuchs{" +
-				"orderCode='" + orderCode + '\'' +
-				", roomCode='" + roomCode + '\'' +
-				", inDateStart=" + inDateStart +
-				", outDateEnd=" + outDateEnd +
-				", inDate=" + inDate +
-				", outDate=" + outDate +
-				", pName='" + pName + '\'' +
-				", passport='" + passport + '\'' +
-				", birth='" + birth + '\'' +
-				", phone='" + phone + '\'' +
-				", emailAddress='" + emailAddress + '\'' +
-				", aNum=" + aNum +
-				", bNum=" + bNum +
-				", cNum=" + cNum +
-				", roomNum=" + roomNum +
-				", currency='" + currency + '\'' +
-				", totalSAmount=" + totalSAmount +
-				", remark='" + remark + '\'' +
-				", status='" + status + '\'' +
-				", creatBy='" + creatBy + '\'' +
-				", creatTime=" + creatTime +
-				", lastUpdateBy='" + lastUpdateBy + '\'' +
-				", lastUpdateTime=" + lastUpdateTime +
-				'}';
-	}
 }
