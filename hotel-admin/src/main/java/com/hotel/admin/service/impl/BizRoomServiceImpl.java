@@ -5,8 +5,10 @@ import com.hotel.admin.dto.BizRoomQuery;
 import com.hotel.admin.mapper.*;
 import com.hotel.admin.model.*;
 import com.hotel.admin.service.BizRoomService;
+import com.hotel.common.utils.DateUtils;
 import com.hotel.common.utils.StringUtils;
 import com.hotel.core.context.PageContext;
+import com.hotel.core.exception.GlobalException;
 import com.hotel.core.page.Page;
 import com.hotel.core.page.PageRequest;
 import com.hotel.core.page.PageResult;
@@ -162,24 +164,34 @@ public class BizRoomServiceImpl implements BizRoomService {
 		先查询是否已经有提交牌价信息（根据客房id查询）
 		 */
 		List<BizPrise> pli = bizPriseMapper.queryById(bizProPrice.getRoomCode());
-		Date  priceYear = bizProPrice.getPriceYear();
-		Date[] priceDateInterval = bizProPrice.getPriceDateInterval();
+		String  priceYear = bizProPrice.getPriceYear();
+		String[] priceDateInterval = bizProPrice.getPriceDateInterval();
 		if (StringUtils.isBlank(bizProPrice.getSprice())) {
 			bkMap.put("code" ,"");
 			return bkMap;
 		}
 		List<Map> list = new ArrayList<>();
-		if (priceYear != null) {
+		if (!StringUtils.isBlank(priceYear) ) {
 			System.out.println(bizProPrice);
 			//直接生成一年的数据
-			list = onceYearData(bizProPrice);
+			try {
+				list = onceYearData(bizProPrice);
+			} catch (ParseException e) {
+				a.error("Date format Exception:"+e.getMessage());
+				new GlobalException("parse");
+			}
 		} else {
 			if (priceDateInterval==null) {
 				bkMap.put("code","");
 				return bkMap;
 			}
 			//根据用户输入的范围生成数据
-			list = dateIntervalData(bizProPrice);
+			try {
+				list = dateIntervalData(bizProPrice);
+			} catch (ParseException e) {
+				a.error("Date format Exception:"+e.getMessage());
+				new GlobalException("parse");
+			}
 			System.out.println("范围生成数据："+list.toString());
 		}
 		if ( pli.size() > 0 ) {
@@ -208,6 +220,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 	 */
 	@Override
 	public Map producePriceCalendar(BizProPrice bizProPrice) {
+		System.out.println(bizProPrice);
 		Map bkMap = new HashMap();
 		if (StringUtils.isBlank(bizProPrice.getDate())) {
 			bkMap.put("code","0001");
@@ -259,24 +272,34 @@ public class BizRoomServiceImpl implements BizRoomService {
 		先查询是否已经有提交牌价信息（根据客房id查询）
 		 */
 		List<BizInv> pli = bizInvMapper.queryById(bizProInv.getRoomCode());
-		Date  priceYear = bizProInv.getStockYear();
-		Date[] priceDateInterval = bizProInv.getStockDateInterval();
+		String priceYear = bizProInv.getStockYear();
+		String[] priceDateInterval = bizProInv.getStockDateInterval();
 		if (StringUtils.isBlank(bizProInv.getInventory())) {
 			bkMap.put("code" ,"");
 			return bkMap;
 		}
 		List<Map> list = new ArrayList<>();
-		if (priceYear != null) {
+		if (!StringUtils.isBlank(priceYear)) {
 			System.out.println(bizProInv);
 			//直接生成一年的数据
-			list = onceYearDataStock(bizProInv);
+			try {
+				list = onceYearDataStock(bizProInv);
+			} catch (ParseException e) {
+				a.error("Date format Exception:"+e.getMessage());
+				new GlobalException("parse");
+			}
 		} else {
 			if (priceDateInterval==null) {
 				bkMap.put("code","");
 				return bkMap;
 			}
 			//根据用户输入的范围生成数据
-			list = dateIntervalDataStock(bizProInv);
+			try {
+				list = dateIntervalDataStock(bizProInv);
+			} catch (ParseException e) {
+				a.error("Date format Exception:"+e.getMessage());
+				new GlobalException("parse");
+			}
 			System.out.println("范围生成数据："+list.toString());
 		}
 		if ( pli.size() > 0 ) {
@@ -378,10 +401,17 @@ public class BizRoomServiceImpl implements BizRoomService {
 	/*
 	生成一年的数据
 	 */
-	private List<Map> onceYearData(BizProPrice bizProPrice) {
+	private List<Map> onceYearData(BizProPrice bizProPrice) throws ParseException {
+		System.out.println("生成一年的牌价数据");
+
+		String date = bizProPrice.getPriceYear();
+		date = date.replace("Z"," UTC");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+		Date priceYear = format.parse(date);
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		List<Map> li = new ArrayList<Map>() ;
-		Date priceYear = bizProPrice.getPriceYear();
+
 		System.out.println(sdf.format(priceYear));
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(priceYear);
@@ -397,17 +427,28 @@ public class BizRoomServiceImpl implements BizRoomService {
 
 			calendar.add(calendar.DATE,1); //日期加1
 		}
+		System.out.println("返回数据的长度："+li.size());
 		return li;
 	}
 
 	/*
 	生成牌价范围数据，需要根据范围数据做筛选，选择出客户选择的周几，再插入到集合里面
 	 */
-	private List<Map> dateIntervalData(BizProPrice bizProPrice) {
+	private List<Map> dateIntervalData(BizProPrice bizProPrice) throws ParseException {
 		System.out.println("传入到日期范围的数据为："+bizProPrice);
+
+		String[] dts = bizProPrice.getPriceDateInterval();
+		Date[] dates = new Date[dts.length];
+		for (int i = 0;i<dts.length;i++) {
+			String date = dts[i];
+			date = date.replace("Z"," UTC");
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+			dates[i] = format.parse(date);
+		}
+
 		List<Map> list = new ArrayList<Map>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		Date[] dates = bizProPrice.getPriceDateInterval();
+
 		Calendar calendar = Calendar.getInstance();
 		long days ;
 		if (dates[1].getTime()>=dates[0].getTime()) {
@@ -629,10 +670,14 @@ public class BizRoomServiceImpl implements BizRoomService {
 	/*
 	生成一年的数据(库存)
 	 */
-	private List<Map> onceYearDataStock(BizProInv bizProInv) {
+	private List<Map> onceYearDataStock(BizProInv bizProInv) throws ParseException {
+		String date = bizProInv.getStockYear();
+		date = date.replace("Z"," UTC");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+		Date priceYear = format.parse(date);
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		List<Map> li = new ArrayList<Map>() ;
-		Date priceYear = bizProInv.getStockYear();
 		System.out.println(sdf.format(priceYear));
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(priceYear);
@@ -652,11 +697,20 @@ public class BizRoomServiceImpl implements BizRoomService {
 	/*
 	生成库存范围数据，需要根据范围数据做筛选，选择出客户选择的周几，再插入到集合里面（库存）
 	 */
-	private List<Map> dateIntervalDataStock(BizProInv bizProInv) {
+	private List<Map> dateIntervalDataStock(BizProInv bizProInv) throws ParseException {
 		System.out.println("传入到日期范围的数据为："+bizProInv);
+
+		String[] dts = bizProInv.getStockDateInterval();
+		Date[] dates = new Date[dts.length];
+		for (int i = 0;i<dts.length;i++) {
+			String date = dts[i];
+			date = date.replace("Z"," UTC");
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+			dates[i] = format.parse(date);
+		}
+
 		List<Map> list = new ArrayList<Map>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		Date[] dates = bizProInv.getStockDateInterval();
 		Calendar calendar = Calendar.getInstance();
 		long days ;
 		if (dates[1].getTime()>=dates[0].getTime()) {

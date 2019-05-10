@@ -15,8 +15,8 @@ public class BizProInv {
     private String  cityCode;
     private String  roomType;
     private String  bedType;
-    private Date stockYear;
-    private Date[]  stockDateInterval;
+    private String stockYear;
+    private String[]  stockDateInterval;
     private String  inventory;
     private String  isMonday;
     private String  isTuesday;
@@ -101,19 +101,19 @@ public class BizProInv {
         this.bedType = bedType;
     }
 
-    public Date getStockYear() {
+    public String getStockYear() {
         return stockYear;
     }
 
-    public void setStockYear(Date stockYear) {
+    public void setStockYear(String stockYear) {
         this.stockYear = stockYear;
     }
 
-    public Date[] getStockDateInterval() {
+    public String[] getStockDateInterval() {
         return stockDateInterval;
     }
 
-    public void setStockDateInterval(Date[] stockDateInterval) {
+    public void setStockDateInterval(String[] stockDateInterval) {
         this.stockDateInterval = stockDateInterval;
     }
 

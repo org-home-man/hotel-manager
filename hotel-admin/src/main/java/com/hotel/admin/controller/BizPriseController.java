@@ -31,7 +31,7 @@ public class BizPriseController {
 	 * @return
 	 */	
 	@PostMapping(value="/save")
-	public HttpResult save(BizPrise record) {
+	public HttpResult save(@RequestBody BizPrise record) {
 		bizPriseService.save(record);
 		return HttpResult.ok();
 	}

@@ -108,7 +108,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@PostMapping(value="/producePriceCalendar")
-	public HttpResult producePriceCalendar(BizProPrice bizProPrice) {
+	public HttpResult producePriceCalendar(@RequestBody BizProPrice bizProPrice) {
 		return HttpResult.ok(bizRoomService.producePriceCalendar(bizProPrice));
 	}
 
@@ -118,7 +118,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@PostMapping(value="/priceDatePro")
-	public HttpResult priceDatePro(BizProPrice bizProPrice) {
+	public HttpResult priceDatePro(@RequestBody BizProPrice bizProPrice) {
 		return HttpResult.ok(bizRoomService.productDatePrice(bizProPrice));
 	}
 
@@ -128,7 +128,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@PostMapping(value="/produceStockCalendar")
-	public HttpResult produceStockCalendar(BizProInv bizProInv) {
+	public HttpResult produceStockCalendar(@RequestBody BizProInv bizProInv) {
 		return HttpResult.ok(bizRoomService.produceStockCalendar(bizProInv));
 	}
 
@@ -138,7 +138,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@PostMapping(value="/stockDatePro")
-	public HttpResult stockDatePro(BizProInv bizProInv) {
+	public HttpResult stockDatePro(@RequestBody BizProInv bizProInv) {
 		return HttpResult.ok(bizRoomService.productDateStock(bizProInv));
 	}
 
