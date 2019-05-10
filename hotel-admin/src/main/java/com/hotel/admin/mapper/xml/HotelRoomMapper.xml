@@ -29,7 +29,7 @@
 <!--    <result column="country_code" jdbcType="VARCHAR" property="countryCode" />-->
     <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
     <result column="hotel_type" jdbcType="VARCHAR" property="hotelType" />
-<!--    <result column="hotel_level" jdbcType="VARCHAR" property="hotelLevel" />-->
+    <result column="hotel_level" jdbcType="VARCHAR" property="hotelLevel" />
     <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
     <result column="hotel_cname" jdbcType="VARCHAR" property="hotelCname" />
     <result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
@@ -80,7 +80,7 @@
     iswify,isfront,isbarrifr,isbalcony,iskitchen,iswindow,isheat,isicebox,isiron,isnosmk,islandscape,ishighrise,ispark,isgym,isswmp,isbeach,ishotsp,ischildct,isroomserv,isknead,islounge,issuper,isbus,istrafic,isrestau
   </sql>
   <sql id="br_price_sql">
-    p.s_price
+    p.price
   </sql>
 
   <select id="findPageByPara" parameterType="com.hotel.admin.dto.HotelRoomQry" resultMap="BaseResultMap">
@@ -92,14 +92,11 @@
       (select para_code from sys_para_config where para_code LIKE 'bedtype%' and para_sub_code1='bizroom' AND para_value1=a.bed_type)  bed_type_key,
       (select para_code from sys_para_config where para_code LIKE 'province%' and para_sub_code1='provinceCode' AND para_value1=b.province_code)  province_code_key,
       (select para_code from sys_para_config where para_code LIKE 'city%' and para_sub_code1='cityCode' AND para_value1=b.city_code)  city_type_key
-        <if test="highRoomPrice!=null or lowRoomPrice!=null">
-            ,<include refid="br_price_sql"/>
-        </if>
+        ,<include refid="br_price_sql"/>
     FROM
         biz_room a
         JOIN biz_hotl b ON a.hotel_code = b.hotel_code
         JOIN biz_room_ext bre ON a.room_code = bre.room_code
-        <if test="highRoomPrice!=null or lowRoomPrice!=null">
           JOIN (
               (SELECT
                   f.room_code,
@@ -123,7 +120,6 @@
               HAVING
               count( f.room_code ) = DATEDIFF(DATE_FORMAT( #{outDateEnd}, '%Y%m%d'),DATE_FORMAT( #{inDateStart}, '%Y%m%d') ) +1)
               ) p ON a.room_code = p.room_code
-        </if>
     WHERE
         a.del_flag = 0
         AND a.room_code IN (
