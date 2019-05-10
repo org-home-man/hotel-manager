@@ -31,7 +31,7 @@ public class BizInvController {
 	 * @return
 	 */	
 	@PostMapping(value="/save")
-	public HttpResult save(BizInv record) {
+	public HttpResult save(@RequestBody BizInv record) {
 		bizInvService.save(record);
 		return HttpResult.ok();
 	}

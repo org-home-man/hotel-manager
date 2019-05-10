@@ -127,8 +127,8 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 					addInv.setRoomCode(record.getRoomCode());
 					addInv.setInventory(mroom.getRoomStock()-1);
 					addInv.setAutoClose("Y");
-					addInv.setCreatBy(record.getCreatBy());
-					addInv.setCreatTime(record.getCreatTime());
+					addInv.setCreateName(record.getCreateName());
+					addInv.setCreateTime(record.getCreateTime());
 					bizInvMapper.add(addInv);
 					//将默认库存数插入数据库，将库存数减一
 				}
@@ -146,8 +146,8 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 
 			bizPuchsMapper.insertSelective(record);
 			BizPuchsExt recordExt = new BizPuchsExt();
-			recordExt.setCreatBy(record.getCreatBy());
-			recordExt.setCreatTime(record.getCreatTime());
+			recordExt.setCreateName(record.getCreateName());
+			recordExt.setCreateTime(record.getCreateTime());
 			recordExt.setRoomCode(record.getRoomCode());
 			recordExt.setOrderCode(record.getOrderCode());
 			return  bizPuchsExtMapper.add(recordExt);

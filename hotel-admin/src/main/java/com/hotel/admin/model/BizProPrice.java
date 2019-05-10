@@ -14,8 +14,8 @@ public class BizProPrice extends BusinessEntity{
     private String  cityCode;
     private String  roomType;
     private String  bedType;
-    private Date priceYear;
-    private Date[]  priceDateInterval;
+    private String priceYear;
+    private String[]  priceDateInterval;
     private String  sprice;
     private String  tprice;
     private String  sRoomPrice;
@@ -102,19 +102,19 @@ public class BizProPrice extends BusinessEntity{
         this.bedType = bedType;
     }
 
-    public Date getPriceYear() {
+    public String getPriceYear() {
         return priceYear;
     }
 
-    public void setPriceYear(Date priceYear) {
+    public void setPriceYear(String priceYear) {
         this.priceYear = priceYear;
     }
 
-    public Date[] getPriceDateInterval() {
+    public String[] getPriceDateInterval() {
         return priceDateInterval;
     }
 
-    public void setPriceDateInterval(Date[] priceDateInterval) {
+    public void setPriceDateInterval(String[] priceDateInterval) {
         this.priceDateInterval = priceDateInterval;
     }
 
@@ -198,4 +198,30 @@ public class BizProPrice extends BusinessEntity{
         this.isSunday = isSunday;
     }
 
+    @Override
+    public String toString() {
+        return "BizProPrice{" +
+                "roomCode='" + roomCode + '\'' +
+                ", hotelCode='" + hotelCode + '\'' +
+                ", provinceCode='" + provinceCode + '\'' +
+                ", cityCode='" + cityCode + '\'' +
+                ", roomType='" + roomType + '\'' +
+                ", bedType='" + bedType + '\'' +
+                ", priceYear='" + priceYear + '\'' +
+                ", priceDateInterval=" + Arrays.toString(priceDateInterval) +
+                ", sprice='" + sprice + '\'' +
+                ", tprice='" + tprice + '\'' +
+                ", sRoomPrice='" + sRoomPrice + '\'' +
+                ", isMonday='" + isMonday + '\'' +
+                ", isTuesday='" + isTuesday + '\'' +
+                ", isThursday='" + isThursday + '\'' +
+                ", isFourday='" + isFourday + '\'' +
+                ", isFriday='" + isFriday + '\'' +
+                ", isSaterday='" + isSaterday + '\'' +
+                ", isSunday='" + isSunday + '\'' +
+                ", priceDateData=" + priceDateData +
+                ", dateArray=" + dateArray +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }

@@ -29,10 +29,10 @@
 	<result column="isbus" jdbcType="VARCHAR" property="isbus" />
 	<result column="istrafic" jdbcType="VARCHAR" property="istrafic" />
 	<result column="isrestau" jdbcType="VARCHAR" property="isrestau" />
-	<result column="creat_by" jdbcType="VARCHAR" property="creatBy" />
-	<result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
-	<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
-	<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+	<result column="create_name" jdbcType="VARCHAR" property="createName" />
+	<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	<result column="update_name" jdbcType="VARCHAR" property="updateName" />
+	<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   
   <insert id="add" parameterType="com.hotel.admin.model.BizRoomExt">
@@ -116,17 +116,11 @@
       <if test="isrestau != null">
         isrestau,
       </if>
-      <if test="creatBy != null">
-        creat_by,
+      <if test="createName != null">
+        create_name,
       </if>
-      <if test="creatTime != null">
-        creat_time,
-      </if>
-      <if test="lastUpdateBy != null">
-        last_update_by,
-      </if>
-      <if test="lastUpdateTime != null">
-        last_update_time,
+      <if test="createTime != null">
+        create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -208,17 +202,11 @@
       <if test="isrestau != null">
         #{isrestau,jdbcType=VARCHAR},
       </if>
-      <if test="creatBy != null">
-        #{creatBy,jdbcType=VARCHAR},
+      <if test="createName != null">
+        #{createName,jdbcType=VARCHAR},
       </if>
-      <if test="creatTime != null">
-        #{creatTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastUpdateBy != null">
-        #{lastUpdateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="lastUpdateTime != null">
-        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -309,17 +297,11 @@
       <if test="isrestau != null">
         isrestau = #{isrestau,jdbcType=VARCHAR},
       </if>
-      <if test="creatBy != null">
-        creat_by = #{creatBy,jdbcType=VARCHAR},
+      <if test="updateName != null">
+        update_name = #{updateName,jdbcType=VARCHAR},
       </if>
-      <if test="creatTime != null">
-        creat_time = #{creatTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="lastUpdateBy != null">
-        last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="lastUpdateTime != null">
-        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where room_code = #{roomCode,jdbcType=VARCHAR}
