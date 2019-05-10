@@ -10,9 +10,11 @@ import com.hotel.admin.model.BizRoomExt;
 import com.hotel.admin.model.CrtId;
 import com.hotel.admin.service.BizRoomService;
 import com.hotel.admin.service.HotelRoomService;
+import com.hotel.common.utils.DateUtils;
 import com.hotel.common.utils.StringUtils;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
+import com.hotel.core.exception.GlobalException;
 import com.hotel.core.page.*;
 import com.hotel.core.service.AbstractService;
 import org.apache.commons.logging.Log;
@@ -44,9 +46,64 @@ public class HotelRoomServiceImpl extends AbstractService<BizRoom> implements Ho
 	private HotelRoomMapper hotelRoomMapper;
 
 	@Override
-	public Page findPagePara(HotelRoomQry HotelRoomQry) {
-		hotelRoomMapper.findPageByPara(HotelRoomQry);
+	public Page findPagePara(HotelRoomQry hotelRoomQry) {
+		try {
+			validateDate(hotelRoomQry);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		List<BizRoom> pageByPara = hotelRoomMapper.findPageByPara(hotelRoomQry);
+
 		return PageContext.getPage();
 	}
+
+	/**
+	 * 客房检索时间轴确认
+	 * @param hotelRoomQry
+	 */
+	protected void validateDate(HotelRoomQry hotelRoomQry) throws ParseException {
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+		//当前日期
+		String curDateStr = fmt.format(new Date());
+		Date curDate = fmt.parse(curDateStr);
+		//都为空 默认显示今天到后五天的酒店信息
+		if (Utils.isEmpty(hotelRoomQry.getInDateStart()) && Utils.isEmpty(hotelRoomQry.getOutDateEnd())) {
+			hotelRoomQry.setInDateStart(curDateStr);
+			//获取后五天
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(curDate);
+			calendar.add(Calendar.DAY_OF_MONTH,5);
+			hotelRoomQry.setOutDateEnd(fmt.format(calendar.getTime()));
+		}else if(Utils.isEmpty(hotelRoomQry.getInDateStart())){
+			//开始时间为空
+			String outDateEnd = hotelRoomQry.getOutDateEnd();
+			Date dateEnd = fmt.parse(outDateEnd);
+			if(curDate.compareTo(dateEnd) == 0){
+				//今天 设置开始为今天
+				hotelRoomQry.setInDateStart(outDateEnd);
+			}else if (curDate.compareTo(dateEnd) >0){
+				//得到往前五天时间
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(dateEnd);
+				calendar.add(Calendar.DAY_OF_MONTH,-5);
+				Date time = calendar.getTime();
+				if(curDate.compareTo(time)<0){
+					hotelRoomQry.setInDateStart(curDateStr);
+				}else{
+					hotelRoomQry.setInDateStart(fmt.format(time));
+				}
+			}else{
+				//结束日期有误
+				throw new GlobalException("日期有误");
+			}
+		}else if(Utils.isEmpty(hotelRoomQry.getOutDateEnd())){
+			//获取后五天
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(curDate);
+			calendar.add(Calendar.DAY_OF_MONTH,5);
+			hotelRoomQry.setOutDateEnd(fmt.format(calendar.getTime()));
+		}
+	}
+
 
 }

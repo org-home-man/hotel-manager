@@ -1,6 +1,7 @@
 package com.hotel.admin.model;
 
 import com.hotel.common.entity.BusinessEntity;
+import com.hotel.common.utils.Utils;
 
 /**
  * ---------------------------
@@ -79,6 +80,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIswify(String iswify) {
+		if(Utils.isEmpty(iswify)){
+			this.iswify = "2";
+			return;
+		}
 		this.iswify = iswify;
 	}
 
@@ -87,6 +92,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsfront(String isfront) {
+		if(Utils.isEmpty(isfront)){
+			this.isfront = "2";
+			return;
+		}
 		this.isfront = isfront;
 	}
 
@@ -95,6 +104,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsbarrifr(String isbarrifr) {
+		if(Utils.isEmpty(isbarrifr)){
+			this.isbarrifr = "2";
+			return;
+		}
 		this.isbarrifr = isbarrifr;
 	}
 
@@ -103,6 +116,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsbalcony(String isbalcony) {
+		if(Utils.isEmpty(isbalcony)){
+			this.isbalcony = "2";
+			return;
+		}
 		this.isbalcony = isbalcony;
 	}
 
@@ -111,6 +128,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIskitchen(String iskitchen) {
+		if(Utils.isEmpty(iskitchen)){
+			this.iskitchen = "2";
+			return;
+		}
 		this.iskitchen = iskitchen;
 	}
 
@@ -119,6 +140,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIswindow(String iswindow) {
+		if(Utils.isEmpty(iswindow)){
+			this.iswindow = "2";
+			return;
+		}
 		this.iswindow = iswindow;
 	}
 
@@ -127,6 +152,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsheat(String isheat) {
+		if(Utils.isEmpty(isheat)){
+			this.isheat = "2";
+			return;
+		}
 		this.isheat = isheat;
 	}
 
@@ -135,6 +164,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsicebox(String isicebox) {
+		if(Utils.isEmpty(isicebox)){
+			this.isicebox = "2";
+			return;
+		}
 		this.isicebox = isicebox;
 	}
 
@@ -143,6 +176,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsiron(String isiron) {
+		if(Utils.isEmpty(isiron)){
+			this.isiron = "2";
+			return;
+		}
 		this.isiron = isiron;
 	}
 
@@ -151,6 +188,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsnosmk(String isnosmk) {
+		if(Utils.isEmpty(isnosmk)){
+			this.isnosmk = "2";
+			return;
+		}
 		this.isnosmk = isnosmk;
 	}
 
@@ -159,6 +200,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIslandscape(String islandscape) {
+		if(Utils.isEmpty(islandscape)){
+			this.islandscape = "2";
+			return;
+		}
 		this.islandscape = islandscape;
 	}
 
@@ -167,6 +212,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIshighrise(String ishighrise) {
+		if(Utils.isEmpty(ishighrise)){
+			this.ishighrise = "2";
+			return;
+		}
 		this.ishighrise = ishighrise;
 	}
 
@@ -175,6 +224,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIspark(String ispark) {
+		if(Utils.isEmpty(ispark)){
+			this.ispark = "2";
+			return;
+		}
 		this.ispark = ispark;
 	}
 
@@ -183,6 +236,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsgym(String isgym) {
+		if(Utils.isEmpty(isgym)){
+			this.isgym = "2";
+			return;
+		}
 		this.isgym = isgym;
 	}
 
@@ -191,6 +248,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsswmp(String isswmp) {
+		if(Utils.isEmpty(isswmp)){
+			this.isswmp = "2";
+			return;
+		}
 		this.isswmp = isswmp;
 	}
 
@@ -199,6 +260,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsbeach(String isbeach) {
+		if(Utils.isEmpty(isbeach)){
+			this.isbeach = "2";
+			return;
+		}
 		this.isbeach = isbeach;
 	}
 
@@ -207,6 +272,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIshotsp(String ishotsp) {
+		if(Utils.isEmpty(ishotsp)){
+			this.ishotsp = "2";
+			return;
+		}
 		this.ishotsp = ishotsp;
 	}
 
@@ -215,6 +284,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIschildct(String ischildct) {
+		if(Utils.isEmpty(ischildct)){
+			this.ischildct = "2";
+			return;
+		}
 		this.ischildct = ischildct;
 	}
 
@@ -223,6 +296,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsroomserv(String isroomserv) {
+		if(Utils.isEmpty(isroomserv)){
+			this.isroomserv = "2";
+			return;
+		}
 		this.isroomserv = isroomserv;
 	}
 
@@ -231,6 +308,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsknead(String isknead) {
+		if(Utils.isEmpty(isknead)){
+			this.isknead = "2";
+			return;
+		}
 		this.isknead = isknead;
 	}
 
@@ -239,6 +320,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIslounge(String islounge) {
+		if(Utils.isEmpty(islounge)){
+			this.islounge = "2";
+			return;
+		}
 		this.islounge = islounge;
 	}
 
@@ -247,6 +332,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIssuper(String issuper) {
+		if(Utils.isEmpty(issuper)){
+			this.issuper = "2";
+			return;
+		}
 		this.issuper = issuper;
 	}
 
@@ -255,6 +344,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsbus(String isbus) {
+		if(Utils.isEmpty(isbus)){
+			this.isbus = "2";
+			return;
+		}
 		this.isbus = isbus;
 	}
 
@@ -263,6 +356,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIstrafic(String istrafic) {
+		if(Utils.isEmpty(istrafic)){
+			this.istrafic = "2";
+			return;
+		}
 		this.istrafic = istrafic;
 	}
 
@@ -271,6 +368,10 @@ public class BizRoomExt extends BusinessEntity{
 	}
 
 	public void setIsrestau(String isrestau) {
+		if(Utils.isEmpty(isrestau)){
+			this.isrestau = "2";
+			return;
+		}
 		this.isrestau = isrestau;
 	}
 

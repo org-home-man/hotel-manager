@@ -18,10 +18,6 @@
 	<result column="photo" jdbcType="BINARY" property="photo" />
 	<result column="room_stock" jdbcType="INTEGER" property="roomStock" />
 	<result column="recommended" jdbcType="VARCHAR" property="recommended" />
-	<result column="creat_by" jdbcType="VARCHAR" property="creatBy" />
-	<result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
-	<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
-	<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
 
     <result column="country_code" jdbcType="VARCHAR" property="countryCode" />
     <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
@@ -104,12 +100,6 @@
       <if test="recommended != null">
         recommended,
       </if>
-      <if test="creatBy != null">
-        creat_by,
-      </if>
-      <if test="creatTime != null">
-        creat_time,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="roomCode != null">
@@ -147,12 +137,6 @@
       </if>
       <if test="recommended != null">
         #{recommended,jdbcType=VARCHAR},
-      </if>
-      <if test="creatBy != null">
-        #{creatBy,jdbcType=VARCHAR},
-      </if>
-      <if test="creatTime != null">
-        #{creatTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -200,12 +184,6 @@
       </if>
       <if test="recommended != null">
         recommended = #{recommended,jdbcType=VARCHAR},
-      </if>
-      <if test="lastUpdateBy != null">
-        last_update_by = #{lastUpdateBy,jdbcType=VARCHAR},
-      </if>
-      <if test="lastUpdateTime != null">
-        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where room_code = #{roomCode,jdbcType=VARCHAR}
@@ -275,7 +253,7 @@
     from biz_room a LEFT JOIN biz_inv b ON a.room_code=b.room_code AND ifnull(b.inv_date,date_format(SYSDATE(),'%Y%m%d')) = date_format(SYSDATE(),'%Y%m%d')
     LEFT JOIN biz_prise c ON  a.room_code=c.room_code and c.price_date=date_format(SYSDATE(),'%Y%m%d') LEFT JOIN
     biz_hotl d ON a.hotel_code = d.hotel_code LEFT JOIN biz_room_ext e on a.room_code = e.room_code
-    WHERE 1=1 AND A.DEL_FLAG = 0
+    WHERE 1=1 AND a.DEL_FLAG = 0
     <if test="hotelCode != null and hotelCode != ''">
       AND d.hotel_code = #{hotelCode,jdbcType=VARCHAR}
     </if>

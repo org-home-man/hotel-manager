@@ -35,7 +35,7 @@
     <result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
     <result column="inventory" jdbcType="INTEGER" property="inventory" />
     <result column="s_room_price" jdbcType="DOUBLE" property="sRoomPrice" />
-    <result column="s_price" jdbcType="DOUBLE" property="sPrice" />
+    <result column="price" jdbcType="DOUBLE" property="sPrice" />
     <!--<result column="out_date" jdbcType="VARCHAR" property="outDateEnd" />-->
     <!--<result column="in_date" jdbcType="VARCHAR" property="inDateStart" />-->
     <result column="hotel_addr" jdbcType="VARCHAR" property="hotelAddr" />
@@ -71,159 +71,229 @@
   </resultMap>
 
   <sql id="br_hotel_sql">
-    bh.hotel_code,bh.province_code,bh.city_code,bh.hotel_type,bh.hotel_level,bh.hotel_cname,bh.hotel_ename,
+    b.hotel_code,b.province_code,b.city_code,b.hotel_type,b.hotel_level,b.hotel_cname,b.hotel_ename
   </sql>
   <sql id="br_room_sql">
-    br.room_code,br.room_type,br.room_style,br.bed_type,br.break_type,br.room_area,br.room_stock,
+    a.room_code,a.room_type,a.room_style,a.bed_type,a.break_type,a.room_area,a.room_stock
   </sql>
   <sql id="br_room_ext_sql">
     iswify,isfront,isbarrifr,isbalcony,iskitchen,iswindow,isheat,isicebox,isiron,isnosmk,islandscape,ishighrise,ispark,isgym,isswmp,isbeach,ishotsp,ischildct,isroomserv,isknead,islounge,issuper,isbus,istrafic,isrestau
   </sql>
   <sql id="br_price_sql">
-    bp.s_price
+    p.s_price
   </sql>
 
   <select id="findPageByPara" parameterType="com.hotel.admin.dto.HotelRoomQry" resultMap="BaseResultMap">
-    SELECT distinct
+    SELECT
         <include refid="br_hotel_sql"/>,
-        <include refid="br_price_sql"/>,
         <include refid="br_room_ext_sql"/>,
-        <include refid="br_room_sql"/>
+        <include refid="br_room_sql"/>,
+      (select para_code from sys_para_config where para_code LIKE 'roomtype%' and para_sub_code1='bizroom' AND para_value1=a.room_type) room_type_key,
+      (select para_code from sys_para_config where para_code LIKE 'bedtype%' and para_sub_code1='bizroom' AND para_value1=a.bed_type)  bed_type_key,
+      (select para_code from sys_para_config where para_code LIKE 'province%' and para_sub_code1='provinceCode' AND para_value1=b.province_code)  province_code_key,
+      (select para_code from sys_para_config where para_code LIKE 'city%' and para_sub_code1='cityCode' AND para_value1=b.city_code)  city_type_key
+        <if test="highRoomPrice!=null or lowRoomPrice!=null">
+            ,<include refid="br_price_sql"/>
+        </if>
     FROM
-        biz_hotl bh
-        JOIN biz_room br ON bh.hotel_code = br.hotel_code
-        JOIN biz_room_ext bre ON br.room_code = bre.room_code
-        JOIN biz_prise bp ON br.room_code = bp.room_code
-        JOIN biz_inv bi ON br.room_code = bi.room_code
+        biz_room a
+        JOIN biz_hotl b ON a.hotel_code = b.hotel_code
+        JOIN biz_room_ext bre ON a.room_code = bre.room_code
+        <if test="highRoomPrice!=null or lowRoomPrice!=null">
+          JOIN (
+              (SELECT
+                  f.room_code,
+                  min(g.s_price) price
+              FROM
+                  (SELECT
+                        x.date,
+                        c.room_code
+                  FROM
+                        biz_room c
+                  JOIN ( SELECT DATE_FORMAT( date, '%Y%m%d' ) date
+                         FROM calendar
+                         WHERE date BETWEEN DATE_FORMAT( #{inDateStart}, '%Y%m%d') AND DATE_FORMAT( #{outDateEnd}, '%Y%m%d')
+                         ) x
+                  ) f
+                  LEFT JOIN biz_prise g ON f.room_code = g.room_code and f.date = g.price_date
+              WHERE
+                  g.s_price is not null
+              GROUP BY
+                  f.room_code
+              HAVING
+              count( f.room_code ) = DATEDIFF(DATE_FORMAT( #{outDateEnd}, '%Y%m%d'),DATE_FORMAT( #{inDateStart}, '%Y%m%d') ) +1)
+              ) p ON a.room_code = p.room_code
+        </if>
     WHERE
-        br.del_flag = 0
-    <if test="provinceCode != null">
-      AND bh.province_code = #{provinceCode,jdbcType=VARCHAR}
+        a.del_flag = 0
+        AND a.room_code IN (
+          SELECT
+              brd.room_code
+          FROM
+          (
+              SELECT
+                  d.date,
+                  br.room_code,
+                  br.room_type,
+                  br.room_style,
+                  br.bed_type,
+                  br.break_type,
+                  br.room_area,
+                  br.room_stock brs
+              FROM
+                  biz_room br
+              JOIN ( SELECT
+                        DATE_FORMAT( date, '%Y%m%d' ) date
+                     FROM calendar
+                     WHERE date BETWEEN DATE_FORMAT( #{inDateStart}, '%Y%m%d') AND DATE_FORMAT( #{outDateEnd}, '%Y%m%d') ) d
+          ) brd
+          LEFT JOIN biz_inv bi ON brd.room_code = bi.room_code AND brd.date = bi.inv_date
+          LEFT JOIN biz_prise bp ON brd.room_code = bp.room_code AND brd.date = bp.price_date
+          WHERE
+              <choose>
+                  <when test="roomStock!=null">
+                      IFNULL( bi.inventory, brd.brs ) &gt;= #{roomStock}
+                  </when>
+                  <otherwise>
+                      IFNULL( bi.inventory, brd.brs ) &gt; 0
+                  </otherwise>
+              </choose>
+              AND bp.s_price IS NOT NULL
+              GROUP BY
+              brd.room_code
+          HAVING
+              count( brd.room_code ) = DATEDIFF(DATE_FORMAT( #{outDateEnd}, '%Y%m%d'),DATE_FORMAT( #{inDateStart}, '%Y%m%d') ) +1
+          )
+    <if test="provinceCode != null and provinceCode!=''">
+      AND b.province_code = #{provinceCode,jdbcType=VARCHAR}
     </if>
-    <if test="cityCode != null">
-      AND bh.city_code = #{cityCode,jdbcType=VARCHAR}
+    <if test="cityCode != null and cityCode!=''">
+      AND b.city_code = #{cityCode,jdbcType=VARCHAR}
     </if>
-    <if test="hotelType != null">
-      AND bh.hotel_type = #{hotelType,jdbcType=VARCHAR}
+    <if test="hotelType != null and hotelType!=''">
+      AND b.hotel_type = #{hotelType,jdbcType=VARCHAR}
     </if>
-    <if test="hotelLevel != null">
-      AND bh.hotel_level = #{hotelLevel,jdbcType=VARCHAR}
+    <if test="hotelLevel != null and hotelLevel!=''">
+      AND b.hotel_level = #{hotelLevel,jdbcType=VARCHAR}
     </if>
     <if test="hotelName !=null and hotelName!=''">
-      AND (bh.hotem_cname LIKE CONCAT('%',#{hotelName},'%') or bh.hotel_ename LIKE CONCAT('%',#{hotelName},'%'))
+      AND (b.hotem_cname LIKE CONCAT('%',#{hotelName},'%') or b.hotel_ename LIKE CONCAT('%',#{hotelName},'%'))
     </if>
-    <if test="roomType != null">
-      AND br.room_type = #{roomType,jdbcType=VARCHAR}
+    <if test="roomType != null and roomType!=''">
+      AND a.room_type = #{roomType,jdbcType=VARCHAR}
     </if>
-    <if test="bedType != null">
-      AND br.bed_type = #{bedType,jdbcType=VARCHAR}
+    <if test="bedType != null and bedType!=''">
+      AND a.bed_type = #{bedType,jdbcType=VARCHAR}
     </if>
-    <if test="breakType != null">
-      AND br.break_type = #{breakType,jdbcType=VARCHAR}
+    <if test="breakType != null and breakType!=''">
+      AND a.break_type = #{breakType,jdbcType=VARCHAR}
     </if>
-    <if test="roomStyle != null">
-      AND br.room_style = #{roomStyle,jdbcType=VARCHAR}
+    <if test="roomStyle != null and roomStyle!=''">
+      AND a.room_style = #{roomStyle,jdbcType=VARCHAR}
     </if>
     <if test="roomArea != null">
-      AND br.room_area >= #{roomArea,jdbcType=VARCHAR}
+      AND a.room_area &gt;= #{roomArea,jdbcType=VARCHAR}
     </if>
     <if test="roomStock != null">
-      AND (br.room_stock > #{roomStock,jdbcType=VARCHAR} )
+      AND (a.room_stock %gt; #{roomStock,jdbcType=VARCHAR} )
     </if>
-    <if test="iswify != null">
+    <if test="iswify != null and iswify !=''">
       AND bre.iswify = #{iswify,jdbcType=VARCHAR}
     </if>
-    <if test="isfront != null">
+    <if test="isfront != null and isfront !=''">
       AND bre. isfront = #{isfront,jdbcType=VARCHAR}
     </if>
-    <if test="isbarrifr != null">
+    <if test="isbarrifr != null and isbarrifr !=''">
       AND bre.isbarrifr = #{isbarrifr,jdbcType=VARCHAR}
     </if>
-    <if test="isbalcony != null">
+    <if test="isbalcony != null and isbalcony !=''">
       AND bre.isbalcony = #{isbalcony,jdbcType=VARCHAR}
     </if>
-    <if test="iskitchen != null">
-    AND bre.iskitchen = #{iskitchen,jdbcType=VARCHAR}
+    <if test="iskitchen != null and iskitchen !=''">
+        AND bre.iskitchen = #{iskitchen,jdbcType=VARCHAR}
     </if>
-    <if test="iswindow != null">
-    AND bre.iswindow = #{iswindow,jdbcType=VARCHAR}
+    <if test="iswindow != null and iswindow !=''">
+        AND bre.iswindow = #{iswindow,jdbcType=VARCHAR}
     </if>
-    <if test="isheat != null">
-      AND bre.isheat = #{isheat,jdbcType=VARCHAR}
+    <if test="isheat != null and isheat !=''">
+        AND bre.isheat = #{isheat,jdbcType=VARCHAR}
     </if>
-    <if test="isicebox != null">
-      AND bre.isicebox = #{isicebox,jdbcType=VARCHAR}
+    <if test="isicebox != null and isicebox !=''">
+        AND bre.isicebox = #{isicebox,jdbcType=VARCHAR}
     </if>
-    <if test="iswindow != null">
-      AND bre.iswindow = #{iswindow,jdbcType=VARCHAR}
+    <if test="iswindow != null and iswindow!=''">
+        AND bre.iswindow = #{iswindow,jdbcType=VARCHAR}
     </if>
-    <if test="isheat != null">
-      AND bre.isheat = #{isheat,jdbcType=VARCHAR}
+    <if test="isheat != null and isheat!=''">
+        AND bre.isheat = #{isheat,jdbcType=VARCHAR}
     </if>
-    <if test="isicebox != null">
-      AND bre.isicebox = #{isicebox,jdbcType=VARCHAR}
+    <if test="isicebox != null and isicebox!=''">
+        AND bre.isicebox = #{isicebox,jdbcType=VARCHAR}
     </if>
-    <if test="isiron != null">
-      AND bre.isiron = #{isiron,jdbcType=VARCHAR}
+    <if test="isiron != null and isiron!=''">
+        AND bre.isiron = #{isiron,jdbcType=VARCHAR}
     </if>
-    <if test="isnosmk != null">
-      AND bre.isnosmk = #{isnosmk,jdbcType=VARCHAR}
+    <if test="isnosmk != null and isnosmk!=''">
+        AND bre.isnosmk = #{isnosmk,jdbcType=VARCHAR}
     </if>
-    <if test="islandscape != null">
-      AND bre.islandscape = #{islandscape,jdbcType=VARCHAR}
+    <if test="islandscape != null and islandscape!=''">
+        AND bre.islandscape = #{islandscape,jdbcType=VARCHAR}
     </if>
-    <if test="ishighrise != null">
-      AND bre.ishighrise = #{ishighrise,jdbcType=VARCHAR}
+    <if test="ishighrise != null and ishighrise!=''">
+        AND bre.ishighrise = #{ishighrise,jdbcType=VARCHAR}
     </if>
-    <if test="ispark != null">
-      AND bre.ispark = #{ispark,jdbcType=VARCHAR}
+    <if test="ispark != null and ispark!=''">
+        AND bre.ispark = #{ispark,jdbcType=VARCHAR}
     </if>
-    <if test="isgym != null">
-      AND bre.isgym = #{isgym,jdbcType=VARCHAR}
+    <if test="isgym != null and isgym!=''">
+        AND bre.isgym = #{isgym,jdbcType=VARCHAR}
     </if>
-    <if test="isswmp != null">
-      AND bre.isswmp = #{isswmp,jdbcType=VARCHAR}
+    <if test="isswmp != null and isswmp!=''">
+        AND bre.isswmp = #{isswmp,jdbcType=VARCHAR}
     </if>
-    <if test="isbeach != null">
-      AND bre.isbeach = #{isbeach,jdbcType=VARCHAR}
+    <if test="isbeach != null and isbeach!=''">
+        AND bre.isbeach = #{isbeach,jdbcType=VARCHAR}
     </if>
-    <if test="ishotsp != null">
-      AND bre.ishotsp = #{ishotsp,jdbcType=VARCHAR}
+    <if test="ishotsp != null and ishotsp!=''">
+        AND bre.ishotsp = #{ishotsp,jdbcType=VARCHAR}
     </if>
-    <if test="ischildct != null">
-      AND bre.ischildct = #{ischildct,jdbcType=VARCHAR}
+    <if test="ischildct != null and ischildct!=''">
+        AND bre.ischildct = #{ischildct,jdbcType=VARCHAR}
     </if>
-    <if test="isroomserv != null">
-      AND bre.isroomserv = #{isroomserv,jdbcType=VARCHAR}
+    <if test="isroomserv != null and isroomserv!=''">
+        AND bre.isroomserv = #{isroomserv,jdbcType=VARCHAR}
     </if>
-    <if test=" isknead != null">
-      AND bre. isknead = #{ isknead,jdbcType=VARCHAR}
+    <if test="isknead != null and isknead!=''">
+        AND bre. isknead = #{ isknead,jdbcType=VARCHAR}
     </if>
-    <if test="islounge != null">
-      AND bre.islounge = #{islounge,jdbcType=VARCHAR}
+    <if test="islounge != null and islounge!=''">
+        AND bre.islounge = #{islounge,jdbcType=VARCHAR}
     </if>
-    <if test="issuper != null">
-      AND bre.issuper = #{issuper,jdbcType=VARCHAR}
+    <if test="issuper != null and issuper!=''">
+        AND bre.issuper = #{issuper,jdbcType=VARCHAR}
     </if>
-    <if test="isbus != null">
-      AND bre.isbus = #{isbus,jdbcType=VARCHAR}
+    <if test="isbus != null and isbus!=''">
+        AND bre.isbus = #{isbus,jdbcType=VARCHAR}
     </if>
-    <if test="istrafic != null">
-      AND bre.istrafic = #{istrafic,jdbcType=VARCHAR}
+    <if test="istrafic != null and istrafic!=''">
+        AND bre.istrafic = #{istrafic,jdbcType=VARCHAR}
     </if>
-    <if test="isrestau != null">
-      AND bre.isrestau = #{isrestau,jdbcType=VARCHAR}
+    <if test="isrestau != null and isrestau !=''">
+        AND bre.isrestau = #{isrestau,jdbcType=VARCHAR}
     </if>
-    <if test="sPrice != null">
-      AND  #{s_Price,jdbcType=VARCHAR} &gt;= c.s_Price
+    <if test="lowRoomPrice!=null or highRoomPrice!=null">
+        <choose>
+            <when test="lowRoomPrice!=null and highRoomPrice==null">
+                AND p.price &lt;= #{lowRoomPrice}
+            </when>
+            <when test="lowRoomPrice==null and highRoomPrice!=null">
+                AND p.price &lt;= #{highRoomPrice}
+            </when>
+            <otherwise>
+                AND p.price BETWEEN #{lowRoomPrice} AND #{highRoomPrice}
+            </otherwise>
+        </choose>
     </if>
-    <if test="inDateStart != null">
-      AND  c.price_date >= #{inDateStart,jdbcType=VARCHAR}
-    </if>
-    <if test="outDateEnd != null">
-      AND  c.price_date  &lt;= #{outDateEnd,jdbcType=VARCHAR}
-    </if>
-
   </select>
-  
+
 </mapper>

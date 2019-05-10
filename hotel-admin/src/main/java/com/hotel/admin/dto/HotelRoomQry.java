@@ -31,9 +31,13 @@ public class HotelRoomQry {
 	/** 区市町村 */
 	private String cityCodeKey;
 	/** 房间价格 */
-	private Integer roomPrice;
+	private Integer highRoomPrice;
+	/** 房间价格 */
+	private Integer lowRoomPrice;
 	/** 酒店名称 */
-	private  String hotelName;
+	private String hotelName;
+	/** 酒店类型 */
+	private String hotelType;
 
 
 	/** 免费WIFY */
@@ -191,12 +195,20 @@ public class HotelRoomQry {
 		this.cityCodeKey = cityCodeKey;
 	}
 
-	public Integer getRoomPrice() {
-		return roomPrice;
+	public Integer getHighRoomPrice() {
+		return highRoomPrice;
 	}
 
-	public void setRoomPrice(Integer roomPrice) {
-		this.roomPrice = roomPrice;
+	public void setHighRoomPrice(Integer highRoomPrice) {
+		this.highRoomPrice = highRoomPrice;
+	}
+
+	public Integer getLowRoomPrice() {
+		return lowRoomPrice;
+	}
+
+	public void setLowRoomPrice(Integer lowRoomPrice) {
+		this.lowRoomPrice = lowRoomPrice;
 	}
 
 	public String getHotelName() {
@@ -405,5 +417,13 @@ public class HotelRoomQry {
 
 	public void setIsrestau(String isrestau) {
 		this.isrestau = isrestau;
+	}
+
+	public String getHotelType() {
+		return hotelType;
+	}
+
+	public void setHotelType(String hotelType) {
+		this.hotelType = hotelType;
 	}
 }

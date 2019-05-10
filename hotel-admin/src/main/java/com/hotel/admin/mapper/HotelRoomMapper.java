@@ -15,7 +15,7 @@ public interface HotelRoomMapper extends AbstractMapper<BizRoom> {
      * @param hotelRoomQry
      * @return
      */    
-    List<Map> findPageByPara(HotelRoomQry hotelRoomQry);
+    List<BizRoom> findPageByPara(HotelRoomQry hotelRoomQry);
 
 
 }
