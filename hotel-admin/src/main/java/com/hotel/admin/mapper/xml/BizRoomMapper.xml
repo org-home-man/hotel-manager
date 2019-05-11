@@ -58,6 +58,10 @@
     <result column="isbus" jdbcType="VARCHAR" property="isbus" />
     <result column="istrafic" jdbcType="VARCHAR" property="istrafic" />
     <result column="isrestau" jdbcType="VARCHAR" property="isrestau" />
+    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_name" jdbcType="VARCHAR" property="updateName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
 
   </resultMap>
   
@@ -177,7 +181,7 @@
     </trim>
   </insert>
 
-  <update id="delete" parameterType="java.lang.String">
+  <update id="delete" parameterType="com.hotel.admin.model.BizRoom">
     update  biz_room
     <set>
       del_flag = -1,

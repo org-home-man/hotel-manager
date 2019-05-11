@@ -26,10 +26,10 @@ public interface BizRoomMapper {
 
     /**
      * 删除客房信息表
-     * @param roomCode
+     * @param BizRoom
      * @return
      */
-    int delete(String roomCode);
+    int delete(BizRoom record);
     
     /**
      * 修改客房信息表
