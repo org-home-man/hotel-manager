@@ -3,6 +3,7 @@ package com.hotel.admin.model;
 import com.hotel.common.entity.BusinessEntity;
 import com.hotel.common.entity.auth.ISysUser;
 
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,12 +26,15 @@ public class SysUser extends BusinessEntity implements ISysUser {
 
     private Long deptId;
 
+    @Transient
     private String deptName;
 
     private Byte delFlag;
 
+    @Transient
     private String roleNames;
 
+    @Transient
     private List<SysUserRole> userRoles = new ArrayList<>();
 
     private Date birthday;

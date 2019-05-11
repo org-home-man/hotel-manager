@@ -40,7 +40,7 @@ public class SysUserController {
 	
 	@PreAuthorize("hasAuthority('sys:user:add') AND hasAuthority('sys:user:edit')")
 	@PostMapping(value="/save")
-	public HttpResult save(SysUser record) {
+	public HttpResult save(@RequestBody SysUser record) {
 		SysUser user = sysUserService.findById(record.getId());
 		if(user != null) {
 			if(SysConstants.ADMIN.equalsIgnoreCase(user.getName())) {
@@ -105,26 +105,6 @@ public class SysUserController {
 	@PostMapping(value="/findPage")
 	public HttpResult findPage(SysUserQuery qo) {
 		return HttpResult.ok(sysUserService.findPage(qo));
-	}
-
-	@PostMapping(value="/upload")
-	public HttpResult upload(MultipartFile file) {
-		try {
-			// 获取文件名
-			String fileName = UUID.randomUUID().toString();
-			// 获取项目的路径 + 拼接得到文件要保存的位置
-			File path = new File(ResourceUtils.getURL("classpath:").getPath());
-			String filePath = path.getAbsolutePath() + fileName+".png";
-			// 创建一个文件的对象
-			File file1 = new File(filePath,"static/images/upload/");
-			// 创建父文件夹
-			Files.createParentDirs(file1);
-			// 把上传的文件复制到文件对象中
-			file.transferTo(file1);
-			return HttpResult.ok(filePath);
-		} catch (IOException e) {
-			return HttpResult.error("上传失败");
-		}
 	}
 
 }
