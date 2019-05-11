@@ -5,6 +5,7 @@ import com.hotel.admin.model.BizRoom;
 import com.hotel.core.page.Page;
 import com.hotel.core.page.PageRequest;
 import com.hotel.core.service.CurdService;
+import com.hotel.core.service.IService;
 
 /**
  * ---------------------------
@@ -15,15 +16,12 @@ import com.hotel.core.service.CurdService;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public interface HotelRoomService extends CurdService<BizRoom> {
+public interface HotelRoomService extends IService<BizRoom> {
 
     /**
-     * 根据ID查询
-     * @param id
+     * 酒店条件检索客房信息
+     * @param HotelRoomQry
      * @return
      */
-    BizRoom  findById(String id);
-//    Page findById(String id);
     Page findPagePara(HotelRoomQry HotelRoomQry);
-
 }

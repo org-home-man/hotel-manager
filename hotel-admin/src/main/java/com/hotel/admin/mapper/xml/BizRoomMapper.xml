@@ -18,10 +18,6 @@
 	<result column="photo" jdbcType="BINARY" property="photo" />
 	<result column="room_stock" jdbcType="INTEGER" property="roomStock" />
 	<result column="recommended" jdbcType="VARCHAR" property="recommended" />
-	<result column="create_name" jdbcType="VARCHAR" property="createName" />
-	<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-	<result column="update_name" jdbcType="VARCHAR" property="updateName" />
-	<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
 
     <result column="country_code" jdbcType="VARCHAR" property="countryCode" />
     <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
@@ -101,27 +97,8 @@
       <if test="roomStock != null">
         room_stock,
       </if>
-      <if test="scheduledays!=null">
-        scheduledays,
-      </if>
-      <if test="favorableprice!=null">
-        favorableprice,
-      </if>
-      <if test="evenlive!=null">
-        evenlive,
-      </if>
-      <if test="present!=null">
-        present,
-      </if>
-
       <if test="recommended != null">
         recommended,
-      </if>
-      <if test="createName != null">
-        create_name,
-      </if>
-      <if test="createTime != null">
-        create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -146,18 +123,6 @@
       <if test="roomArea != null">
         #{roomArea,jdbcType=DOUBLE},
       </if>
-      <if test="scheduledays!=null">
-        #{scheduledays,jdbcType=DOUBLE},
-      </if>
-      <if test="favorableprice!=null">
-        #{favorableprice,jdbcType=DOUBLE},
-      </if>
-      <if test="evenlive!=null">
-        #{evenlive,jdbcType=DOUBLE},
-      </if>
-      <if test="present!=null">
-        #{present,jdbcType=DOUBLE},
-      </if>
       <if test="introC != null">
         #{introC,jdbcType=VARCHAR},
       </if>
@@ -173,22 +138,13 @@
       <if test="recommended != null">
         #{recommended,jdbcType=VARCHAR},
       </if>
-      <if test="createName != null">
-        #{createName,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
     </trim>
   </insert>
 
-  <update id="delete" parameterType="java.lang.String">
-    update  biz_room
-    <set>
-      del_flag = -1,
-    </set>
+  <delete id="delete" parameterType="java.lang.String">
+    delete from biz_room
     where room_code = #{roomCode,jdbcType=VARCHAR}
-  </update>
+  </delete>
   
   <update id="update" parameterType="com.hotel.admin.model.BizRoom">
     update biz_room
@@ -214,18 +170,6 @@
       <if test="roomArea != null">
         room_area = #{roomArea,jdbcType=DOUBLE},
       </if>
-      <if test="scheduledays!=null">
-        scheduledays= #{scheduledays,jdbcType=DOUBLE},
-      </if>
-      <if test="favorableprice!=null">
-        favorableprice = #{favorableprice,jdbcType=DOUBLE},
-      </if>
-      <if test="evenlive!=null">
-        evenlive = #{evenlive,jdbcType=DOUBLE},
-      </if>
-      <if test="present!=null">
-        present = #{present,jdbcType=DOUBLE},
-      </if>
       <if test="introC != null">
         intro_c = #{introC,jdbcType=VARCHAR},
       </if>
@@ -240,12 +184,6 @@
       </if>
       <if test="recommended != null">
         recommended = #{recommended,jdbcType=VARCHAR},
-      </if>
-      <if test="updateName != null">
-        update_name = #{updateName,jdbcType=VARCHAR},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where room_code = #{roomCode,jdbcType=VARCHAR}
@@ -273,10 +211,6 @@
     a.room_type    room_type,
     a.bed_type     bed_type,
     a.photo        photo,
-    a.scheduledays scheduledays,
-    a.favorableprice favorableprice,
-    a.evenlive     evenlive,
-    a.present      present,
     (select para_code from sys_para_config where para_code LIKE 'roomtype%' and para_sub_code1='bizroom' AND para_value1=a.room_type) room_type_key,
     (select para_code from sys_para_config where para_code LIKE 'bedtype%' and para_sub_code1='bizroom' AND para_value1=a.bed_type)  bed_type_key,
     ifnull(b.inventory,a.room_stock)    inventory,
@@ -319,7 +253,7 @@
     from biz_room a LEFT JOIN biz_inv b ON a.room_code=b.room_code AND ifnull(b.inv_date,date_format(SYSDATE(),'%Y%m%d')) = date_format(SYSDATE(),'%Y%m%d')
     LEFT JOIN biz_prise c ON  a.room_code=c.room_code and c.price_date=date_format(SYSDATE(),'%Y%m%d') LEFT JOIN
     biz_hotl d ON a.hotel_code = d.hotel_code LEFT JOIN biz_room_ext e on a.room_code = e.room_code
-    WHERE 1=1 AND a.del_flag = 0
+    WHERE 1=1 AND a.DEL_FLAG = 0
     <if test="hotelCode != null and hotelCode != ''">
       AND d.hotel_code = #{hotelCode,jdbcType=VARCHAR}
     </if>

@@ -65,6 +65,8 @@ public class BizRoom extends BusinessEntity{
 	private String provinceCodeKey;
 	/** 区市町村 */
 	private String cityCodeKey;
+	/** 酒店星级 */
+	private String hotelLevel;
 	/** 酒店中文名称 */
 	private String hotelCname;
 
@@ -168,6 +170,14 @@ public class BizRoom extends BusinessEntity{
 
 	public void setPresent(String present) {
 		this.present = present;
+	}
+
+	public String getHotelLevel() {
+		return hotelLevel;
+	}
+
+	public void setHotelLevel(String hotelLevel) {
+		this.hotelLevel = hotelLevel;
 	}
 
 	public String getAutoClose() {
