@@ -100,6 +100,24 @@
       <if test="recommended != null">
         recommended,
       </if>
+      <if test="scheduledays!=null">
+        scheduledays,
+      </if>
+      <if test="favorableprice!=null">
+        favorableprice,
+      </if>
+      <if test="evenlive!=null">
+        evenlive,
+      </if>
+      <if test="present!=null">
+        present,
+      </if>
+      <if test="createName != null">
+        create_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="roomCode != null">
@@ -138,13 +156,34 @@
       <if test="recommended != null">
         #{recommended,jdbcType=VARCHAR},
       </if>
+      <if test="scheduledays!=null">
+        #{scheduledays,jdbcType=DOUBLE},
+      </if>
+      <if test="favorableprice!=null">
+        #{favorableprice,jdbcType=DOUBLE},
+      </if>
+      <if test="evenlive!=null">
+        #{evenlive,jdbcType=DOUBLE},
+      </if>
+      <if test="present!=null">
+        #{present,jdbcType=DOUBLE},
+      </if>
+      <if test="createName != null">
+        #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
 
-  <delete id="delete" parameterType="java.lang.String">
-    delete from biz_room
+  <update id="delete" parameterType="java.lang.String">
+    update  biz_room
+    <set>
+      del_flag = -1,
+    </set>
     where room_code = #{roomCode,jdbcType=VARCHAR}
-  </delete>
+  </update>
   
   <update id="update" parameterType="com.hotel.admin.model.BizRoom">
     update biz_room
@@ -184,6 +223,24 @@
       </if>
       <if test="recommended != null">
         recommended = #{recommended,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduledays!=null">
+        scheduledays= #{scheduledays,jdbcType=DOUBLE},
+      </if>
+      <if test="favorableprice!=null">
+        favorableprice = #{favorableprice,jdbcType=DOUBLE},
+      </if>
+      <if test="evenlive!=null">
+        evenlive = #{evenlive,jdbcType=DOUBLE},
+      </if>
+      <if test="present!=null">
+        present = #{present,jdbcType=DOUBLE},
+      </if>
+      <if test="updateName != null">
+        update_name = #{updateName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where room_code = #{roomCode,jdbcType=VARCHAR}
