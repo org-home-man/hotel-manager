@@ -56,12 +56,15 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
 
 
     @Override
-    public ResultInfo uploadFiles(MultipartFile[] files) {
+    public ResultInfo uploadFiles(MultipartFile[] files,String businessId) {
         ResultInfo instance = ResultInfo.instance();
         if (files == null || files.length <=0) {
             return instance;
         }
         String relationId = generate32BitUUID();
+        if(Utils.isNotEmpty(businessId)){
+            relationId = businessId;
+        }
         for (MultipartFile file : files) {
             Document document = new Document();
             writeFile2Dist(file, document);

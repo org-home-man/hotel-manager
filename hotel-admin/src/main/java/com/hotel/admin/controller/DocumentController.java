@@ -29,8 +29,8 @@ public class DocumentController extends BaseController {
 
 
     @RequestMapping("/upload")
-    public ResultInfo fileUpload(MultipartFile[] files) {
-        return documentService.uploadFiles(files);
+    public ResultInfo fileUpload(MultipartFile[] files,String businessId) {
+        return documentService.uploadFiles(files,businessId);
     }
 
 
