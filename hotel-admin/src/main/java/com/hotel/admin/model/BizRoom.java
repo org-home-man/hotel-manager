@@ -47,11 +47,11 @@ public class BizRoom extends BusinessEntity{
 	/** 是否本期推荐 */
 	private String recommended;
 
-	private List<BizHotl> bizHotls;
+	private int scheduledays;
+	private double favorableprice;
+	private int evenlive;
+	private String present;
 
-	private List<BizInv> bizInvs;
-
-	private List<BizPrise> bizPrises;
 	private String hotelType;
 	private String hotelTypeKey;
 
@@ -138,6 +138,37 @@ public class BizRoom extends BusinessEntity{
 	private String hotelPhone;
 	private String hotelWeb;
 
+	public int getScheduledays() {
+		return scheduledays;
+	}
+
+	public void setScheduledays(int scheduledays) {
+		this.scheduledays = scheduledays;
+	}
+
+	public double getFavorableprice() {
+		return favorableprice;
+	}
+
+	public void setFavorableprice(double favorableprice) {
+		this.favorableprice = favorableprice;
+	}
+
+	public int getEvenlive() {
+		return evenlive;
+	}
+
+	public void setEvenlive(int evenlive) {
+		this.evenlive = evenlive;
+	}
+
+	public String getPresent() {
+		return present;
+	}
+
+	public void setPresent(String present) {
+		this.present = present;
+	}
 
 	public String getAutoClose() {
 		return autoClose;
@@ -498,30 +529,6 @@ public class BizRoom extends BusinessEntity{
 
 	public void setsPrice(Double sPrice) {
 		this.sPrice = sPrice;
-	}
-
-	public List<BizInv> getBizInvs() {
-		return bizInvs;
-	}
-
-	public void setBizInvs(List<BizInv> bizInvs) {
-		this.bizInvs = bizInvs;
-	}
-
-	public List<BizPrise> getBizPrises() {
-		return bizPrises;
-	}
-
-	public void setBizPrises(List<BizPrise> bizPrises) {
-		this.bizPrises = bizPrises;
-	}
-
-	public List<BizHotl> getBizHotls() {
-		return bizHotls;
-	}
-
-	public void setBizHotls(List<BizHotl> bizHotls) {
-		this.bizHotls = bizHotls;
 	}
 
 	public String getRoomCode() {
