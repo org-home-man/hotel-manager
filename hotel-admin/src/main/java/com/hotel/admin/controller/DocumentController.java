@@ -4,8 +4,7 @@ import com.hotel.admin.controller.base.BaseController;
 import com.hotel.admin.dto.FileInfo;
 import com.hotel.admin.service.IDocumentService;
 import com.hotel.common.utils.Utils;
-import com.hotel.core.model.ResultInfo;
-import com.hotel.core.utils.SimpleUtils;
+import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +28,7 @@ public class DocumentController extends BaseController {
 
 
     @RequestMapping("/upload")
-    public ResultInfo fileUpload(MultipartFile[] files,String businessId) {
+    public HttpResult fileUpload(MultipartFile[] files, String businessId) {
         return documentService.uploadFiles(files,businessId);
     }
 
@@ -74,18 +73,18 @@ public class DocumentController extends BaseController {
     }
 
     @RequestMapping("deleteRealFiles")
-    public ResultInfo deleteRealFiles(String ids) {
+    public HttpResult deleteRealFiles(String ids) {
         documentService.deleteRealFiles(ids);
-        return SimpleUtils.success();
+        return HttpResult.ok();
     }
 
     @RequestMapping("/query/{documentId}")
-    public ResultInfo queryById(@PathVariable Long documentId) {
+    public HttpResult queryById(@PathVariable Long documentId) {
         return documentService.queryById(documentId);
     }
 
     @RequestMapping("/queryByRelId")
-    public ResultInfo queryByRelId(String relationId) {
+    public HttpResult queryByRelId(String relationId) {
         return documentService.queryByRelId(relationId);
     }
 

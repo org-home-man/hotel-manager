@@ -2,21 +2,19 @@ package com.hotel.admin.service;
 
 import com.hotel.admin.dto.FileInfo;
 import com.hotel.admin.model.Document;
-import com.hotel.core.model.ResultInfo;
+import com.hotel.core.http.HttpResult;
 import com.hotel.core.service.IService;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 public interface IDocumentService extends IService<Document> {
-    ResultInfo uploadFiles(MultipartFile[] files,String businessId);
+    HttpResult uploadFiles(MultipartFile[] files, String businessId);
 
     FileInfo queryFileInfo(Long documentId);
 
     void deleteRealFiles(String ids);
 
 
-    ResultInfo queryById(Long documentId);
+    HttpResult queryById(Long documentId);
 
-    ResultInfo queryByRelId(String relationId);
+    HttpResult queryByRelId(String relationId);
 }

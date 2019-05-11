@@ -7,11 +7,11 @@ import com.hotel.admin.mapper.DocumentMapper;
 import com.hotel.admin.model.Document;
 import com.hotel.admin.service.IDocumentService;
 import com.hotel.common.utils.IdUtil;
-import com.hotel.core.utils.SimpleUtils;
 import com.hotel.common.utils.SystemUtil;
 import com.hotel.common.utils.Utils;
-import com.hotel.core.model.ResultInfo;
+import com.hotel.core.http.HttpResult;
 import com.hotel.core.service.AbstractService;
+import com.hotel.core.utils.SimpleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.util.*;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 @Service
 @PropertySource(value = "classpath:application-sys.properties", ignoreResourceNotFound = true)
@@ -56,11 +58,11 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
 
 
     @Override
-    public ResultInfo uploadFiles(MultipartFile[] files,String businessId) {
-        ResultInfo instance = ResultInfo.instance();
+    public HttpResult uploadFiles(MultipartFile[] files,String businessId) {
         if (files == null || files.length <=0) {
-            return instance;
+            return HttpResult.error();
         }
+        HttpResult result = HttpResult.ok();
         String relationId = generate32BitUUID();
         if(Utils.isNotEmpty(businessId)){
             relationId = businessId;
@@ -75,9 +77,9 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
             //开始保存文件
             documentMapper.insertSelective(document);
             InsertContext.setInsertion(true);
-            instance.setData(relationId);
+            result.setData(relationId);
         }
-        return instance;
+        return result;
     }
 
     @Override
@@ -169,17 +171,15 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
         return random.nextInt(100) + 1;
     }
 
-    public ResultInfo queryById(Long documentId) {
+    public HttpResult queryById(Long documentId) {
         Document document = documentMapper.selectByPrimaryKey(documentId);
-        return SimpleUtils.success(document);
+        return HttpResult.ok(document);
     }
 
     @Override
-    public ResultInfo queryByRelId(String relationId) {
-        ResultInfo instance = ResultInfo.instance();
+    public HttpResult queryByRelId(String relationId) {
         List<String> relationIds = documentMapper.selectByRelationId(relationId);
-        instance.setData(relationIds);
-        return instance;
+        return HttpResult.ok(relationIds);
     }
 
     private String generate32BitUUID() {
