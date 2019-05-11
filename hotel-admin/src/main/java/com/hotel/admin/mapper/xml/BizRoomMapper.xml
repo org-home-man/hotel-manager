@@ -181,6 +181,12 @@
     update  biz_room
     <set>
       del_flag = -1,
+      <if test="updateName != null">
+        update_name = #{updateName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where room_code = #{roomCode,jdbcType=VARCHAR}
   </update>
@@ -268,6 +274,10 @@
     a.room_type    room_type,
     a.bed_type     bed_type,
     a.photo        photo,
+    a.scheduledays scheduledays,
+    a.favorableprice favorableprice,
+    a.evenlive     evenlive,
+    a.present      present,
     (select para_code from sys_para_config where para_code LIKE 'roomtype%' and para_sub_code1='bizroom' AND para_value1=a.room_type) room_type_key,
     (select para_code from sys_para_config where para_code LIKE 'bedtype%' and para_sub_code1='bizroom' AND para_value1=a.bed_type)  bed_type_key,
     ifnull(b.inventory,a.room_stock)    inventory,
