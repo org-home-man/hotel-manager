@@ -61,13 +61,13 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
         if (files == null || files.length <=0) {
             return instance;
         }
+        String relationId = generate32BitUUID();
         for (MultipartFile file : files) {
             Document document = new Document();
             writeFile2Dist(file, document);
             InsertContext.setInsertion(false);
             document.setId(IdUtil.nextId());
             document.setStatus(Constant.BOOL_NO);
-            String relationId = generate32BitUUID();
             document.setRelationId(relationId);
             //开始保存文件
             documentMapper.insertSelective(document);
