@@ -89,7 +89,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 				if (i==1) {
 					roomCode = roomCode+"0001";
 				} else {
-					throw new RuntimeException("bizRoom");
+					throw new GlobalException("bizRoom",10001);
 				}
 
 			} else {
@@ -100,20 +100,20 @@ public class BizRoomServiceImpl implements BizRoomService {
 				if(i==1) {
 					roomCode = roomCode + ncrtNo;
 				} else {
-					throw new RuntimeException("bizRoom");
+					throw new GlobalException("bizRoom",10001);
 				}
 			}
 			//插入BizRoom表
 			record.setRoomCode(roomCode);
 			int room =  bizRoomMapper.add(record);
 			if(room !=1) {
-				throw new RuntimeException("bizRoom");
+				throw new GlobalException("bizRoom",10001);
 			}
 			//插入BizRoomExt
 			BizRoomExt bizRoomExt = getBizRoomExtObject(record,"add");
 			int roomExt = bizRoomExtMapper.add(bizRoomExt);
 			if (roomExt !=1 ) {
-				throw new RuntimeException("bizRoom");
+				throw new GlobalException("bizRoom",10001);
 			}
 			return 1;
 //			return bizRoomMapper.add(record);
@@ -122,19 +122,19 @@ public class BizRoomServiceImpl implements BizRoomService {
 
 		int room = bizRoomMapper.update(record);
 		if (room !=1) {
-			throw new RuntimeException("bizRoom");
+			throw new GlobalException("bizRoom",10001);
 		}
 		BizRoomExt bizRoomExt = getBizRoomExtObject(record,"update");
 		int roomExt = bizRoomExtMapper.update(bizRoomExt);
 		if (roomExt != 1) {
-			throw new RuntimeException("bizRoom");
+			throw new GlobalException("bizRoom",10001);
 		}
 		return 1;
 	}
 
 	@Override
 	public int delete(BizRoom record) {
-		return bizRoomMapper.delete(record.getRoomCode());
+		return bizRoomMapper.delete(record);
 	}
 
 	@Override
