@@ -60,15 +60,20 @@ public class BizRoomServiceImpl implements BizRoomService {
 		 */
 		if ("01".equals( record.getRecommended() )) {
 			List<BizRoom> reLi =  bizRoomMapper.findByRecommend();
-			if (reLi.size() > 0) {
-				for (int i = 0 ;i<reLi.size(); i++) {
-					BizRoom br = reLi.get(i);
-					BizRoom upBr = new BizRoom();
-					upBr.setRoomCode(br.getRoomCode());
-					upBr.setRecommended("02");
-					bizRoomMapper.update(upBr);
-				}
-			}
+			try{
+                if (reLi.size() > 0) {
+                    for (int i = 0 ;i<reLi.size(); i++) {
+                        BizRoom br = reLi.get(i);
+                        BizRoom upBr = new BizRoom();
+                        upBr.setRoomCode(br.getRoomCode());
+                        upBr.setRecommended("02");
+                        bizRoomMapper.update(upBr);
+                    }
+                }
+            } catch (Exception e) {
+			    a.error("更新推荐房源失败："+e.getMessage());
+			    throw new GlobalException("oraException",10001);
+            }
 		}
 		/*
 		新增及更新操作
@@ -85,7 +90,13 @@ public class BizRoomServiceImpl implements BizRoomService {
 			CrtId ci =  crtIdMapper.findByRoomId(auto);
 			if (ci == null) {
 				auto.setCrtNo("0001");
-				int i = crtIdMapper.add(auto);
+                int i = 0;
+				try {
+				   i = crtIdMapper.add(auto);
+                }catch (Exception e) {
+                    a.error("插入自增序列表失败："+e.getMessage());
+                    throw new GlobalException("oraException",10001);
+                }
 				if (i==1) {
 					roomCode = roomCode+"0001";
 				} else {
@@ -96,7 +107,13 @@ public class BizRoomServiceImpl implements BizRoomService {
 				String crtNo = ci.getCrtNo();
 				String ncrtNo = String.format("%04d",Integer.parseInt(crtNo)+1 );
 				auto.setCrtNo(ncrtNo);
-				int i = crtIdMapper.roomAutoAddUp(auto);
+				int i = 0;
+				try {
+                    i = crtIdMapper.roomAutoAddUp(auto);
+                }catch (Exception e) {
+                    a.error("更新自增序列表失败："+e.getMessage());
+                    throw new GlobalException("oraException",10001);
+                }
 				if(i==1) {
 					roomCode = roomCode + ncrtNo;
 				} else {
@@ -105,13 +122,25 @@ public class BizRoomServiceImpl implements BizRoomService {
 			}
 			//插入BizRoom表
 			record.setRoomCode(roomCode);
-			int room =  bizRoomMapper.add(record);
+			int room = 0;
+			try {
+                room =  bizRoomMapper.add(record);
+            }catch (Exception e) {
+                a.error("插入客房信息失败："+e.getMessage());
+                throw new GlobalException("oraException",10001);
+            }
 			if(room !=1) {
 				throw new GlobalException("bizRoom",10001);
 			}
 			//插入BizRoomExt
 			BizRoomExt bizRoomExt = getBizRoomExtObject(record,"add");
-			int roomExt = bizRoomExtMapper.add(bizRoomExt);
+            int roomExt = 0;
+            try{
+                roomExt = bizRoomExtMapper.add(bizRoomExt);
+            }catch (Exception e) {
+                a.error("插入客房铺表信息失败："+e.getMessage());
+                throw new GlobalException("oraException",10001);
+            }
 			if (roomExt !=1 ) {
 				throw new GlobalException("bizRoom",10001);
 			}
@@ -120,15 +149,20 @@ public class BizRoomServiceImpl implements BizRoomService {
 		}
 		System.out.println("进入了update");
 
-		int room = bizRoomMapper.update(record);
-		if (room !=1) {
-			throw new GlobalException("bizRoom",10001);
-		}
-		BizRoomExt bizRoomExt = getBizRoomExtObject(record,"update");
-		int roomExt = bizRoomExtMapper.update(bizRoomExt);
-		if (roomExt != 1) {
-			throw new GlobalException("bizRoom",10001);
-		}
+		try {
+            int room = bizRoomMapper.update(record);
+            if (room !=1) {
+                throw new GlobalException("bizRoom",10001);
+            }
+            BizRoomExt bizRoomExt = getBizRoomExtObject(record,"update");
+            int roomExt = bizRoomExtMapper.update(bizRoomExt);
+            if (roomExt != 1) {
+                throw new GlobalException("bizRoom",10001);
+            }
+        }catch (Exception e) {
+            a.error("更新客房信息表（铺信息）失败："+e.getMessage());
+            throw new GlobalException("oraException",10001);
+        }
 		return 1;
 	}
 
@@ -167,49 +201,45 @@ public class BizRoomServiceImpl implements BizRoomService {
 		String  priceYear = bizProPrice.getPriceYear();
 		String[] priceDateInterval = bizProPrice.getPriceDateInterval();
 		if (StringUtils.isBlank(bizProPrice.getSprice())) {
-			bkMap.put("code" ,"");
-			return bkMap;
+			a.error("销售单人价格不能为空");
+			throw new GlobalException("NotNullEception",10001);
 		}
 		List<Map> list = new ArrayList<>();
 		if (!StringUtils.isBlank(priceYear) ) {
-			System.out.println(bizProPrice);
 			//直接生成一年的数据
 			try {
 				list = onceYearData(bizProPrice);
 			} catch (ParseException e) {
-				a.error("Date format Exception:"+e.getMessage());
-				new GlobalException("parse");
+				a.error("onceYearData Exception:"+e.getMessage());
+				throw new GlobalException("sysException",10001);
 			}
 		} else {
 			if (priceDateInterval==null) {
-				bkMap.put("code","");
-				return bkMap;
+				a.error("牌价年和范围时间不能同时为空");
+				throw new GlobalException("NotNullEception",10001);
 			}
 			//根据用户输入的范围生成数据
 			try {
 				list = dateIntervalData(bizProPrice);
 			} catch (ParseException e) {
-				a.error("Date format Exception:"+e.getMessage());
-				new GlobalException("parse");
+				a.error("dateIntervalData Exception:"+e.getMessage());
+				new GlobalException("sysException",10001);
 			}
-			System.out.println("范围生成数据："+list.toString());
 		}
-		if ( pli.size() > 0 ) {
-			System.out.println("pli大于0");
-			System.out.println("pli数据库的数据为："+pli.toString());
-			list = mergeList(list,pli);
-			System.out.println("合并数据库中的数据："+list.toString());
-		}
-		if (bizProPrice.getPriceDateData() != null) {
-			if (bizProPrice.getPriceDateData().size() > 0) {
-				System.out.println("priceDateData大于0");
-				for (int i = 0;i<bizProPrice.getPriceDateData().size();i++) {
-					System.out.println("前台缓存的数据:"+i+",,"+bizProPrice.getPriceDateData().get(i).toString());
+		try {
+			if ( pli.size() > 0 ) {
+				list = mergeList(list,pli);
+			}
+			if (bizProPrice.getPriceDateData() != null) {
+				if (bizProPrice.getPriceDateData().size() > 0) {
+					list = mergeList(list,bizProPrice.getPriceDateData());
 				}
-				list = mergeList(list,bizProPrice.getPriceDateData());
-				System.out.println("合并前台缓存数据组："+list.toString());
 			}
+		} catch (Exception e) {
+			a.error("合并牌价信息失败，mergeList："+e.getMessage());
+			new GlobalException("sysException",10001);
 		}
+
 		bkMap.put("list",list);
 		bkMap.put("code" ,"0000");
 
@@ -223,18 +253,23 @@ public class BizRoomServiceImpl implements BizRoomService {
 		System.out.println(bizProPrice);
 		Map bkMap = new HashMap();
 		if (StringUtils.isBlank(bizProPrice.getDate())) {
-			bkMap.put("code","0001");
-			return bkMap;
+			a.error("当前牌价日期不能为空，系统错误");
+			throw new GlobalException("sysEception",10001);
 		}
 		System.out.println(bizProPrice);
 		List<BizPrise> bpLi =  bizPriseMapper.queryById(bizProPrice.getRoomCode());
 		if (bpLi.size() > 0) {
 			System.out.println("组牌价信息查询到数据");
 			if(bizProPrice.getDateArray() != null && bizProPrice.getDateArray().size()>0) {
-				bizProPrice.setDateArray(mergeList(bizProPrice.getDateArray(),bpLi));
+				try {
+					bizProPrice.setDateArray(mergeList(bizProPrice.getDateArray(),bpLi));
+				}catch (Exception e) {
+					a.error("组牌价信息异常producePriceCalendar:"+e.getMessage());
+					throw new GlobalException("sysException",100001);
+				}
+
 			} else {
 				List<Map> tmLi = new ArrayList<Map>();
-
 				for (int i = 0;i<bpLi.size();i++) {
 					Map tmp = new HashMap();
 					tmp.put("priceDate",bpLi.get(i).getPriceDate());
@@ -254,9 +289,9 @@ public class BizRoomServiceImpl implements BizRoomService {
 			bkMap.put("list",list);
 			return bkMap;
 		} catch (ParseException e) {
-			e.printStackTrace();
+			a.error("根据前端传入的日期生成日历一月的数据异常："+e.getMessage());
+			throw new GlobalException("sysException",100001);
 		}
-		return null;
 	}
 
 	/*   库存信息维护   */
@@ -275,8 +310,8 @@ public class BizRoomServiceImpl implements BizRoomService {
 		String priceYear = bizProInv.getStockYear();
 		String[] priceDateInterval = bizProInv.getStockDateInterval();
 		if (StringUtils.isBlank(bizProInv.getInventory())) {
-			bkMap.put("code" ,"");
-			return bkMap;
+			a.error("当前库存日期不能为空，系统错误");
+			throw new GlobalException("sysEception",10001);
 		}
 		List<Map> list = new ArrayList<>();
 		if (!StringUtils.isBlank(priceYear)) {
@@ -285,38 +320,34 @@ public class BizRoomServiceImpl implements BizRoomService {
 			try {
 				list = onceYearDataStock(bizProInv);
 			} catch (ParseException e) {
-				a.error("Date format Exception:"+e.getMessage());
+				a.error("onceYearDataStock Exception:"+e.getMessage());
 				new GlobalException("parse");
 			}
 		} else {
 			if (priceDateInterval==null) {
-				bkMap.put("code","");
-				return bkMap;
+				a.error("年数据和范围数据不能同时为空，系统错误");
+				throw new GlobalException("NotNullEception",10001);
 			}
 			//根据用户输入的范围生成数据
 			try {
 				list = dateIntervalDataStock(bizProInv);
 			} catch (ParseException e) {
-				a.error("Date format Exception:"+e.getMessage());
+				a.error("dateIntervalDataStock Exception:"+e.getMessage());
 				new GlobalException("parse");
 			}
-			System.out.println("范围生成数据："+list.toString());
 		}
-		if ( pli.size() > 0 ) {
-			System.out.println("pli大于0");
-			System.out.println("pli数据库的数据为："+pli.toString());
-			list = mergeStockList(list,pli);
-			System.out.println("合并数据库中的数据："+list.toString());
-		}
-		if (bizProInv.getStockDateData() != null) {
-			if (bizProInv.getStockDateData().size() > 0) {
-				System.out.println("priceDateData大于0");
-				for (int i = 0;i<bizProInv.getStockDateData().size();i++) {
-					System.out.println("前台缓存的数据:"+i+",,"+bizProInv.getStockDateData().get(i).toString());
-				}
-				list = mergeStockList(list,bizProInv.getStockDateData());
-				System.out.println("合并前台缓存数据组："+list.toString());
+		try {
+			if ( pli.size() > 0 ) {
+					list = mergeStockList(list,pli);
 			}
+			if (bizProInv.getStockDateData() != null) {
+				if (bizProInv.getStockDateData().size() > 0) {
+					list = mergeStockList(list,bizProInv.getStockDateData());
+				}
+			}
+		}catch (Exception e) {
+			a.error("合并库存信息失败，mergeStockList："+e.getMessage());
+			new GlobalException("sysException",10001);
 		}
 		bkMap.put("list",list);
 		bkMap.put("code" ,"0000");
@@ -331,15 +362,20 @@ public class BizRoomServiceImpl implements BizRoomService {
 	public Map produceStockCalendar(BizProInv bizProInv) {
 		Map bkMap = new HashMap();
 		if (StringUtils.isBlank(bizProInv.getDate())) {
-			bkMap.put("code","0001");
-			return bkMap;
+			a.error("当前日期不能为空，系统错误");
+			throw new GlobalException("sysEception",10001);
 		}
 		System.out.println(bizProInv);
 		List<BizInv> bpLi =  bizInvMapper.queryById(bizProInv.getRoomCode());
 		if (bpLi.size() > 0) {
-			System.out.println("组库存信息查询到数据");
 			if(bizProInv.getDateArray() != null && bizProInv.getDateArray().size()>0) {
-				bizProInv.setDateArray(mergeStockList(bizProInv.getDateArray(),bpLi));
+				try {
+					bizProInv.setDateArray(mergeStockList(bizProInv.getDateArray(),bpLi));
+				}catch (Exception e) {
+					a.error("合并数据库中查询到的数据异常："+e.getMessage());
+					throw new GlobalException("sysException",100001);
+				}
+
 			} else {
 				List<Map> tmLi = new ArrayList<Map>();
 
@@ -361,10 +397,10 @@ public class BizRoomServiceImpl implements BizRoomService {
 			bkMap.put("list",list);
 			return bkMap;
 		} catch (ParseException e) {
-			e.printStackTrace();
+			a.error("根据前端传入的日期生成日历一月的库存数据异常："+e.getMessage());
+			throw new GlobalException("sysException",100001);
 		}
 
-		return null;
 	}
 
 
@@ -377,17 +413,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 	@Override
 	public Page findPagePara(BizRoomQuery bizRoomQuery) {
 
-		System.out.println(bizRoomQuery);
-//		Map<String,ColumnFilter> temp = pageRequest.getColumnFilters();
-//		for (Map.Entry<String,ColumnFilter> entry : temp.entrySet() ) {
-//			ColumnFilter columnFilter = entry.getValue();
-//			if (!StringUtils.isBlank(columnFilter.getValue())) {
-//				map.put(columnFilter.getName(),columnFilter.getValue());
-//			}
-//		}
-//		PageResult pr =  MybatisPageHelper.findPage(pageRequest, bizRoomMapper,"findPageByPara",map);
 		List<Map> bizList = bizRoomMapper.findPageByPara(bizRoomQuery);
-		System.out.println(bizList);
 		return PageContext.getPage();
 	}
 
