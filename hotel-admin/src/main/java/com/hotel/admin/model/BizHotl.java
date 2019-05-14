@@ -27,6 +27,15 @@ public class BizHotl extends BusinessEntity{
 	/** 区市町村 */
 	private String cityCodeKey;
 
+	/** 都道府县 */
+	private String provinceCname;
+	/** 区市町村 */
+	private String cityCname;
+	/** 都道府县 */
+	private String provinceEname;
+	/** 区市町村 */
+	private String cityEname;
+
 	/** 酒店类型 */
 	private String hotelType;
 	/** 酒店星级 */
@@ -97,6 +106,19 @@ public class BizHotl extends BusinessEntity{
 		return provinceCodeKey;
 	}
 
+	public String getProvinceCname() {
+		return provinceCname;
+	}
+	public void setProvinceCname(String provinceCname) {
+		this.provinceCname = provinceCname;
+	}
+	public String getProvinceEname() {
+		return provinceEname;
+	}
+	public void setProvinceEname(String provinceEname) {
+		this.provinceEname = provinceEname;
+	}
+
 	public void setProvinceCode(String provinceCode) {
 		this.provinceCode = provinceCode;
 	}
@@ -116,6 +138,19 @@ public class BizHotl extends BusinessEntity{
 	}
 	public void setCityCodeKey(String cityCodeKey) {
 		this.cityCodeKey = cityCodeKey;
+	}
+
+	public String getcityEname() {
+		return cityEname;
+	}
+	public void setcityEname(String cityEname) {
+		this.cityEname = cityEname;
+	}
+	public String getcityCname() {
+		return cityCname;
+	}
+	public void setcityCname(String cityCname) {
+		this.cityCname = cityCname;
 	}
 
 

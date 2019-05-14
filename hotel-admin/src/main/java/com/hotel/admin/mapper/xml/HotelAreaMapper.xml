@@ -124,7 +124,48 @@
       and areaEname = #{areaEname,jdbcType=VARCHAR},
     </if>
   </select>
-  
+
+
+  <select id="findCname" parameterType="com.hotel.admin.model.HotelArea" resultMap="BaseResultMap">
+    select  area_Cname,area_Code  from hotel_area
+    where  1=1
+    <if test="areaLvl != null">
+      and  area_Lvl = #{areaLvl,jdbcType=VARCHAR}
+    </if>
+    <if test="areaCode != null">
+      and area_Code = #{areaCode,jdbcType=VARCHAR}
+    </if>
+    <if test="codeKey != null">
+      and code_Key  = #{codeKey,jdbcType=VARCHAR}
+    </if>
+    <if test="areaCname != null">
+      and area_Cname = #{areaCname,jdbcType=VARCHAR}
+    </if>
+    <if test="areaEname != null">
+      and area_Ename = #{areaEname,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="findEname" parameterType="com.hotel.admin.model.HotelArea" resultMap="BaseResultMap">
+    select  area_Ename,area_Code  from hotel_area
+    where  1=1
+    <if test="areaLvl != null">
+      and  area_Lvl = #{areaLvl,jdbcType=VARCHAR}
+    </if>
+    <if test="areaCode != null">
+      and area_Code = #{areaCode,jdbcType=VARCHAR}
+    </if>
+    <if test="codeKey != null">
+      and code_Key  = #{codeKey,jdbcType=VARCHAR}
+    </if>
+    <if test="areaCname != null">
+      and area_Cname = #{areaCname,jdbcType=VARCHAR}
+    </if>
+    <if test="areaEname != null">
+      and area_Ename = #{areaEname,jdbcType=VARCHAR}
+    </if>
+  </select>
+
   <select id="findPage" resultMap="BaseResultMap">
     select * from hotel_area
   </select>

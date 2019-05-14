@@ -2,6 +2,7 @@ package com.hotel.admin.service.impl;
 
 import com.hotel.admin.mapper.HotelAreaMapper;
 import com.hotel.admin.mapper.SysParaConfigMapper;
+import com.hotel.admin.model.HotelArea;
 import com.hotel.admin.model.SysParaConfig;
 import com.hotel.admin.service.SysParaConfigService;
 import com.hotel.core.context.PageContext;
@@ -109,14 +110,36 @@ public class SysParaConfigServiceImpl extends AbstractService<SysParaConfig> imp
 				provinceLevelLi.add(sysPara);
 			}
 		}
+		System.out.println("language =" + record.getlanguage());
+		HotelArea hotelArea = new HotelArea();
+		List<HotelArea> listsArea = null;
+		List<HotelArea> listsArea1 = null;
+		if("zh_cn".equals(record.getlanguage()) ) {
+			hotelArea.setAreaLvl("1");
+			listsArea = hotelAreaMapper.findCname(hotelArea);
+			System.out.println("listsArea =" + listsArea.get(0).getAreaCname());
+
+			hotelArea.setAreaLvl("2");
+			listsArea1 = hotelAreaMapper.findCname(hotelArea);
+			System.out.println("listsArea1 =" + listsArea1.get(0).getAreaCname());
+		}
+		else
+		{
+			hotelArea.setAreaLvl("1");
+			listsArea = hotelAreaMapper.findEname(hotelArea);
+			System.out.println("listsArea =" + listsArea.get(0).getAreaEname());
+
+			hotelArea.setAreaLvl("2");
+			listsArea1 = hotelAreaMapper.findEname(hotelArea);
+			System.out.println("listsArea =" + listsArea1.get(0).getAreaEname());
+		}
 		temp.put("hotelType",hoteltypeLi);
 		temp.put("hotelLevel",hotelLevelLi);
-		temp.put("provinceCode",provinceLevelLi);
-		temp.put("cityCode",cityCodeLevelLi);
+		temp.put("provinceCode",listsArea);
+		temp.put("cityCode",listsArea1);
 
 		//List<HotelArea>  listsArea =  hotelAreaMapper.findPage();
 		 //crtIdMapper.findPage();
-
 
 		return temp;
 	}

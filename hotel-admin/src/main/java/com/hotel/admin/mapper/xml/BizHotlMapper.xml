@@ -7,8 +7,10 @@
 	<result column="country_code" jdbcType="VARCHAR" property="countryCode" />
 	<result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
     <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
-    <result column="province_code_key" jdbcType="VARCHAR" property="provinceCodeKey" />
-    <result column="city_code_key" jdbcType="VARCHAR" property="cityCodeKey" />
+    <result column="province_Cname" jdbcType="VARCHAR" property="provinceCname" />
+    <result column="city_Cname" jdbcType="VARCHAR" property="cityCname" />
+      <result column="province_Ename" jdbcType="VARCHAR" property="provinceEname" />
+      <result column="city_Ename" jdbcType="VARCHAR" property="cityEname" />
 	<result column="hotel_type" jdbcType="VARCHAR" property="hotelType" />
 	<result column="hotel_level" jdbcType="VARCHAR" property="hotelLevel" />
     <result column="hotel_type_key" jdbcType="VARCHAR" property="hotelTypeKey" />
@@ -35,7 +37,10 @@
 
   <select id="findPageByPara" parameterType="com.hotel.admin.dto.BizHotelQueryDto" resultMap="BaseResultMap">
       select
-  a.hotel_code, a.country_code,(select para_code from sys_para_config where para_code LIKE 'provinceCode%' and para_sub_code1='provinceCode' AND para_value1=a.province_code) province_code_key,
+  a.hotel_code, a.country_code,(select area_Cname from hotel_area where  area_Lvl = "1" AND area_Code=a.province_code) province_Cname,
+      (select area_Cname from hotel_area where  area_Lvl = "2" AND area_Code=a.city_code) city_Cname,
+      (select area_Ename from hotel_area where  area_Lvl = "1" AND area_Code=a.province_code) province_Ename,
+      (select area_Ename from hotel_area where  area_Lvl = "2" AND area_Code=a.city_code) city_Ename,
     (select para_code from sys_para_config where para_code LIKE 'cityCode%' and para_sub_code1='cityCode' AND para_value1=a.city_code) city_code_key,
    (select para_code from sys_para_config where para_code LIKE 'hotelType%' and para_sub_code1='hotelType' AND para_value1=a.hotel_type) hotel_type_key,
   a.hotel_type, a.hotel_Level, (select para_code from sys_para_config where para_code LIKE 'hotelLevel%' and para_sub_code1='hotelLevel' AND para_value1=a.hotel_Level) hotel_Level_key,

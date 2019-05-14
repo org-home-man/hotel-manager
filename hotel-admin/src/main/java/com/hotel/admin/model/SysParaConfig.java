@@ -27,6 +27,16 @@ public class SysParaConfig extends BusinessEntity {
 	private String paraValue3;
 	/** 备注信息 */
 	private String remark;
+	/** 参数值3 */
+	private String language;
+
+	public String getlanguage() {
+		return language;
+	}
+
+	public void setlanguage(String language) {
+		this.language = language;
+	}
 
 	public String getParaCode() {
 		return paraCode;

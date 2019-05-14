@@ -54,5 +54,9 @@ public interface HotelAreaMapper {
     List<HotelArea> findPage();
 
     List<Map>  findAreaPage(HashMap<String, Object> record);
-    
+
+    List<HotelArea> findEname(HotelArea hotelArea);
+    List<HotelArea> findCname(HotelArea hotelArea);
+
+
 }
