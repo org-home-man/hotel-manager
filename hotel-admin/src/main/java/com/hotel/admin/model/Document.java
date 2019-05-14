@@ -25,8 +25,6 @@ public class Document extends BusinessEntity{
         this.name = name == null ? null : name.trim();
     }
 
-
-
     public String getStorePath() {
         return storePath;
     }
@@ -34,8 +32,6 @@ public class Document extends BusinessEntity{
     public void setStorePath(String storePath) {
         this.storePath = storePath == null ? null : storePath.trim();
     }
-
-
 
     public String getStatus() {
         return status;

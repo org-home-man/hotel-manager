@@ -52,6 +52,7 @@ public class BizPuchs extends BusinessEntity {
 	/** 订单状态 */
 	private String status;
 
+
 	public Integer getcNum() {
 		return cNum;
 	}
@@ -59,10 +60,6 @@ public class BizPuchs extends BusinessEntity {
 	public void setcNum(Integer cNum) {
 		this.cNum = cNum;
 	}
-
-	/** 更新时间 */
-
-	private java.util.Date lastUpdateTime;
 
 	public String getOrderCode() {
 		return orderCode;
@@ -217,12 +214,5 @@ public class BizPuchs extends BusinessEntity {
 	}
 
 
-	public java.util.Date getLastUpdateTime() {
-		return lastUpdateTime;
-	}
-
-	public void setLastUpdateTime(java.util.Date lastUpdateTime) {
-		this.lastUpdateTime = lastUpdateTime;
-	}
 
 }
