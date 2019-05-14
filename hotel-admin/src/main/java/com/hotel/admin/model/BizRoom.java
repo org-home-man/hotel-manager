@@ -61,10 +61,15 @@ public class BizRoom extends BusinessEntity{
 	private String provinceCode;
 	/** 区市町村 */
 	private String cityCode;
+
 	/** 都道府县 */
 	private String provinceCodeKey;
+	private String provinceEname;
+	private String provinceCname;
 	/** 区市町村 */
 	private String cityCodeKey;
+	private String cityEname;
+	private String cityCname;
 	/** 酒店星级 */
 	private String hotelLevel;
 	/** 酒店中文名称 */
@@ -188,7 +193,21 @@ public class BizRoom extends BusinessEntity{
 		this.autoClose = autoClose;
 	}
 
+	public String getProvinceCodeKey() {
+		return provinceCodeKey;
+	}
 
+	public void setProvinceCodeKey(String provinceCodeKey) {
+		this.provinceCodeKey = provinceCodeKey;
+	}
+
+	public String getCityCodeKey() {
+		return cityCodeKey;
+	}
+
+	public void setCityCodeKey(String cityCodeKey) {
+		this.cityCodeKey = cityCodeKey;
+	}
 
 	public Double getTPrice() {
 		return tPrice;
@@ -485,20 +504,36 @@ public class BizRoom extends BusinessEntity{
 		this.cityCode = cityCode;
 	}
 
-	public String getProvinceCodeKey() {
-		return provinceCodeKey;
+	public String getProvinceEname() {
+		return provinceEname;
 	}
 
-	public void setProvinceCodeKey(String provinceCodeKey) {
-		this.provinceCodeKey = provinceCodeKey;
+	public void setProvinceEname(String provinceEname) {
+		this.provinceEname = provinceEname;
 	}
 
-	public String getCityCodeKey() {
-		return cityCodeKey;
+	public String getProvinceCname() {
+		return provinceCname;
 	}
 
-	public void setCityCodeKey(String cityCodeKey) {
-		this.cityCodeKey = cityCodeKey;
+	public void setProvinceCname(String provinceCname) {
+		this.provinceCname = provinceCname;
+	}
+
+	public String getCityEname() {
+		return cityEname;
+	}
+
+	public void setCityEname(String cityEname) {
+		this.cityEname = cityEname;
+	}
+
+	public String getCityCname() {
+		return cityCname;
+	}
+
+	public void setCityCname(String cityCname) {
+		this.cityCname = cityCname;
 	}
 
 	public String getHotelCname() {
