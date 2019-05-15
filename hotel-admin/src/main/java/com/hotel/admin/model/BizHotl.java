@@ -12,7 +12,7 @@ import com.hotel.common.entity.BusinessEntity;
  * ---------------------------
  */
 public class BizHotl extends BusinessEntity{
-
+//    private int id;
 	/** 酒店编号 */
 	private String hotelCode;
 	/** 国家编码 */
@@ -57,6 +57,14 @@ public class BizHotl extends BusinessEntity{
 	/** 酒店网址 */
 	private String hotelWeb;
 
+//    public int getid() {
+//        return id;
+//    }
+//
+//    public void setid(int id) {
+//        this.id = id;
+//    }
+
 	public String getHotelCode() {
 		return hotelCode;
 	}
@@ -82,16 +90,16 @@ public class BizHotl extends BusinessEntity{
 	public String getHotelWeb() {
 		return hotelWeb;
 	}
-	public void setHotelAddr() {
+	public void setHotelAddr(String hotelAddr) {
 		this.hotelAddr = hotelAddr;
 	}
-	public void setHotelPhone() {
+	public void setHotelPhone(String hotelPhone) {
 		this.hotelPhone = hotelPhone;
 	}
-	public void setHotelFax() {
+	public void setHotelFax(String hotelFax) {
 		this.hotelFax= hotelFax;
 	}
-	public void setHotelWeb() {
+	public void setHotelWeb(String hotelWeb ) {
 		this.hotelWeb = hotelWeb;
 	}
 

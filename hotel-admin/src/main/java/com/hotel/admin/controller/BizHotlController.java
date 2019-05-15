@@ -36,7 +36,7 @@ public class BizHotlController {
     @PostMapping(value = "/save")
     public HttpResult save(BizHotl record) {
 
-        System.out.println("licy12347");
+        System.out.println("licy12347" + record.getHotelAddr());
         bizHotlService.save(record);
         return HttpResult.ok();
     }

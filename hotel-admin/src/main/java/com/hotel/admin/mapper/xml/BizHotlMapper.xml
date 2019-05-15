@@ -3,7 +3,8 @@
 <mapper namespace="com.hotel.admin.mapper.BizHotlMapper">
 
   <resultMap id="BaseResultMap" type="com.hotel.admin.model.BizHotl">
-	<id column="hotel_code" jdbcType="VARCHAR" property="hotelCode" />
+	<id column="id" jdbcType="INTEGER" property="id" />
+      <result column="id" jdbcType="INTEGER" property="id" />
 	<result column="country_code" jdbcType="VARCHAR" property="countryCode" />
 	<result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
     <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
@@ -37,7 +38,7 @@
 
   <select id="findPageByPara" parameterType="com.hotel.admin.dto.BizHotelQueryDto" resultMap="BaseResultMap">
       select
-  a.hotel_code, a.country_code,(select area_Cname from hotel_area where  area_Lvl = "1" AND area_Code=a.province_code) province_Cname,
+    a.id, a.hotel_code, a.country_code,(select area_Cname from hotel_area where  area_Lvl = "1" AND area_Code=a.province_code) province_Cname,
       (select area_Cname from hotel_area where  area_Lvl = "2" AND area_Code=a.city_code) city_Cname,
       (select area_Ename from hotel_area where  area_Lvl = "1" AND area_Code=a.province_code) province_Ename,
       (select area_Ename from hotel_area where  area_Lvl = "2" AND area_Code=a.city_code) city_Ename,

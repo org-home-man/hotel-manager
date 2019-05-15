@@ -54,7 +54,7 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 					 ncrt.setCrtNo("1");
 					 ncrt.setCrtType("hotel");
 					 crtIdMapper.add(ncrt);
-					 record.setHotelCode("0000001");
+					 record.setHotelCode(record.getProvinceCode()+record.getCityCode() + "0000001");
 				 }
 				 else {
 					 String crtno = crt.getCrtNo();
@@ -66,7 +66,7 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 					 System.out.println(newCrt);
 					 crt.setCrtNo(newCrt);
 					 crtIdMapper.update(crt);
-					 record.setHotelCode(newCrt);
+					 record.setHotelCode(record.getProvinceCode()+record.getCityCode()+ newCrt);
 				 }
 				 try
 				 {
@@ -84,7 +84,10 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 		return bizHotlMapper.updateByPrimaryKeySelective(record);
     }
 
-
+	public int delete(BizHotl record)
+	{
+		return  bizHotlMapper.delete(record);
+	}
 	@Override
 	public List<BizHotl> findAllData(BizHotl bizHotl) {
 		return bizHotlMapper.findPage();
@@ -92,21 +95,11 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 
 	@Override
 	public Page findPage(BizHotelQueryDto dto) {
-//		Map<String,Object> map = new HashMap<String ,Object>();
-//		Map<String, ColumnFilter> temp = pageRequest.getColumnFilters();
-//		for (Map.Entry<String,ColumnFilter> entry : temp.entrySet() ) {
-//			ColumnFilter columnFilter = entry.getValue();
-//			if (!StringUtils.isBlank(columnFilter.getValue())) {
-//				map.put(columnFilter.getName(),columnFilter.getValue());
-//			}
-//		}
+
 		bizHotlMapper.findPageByPara(dto);
+
 //		PageResult pr =  MybatisPageHelper.findPage(pageRequest, bizHotlMapper,"findPageByPara",map);
 		return PageContext.getPage();
 
-//		return MybatisPageHelper.findPage(pageRequest, bizHotlMapper);
 	}
-//	public PageResult findByName(PageRequest pageRequest) {
-//		return MybatisPageHelper.findPage(pageRequest, bizHotlMapper);
-//	}
 }
