@@ -22,6 +22,14 @@
     <result column="country_code" jdbcType="VARCHAR" property="countryCode" />
     <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
     <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
+
+    <result column="province_cname" jdbcType="VARCHAR" property="provinceCname" />
+    <result column="province_ename" jdbcType="VARCHAR" property="provinceEname" />
+    <result column="city_cname" jdbcType="VARCHAR" property="cityCname" />
+    <result column="city_ename" jdbcType="VARCHAR" property="cityEname" />
+    <result column="city_code_key" jdbcType="VARCHAR" property="cityCodeKey" />
+
+
     <result column="hotel_cname" jdbcType="VARCHAR" property="hotelCname" />
     <result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
 
@@ -226,7 +234,7 @@
         intro_e = #{introE,jdbcType=VARCHAR},
       </if>
       <if test="photo != null">
-        photo = #{photo,jdbcType=BINARY},
+        photo = #{photo,jdbcType=VARCHAR},
       </if>
       <if test="roomStock != null">
         room_stock = #{roomStock,jdbcType=INTEGER},
@@ -275,6 +283,10 @@
     d.hotel_ename   hotel_ename,
     d.province_code province_code,
     d.city_code    city_code,
+    (select area_Cname from hotel_area where  area_Lvl = "1" AND area_Code=d.province_code) province_cname,
+    (select area_Cname from hotel_area where  area_Lvl = "2" AND area_Code=d.city_code) city_cname,
+    (select area_Ename from hotel_area where  area_Lvl = "1" AND area_Code=d.province_code) province_ename,
+    (select area_Ename from hotel_area where  area_Lvl = "2" AND area_Code=d.city_code) city_ename,
     a.room_type    room_type,
     a.bed_type     bed_type,
     a.photo        photo,
