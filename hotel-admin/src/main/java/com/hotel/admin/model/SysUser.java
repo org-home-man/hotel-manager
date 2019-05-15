@@ -12,6 +12,10 @@ public class SysUser extends BusinessEntity implements ISysUser {
 
     private String name;
 
+    private String realName;
+
+    private Long sex;
+
     private String password;
 
     private String salt;
@@ -202,5 +206,21 @@ public class SysUser extends BusinessEntity implements ISysUser {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public Long getSex() {
+        return sex;
+    }
+
+    public void setSex(Long sex) {
+        this.sex = sex;
     }
 }

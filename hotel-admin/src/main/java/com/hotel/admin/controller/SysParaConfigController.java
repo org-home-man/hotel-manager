@@ -4,10 +4,7 @@ import com.hotel.admin.model.SysParaConfig;
 import com.hotel.admin.service.SysParaConfigService;
 import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -78,11 +75,18 @@ public class SysParaConfigController {
 
 		return HttpResult.ok(sysParaConfigService.findKeyValue(record));
 	}
+	@PostMapping(value="/findByCode")
+	public HttpResult findByCode(SysParaConfig record) {
+
+		return HttpResult.ok(sysParaConfigService.findByCode(record));
+	}
+
 	@PostMapping(value="/findListDataHotel")
 	public HttpResult findKeyValueHotel(SysParaConfig record) {
 
 		return HttpResult.ok(sysParaConfigService.findKeyValueHotel(record));
 	}
+
 	@PostMapping(value="/findListDataHotelRoom")
 	public HttpResult findKeyValueHotelRoom(SysParaConfig record) {
 

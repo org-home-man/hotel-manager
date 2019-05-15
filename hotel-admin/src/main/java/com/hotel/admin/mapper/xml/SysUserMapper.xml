@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="com.hotel.admin.model.SysUser">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="realName" jdbcType="VARCHAR" property="realName" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="salt" jdbcType="VARCHAR" property="salt" />
     <result column="email" jdbcType="VARCHAR" property="email" />
@@ -24,7 +26,7 @@
     <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, password, salt, email, mobile, status, dept_id, del_flag,birthday,dept_number,phone,address,region,net,remark,
+    id, name,realName,sex, password, salt, email, mobile, status, dept_id, del_flag,birthday,dept_number,phone,address,region,net,remark,
     create_name, create_time, update_name, update_time
   </sql>
 

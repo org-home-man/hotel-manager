@@ -41,6 +41,11 @@ public class SysParaConfigServiceImpl extends AbstractService<SysParaConfig> imp
 		return sysParaConfigMapper.updateByPrimaryKeySelective(record);
 	}
 
+	@Override
+	public List<SysParaConfig> findByCode(SysParaConfig record){
+		return sysParaConfigMapper.select(record);
+	}
+
 
 	@Override
 	public Map<String,List> findKeyValue(SysParaConfig record) {
@@ -148,7 +153,6 @@ public class SysParaConfigServiceImpl extends AbstractService<SysParaConfig> imp
 		sysParaConfigMapper.selectAll();
 		return PageContext.getPage();
 	}
-
 
 	public Map<String,List> findKeyValueHotelRoom(SysParaConfig record) {
 		List<SysParaConfig> lists =  sysParaConfigMapper.findKeyValue(record);

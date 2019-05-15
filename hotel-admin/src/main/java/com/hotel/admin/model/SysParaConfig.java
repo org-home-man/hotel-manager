@@ -2,6 +2,8 @@ package com.hotel.admin.model;
 
 import com.hotel.common.entity.BusinessEntity;
 
+import javax.persistence.Transient;
+
 /**
  * ---------------------------
  * 参数配置表 (SysParaConfig)         
@@ -28,6 +30,7 @@ public class SysParaConfig extends BusinessEntity {
 	/** 备注信息 */
 	private String remark;
 	/** 参数值3 */
+	@Transient
 	private String language;
 
 	public String getlanguage() {

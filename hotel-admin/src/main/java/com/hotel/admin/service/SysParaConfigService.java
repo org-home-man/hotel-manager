@@ -19,6 +19,8 @@ import java.util.Map;
  */
 public interface SysParaConfigService extends IService<SysParaConfig> {
 
+    List<SysParaConfig> findByCode(SysParaConfig config);
+
     public Map<String,List> findKeyValue(SysParaConfig record);
     public Map<String,List> findKeyValueHotel(SysParaConfig record);
     public Map<String,List> findKeyValueHotelRoom(SysParaConfig record);
