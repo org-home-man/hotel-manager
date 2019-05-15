@@ -57,13 +57,15 @@ public class BizHotl extends BusinessEntity{
 	/** 酒店网址 */
 	private String hotelWeb;
 
-//    public int getid() {
-//        return id;
-//    }
+	private Byte  delFlag;
+
+//	public Byte getdelFlag() {
+//	return delFlag;
+//}
 //
-//    public void setid(int id) {
-//        this.id = id;
-//    }
+//	public void setdelFlag(Byte delFlag) {
+//		this.delFlag = delFlag;
+//	}
 
 	public String getHotelCode() {
 		return hotelCode;

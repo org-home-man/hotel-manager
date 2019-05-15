@@ -86,8 +86,18 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 
 	public int delete(BizHotl record)
 	{
-		return  bizHotlMapper.delete(record);
+		System.out.println(record.getId());
+		return  bizHotlMapper.deleteUp(record);
 	}
+
+	@Override
+	public int delete(List<BizHotl> records) {
+		for(BizHotl record:records) {
+			delete(record);
+		}
+		return 1;
+	}
+
 	@Override
 	public List<BizHotl> findAllData(BizHotl bizHotl) {
 		return bizHotlMapper.findPage();
@@ -97,7 +107,7 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 	public Page findPage(BizHotelQueryDto dto) {
 
 		bizHotlMapper.findPageByPara(dto);
-
+//		(BizHotl)(li.get(0)).get()
 //		PageResult pr =  MybatisPageHelper.findPage(pageRequest, bizHotlMapper,"findPageByPara",map);
 		return PageContext.getPage();
 

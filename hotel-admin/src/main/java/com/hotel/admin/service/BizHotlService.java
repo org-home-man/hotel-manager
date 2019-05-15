@@ -22,4 +22,5 @@ public interface BizHotlService extends IService<BizHotl> {
 //    BizHotl findByName(String username);
     List<BizHotl> findAllData(BizHotl bizHotl);
     Page findPage(BizHotelQueryDto dto);
+    int delete(List<BizHotl> record);
 }

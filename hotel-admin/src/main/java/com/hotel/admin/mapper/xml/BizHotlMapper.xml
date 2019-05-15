@@ -4,7 +4,7 @@
 
   <resultMap id="BaseResultMap" type="com.hotel.admin.model.BizHotl">
 	<id column="id" jdbcType="INTEGER" property="id" />
-      <result column="id" jdbcType="INTEGER" property="id" />
+      <result column="hotel_code" jdbcType="VARCHAR" property="hotelCode" />
 	<result column="country_code" jdbcType="VARCHAR" property="countryCode" />
 	<result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
     <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
@@ -28,6 +28,19 @@
     <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
   </resultMap>
 
+    <update id="deleteUp" parameterType="com.hotel.admin.model.BizHotl">
+        update  biz_hotl
+        <set>
+            del_flag = -1,
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
   
   <select id="findPage" resultMap="BaseResultMap">
     select a.hotel_code, a.country_code, a.province_code, a.city_code, (select para_code from sys_para_config where para_code LIKE 'hotelType%' and para_sub_code1='hotelType' AND para_value1=a.hotel_type) hotel_type_key,
@@ -46,7 +59,7 @@
    (select para_code from sys_para_config where para_code LIKE 'hotelType%' and para_sub_code1='hotelType' AND para_value1=a.hotel_type) hotel_type_key,
   a.hotel_type, a.hotel_Level, (select para_code from sys_para_config where para_code LIKE 'hotelLevel%' and para_sub_code1='hotelLevel' AND para_value1=a.hotel_Level) hotel_Level_key,
   a.hotel_cname, a.hotel_ename, a.create_time,a.create_name,a.update_name, a.update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web,a.province_code,a.city_code
-  from biz_hotl a where  1=1
+  from biz_hotl a where  1=1  AND  del_flag != -1
   <if test="hotelCode != null and hotelCode!=''">
     AND  a.hotel_code = #{hotelCode,jdbcType=VARCHAR}
   </if>

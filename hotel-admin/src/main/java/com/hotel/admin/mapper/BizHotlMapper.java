@@ -29,5 +29,6 @@ public interface BizHotlMapper extends AbstractMapper<BizHotl>{
      * @return
      */    
     List<BizHotl> findPage();
+    int deleteUp(BizHotl record);
 
 }
