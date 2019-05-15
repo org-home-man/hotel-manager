@@ -146,4 +146,6 @@ public interface HttpStatus {
     /** {@code 507 Insufficient Storage} (WebDAV - RFC 2518) */
     public static final int SC_INSUFFICIENT_STORAGE = 507;
 
+    public static final int SC_INSUFFICIENT_BUSINESERR = 10001;
+
 }
