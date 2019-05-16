@@ -1,5 +1,6 @@
 package com.hotel.common.entity;
 
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
 public class Entity implements Serializable {
     private static final long serialVersionUID = 2716244744215225664L;
     @Id
+    @GeneratedValue(generator = "JDBC")
     private Long id;
 
     public Entity() {
