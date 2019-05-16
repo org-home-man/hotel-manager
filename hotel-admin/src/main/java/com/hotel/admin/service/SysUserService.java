@@ -3,6 +3,7 @@ package com.hotel.admin.service;
 import java.util.List;
 import java.util.Set;
 
+import com.hotel.admin.dto.SysUserUp;
 import com.hotel.admin.model.SysUser;
 import com.hotel.admin.model.SysUserRole;
 import com.hotel.admin.qo.SysUserQuery;
@@ -36,5 +37,7 @@ public interface SysUserService extends NewCurdService<SysUser> {
 
 
     Page findPage(SysUserQuery qo);
+
+    int updatePassword(SysUserUp sysUserUp);
 
 }
