@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.UUID;
 
 import com.google.common.io.Files;
+import com.hotel.admin.dto.SysUserUp;
 import com.hotel.admin.qo.SysUserQuery;
+import com.hotel.common.utils.StringUtils;
+import com.hotel.core.exception.GlobalException;
+import com.hotel.core.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.ResourceUtils;
@@ -105,6 +109,18 @@ public class SysUserController {
 	@PostMapping(value="/findPage")
 	public HttpResult findPage(SysUserQuery qo) {
 		return HttpResult.ok(sysUserService.findPage(qo));
+	}
+
+	@PreAuthorize("hasAuthority('sys:user:edit')")
+	@PostMapping(value="/updatePassword")
+	public HttpResult updatePassword(SysUserUp record) {
+		try {
+			sysUserService.updatePassword(record);
+		}catch (GlobalException e) {
+			return HttpResult.error(e.getCode(),e.getMsg());
+		}
+
+		return HttpResult.ok();
 	}
 
 }

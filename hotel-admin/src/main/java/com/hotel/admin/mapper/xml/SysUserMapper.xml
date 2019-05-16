@@ -59,4 +59,24 @@
     where u.name like #{patternName}
     and u.email like #{patternEmail}
   </select>
+
+  <update id="updatePassword" parameterType="com.hotel.admin.model.SysUser" >
+    update  sys_user
+    <set>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="updateName != null">
+        update_name = #{updateName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where name= #{name,jdbcType=VARCHAR}
+
+  </update>
 </mapper>
