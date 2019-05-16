@@ -3,12 +3,15 @@ package com.hotel.admin.controller;
 import com.hotel.admin.dto.BizHotelQueryDto;
 import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.service.BizHotlService;
+import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
+import com.hotel.core.page.Page;
 import com.hotel.core.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -37,7 +40,12 @@ public class BizHotlController {
     public HttpResult save(BizHotl record) {
 
         System.out.println("licy12347" + record.getHotelAddr());
+        try{
         bizHotlService.save(record);
+        }catch (
+    GlobalException e) {
+        return HttpResult.error(e.getCode(),e.getMsg());
+    }
         return HttpResult.ok();
     }
 
@@ -49,7 +57,11 @@ public class BizHotlController {
      */
     @PostMapping(value = "/delete")
     public HttpResult delete(@RequestBody List<BizHotl> records) {
+        try{
         bizHotlService.delete(records);
+    }catch (GlobalException e) {
+        return HttpResult.error(e.getCode(),e.getMsg());
+    }
         return HttpResult.ok();
     }
 
@@ -61,7 +73,13 @@ public class BizHotlController {
      */
     @PostMapping(value = "/findPage")
     public HttpResult findPage(BizHotelQueryDto dto) {
-        return HttpResult.ok(bizHotlService.findPage(dto));
+        Page list = null;
+        try {
+             list=  bizHotlService.findPage(dto);
+    }catch (GlobalException e) {
+        return HttpResult.error(e.getCode(),e.getMsg());
+    }
+        return HttpResult.ok(list);
     }
 
     /**
