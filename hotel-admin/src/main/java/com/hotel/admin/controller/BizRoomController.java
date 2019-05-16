@@ -5,6 +5,7 @@ import com.hotel.admin.dto.BizRoomQuery;
 import com.hotel.admin.model.BizProPrice;
 import com.hotel.admin.model.BizRoom;
 import com.hotel.admin.service.BizRoomService;
+import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -39,7 +42,11 @@ public class BizRoomController {
 	 */	
 	@PostMapping(value="/save")
 	public HttpResult save(BizRoom record) {
-		bizRoomService.save(record);
+		try {
+			bizRoomService.save(record);
+		}catch (GlobalException e) {
+			return HttpResult.error(e.getCode(),e.getMsg());
+		}
 		return HttpResult.ok();
 	}
 
@@ -109,7 +116,13 @@ public class BizRoomController {
 	 */
 	@PostMapping(value="/producePriceCalendar")
 	public HttpResult producePriceCalendar(@RequestBody BizProPrice bizProPrice) {
-		return HttpResult.ok(bizRoomService.producePriceCalendar(bizProPrice));
+		Map map = new HashMap();
+		try {
+			map = bizRoomService.producePriceCalendar(bizProPrice);
+		}catch (GlobalException e) {
+			return HttpResult.error(e.getCode(),e.getMsg());
+		}
+		return HttpResult.ok(map);
 	}
 
 	/**
@@ -119,7 +132,13 @@ public class BizRoomController {
 	 */
 	@PostMapping(value="/priceDatePro")
 	public HttpResult priceDatePro(@RequestBody BizProPrice bizProPrice) {
-		return HttpResult.ok(bizRoomService.productDatePrice(bizProPrice));
+		Map map = new HashMap();
+		try {
+			map = bizRoomService.productDatePrice(bizProPrice);
+		}catch (GlobalException e) {
+			return HttpResult.error(e.getCode(),e.getMsg());
+		}
+		return HttpResult.ok(map);
 	}
 
 	/**
@@ -129,7 +148,13 @@ public class BizRoomController {
 	 */
 	@PostMapping(value="/produceStockCalendar")
 	public HttpResult produceStockCalendar(@RequestBody BizProInv bizProInv) {
-		return HttpResult.ok(bizRoomService.produceStockCalendar(bizProInv));
+		Map map = new HashMap();
+		try {
+			map = bizRoomService.produceStockCalendar(bizProInv);
+		}catch (GlobalException e) {
+			return HttpResult.error(e.getCode(),e.getMsg());
+		}
+		return HttpResult.ok(map);
 	}
 
 	/**
@@ -139,7 +164,13 @@ public class BizRoomController {
 	 */
 	@PostMapping(value="/stockDatePro")
 	public HttpResult stockDatePro(@RequestBody BizProInv bizProInv) {
-		return HttpResult.ok(bizRoomService.productDateStock(bizProInv));
+		Map map = new HashMap();
+		try {
+			map = bizRoomService.productDateStock(bizProInv);
+		}catch (GlobalException e) {
+			return HttpResult.error(e.getCode(),e.getMsg());
+		}
+		return HttpResult.ok(map);
 	}
 
 }
