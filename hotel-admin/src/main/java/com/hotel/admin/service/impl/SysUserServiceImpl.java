@@ -44,27 +44,17 @@ public class SysUserServiceImpl  implements SysUserService {
 	@Transactional
 	@Override
 	public int save(SysUser record) {
-		Long id = null;
 		if(record.getId() == null || record.getId() == 0) {
 			// 新增用户
 			sysUserMapper.insertSelective(record);
-			id = record.getId();
 		} else {
 			// 更新用户信息
 			sysUserMapper.updateByPrimaryKeySelective(record);
-		}
-		// 更新用户角色
-		if(id != null && id == 0) {
-			return 1;
-		}
-		if(id != null) {
-			for(SysUserRole sysUserRole:record.getUserRoles()) {
-				sysUserRole.setUserId(id);
-			}
-		} else {
 			sysUserRoleMapper.deleteByUserId(record.getId());
 		}
+
 		for(SysUserRole sysUserRole:record.getUserRoles()) {
+			sysUserRole.setUserId(record.getId());
 			sysUserRoleMapper.insertSelective(sysUserRole);
 		}
 		return 1;
