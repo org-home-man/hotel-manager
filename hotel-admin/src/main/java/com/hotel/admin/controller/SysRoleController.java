@@ -6,12 +6,12 @@ import com.hotel.admin.model.SysRole;
 import com.hotel.admin.model.SysRoleMenu;
 import com.hotel.admin.service.SysRoleService;
 import com.hotel.core.http.HttpResult;
-import com.hotel.core.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * 角色控制器
@@ -60,7 +60,9 @@ public class SysRoleController {
 	@PreAuthorize("hasAuthority('sys:role:view')")
 	@GetMapping(value="/findAll")
 	public HttpResult findAll() {
-		return HttpResult.ok(sysRoleService.selectAll());
+		List<SysRole> sysRoles = sysRoleService.selectAll();
+		Stream<SysRole> sysRoleStream = sysRoles.stream().filter(r -> !SysConstants.ADMIN.equals(r.getName()));
+		return HttpResult.ok(sysRoleStream);
 	}
 	
 	@PreAuthorize("hasAuthority('sys:role:view')")
