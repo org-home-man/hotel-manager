@@ -1,6 +1,7 @@
 package com.hotel.admin.service.impl;
 
 import com.hotel.admin.dto.BizHotelQueryDto;
+import com.hotel.admin.dto.BizHotlUpdate;
 import com.hotel.admin.model.CrtId;
 import com.hotel.admin.mapper.BizHotlMapper;
 import com.hotel.admin.mapper.CrtIdMapper;
@@ -9,9 +10,13 @@ import com.hotel.admin.service.BizHotlService;
 import com.hotel.common.utils.StringUtils;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
+import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
+import com.hotel.core.http.HttpStatus;
 import com.hotel.core.page.*;
 import com.hotel.core.service.AbstractService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +37,7 @@ import java.util.Map;
  */
 @Service
 public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizHotlService {
+	private Log a = LogFactory.getLog(BizHotlServiceImpl.class);
 
 	@Autowired
 	private BizHotlMapper bizHotlMapper;
@@ -80,9 +86,10 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 				 }
                 return 0;
             }
-		System.out.println(record.getHotelCode());
-		return bizHotlMapper.updateByPrimaryKeySelective(record);
-    }
+			System.out.println(record.getHotelCode());
+//			return bizHotlMapper.updateByPrimaryKeySelective(record);
+			return bizHotlMapper.update(record);
+	}
 
 	public int delete(BizHotl record)
 	{
@@ -105,7 +112,8 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 
 	@Override
 	public Page findPage(BizHotelQueryDto dto) {
-
+//		a.error("test err");
+//		throw new GlobalException("NotNullEception", HttpStatus.SC_INSUFFICIENT_BUSINESERR);
 		bizHotlMapper.findPageByPara(dto);
 //		(BizHotl)(li.get(0)).get()
 //		PageResult pr =  MybatisPageHelper.findPage(pageRequest, bizHotlMapper,"findPageByPara",map);

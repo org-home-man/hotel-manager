@@ -41,6 +41,52 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
+
+    <update id="update" parameterType="com.hotel.admin.model.BizHotl">
+        update  biz_hotl
+        <set>
+            <if test="hotelCode != null and hotelCode!=''">
+                  hotel_code = #{hotelCode,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceCode != null and provinceCode !=''">
+                 province_code = #{provinceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="cityCode != null and cityCode !=''">
+                 city_code = #{cityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelType != null and hotelType !=''">
+                 hotel_type = #{hotelType,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelLevel != null and hotelLevel !=''">
+                 hotel_level = #{hotelLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelCname != null and hotelCname !=''">
+                 hotel_cname = #{hotelCname,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelEname != null and hotelEname !=''">
+                 hotel_ename = #{hotelEname,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelAddr != null and hotelAddr !=''">
+                hotel_addr = #{hotelAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelPhone != null and hotelPhone !=''">
+                hotel_phone = #{hotelPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelFax != null and hotelFax !=''">
+                hotel_fax = #{hotelFax,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelWeb != null and hotelWeb !=''">
+                hotel_web = #{hotelWeb,jdbcType=VARCHAR},
+            </if>
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
   
   <select id="findPage" resultMap="BaseResultMap">
     select a.hotel_code, a.country_code, a.province_code, a.city_code, (select para_code from sys_para_config where para_code LIKE 'hotelType%' and para_sub_code1='hotelType' AND para_value1=a.hotel_type) hotel_type_key,
