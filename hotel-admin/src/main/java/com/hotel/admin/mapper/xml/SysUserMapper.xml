@@ -38,6 +38,7 @@
       <if test="email != null and email != ''">
         AND u.email = #{email}
       </if>
+      AND u.del_flag != -1
     </where>
   </sql>
   <select id="findPage" resultMap="BaseResultMap" parameterType="com.hotel.admin.qo.SysUserQuery">
@@ -45,12 +46,12 @@
   </select>
   <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u
-    where u.name = #{name,jdbcType=VARCHAR}
+    where u.name = #{name,jdbcType=VARCHAR} AND u.del_flag != -1
   </select>
   <select id="findPageByName" parameterType="java.lang.String" resultMap="BaseResultMap">
   	<bind name="pattern" value="'%' + _parameter.name + '%'" />
     select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u
-    where u.name like #{pattern}
+    where u.name like #{pattern} AND u.del_flag != -1
   </select>
   <select id="findPageByNameAndEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
   	<bind name="patternName" value="'%' + _parameter.name + '%'" />
@@ -58,6 +59,7 @@
     select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u
     where u.name like #{patternName}
     and u.email like #{patternEmail}
+    AND u.del_flag != -1
   </select>
 
   <update id="updatePassword" parameterType="com.hotel.admin.model.SysUser" >

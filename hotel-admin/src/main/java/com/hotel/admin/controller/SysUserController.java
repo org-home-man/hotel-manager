@@ -1,34 +1,18 @@
 package com.hotel.admin.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
-import com.google.common.io.Files;
-import com.hotel.admin.dto.SysUserUp;
-import com.hotel.admin.qo.SysUserQuery;
-import com.hotel.common.utils.StringUtils;
-import com.hotel.core.exception.GlobalException;
-import com.hotel.core.http.HttpStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.hotel.admin.constants.SysConstants;
+import com.hotel.admin.dto.SysUserUp;
 import com.hotel.admin.model.SysUser;
+import com.hotel.admin.qo.SysUserQuery;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.util.PasswordUtils;
+import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
-import com.hotel.core.page.PageRequest;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 用户控制器
@@ -76,7 +60,7 @@ public class SysUserController {
 
 	@PreAuthorize("hasAuthority('sys:user:delete')")
 	@PostMapping(value="/delete")
-	public HttpResult delete(List<SysUser> records) {
+	public HttpResult delete(@RequestBody List<SysUser> records) {
 		for(SysUser record:records) {
 			SysUser sysUser = sysUserService.findById(record.getId());
 			if(sysUser != null && SysConstants.ADMIN.equalsIgnoreCase(sysUser.getName())) {

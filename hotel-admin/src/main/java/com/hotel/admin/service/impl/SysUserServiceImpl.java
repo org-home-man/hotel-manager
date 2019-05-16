@@ -68,7 +68,8 @@ public class SysUserServiceImpl  implements SysUserService {
 	@Override
 	public int delete(List<SysUser> records) {
 		for(SysUser record:records) {
-			delete(record);
+			record.setDelFlag((byte) -1);
+			sysUserMapper.updateByPrimaryKeySelective(record);
 		}
 		return 1;
 	}
