@@ -6,6 +6,7 @@
   	<id column="id" jdbcType="BIGINT" property="id" />
 	<result column="order_code" jdbcType="VARCHAR" property="orderCode" />
 	<result column="room_code" jdbcType="VARCHAR" property="roomCode" />
+  	<result column="confirm_date" jdbcType="TIMESTAMP" property="confirmTime" />
 	<result column="in_date" jdbcType="TIMESTAMP" property="inDate" />
 	<result column="out_date" jdbcType="TIMESTAMP" property="outDate" />
 	<result column="p_name" jdbcType="VARCHAR" property="pName" />
@@ -21,10 +22,11 @@
 	<result column="total_s_amount" jdbcType="DOUBLE" property="totalSAmount" />
 	<result column="remark" jdbcType="VARCHAR" property="remark" />
 	<result column="status" jdbcType="VARCHAR" property="status" />
-	<result column="creat_by" jdbcType="VARCHAR" property="creatBy" />
-	<result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
-	<result column="last_update_by" jdbcType="VARCHAR" property="lastUpdateBy" />
-	<result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+  	<result column="hotel_name" jdbcType="VARCHAR" property="hotelName" />
+	<result column="creat_by" jdbcType="VARCHAR" property="createName" />
+	<result column="creat_time" jdbcType="VARCHAR" property="createTime" />
+	<result column="last_update_by" jdbcType="VARCHAR" property="updateName" />
+	<result column="last_update_time" jdbcType="VARCHAR" property="updateTime" />
   </resultMap>
 
 	<sql id="where_query">
@@ -32,11 +34,23 @@
 			<if test="orderCode != null and orderCode != ''">
 				AND order_code = #{orderCode}
 			</if>
-			<if test="roomCode != null and roomCode != ''">
-				AND room_code = #{roomCode}
+			<if test="roomStatus != null and roomStatus != ''">
+				AND status = #{roomStatus}
 			</if>
-			<if test="pName != null and pName != ''">
-				AND p_name = #{pName}
+			<if test="createTimeEnd != null and createTimeEnd != ''">
+				AND creat_time &lt;= #{createTimeEnd}
+			</if>
+			<if test="createTimeStart != null and createTimeStart != ''">
+				AND creat_time >= #{createTimeStart}
+			</if>
+			<if test="confirmTimeEnd != null and confirmTimeEnd != ''">
+				AND order_code &lt;= #{confirmTimeEnd}
+			</if>
+			<if test="confirmTimeStart != null and confirmTimeStart != ''">
+				AND order_code >= #{confirmTimeStart}
+			</if>
+			<if test="hotelName != null and hotelName != ''">
+				AND hotelName = #{hotelName}
 			</if>
 		</where>
 	</sql>

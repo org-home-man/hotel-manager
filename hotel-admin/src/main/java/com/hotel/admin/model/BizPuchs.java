@@ -2,6 +2,8 @@ package com.hotel.admin.model;
 
 import com.hotel.common.entity.BusinessEntity;
 
+import java.util.Date;
+
 /**
  * ---------------------------
  * 订单信息表 (BizPuchs)         
@@ -17,14 +19,12 @@ public class BizPuchs extends BusinessEntity {
 	private String orderCode;
 	/** 客房编号 */
 	private String roomCode;
+	/** 确定时间 */
+	private Date confirmTime;
 	/** 入住日期 */
-	private String inDateStart;
+	private Date inDate;
 	/** 退房日期 */
-	private String outDateEnd;
-	/** 入住日期 */
-	private java.util.Date inDate;
-	/** 退房日期 */
-	private java.util.Date outDate;
+	private Date outDate;
 	/** 代表者姓名 */
 	private String pName;
 	/** 护照号 */
@@ -51,14 +51,15 @@ public class BizPuchs extends BusinessEntity {
 	private String remark;
 	/** 订单状态 */
 	private String status;
+	/** 订单状态 */
+	private String hotelName;
 
-
-	public Integer getcNum() {
-		return cNum;
+	public String getHotelName() {
+		return hotelName;
 	}
 
-	public void setcNum(Integer cNum) {
-		this.cNum = cNum;
+	public void setHotelName(String hotelName) {
+		this.hotelName = hotelName;
 	}
 
 	public String getOrderCode() {
@@ -77,43 +78,35 @@ public class BizPuchs extends BusinessEntity {
 		this.roomCode = roomCode;
 	}
 
-	public java.util.Date getinDate() {
+	public Date getConfirmTime() {
+		return confirmTime;
+	}
+
+	public void setConfirmTime(Date confirmTime) {
+		this.confirmTime = confirmTime;
+	}
+
+	public Date getInDate() {
 		return inDate;
 	}
 
-	public void setinDate(java.util.Date inDate) {
+	public void setInDate(Date inDate) {
 		this.inDate = inDate;
 	}
 
-	public java.util.Date getoutDate() {
+	public Date getOutDate() {
 		return outDate;
 	}
 
-	public void setOutDate(java.util.Date outDate) {
+	public void setOutDate(Date outDate) {
 		this.outDate = outDate;
 	}
 
-	public String getinDateStart() {
-		return inDateStart;
-	}
-
-	public void setinDateStart(String inDateStart) {
-		this.inDateStart = inDateStart;
-	}
-
-	public String getoutDateEnd() {
-		return outDateEnd;
-	}
-
-	public void setOutDateEnd(String outDateEnd) {
-		this.outDateEnd = outDateEnd;
-	}
-
-	public String getPName() {
+	public String getpName() {
 		return pName;
 	}
 
-	public void setPName(String pName) {
+	public void setpName(String pName) {
 		this.pName = pName;
 	}
 
@@ -149,27 +142,27 @@ public class BizPuchs extends BusinessEntity {
 		this.emailAddress = emailAddress;
 	}
 
-	public Integer getANum() {
+	public Integer getaNum() {
 		return aNum;
 	}
 
-	public void setANum(Integer aNum) {
+	public void setaNum(Integer aNum) {
 		this.aNum = aNum;
 	}
 
-	public Integer getBNum() {
+	public Integer getbNum() {
 		return bNum;
 	}
 
-	public void setBNum(Integer bNum) {
+	public void setbNum(Integer bNum) {
 		this.bNum = bNum;
 	}
 
-	public Integer getCNum() {
+	public Integer getcNum() {
 		return cNum;
 	}
 
-	public void setCNum(Integer cNum) {
+	public void setcNum(Integer cNum) {
 		this.cNum = cNum;
 	}
 
@@ -212,7 +205,4 @@ public class BizPuchs extends BusinessEntity {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-
-
 }

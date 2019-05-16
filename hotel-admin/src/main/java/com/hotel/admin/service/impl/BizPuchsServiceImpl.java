@@ -82,17 +82,17 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 				record.setOrderCode(id+timeNow+newCrt);
 			}
 			//获取入住时间和退房时间
-			if(record.getoutDate() == null || record.getinDate()==null)
+			if(record.getOutDate() == null || record.getInDate()==null)
 			{
 				System.out.println("请选择入住时间和退房时间");
 			}
 			int invDate = 0;
 			SimpleDateFormat stodate = new SimpleDateFormat("yyyyMMdd");
-			String outdate = stodate.format(record.getoutDate());
-			String indate = stodate.format(record.getinDate());
+			String outdate = stodate.format(record.getOutDate());
+			String indate = stodate.format(record.getInDate());
 			/* 取时间跨度，需要加1*/
 			System.out.println("indate , outdate "  + indate +outdate);
-			invDate = (int) ((record.getoutDate().getTime() - record.getinDate().getTime()) / (1000*3600*24)) +1;
+			invDate = (int) ((record.getOutDate().getTime() - record.getInDate().getTime()) / (1000*3600*24)) +1;
 			System.out.println("indate , outdate "  + indate +outdate +"相隔" + invDate);
 
 			if (invDate <=0 )
@@ -101,7 +101,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 			}
 			//1为订单预订未确认状态
 			record.setStatus("1");
-			System.out.println("record = "+record.getPName());
+			System.out.println("record = "+record.getpName());
 			// 判断库存表的库存数是否满足客户需要
 			//如果库存表没有值则将默认库存数插入库存表管理
 			//获取时间跨度
