@@ -17,7 +17,7 @@ public class HotelRoomQry {
 	/** 客房面积 */
 	private Double roomArea;
 	/** 默认库存数 */
-	private Integer roomStock;
+	private Integer roomNum;
 	/** 退房时间 */
 	private String outDateEnd;
 	/** 入住时间 */
@@ -139,12 +139,12 @@ public class HotelRoomQry {
 		this.roomArea = roomArea;
 	}
 
-	public Integer getRoomStock() {
-		return roomStock;
+	public Integer getRoomNum() {
+		return roomNum;
 	}
 
-	public void setRoomStock(Integer roomStock) {
-		this.roomStock = roomStock;
+	public void setRoomNum(Integer roomNum) {
+		this.roomNum = roomNum;
 	}
 
 	public String getOutDateEnd() {
