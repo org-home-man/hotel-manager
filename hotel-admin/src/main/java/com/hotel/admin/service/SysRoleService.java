@@ -2,6 +2,7 @@ package com.hotel.admin.service;
 
 import java.util.List;
 
+import com.hotel.admin.dto.SysRoleEx;
 import com.hotel.admin.model.SysMenu;
 import com.hotel.admin.model.SysRole;
 import com.hotel.admin.model.SysRoleMenu;
@@ -34,7 +35,7 @@ public interface SysRoleService extends IService<SysRole> {
 	 * @param name
 	 * @return
 	 */
-	List<SysRole> findByName(String name);
+	List<SysRoleEx> findByName(String name);
 
 	/**
 	 * 通过名称分页查询
