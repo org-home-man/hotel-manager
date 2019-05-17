@@ -90,9 +90,11 @@
         <include refid="br_room_sql"/>,
       (select para_code from sys_para_config where para_code LIKE 'roomtype%' and para_sub_code1='bizroom' AND para_value1=a.room_type) room_type_key,
       (select para_code from sys_para_config where para_code LIKE 'bedtype%' and para_sub_code1='bizroom' AND para_value1=a.bed_type)  bed_type_key,
+      (select para_code from sys_para_config where para_code LIKE 'breakType%' and para_sub_code1='bizroom' AND para_value1=a.break_type)  break_type_key,
       (select para_code from sys_para_config where para_code LIKE 'province%' and para_sub_code1='provinceCode' AND para_value1=b.province_code)  province_code_key,
-      (select para_code from sys_para_config where para_code LIKE 'city%' and para_sub_code1='cityCode' AND para_value1=b.city_code)  city_code_key
-        ,<include refid="br_price_sql"/>
+      (select para_code from sys_para_config where para_code LIKE 'cityCode%' and para_sub_code1='cityCode' AND para_value1=b.city_code)  city_code_key,
+      (select para_code from sys_para_config where para_code LIKE 'hotelType%' and para_sub_code1='hotelType' AND para_value1=b.hotel_type)  hotel_type_key,
+        <include refid="br_price_sql"/>
     FROM
         biz_room a
         JOIN biz_hotl b ON a.hotel_code = b.hotel_code
