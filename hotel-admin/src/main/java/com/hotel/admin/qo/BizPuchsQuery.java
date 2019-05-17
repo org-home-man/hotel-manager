@@ -13,13 +13,13 @@ public class BizPuchsQuery extends BusinessEntity {
     /** 酒店名称 */
     private String hotelName;
     /** 确认开始时间 */
-    private Date confirmTimeStart;
+    private String confirmTimeStart;
     /** 确认结束时间 */
-    private Date confirmTimeEnd;
+    private String confirmTimeEnd;
 
-    private Date createTimeStart;
+    private String createTimeStart;
 
-    private Date createTimeEnd;
+    private String createTimeEnd;
 
     public String getOrderCode() {
         return orderCode;
@@ -45,35 +45,35 @@ public class BizPuchsQuery extends BusinessEntity {
         this.hotelName = hotelName;
     }
 
-    public Date getConfirmTimeStart() {
+    public String getConfirmTimeStart() {
         return confirmTimeStart;
     }
 
-    public void setConfirmTimeStart(Date confirmTimeStart) {
+    public void setConfirmTimeStart(String confirmTimeStart) {
         this.confirmTimeStart = confirmTimeStart;
     }
 
-    public Date getConfirmTimeEnd() {
+    public String getConfirmTimeEnd() {
         return confirmTimeEnd;
     }
 
-    public void setConfirmTimeEnd(Date confirmTimeEnd) {
+    public void setConfirmTimeEnd(String confirmTimeEnd) {
         this.confirmTimeEnd = confirmTimeEnd;
     }
 
-    public Date getCreateTimeStart() {
+    public String getCreateTimeStart() {
         return createTimeStart;
     }
 
-    public void setCreateTimeStart(Date createTimeStart) {
+    public void setCreateTimeStart(String createTimeStart) {
         this.createTimeStart = createTimeStart;
     }
 
-    public Date getCreateTimeEnd() {
+    public String getCreateTimeEnd() {
         return createTimeEnd;
     }
 
-    public void setCreateTimeEnd(Date createTimeEnd) {
+    public void setCreateTimeEnd(String createTimeEnd) {
         this.createTimeEnd = createTimeEnd;
     }
 }
