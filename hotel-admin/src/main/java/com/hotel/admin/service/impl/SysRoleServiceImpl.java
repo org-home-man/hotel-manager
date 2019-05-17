@@ -10,6 +10,8 @@ import com.hotel.admin.model.SysRoleMenu;
 import com.hotel.admin.service.SysRoleService;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
+import com.hotel.core.exception.GlobalException;
+import com.hotel.core.http.HttpStatus;
 import com.hotel.core.page.Page;
 import com.hotel.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +75,20 @@ public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysR
 	@Override
 	public List<SysRole> findByName(String name) {
 		return sysRoleMapper.findByName(name);
+	}
+
+	@Override
+	public int deleteBatch(List<SysRole> records) {
+		try {
+			for(SysRole record:records) {
+				delete(record);
+			}
+		}catch (Exception e) {
+			throw new GlobalException("oraException", HttpStatus.SC_INTERNAL_SERVER_ERROR);
+		}
+
+		return 1;
+
 	}
 	
 }

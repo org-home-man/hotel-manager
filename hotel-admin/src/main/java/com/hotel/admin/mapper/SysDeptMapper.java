@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SysDeptMapper extends AbstractMapper<SysDept> {
 
+    int delete(SysDept record);
+
 }

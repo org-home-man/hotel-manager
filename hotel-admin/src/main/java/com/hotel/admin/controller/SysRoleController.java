@@ -46,8 +46,8 @@ public class SysRoleController {
 
 	@PreAuthorize("hasAuthority('sys:role:delete')")
 	@PostMapping(value="/delete")
-	public HttpResult delete(List<SysRole> records) {
-		sysRoleService.delete(records);
+	public HttpResult delete(@RequestBody List<SysRole> records) {
+		sysRoleService.deleteBatch(records);
 		return HttpResult.ok();
 	}
 

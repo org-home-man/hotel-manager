@@ -4,6 +4,8 @@ import com.hotel.admin.mapper.SysDeptMapper;
 import com.hotel.admin.service.SysDeptService;
 import com.hotel.admin.model.SysDept;
 import com.hotel.core.context.PageContext;
+import com.hotel.core.exception.GlobalException;
+import com.hotel.core.http.HttpStatus;
 import com.hotel.core.page.MybatisPageHelper;
 import com.hotel.core.page.Page;
 import com.hotel.core.page.PageRequest;
@@ -41,6 +43,20 @@ public class SysDeptServiceImpl extends AbstractService<SysDept> implements SysD
 		}
 		findChildren(sysDepts, depts);
 		return sysDepts;
+	}
+
+	@Override
+	public int deleteBatch(List<SysDept> records) {
+		try {
+			for(SysDept record:records) {
+				delete(record);
+			}
+		}catch (Exception e) {
+			throw new GlobalException("oraException", HttpStatus.SC_INTERNAL_SERVER_ERROR);
+		}
+
+		return 1;
+
 	}
 
 	private void findChildren(List<SysDept> sysDepts, List<SysDept> depts) {

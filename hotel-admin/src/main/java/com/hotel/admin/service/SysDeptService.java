@@ -19,4 +19,6 @@ public interface SysDeptService extends IService<SysDept> {
 	 * @return
 	 */
 	List<SysDept> findTree();
+
+	int deleteBatch(List<SysDept> record);
 }

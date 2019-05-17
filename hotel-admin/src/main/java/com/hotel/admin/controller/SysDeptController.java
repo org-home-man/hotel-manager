@@ -5,10 +5,7 @@ import com.hotel.admin.service.SysDeptService;
 import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,8 +30,8 @@ public class SysDeptController {
 
 	@PreAuthorize("hasAuthority('sys:dept:delete')")
 	@PostMapping(value="/delete")
-	public HttpResult delete(List<SysDept> records) {
-		sysDeptService.delete(records);
+	public HttpResult delete(@RequestBody List<SysDept> records) {
+		sysDeptService.deleteBatch(records);
 		return HttpResult.ok();
 	}
 

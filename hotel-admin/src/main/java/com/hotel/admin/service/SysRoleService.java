@@ -43,4 +43,5 @@ public interface SysRoleService extends IService<SysRole> {
 	 */
 	Page findPage(String name);
 
+	int deleteBatch(List<SysRole> record);
 }

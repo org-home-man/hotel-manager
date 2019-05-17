@@ -15,4 +15,19 @@
   <sql id="Base_Column_List">
     id, parent_id, name, order_num, del_flag , create_name, create_time, update_name, update_time
   </sql>
+
+  <update id="delete" parameterType="com.hotel.admin.model.SysDept">
+    update  sys_dept
+    <set>
+      del_flag = -1,
+      <if test="updateName != null">
+        update_name = #{updateName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
 </mapper>
