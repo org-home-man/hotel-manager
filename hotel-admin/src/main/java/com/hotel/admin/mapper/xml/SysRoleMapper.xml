@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hotel.admin.mapper.SysRoleMapper">
-  <resultMap id="BaseResultMap" type="com.hotel.admin.model.SysRole">
+  <resultMap id="BaseResultMap" type="com.hotel.admin.dto.SysRoleEx">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+    <result column="role_id" jdbcType="TINYINT" property="roleId" />
+    <result column="role_id_key" jdbcType="VARCHAR" property="roleIdKey"/>
     <result column="create_name" jdbcType="VARCHAR" property="createName" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
     <result column="update_name" jdbcType="VARCHAR" property="updateName" />
     <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, remark, del_flag, create_name, create_time, update_name, update_time
+    id, name, role_id ,remark, del_flag, create_name, create_time, update_name, update_time
   </sql>
 
   <update id="delete" parameterType="com.hotel.admin.model.SysRole">
@@ -37,7 +39,8 @@
     where name like #{pattern}
   </select>
   <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
+    (select para_code from sys_para_config where para_code LIKE 'roleId%' and para_sub_code1='role' AND para_sub_code2='roleId' AND para_value1=role_id) role_id_key,
     <include refid="Base_Column_List" />
     from sys_role
     <where>
