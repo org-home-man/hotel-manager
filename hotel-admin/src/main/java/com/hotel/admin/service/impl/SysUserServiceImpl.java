@@ -46,7 +46,15 @@ public class SysUserServiceImpl  implements SysUserService {
 	public int save(SysUser record) {
 		if(record.getId() == null || record.getId() == 0) {
 			// 新增用户
-			sysUserMapper.insertSelective(record);
+			SysUser user = sysUserMapper.findByNameAll(record.getName());
+			if (user == null) {
+				sysUserMapper.insertSelective(record);
+			} else {
+				record.setId(user.getId());
+				record.setDelFlag((byte)0);
+				sysUserMapper.updateByPrimaryKeySelective(record);
+				sysUserRoleMapper.deleteByUserId(record.getId());
+			}
 		} else {
 			// 更新用户信息
 			sysUserMapper.updateByPrimaryKeySelective(record);

@@ -1,6 +1,7 @@
 package com.hotel.admin.service.impl;
 
 import com.hotel.admin.constants.SysConstants;
+import com.hotel.admin.dto.SysRoleEx;
 import com.hotel.admin.mapper.SysMenuMapper;
 import com.hotel.admin.mapper.SysRoleMapper;
 import com.hotel.admin.mapper.SysRoleMenuMapper;
@@ -73,7 +74,7 @@ public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysR
 	}
 
 	@Override
-	public List<SysRole> findByName(String name) {
+	public List<SysRoleEx> findByName(String name) {
 		return sysRoleMapper.findByName(name);
 	}
 
@@ -84,7 +85,7 @@ public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysR
 				delete(record);
 			}
 		}catch (Exception e) {
-			throw new GlobalException("oraException", HttpStatus.SC_INTERNAL_SERVER_ERROR);
+			throw new GlobalException("oraException");
 		}
 
 		return 1;
