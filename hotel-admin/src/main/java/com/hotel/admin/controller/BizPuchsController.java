@@ -38,7 +38,20 @@ public class BizPuchsController {
 		return HttpResult.ok();
 	}
 
-    /**
+	/**
+	 * 保存订单信息表
+	 * @param record
+	 * @return
+	 */
+	@PostMapping(value="/update")
+	public HttpResult update(BizPuchs record) {
+		System.out.println("licy");
+		bizPuchsService.updateInfo(record);
+		return HttpResult.ok();
+	}
+
+
+	/**
      * 删除订单信息表
      * @param records
      * @return

@@ -10,6 +10,8 @@ public class SysRole extends BusinessEntity {
 
     private Byte delFlag;
 
+    private String roleId;
+
 	public String getName() {
 		return name;
 	}
@@ -34,4 +36,11 @@ public class SysRole extends BusinessEntity {
 		this.delFlag = delFlag;
 	}
 
+	public String getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
 }
