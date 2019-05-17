@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hotel.admin.mapper.HotelRoomMapper">
 
-  <resultMap id="BaseResultMap" type="com.hotel.admin.model.BizRoom">
+  <resultMap id="BaseResultMap" type="com.hotel.admin.dto.HotelRoomDto">
 	<id column="room_code" jdbcType="VARCHAR" property="roomCode" />
 	<result column="hotel_code" jdbcType="VARCHAR" property="hotelCode" />
 	<result column="room_type" jdbcType="VARCHAR" property="roomType" />
@@ -71,7 +71,7 @@
   </resultMap>
 
   <sql id="br_hotel_sql">
-    b.hotel_code,b.province_code,b.city_code,b.hotel_type,b.hotel_level,b.hotel_cname,b.hotel_ename
+    b.hotel_code,b.province_code,b.city_code,b.hotel_type,b.hotel_level,b.hotel_cname,b.hotel_ename,b.hotel_addr,b.hotel_phone,b.hotel_web
   </sql>
   <sql id="br_room_sql">
     a.room_code,a.room_type,a.room_style,a.bed_type,a.break_type,a.room_area,a.room_stock
@@ -81,6 +81,9 @@
   </sql>
   <sql id="br_price_sql">
     p.price
+  </sql>
+  <sql id="br_bi_sql">
+    bi.inventory
   </sql>
 
   <select id="findPageByPara" parameterType="com.hotel.admin.dto.HotelRoomQry" resultMap="BaseResultMap">
@@ -149,8 +152,8 @@
           LEFT JOIN biz_prise bp ON brd.room_code = bp.room_code AND brd.date = bp.price_date
           WHERE
               <choose>
-                  <when test="roomStock!=null">
-                      IFNULL( bi.inventory, brd.brs ) &gt;= #{roomStock}
+                  <when test="roomNum!=null">
+                      IFNULL( bi.inventory, brd.brs ) &gt;= #{roomNum}
                   </when>
                   <otherwise>
                       IFNULL( bi.inventory, brd.brs ) &gt; 0
@@ -191,9 +194,6 @@
     </if>
     <if test="roomArea != null">
       AND a.room_area &gt;= #{roomArea,jdbcType=VARCHAR}
-    </if>
-    <if test="roomStock != null">
-      AND (a.room_stock %gt; #{roomStock,jdbcType=VARCHAR} )
     </if>
     <if test="iswify != null and iswify !=''">
       AND bre.iswify = #{iswify,jdbcType=VARCHAR}

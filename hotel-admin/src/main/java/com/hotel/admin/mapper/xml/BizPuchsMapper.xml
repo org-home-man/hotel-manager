@@ -23,8 +23,8 @@
 	<result column="remark" jdbcType="VARCHAR" property="remark" />
 	<result column="status" jdbcType="VARCHAR" property="status" />
   	<result column="hotel_name" jdbcType="VARCHAR" property="hotelName" />
-	<result column="creat_by" jdbcType="VARCHAR" property="createName" />
-	<result column="creat_time" jdbcType="VARCHAR" property="createTime" />
+	<result column="create_by" jdbcType="VARCHAR" property="createName" />
+	<result column="create_time" jdbcType="VARCHAR" property="createTime" />
 	<result column="last_update_by" jdbcType="VARCHAR" property="updateName" />
 	<result column="last_update_time" jdbcType="VARCHAR" property="updateTime" />
   </resultMap>
@@ -38,10 +38,10 @@
 				AND status = #{roomStatus}
 			</if>
 			<if test="createTimeEnd != null and createTimeEnd != ''">
-				AND creat_time &lt;= #{createTimeEnd}
+				AND create_time &lt;= #{createTimeEnd}
 			</if>
 			<if test="createTimeStart != null and createTimeStart != ''">
-				AND creat_time >= #{createTimeStart}
+				AND create_time >= #{createTimeStart}
 			</if>
 			<if test="confirmTimeEnd != null and confirmTimeEnd != ''">
 				AND order_code &lt;= #{confirmTimeEnd}
