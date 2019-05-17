@@ -86,6 +86,10 @@
     bi.inventory
   </sql>
 
+  <select id="callCalendar" statementType="CALLABLE">
+      call create_calendar(#{inDateStart,mode=IN},#{outDateEnd,mode=IN})
+  </select>
+
   <select id="findPageByPara" parameterType="com.hotel.admin.dto.HotelRoomQry" resultMap="BaseResultMap">
     SELECT
         <include refid="br_hotel_sql"/>,

@@ -31,14 +31,14 @@ public class BizPuchsExtServiceImpl implements BizPuchsExtService {
 	@Override
 	public int save(BizPuchsExt record) {
 		if(record.getRoomCode() == null || record.getRoomCode() == "0") {
-			return bizPuchsExtMapper.add(record);
+			return bizPuchsExtMapper.insertSelective(record);
 		}
-		return bizPuchsExtMapper.update(record);
+		return bizPuchsExtMapper.updateByPrimaryKeySelective(record);
 	}
 
 	@Override
 	public int delete(BizPuchsExt record) {
-		return bizPuchsExtMapper.delete(record.getOrderCode());
+		return bizPuchsExtMapper.deleteByPrimaryKey(record.getId());
 	}
 	@Override
 	public BizPuchsExt findById(Long id) {
@@ -54,7 +54,7 @@ public class BizPuchsExtServiceImpl implements BizPuchsExtService {
 
 	@Override
 	public BizPuchsExt findById(String id) {
-		return bizPuchsExtMapper.findById(id);
+		return bizPuchsExtMapper.selectByPrimaryKey(id);
 	}
 
 	@Override

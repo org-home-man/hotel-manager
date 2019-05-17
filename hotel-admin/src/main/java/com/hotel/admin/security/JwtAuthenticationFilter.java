@@ -1,17 +1,15 @@
 package com.hotel.admin.security;
 
-import java.io.IOException;
+import com.hotel.admin.util.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
-import com.hotel.admin.util.SecurityUtils;
+import java.io.IOException;
 
 /**
  * 登录认证过滤器
@@ -20,7 +18,6 @@ import com.hotel.admin.util.SecurityUtils;
  */
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
-	
 	@Autowired
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
