@@ -157,6 +157,15 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 	}
 
 	@Override
+	public int updateInfo(BizPuchs record) {
+		System.out.println("订单更新开始"+ record);
+		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
+		}
+
+		return bizPuchsMapper.updateByPrimaryKey(record);
+	}
+
+	@Override
 	public BizPuchs findById(String id) {
 		return bizPuchsMapper.selectByPrimaryKey(id);
 	}

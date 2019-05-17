@@ -32,7 +32,7 @@ public class SysUserController {
 		SysUser user = sysUserService.findById(record.getId());
 		if(user != null) {
 			if(SysConstants.ADMIN.equalsIgnoreCase(user.getName())) {
-				return HttpResult.error("超级管理员不允许修改!");
+				throw new GlobalException("noEdit");
 			}
 		}
 		if(record.getPassword() != null) {

@@ -17,6 +17,7 @@ import java.util.List;
  */
 public interface BizPuchsService extends IService<BizPuchs> {
      int saveInfo(BizPuchs record);
+     int updateInfo(BizPuchs record);
 
      BizPuchs findById(String id);
 
