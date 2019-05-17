@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.hotel.admin.model.SysUser">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="realName" jdbcType="VARCHAR" property="realName" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="salt" jdbcType="VARCHAR" property="salt" />
@@ -26,7 +26,7 @@
     <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name,realName,sex, password, salt, email, mobile, status, dept_id, del_flag,birthday,dept_number,phone,address,region,net,remark,
+    id, name,real_name,sex, password, salt, email, mobile, status, dept_id, del_flag,birthday,dept_number,phone,address,region,net,remark,
     create_name, create_time, update_name, update_time
   </sql>
 
@@ -81,4 +81,9 @@
     where name= #{name,jdbcType=VARCHAR}
 
   </update>
+
+  <select id="findByNameAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u
+    where u.name = #{name,jdbcType=VARCHAR}
+  </select>
 </mapper>
