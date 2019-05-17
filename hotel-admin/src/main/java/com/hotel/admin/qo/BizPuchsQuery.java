@@ -2,8 +2,6 @@ package com.hotel.admin.qo;
 
 import com.hotel.common.entity.BusinessEntity;
 
-import java.util.Date;
-
 public class BizPuchsQuery extends BusinessEntity {
 
     /** 订单号 */
