@@ -60,13 +60,7 @@ public class BizPuchsController {
 	@PostMapping(value="/confirm")
 	public HttpResult confirm( BizPuchsUpdate record) {
 		System.out.println("licy");
-		try
-		{
-			bizPuchsService.puchsConfirm(record);
-		}
-	catch (GlobalException e){
-		return HttpResult.error(e.getMsg());
-	 }
+		bizPuchsService.puchsConfirm(record);
 		return HttpResult.ok();
 	}
 
