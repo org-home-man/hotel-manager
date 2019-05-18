@@ -2,6 +2,7 @@ package com.hotel.admin.service.impl;
 
 import com.hotel.admin.mapper.BizPuchsExtMapper;
 import com.hotel.admin.mapper.BizPuchsMapper;
+import com.hotel.admin.mapper.BizRoomMapper;
 import com.hotel.admin.mapper.CrtIdMapper;
 import com.hotel.admin.model.*;
 import com.hotel.admin.qo.BizPuchsQuery;
@@ -10,6 +11,7 @@ import com.hotel.admin.service.BizPuchsService;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.util.SecurityUtils;
 import com.hotel.core.exception.GlobalException;
+import com.hotel.core.service.NewCurdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,8 +45,9 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 	private SysUserService sysUser;
 	@Autowired
 	private BizInvService bizInvService;
+    private BizRoomMapper bizRoomMapper;
 
-	@Override
+    @Override
 	public int save(BizPuchs record) {
 		System.out.println("订单生成开始"+ record);
 		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
@@ -214,7 +217,7 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 			BizInv inv = new BizInv();
 			inv.setRoomCode(record.getRoomCode());
 			inv.setInvDate(newOutdate);
-			List<BizInv> bizInvs = bizInvMapper.findById(inv);
+			List<BizInv> bizInvs = bizInvService.findByRoomCode(inv);
 			if (bizInvs.size() ==0)
 			{
 				BizRoom mroom= bizRoomMapper.findById(record.getRoomCode());
@@ -228,7 +231,7 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 				addInv.setRoomCode(record.getRoomCode());
 				addInv.setInventory(mroom.getRoomStock()-1);
 				addInv.setAutoClose("Y");
-				bizInvMapper.add(addInv);
+				bizInvService.save(addInv);
 				//将默认库存数插入数据库，将库存数减一
 			}
 			else{
@@ -238,7 +241,7 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 					System.out.println("库存数" + bizInvs.get(0).getInventory());
 					bizInvs.get(0).setInventory(bizInvs.get(0).getInventory() - record.getRoomNum());
 					bizInvs.get(0).setInvDate(newOutdate);
-					bizInvMapper.updateByUser(bizInvs.get(0));
+					bizInvService.update(bizInvs.get(0));
 				}
 				else
 				{

@@ -45,7 +45,7 @@ public class BizPuchsController {
 	 * @return
 	 */
 	@PostMapping(value="/update")
-	public HttpResult update( BizPuchsUpdate record) {
+	public HttpResult update(BizPuchsUpdate record) {
 		System.out.println("licy");
 		bizPuchsService.updateInfo(record);
 		return HttpResult.ok();

@@ -1,8 +1,10 @@
 package com.hotel.admin.service;
 
 import com.hotel.admin.model.BizPuchs;
+import com.hotel.admin.model.BizPuchsUpdate;
 import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.core.service.IService;
+import com.hotel.core.service.NewCurdService;
 
 import java.util.List;
 
@@ -16,7 +18,9 @@ import java.util.List;
  * ---------------------------
  */
 public interface BizPuchsService extends NewCurdService<BizPuchs> {
-    int updateInfo(BizPuchs record);
+    int updateInfo(BizPuchsUpdate record);
+
+    int puchsConfirm(BizPuchsUpdate record);
 
     List<BizPuchs> findPage(BizPuchsQuery bizPuchsQuery);
 

@@ -66,6 +66,7 @@ public class BizInvServiceImpl implements BizInvService {
 		return 1;
 	}
 
+	@Override
 	public List<BizInv> findByRoomCode(BizInv record){
 		return bizInvMapper.findByRoomCode(record);
 	}
