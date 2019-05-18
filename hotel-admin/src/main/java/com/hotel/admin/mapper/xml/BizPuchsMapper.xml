@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hotel.admin.mapper.BizPuchsMapper">
 
-  <resultMap id="BaseResultMap" type="com.hotel.admin.model.BizPuchs">
+  <resultMap id="BaseResultMap" type="com.hotel.admin.model.BizPuchsExtDto">
   	<id column="id" jdbcType="BIGINT" property="id" />
 	<result column="order_code" jdbcType="VARCHAR" property="orderCode" />
 	<result column="room_code" jdbcType="VARCHAR" property="roomCode" />
@@ -27,6 +27,65 @@
 	<result column="create_time" jdbcType="VARCHAR" property="createTime" />
 	<result column="last_update_by" jdbcType="VARCHAR" property="updateName" />
 	<result column="last_update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="hotel_code" jdbcType="VARCHAR" property="hotelCode" />
+    <result column="room_type" jdbcType="VARCHAR" property="roomType" />
+    <result column="room_type_key" jdbcType="VARCHAR" property="roomTypeKey" />
+    <result column="room_style" jdbcType="VARCHAR" property="roomStyle" />
+    <result column="bed_type" jdbcType="VARCHAR" property="bedType" />
+    <result column="break_type" jdbcType="VARCHAR" property="breakType" />
+    <result column="break_type_key" jdbcType="VARCHAR" property="breakTypeKey" />
+    <result column="bed_type_key" jdbcType="VARCHAR" property="bedTypeKey" />
+    <result column="province_code_key" jdbcType="VARCHAR" property="provinceCodeKey" />
+    <result column="city_code_key" jdbcType="VARCHAR" property="cityCodeKey" />
+    <result column="hotel_type_key" jdbcType="VARCHAR" property="hotelTypeKey" />
+    <result column="room_area" jdbcType="DOUBLE" property="roomArea" />
+    <result column="intro_c" jdbcType="VARCHAR" property="introC" />
+    <result column="intro_e" jdbcType="VARCHAR" property="introE" />
+    <result column="photo" jdbcType="BINARY" property="photo" />
+    <result column="room_stock" jdbcType="INTEGER" property="roomStock" />
+    <result column="recommended" jdbcType="VARCHAR" property="recommended" />
+    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_name" jdbcType="VARCHAR" property="updateName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
+    <result column="hotel_type" jdbcType="VARCHAR" property="hotelType" />
+    <result column="hotel_level" jdbcType="VARCHAR" property="hotelLevel" />
+    <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
+    <result column="hotel_cname" jdbcType="VARCHAR" property="hotelCname" />
+    <result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
+    <result column="inventory" jdbcType="INTEGER" property="inventory" />
+    <result column="s_room_price" jdbcType="DOUBLE" property="sRoomPrice" />
+    <result column="price" jdbcType="DOUBLE" property="sPrice" />
+    <result column="hotel_addr" jdbcType="VARCHAR" property="hotelAddr" />
+    <result column="hotel_phone" jdbcType="VARCHAR" property="hotelPhone" />
+    <result column="hotel_web" jdbcType="VARCHAR" property="hotelWeb" />
+    <result column="hotel_type" jdbcType="VARCHAR" property="hotelType" />
+    <result column="iswify" jdbcType="VARCHAR" property="iswify" />
+    <result column="isfront" jdbcType="VARCHAR" property="isfront" />
+    <result column="isbarrifr" jdbcType="VARCHAR" property="isbarrifr" />
+    <result column="isbalcony" jdbcType="VARCHAR" property="isbalcony" />
+    <result column="iskitchen" jdbcType="VARCHAR" property="iskitchen" />
+    <result column="iswindow" jdbcType="VARCHAR" property="iswindow" />
+    <result column="isheat" jdbcType="VARCHAR" property="isheat" />
+    <result column="isicebox" jdbcType="VARCHAR" property="isicebox" />
+    <result column="isiron" jdbcType="VARCHAR" property="isiron" />
+    <result column="isnosmk" jdbcType="VARCHAR" property="isnosmk" />
+    <result column="islandscape" jdbcType="VARCHAR" property="islandscape" />
+    <result column="ishighrise" jdbcType="VARCHAR" property="ishighrise" />
+    <result column="ispark" jdbcType="VARCHAR" property="ispark" />
+    <result column="isgym" jdbcType="VARCHAR" property="isgym" />
+    <result column="isswmp" jdbcType="VARCHAR" property="isswmp" />
+    <result column="isbeach" jdbcType="VARCHAR" property="isbeach" />
+    <result column="ishotsp" jdbcType="VARCHAR" property="ishotsp" />
+    <result column="ischildct" jdbcType="VARCHAR" property="ischildct" />
+    <result column="isroomserv" jdbcType="VARCHAR" property="isroomserv" />
+    <result column="isknead" jdbcType="VARCHAR" property="isknead" />
+    <result column="islounge" jdbcType="VARCHAR" property="islounge" />
+    <result column="issuper" jdbcType="VARCHAR" property="issuper" />
+    <result column="isbus" jdbcType="VARCHAR" property="isbus" />
+    <result column="istrafic" jdbcType="VARCHAR" property="istrafic" />
+    <result column="isrestau" jdbcType="VARCHAR" property="isrestau" />
   </resultMap>
 
 	<sql id="where_query">
@@ -105,7 +164,15 @@
 	</update>
 
 	<select id="findPage" resultMap="BaseResultMap">
-		select * from biz_puchs <include refid="where_query"/>
+		select a.*,b.hotel_code,b.room_style,b.bed_type,b.break_type,b.intro_c,b.intro_e,b.room_stock,b.recommended,b.scheduledays,b.favorableprice,b.evenlive,present,
+		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
+		d.ischildct,d.isroomserv,d.isknead,d.islounge,d.issuper,d.isbus,d.istrafic,d.isrestau,
+		c.country_code,c.province_code,c.city_code,c.hotel_type,c.hotel_level,c.hotel_cname,c.hotel_ename,c.hotel_addr,c.hotel_phone,c.hotel_fax,c.hotel_web
+		 from biz_puchs a, biz_room b, biz_hotl c, biz_room_ext d
+		where  1=1 and a.room_code=b.room_code and b.room_code=d.room_code and b.hotel_code =c.hotel_code
+		<!--<if test="provinceCode != null and provinceCode!=''">-->
+			<!--AND b.province_code = #{provinceCode,jdbcType=VARCHAR}-->
+		<!--</if>-->
 	</select>
 
 	<select id="findPageS" parameterType="com.hotel.admin.qo.BizPuchsUpdate" resultMap="BaseResultMap">
