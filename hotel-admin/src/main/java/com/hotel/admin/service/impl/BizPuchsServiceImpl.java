@@ -185,7 +185,8 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 		//获取入住时间和退房时间
 		if(record.getOutDate() == null || record.getInDate()==null)
 		{
-			System.out.println("请选择入住时间和退房时间");
+			throw new GlobalException("inoutdateIsNull");
+//			System.out.println("请选择入住时间和退房时间");
 		}
 
 		SimpleDateFormat stodate = new SimpleDateFormat("yyyyMMdd");
@@ -202,15 +203,15 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 		String outdate = record.getOutDate();
 		String indate = record.getInDate();
 		/* 取时间跨度，需要加1*/
-		System.out.println("indate , outdate "  + indate +outdate);
 		System.out.println("indate , outdate "  + indate +outdate +"相隔" + invDate);
 
 		if (invDate <=0 )
 		{
-			System.out.println("退房日期需大于入住日期");
+			throw new GlobalException("inoutdateException");
+//			System.out.println("退房日期需大于入住日期");
 		}
 		//1为订单预订未确认状态
-		record.setStatus("1");
+//		record.setStatus("1");
 		System.out.println("record = "+record.getpName());
 
 		// 判断库存表的库存数是否满足客户需要
@@ -231,7 +232,8 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 				BizRoom mroom= bizRoomMapper.findById(record.getRoomCode());
 				if( mroom.getRoomStock() <= 0 || mroom.getRoomStock() ==null)
 				{
-					System.out.println("房间默认库存数不能为0或者空" +  mroom.getRoomStock());
+					throw new GlobalException("RoomStockIsNull");
+//					System.out.println("房间默认库存数不能为0或者空" +  mroom.getRoomStock());
 				}
 				System.out.println("默认库存数" + mroom.getRoomStock());
 				BizInv addInv = new BizInv();
