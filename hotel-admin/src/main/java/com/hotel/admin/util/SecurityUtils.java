@@ -59,6 +59,9 @@ public class SecurityUtils {
 			if(principal != null && principal instanceof UserDetails) {
 				username = ((UserDetails) principal).getUsername();
 			}
+			if(principal != null && principal instanceof String){
+				username = (String) principal;
+			}
 		}
 		return username;
 	}

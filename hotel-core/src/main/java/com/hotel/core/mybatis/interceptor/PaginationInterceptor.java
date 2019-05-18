@@ -5,10 +5,13 @@ import com.hotel.core.context.PageContext;
 import com.hotel.core.page.Page;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
+import org.apache.ibatis.executor.statement.CallableStatementHandler;
+import org.apache.ibatis.executor.statement.RoutingStatementHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
+import org.apache.ibatis.mapping.StatementType;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
@@ -44,6 +47,7 @@ public class PaginationInterceptor implements Interceptor {
         if (invocation.getTarget() instanceof StatementHandler) {
             StatementHandler statementHandler = (StatementHandler) invocation
                     .getTarget();
+
             MetaObject metaStatementHandler = SystemMetaObject
                     .forObject(statementHandler);
             // 分离代理对象链(由于目标类可能被多个拦截器拦截，从而形成多次代理，通过下面的两次循环
@@ -59,7 +63,9 @@ public class PaginationInterceptor implements Interceptor {
             }
             MappedStatement mappedStatement = (MappedStatement) metaStatementHandler
                     .getValue("delegate.mappedStatement");
-
+            if(StatementType.CALLABLE == mappedStatement.getStatementType()){
+                return invocation.proceed();
+            }
             SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
 
             if (sqlCommandType == SqlCommandType.SELECT) {

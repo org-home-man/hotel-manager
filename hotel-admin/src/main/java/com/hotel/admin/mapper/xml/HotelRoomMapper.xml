@@ -83,8 +83,12 @@
     p.price
   </sql>
   <sql id="br_bi_sql">
-    bi.inventory
+    p.inventory
   </sql>
+
+  <select id="callCalendar" statementType="CALLABLE">
+      call create_calendar(#{inDateStart,mode=IN},#{outDateEnd,mode=IN})
+  </select>
 
   <select id="findPageByPara" parameterType="com.hotel.admin.dto.HotelRoomQry" resultMap="BaseResultMap">
     SELECT
@@ -97,7 +101,8 @@
       (select para_code from sys_para_config where para_code LIKE 'province%' and para_sub_code1='provinceCode' AND para_value1=b.province_code)  province_code_key,
       (select para_code from sys_para_config where para_code LIKE 'cityCode%' and para_sub_code1='cityCode' AND para_value1=b.city_code)  city_code_key,
       (select para_code from sys_para_config where para_code LIKE 'hotelType%' and para_sub_code1='hotelType' AND para_value1=b.hotel_type)  hotel_type_key,
-        <include refid="br_price_sql"/>
+        <include refid="br_price_sql"/>,
+        <include refid="br_bi_sql"></include>
     FROM
         biz_room a
         JOIN biz_hotl b ON a.hotel_code = b.hotel_code
@@ -105,7 +110,8 @@
           JOIN (
               (SELECT
                   f.room_code,
-                  min(g.s_price) price
+                  avg(g.s_price) price,
+                  min(bi.inventory) inventory
               FROM
                   (SELECT
                         x.date,
@@ -117,6 +123,7 @@
                          WHERE date BETWEEN DATE_FORMAT( #{inDateStart}, '%Y%m%d') AND DATE_FORMAT( #{outDateEnd}, '%Y%m%d')
                          ) x
                   ) f
+                  LEFT JOIN biz_inv bi ON f.room_code = bi.room_code AND f.date = bi.inv_date
                   LEFT JOIN biz_prise g ON f.room_code = g.room_code and f.date = g.price_date
               WHERE
                   g.s_price is not null

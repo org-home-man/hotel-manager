@@ -18,4 +18,6 @@ public interface SysUserMapper extends AbstractMapper<SysUser>{
 	List<SysUser> findPageByNameAndEmail(@Param(value = "name") String name, @Param(value = "email") String email);
 
 	int updatePassword(SysUser sysUser);/* 仅更新密码*/
+
+	SysUser findByNameAll(@Param(value = "name") String name);/* 查询所有状态用户 */
 }

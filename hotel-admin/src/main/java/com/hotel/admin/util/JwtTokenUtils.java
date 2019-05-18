@@ -6,8 +6,10 @@ import com.hotel.core.context.PageContext;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import javax.servlet.http.HttpServletRequest;
@@ -117,9 +119,7 @@ public class JwtTokenUtils implements Serializable {
 						authorities.add(new GrantedAuthorityImpl((String) ((Map) object).get("authority")));
 					}
 				}
-				JwtAuthenticatioToken tk = new JwtAuthenticatioToken(username, null, authorities, token);
-				tk.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-				authentication = tk;
+				authentication = new JwtAuthenticatioToken(username, null, authorities, token);
 			} else {
 				if(validateToken(token, SecurityUtils.getUsername())) {
 					// 如果上下文中Authentication非空，且请求令牌合法，直接返回当前登录认证信息

@@ -52,6 +52,9 @@ public class HotelRoomServiceImpl extends AbstractService<BizRoom> implements Ho
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		//调用存储过程获取当前返回时间轴
+		hotelRoomMapper.callCalendar(hotelRoomQry.getInDateStart(),hotelRoomQry.getOutDateEnd());
+
 		List<BizRoom> pageByPara = hotelRoomMapper.findPageByPara(hotelRoomQry);
 
 		return PageContext.getPage();
