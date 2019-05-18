@@ -172,7 +172,7 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 
 	@Override
 	public int puchsConfirm(BizPuchsUpdate record) {
-        System.out.println("订单确认开始" + record);
+        System.out.println("订单确认开始" + record.getId());
         record.setInDate("20200520");
         record.setOutDate("20200521");
         if (record.getOrderCode() == null || record.getOrderCode() == "0") {
@@ -234,13 +234,13 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 					throw new GlobalException("RoomStockIsNull");
 //					System.out.println("房间默认库存数不能为0或者空" +  mroom.getRoomStock());
 				}
-				System.out.println("默认库存数" + mroom.getRoomStock());
+				System.out.println("默认库存数" + mroom.getRoomStock()+ "时间" + newOutdate);
 				BizInv addInv = new BizInv();
 				addInv.setInvDate(newOutdate);
 				addInv.setRoomCode(record.getRoomCode());
-				addInv.setInventory(mroom.getRoomStock()-1);
+				addInv.setInventory(mroom.getRoomStock()-record.getRoomNum());
 				addInv.setAutoClose("Y");
-				bizInvService.save(addInv);
+				bizInvService.addByUser(addInv);
 				//将默认库存数插入数据库，将库存数减一
 			}
 			else{

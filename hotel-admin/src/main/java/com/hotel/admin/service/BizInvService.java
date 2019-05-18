@@ -23,5 +23,7 @@ public interface BizInvService extends NewCurdService<BizInv> {
 
     List<BizInv> findCancelBizInv(BizPuchs bizPuchs);
 
+    int addByUser(BizInv code);
     void update(BizInv bizInv);
+
 }

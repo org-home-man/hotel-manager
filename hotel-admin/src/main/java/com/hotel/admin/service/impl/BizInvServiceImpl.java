@@ -31,6 +31,12 @@ public class BizInvServiceImpl implements BizInvService {
 	@Autowired
 	private BizInvMapper bizInvMapper;
 
+
+	public int addByUser(BizInv code)
+	{
+		return bizInvMapper.addByUser(code);
+	}
+
 	@Override
 	public int save(BizInv record) {
 
