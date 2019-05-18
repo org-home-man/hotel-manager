@@ -172,96 +172,85 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 
 	@Override
 	public int puchsConfirm(BizPuchsUpdate record) {
-		System.out.println("订单确认开始"+ record);
-		record.setInDate("20190520");
-		record.setOutDate("20190720");
-		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
-		}
-        List<BizPuchs> listStat = bizPuchsMapper.findPageS(record);
-		if("2".equals(listStat.get(0).getStatus()))
-        {
+        System.out.println("订单确认开始" + record);
+        record.setInDate("20200520");
+        record.setOutDate("20200521");
+        if (record.getOrderCode() == null || record.getOrderCode() == "0") {
+        }
+        BizPuchs listStat = bizPuchsMapper.selectByPrimaryKey(record.getId());
+        if ("2".equals(listStat.getStatus())) {
             throw new GlobalException("isOrderException");
         }
-		//获取入住时间和退房时间
-		if(record.getOutDate() == null || record.getInDate()==null)
-		{
-			System.out.println("请选择入住时间和退房时间");
-		}
+        //获取入住时间和退房时间
+        if (record.getOutDate() == null || record.getInDate() == null) {
+            System.out.println("请选择入住时间和退房时间");
+        }
 
-		SimpleDateFormat stodate = new SimpleDateFormat("yyyyMMdd");
-		int invDate = 0;
-		try {
-			Date outTdate = stodate.parse(record.getOutDate());
-			Date inTdate = stodate.parse(record.getInDate());
-			System.out.println("indate , outdate "  + outTdate +inTdate);
-			invDate = (int) ((outTdate.getTime() - inTdate.getTime()) / (1000*3600*24)) +1;
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+        SimpleDateFormat stodate = new SimpleDateFormat("yyyyMMdd");
+        int invDate = 0;
+        try {
+            Date outTdate = stodate.parse(record.getOutDate());
+            Date inTdate = stodate.parse(record.getInDate());
+            System.out.println("indate , outdate " + outTdate + inTdate);
+            invDate = (int) ((outTdate.getTime() - inTdate.getTime()) / (1000 * 3600 * 24)) + 1;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-		String outdate = record.getOutDate();
-		String indate = record.getInDate();
-		/* 取时间跨度，需要加1*/
-		System.out.println("indate , outdate "  + indate +outdate);
-		System.out.println("indate , outdate "  + indate +outdate +"相隔" + invDate);
+        String outdate = record.getOutDate();
+        String indate = record.getInDate();
+        /* 取时间跨度，需要加1*/
+        System.out.println("indate , outdate " + indate + outdate);
+        System.out.println("indate , outdate " + indate + outdate + "相隔" + invDate);
 
-		if (invDate <=0 )
-		{
-			System.out.println("退房日期需大于入住日期");
-		}
-		//1为订单预订未确认状态
-		record.setStatus("1");
-		System.out.println("record = "+record.getpName());
+        if (invDate <= 0) {
+            System.out.println("退房日期需大于入住日期");
+        }
+        //1为订单预订未确认状态
+        System.out.println("record = " + record.getpName());
 
-		// 判断库存表的库存数是否满足客户需要
-		//如果库存表没有值则将默认库存数插入库存表管理
-		//获取时间跨度
-//		String outdate = record.getOutDate();
-		String newOutdate = String.valueOf(Integer.parseInt(outdate));
+        // 判断库存表的库存数是否满足客户需要
+        //如果库存表没有值则将默认库存数插入库存表管理
+        //获取时间跨度
+        String newOutdate = String.valueOf(Integer.parseInt(outdate));
 
-		for (int dateNum =0; dateNum < invDate -1 ;dateNum ++)
-		{
-			newOutdate = String.valueOf(Integer.parseInt(newOutdate) - 1);
-			BizInv inv = new BizInv();
-			inv.setRoomCode(record.getRoomCode());
-			inv.setInvDate(newOutdate);
-			List<BizInv> bizInvs = bizInvService.findByRoomCode(inv);
-			if (bizInvs.size() ==0)
-			{
-				BizRoom mroom= bizRoomMapper.findById(record.getRoomCode());
-				if( mroom.getRoomStock() <= 0 || mroom.getRoomStock() ==null)
-				{
-					System.out.println("房间默认库存数不能为0或者空" +  mroom.getRoomStock());
-				}
-				System.out.println("默认库存数" + mroom.getRoomStock());
-				BizInv addInv = new BizInv();
-				addInv.setInvDate(newOutdate);
-				addInv.setRoomCode(record.getRoomCode());
-				addInv.setInventory(mroom.getRoomStock()-1);
-				addInv.setAutoClose("Y");
-				bizInvService.save(addInv);
-				//将默认库存数插入数据库，将库存数减一
-			}
-			else{
-				//k库存数大于1这可以减1
-				if(bizInvs.get(0).getInventory()-record.getRoomNum() >=0 ) {
+        for (int dateNum = 0; dateNum < invDate - 1; dateNum++) {
+            newOutdate = String.valueOf(Integer.parseInt(newOutdate) - 1);
+            BizInv inv = new BizInv();
+            inv.setRoomCode(record.getRoomCode());
+            inv.setInvDate(newOutdate);
+            BizInv bizInv = bizInvService.findByRoomCode(inv);
+            if (bizInv == null) {
+                BizRoom mroom = bizRoomMapper.findById(record.getRoomCode());
+                if (mroom.getRoomStock() <= 0 || mroom.getRoomStock() == null) {
+                    System.out.println("房间默认库存数不能为0或者空" + mroom.getRoomStock());
+                }
+                System.out.println("默认库存数" + mroom.getRoomStock());
+                BizInv addInv = new BizInv();
+                addInv.setInvDate(newOutdate);
+                addInv.setRoomCode(record.getRoomCode());
+                addInv.setInventory(mroom.getRoomStock() - 1);
+                addInv.setAutoClose("Y");
+                bizInvService.save(addInv);
+                //将默认库存数插入数据库，将库存数减一
+            } else {
+                //k库存数大于1这可以减1
+                if (bizInv.getInventory() - record.getRoomNum() >= 0) {
 
-					System.out.println("库存数" + bizInvs.get(0).getInventory());
-					bizInvs.get(0).setInventory(bizInvs.get(0).getInventory() - record.getRoomNum());
-					bizInvs.get(0).setInvDate(newOutdate);
-					bizInvService.update(bizInvs.get(0));
-				}
-				else
-				{
-					//提示库存数不够
-					throw new GlobalException("oraException");
-				}
-			}
-		}
+                    System.out.println("库存数" + bizInv.getInventory());
+                    bizInv.setInventory(bizInv.getInventory() - record.getRoomNum());
+                    bizInv.setInvDate(newOutdate);
+                    bizInvService.update(bizInv);
+                } else {
+                    //提示库存数不够
+                    throw new GlobalException("oraException");
+                }
+            }
+        }
 
-		record.setStatus("2");
-		return bizPuchsMapper.puchsConfirm(record);
-	}
+        record.setStatus("2");
+        return bizPuchsMapper.puchsConfirm(record);
+    }
 
 	@Override
 	public List<BizPuchsExtDto> findPage(BizPuchsQuery bizPuchsQuery) {
@@ -269,15 +258,22 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 	}
 
 	@Override
-	public int orderCancel(BizPuchs bizPuchs) {
+	public int orderCancel(List<BizPuchs> bizPuchs) {
+		for (BizPuchs bizPuch : bizPuchs) {
+			cancel(bizPuch);
+		}
+		return 1;
+	}
+
+	@Override
+	public void cancel(BizPuchs bizPuchs){
 		bizPuchs.setStatus("3");
 		bizPuchsMapper.updateByPrimaryKeySelective(bizPuchs);
 		List<BizInv> list = bizInvService.findCancelBizInv(bizPuchs);
-        for (BizInv bizInv : list) {
-            bizInv.setInventory(bizInv.getInventory() + bizPuchs.getRoomNum());
-            bizInvService.update(bizInv);
-        }
-		return 1;
+		for (BizInv bizInv : list) {
+			bizInv.setInventory(bizInv.getInventory() + bizPuchs.getRoomNum());
+			bizInvService.update(bizInv);
+		}
 	}
 
 

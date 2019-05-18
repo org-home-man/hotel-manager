@@ -25,5 +25,7 @@ public interface BizPuchsService extends NewCurdService<BizPuchs> {
 
     List<BizPuchsExtDto> findPage(BizPuchsQuery bizPuchsQuery);
 
-    int orderCancel(BizPuchs bizPuchs);
+    int orderCancel(List<BizPuchs> bizPuchs);
+
+    void cancel(BizPuchs bizPuchs);
 }

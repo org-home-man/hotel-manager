@@ -97,7 +97,7 @@ public class BizPuchsController {
 	}
 
 	@PostMapping(value = "orderCancel")
-	public HttpResult OrderCancel(BizPuchs bizPuchs){
+	public HttpResult OrderCancel(List<BizPuchs> bizPuchs){
         bizPuchsService.orderCancel(bizPuchs);
 		return HttpResult.ok();
 	}

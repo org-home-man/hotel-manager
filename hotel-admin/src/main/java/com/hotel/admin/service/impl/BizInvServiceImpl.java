@@ -47,9 +47,9 @@ public class BizInvServiceImpl implements BizInvService {
 			BizInv bp = li.get(i);
 			record.setInvDate(bp.getInvDate());
 
-			List<BizInv> bpLi = findByRoomCode(record);
+			BizInv bpLi = findByRoomCode(record);
 
-			if (bpLi.size() >0) {
+			if (bpLi != null) {
 				int j = bizInvMapper.updateByUser(record);
 				if (j != 1) {
 					throw  new GlobalException("submitException",10001);
@@ -67,7 +67,7 @@ public class BizInvServiceImpl implements BizInvService {
 	}
 
 	@Override
-	public List<BizInv> findByRoomCode(BizInv record){
+	public BizInv findByRoomCode(BizInv record){
 		return bizInvMapper.findByRoomCode(record);
 	}
 
@@ -93,7 +93,7 @@ public class BizInvServiceImpl implements BizInvService {
 
 	@Override
 	public List<BizInv> findCancelBizInv(BizPuchs bizPuchs) {
-		return bizInvMapper.findCancelBizInv(bizPuchs.getRoomCode(),DateUtils.getDateString(bizPuchs.getInDate(),"yyyyMMdd"),DateUtils.getDateString(bizPuchs.getOutDate(),"yyyyMMdd"));
+		return bizInvMapper.findCancelBizInv(bizPuchs.getRoomCode(),bizPuchs.getInDate(),bizPuchs.getOutDate());
 	}
 
 	@Override
