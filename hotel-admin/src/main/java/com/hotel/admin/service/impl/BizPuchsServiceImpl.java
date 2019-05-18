@@ -225,8 +225,8 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 			BizInv inv = new BizInv();
 			inv.setRoomCode(record.getRoomCode());
 			inv.setInvDate(newOutdate);
-			List<BizInv> bizInvs = bizInvService.findByRoomCode(inv);
-			if (bizInvs.size() ==0)
+			BizInv bizInvs = bizInvService.findByRoomCode(inv);
+			if (bizInvs == null)
 			{
 				BizRoom mroom= bizRoomMapper.findById(record.getRoomCode());
 				if( mroom.getRoomStock() <= 0 || mroom.getRoomStock() ==null)
@@ -245,12 +245,12 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 			}
 			else{
 				//k库存数大于1这可以减1
-				if(bizInvs.get(0).getInventory()-record.getRoomNum() >=0 ) {
+				if(bizInvs.getInventory()-record.getRoomNum() >=0 ) {
 
-					System.out.println("库存数" + bizInvs.get(0).getInventory());
-					bizInvs.get(0).setInventory(bizInvs.get(0).getInventory() - record.getRoomNum());
-					bizInvs.get(0).setInvDate(newOutdate);
-					bizInvService.update(bizInvs.get(0));
+					System.out.println("库存数" + bizInvs.getInventory());
+					bizInvs.setInventory(bizInvs.getInventory() - record.getRoomNum());
+					bizInvs.setInvDate(newOutdate);
+					bizInvService.update(bizInvs);
 				}
 				else
 				{
