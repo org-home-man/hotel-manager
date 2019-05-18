@@ -1,19 +1,18 @@
 package com.hotel.admin.service.impl;
 
-import com.hotel.admin.mapper.*;
+import com.hotel.admin.mapper.BizPuchsExtMapper;
+import com.hotel.admin.mapper.BizPuchsMapper;
+import com.hotel.admin.mapper.CrtIdMapper;
 import com.hotel.admin.model.*;
 import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.admin.service.BizInvService;
 import com.hotel.admin.service.BizPuchsService;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.util.SecurityUtils;
-import com.hotel.common.utils.DateUtils;
-import com.hotel.common.utils.Utils;
-import com.hotel.core.service.AbstractService;
+import com.hotel.core.exception.GlobalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -158,12 +157,99 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 	}
 
 	@Override
-	public int updateInfo(BizPuchs record) {
+	public int updateInfo(BizPuchsUpdate record) {
 		System.out.println("订单更新开始"+ record);
 		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
 		}
+//return 0;
+		return bizPuchsMapper.updateBizPushs(record);
+	}
 
-		return bizPuchsMapper.updateByPrimaryKey(record);
+	@Override
+	public int puchsConfirm(BizPuchsUpdate record) {
+		System.out.println("订单确认开始"+ record);
+		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
+		}
+
+		//获取入住时间和退房时间
+		if(record.getOutDate() == null || record.getInDate()==null)
+		{
+			System.out.println("请选择入住时间和退房时间");
+		}
+
+		SimpleDateFormat stodate = new SimpleDateFormat("yyyyMMdd");
+		int invDate = 0;
+		try {
+			Date outTdate = stodate.parse(record.getOutDate());
+			Date inTdate = stodate.parse(record.getInDate());
+			System.out.println("indate , outdate "  + outTdate +inTdate);
+			invDate = (int) ((outTdate.getTime() - inTdate.getTime()) / (1000*3600*24)) +1;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		String outdate = record.getOutDate();
+		String indate = record.getInDate();
+		/* 取时间跨度，需要加1*/
+		System.out.println("indate , outdate "  + indate +outdate);
+		System.out.println("indate , outdate "  + indate +outdate +"相隔" + invDate);
+
+		if (invDate <=0 )
+		{
+			System.out.println("退房日期需大于入住日期");
+		}
+		//1为订单预订未确认状态
+		record.setStatus("1");
+		System.out.println("record = "+record.getpName());
+
+		// 判断库存表的库存数是否满足客户需要
+		//如果库存表没有值则将默认库存数插入库存表管理
+		//获取时间跨度
+//		String outdate = record.getOutDate();
+		String newOutdate = String.valueOf(Integer.parseInt(outdate));
+
+		for (int dateNum =0; dateNum < invDate -1 ;dateNum ++)
+		{
+			newOutdate = String.valueOf(Integer.parseInt(newOutdate) - 1);
+			BizInv inv = new BizInv();
+			inv.setRoomCode(record.getRoomCode());
+			inv.setInvDate(newOutdate);
+			List<BizInv> bizInvs = bizInvMapper.findById(inv);
+			if (bizInvs.size() ==0)
+			{
+				BizRoom mroom= bizRoomMapper.findById(record.getRoomCode());
+				if( mroom.getRoomStock() <= 0 || mroom.getRoomStock() ==null)
+				{
+					System.out.println("房间默认库存数不能为0或者空" +  mroom.getRoomStock());
+				}
+				System.out.println("默认库存数" + mroom.getRoomStock());
+				BizInv addInv = new BizInv();
+				addInv.setInvDate(newOutdate);
+				addInv.setRoomCode(record.getRoomCode());
+				addInv.setInventory(mroom.getRoomStock()-1);
+				addInv.setAutoClose("Y");
+				bizInvMapper.add(addInv);
+				//将默认库存数插入数据库，将库存数减一
+			}
+			else{
+				//k库存数大于1这可以减1
+				if(bizInvs.get(0).getInventory()-record.getRoomNum() >=0 ) {
+
+					System.out.println("库存数" + bizInvs.get(0).getInventory());
+					bizInvs.get(0).setInventory(bizInvs.get(0).getInventory() - record.getRoomNum());
+					bizInvs.get(0).setInvDate(newOutdate);
+					bizInvMapper.updateByUser(bizInvs.get(0));
+				}
+				else
+				{
+					//提示库存数不够
+					throw new GlobalException("oraException");
+				}
+			}
+		}
+
+		record.setStatus("2");
+		return bizPuchsMapper.puchsConfirm(record);
 	}
 
 	@Override

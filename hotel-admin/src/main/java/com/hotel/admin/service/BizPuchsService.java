@@ -1,10 +1,8 @@
 package com.hotel.admin.service;
 
 import com.hotel.admin.model.BizPuchs;
-import com.hotel.admin.model.SysUser;
 import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.core.service.IService;
-import com.hotel.core.service.NewCurdService;
 
 import java.util.List;
 

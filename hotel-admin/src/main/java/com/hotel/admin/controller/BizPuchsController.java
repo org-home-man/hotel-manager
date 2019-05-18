@@ -1,6 +1,7 @@
 package com.hotel.admin.controller;
 
 import com.hotel.admin.model.BizPuchs;
+import com.hotel.admin.model.BizPuchsUpdate;
 import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.admin.service.BizPuchsService;
 import com.hotel.core.context.PageContext;
@@ -44,18 +45,29 @@ public class BizPuchsController {
 	 * @return
 	 */
 	@PostMapping(value="/update")
-	public HttpResult update(BizPuchs record) {
+	public HttpResult update( BizPuchsUpdate record) {
 		System.out.println("licy");
 		bizPuchsService.updateInfo(record);
 		return HttpResult.ok();
 	}
 
-
 	/**
-     * 删除订单信息表
-     * @param records
-     * @return
-     */
+	 * 保存订单信息表
+	 * @param record
+	 * @return
+	 */
+	@PostMapping(value="/confirm")
+	public HttpResult confirm( BizPuchsUpdate record) {
+		System.out.println("licy");
+		bizPuchsService.puchsConfirm(record);
+		return HttpResult.ok();
+	}
+
+		/**
+         * 删除订单信息表
+         * @param records
+         * @return
+         */
 	@PostMapping(value="/delete")
 	public HttpResult delete(@RequestBody List<BizPuchs> records) {
 		bizPuchsService.delete(records);

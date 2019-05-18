@@ -6,9 +6,9 @@
   	<id column="id" jdbcType="BIGINT" property="id" />
 	<result column="order_code" jdbcType="VARCHAR" property="orderCode" />
 	<result column="room_code" jdbcType="VARCHAR" property="roomCode" />
-  	<result column="confirm_date" jdbcType="TIMESTAMP" property="confirmTime" />
-	<result column="in_date" jdbcType="TIMESTAMP" property="inDate" />
-	<result column="out_date" jdbcType="TIMESTAMP" property="outDate" />
+  	<result column="confirm_date" jdbcType="VARCHAR" property="confirmTime" />
+	<result column="in_date" jdbcType="VARCHAR" property="inDate" />
+	<result column="out_date" jdbcType="VARCHAR" property="outDate" />
 	<result column="p_name" jdbcType="VARCHAR" property="pName" />
 	<result column="passport" jdbcType="VARCHAR" property="passport" />
 	<result column="birth" jdbcType="VARCHAR" property="birth" />
@@ -55,9 +55,68 @@
 		</where>
 	</sql>
 
+	<update id="updateBizPushs" parameterType="com.hotel.admin.qo.BizPuchsUpdate">
+		update  biz_puchs
+		<set>
+			<if test="pName != null and pName!=''">
+				p_name = #{pName,jdbcType=VARCHAR},
+			</if>
+			<if test="passport != null and passport !=''">
+				passport = #{passport,jdbcType=VARCHAR},
+			</if>
+			<if test="birth != null and birth !=''">
+				birth = #{birth,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null and phone !=''">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="emailAddress != null and emailAddress !=''">
+				email_address = #{emailAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="aNum != null and aNum !=''">
+				a_num = #{aNum,jdbcType=VARCHAR},
+			</if>
+			<if test="bNum != null and bNum !=''">
+				b_num = #{bNum,jdbcType=VARCHAR},
+			</if>
+			<if test="cNum != null and cNum !=''">
+				c_num = #{cNum,jdbcType=VARCHAR},
+			</if>
+			<if test="roomNum != null and roomNum !=''">
+				room_num = #{roomNum,jdbcType=VARCHAR},
+			</if>
+			<if test="currency != null and currency !=''">
+				currency = #{currency,jdbcType=VARCHAR},
+			</if>
+			<if test="totalSAmount != null and totalSAmount !=''">
+				total_s_amount = #{totalSAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null and remark !=''">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null and status !=''">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="hotelName != null and hotelName !=''">
+				hotel_name = #{hotelName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
 	<select id="findPage" resultMap="BaseResultMap">
 		select * from biz_puchs <include refid="where_query"/>
 	</select>
 
+
+	<update id="puchsConfirm" parameterType="com.hotel.admin.qo.BizPuchsUpdate">
+		update  biz_puchs
+		<set>
+			<if test="status != null and status !=''">
+				status = #{status,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 
 </mapper>

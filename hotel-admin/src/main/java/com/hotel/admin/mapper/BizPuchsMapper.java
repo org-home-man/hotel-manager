@@ -3,6 +3,7 @@ package com.hotel.admin.mapper;
 import java.util.List;
 
 import com.hotel.admin.model.BizPuchs;
+import com.hotel.admin.model.BizPuchsUpdate;
 import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.core.mybatis.mapper.AbstractMapper;
 
@@ -18,4 +19,7 @@ import com.hotel.core.mybatis.mapper.AbstractMapper;
 public interface BizPuchsMapper extends AbstractMapper<BizPuchs> {
 
     List<BizPuchs> findPage(BizPuchsQuery bizPuchsQuery);
+    int updateBizPushs(BizPuchsUpdate bizPuchsQuery);
+    int puchsConfirm(BizPuchsUpdate bizPuchsQuery);
+
 }
