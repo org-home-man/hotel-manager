@@ -1,9 +1,6 @@
 package com.hotel.admin.service.impl;
 
-import com.hotel.admin.mapper.BizPuchsExtMapper;
-import com.hotel.admin.mapper.BizPuchsMapper;
-import com.hotel.admin.mapper.BizRoomMapper;
-import com.hotel.admin.mapper.CrtIdMapper;
+import com.hotel.admin.mapper.*;
 import com.hotel.admin.model.*;
 import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.admin.service.BizInvService;
@@ -39,13 +36,18 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 	@Autowired
 	private BizPuchsExtMapper bizPuchsExtMapper;
 
+    @Autowired
+    private BizInvMapper bizInvMapper;
+
+    @Autowired
+    private BizRoomMapper bizRoomMapper;
+
 	@Autowired
 	private CrtIdMapper crtIdMapper;
 	@Autowired
 	private SysUserService sysUser;
 	@Autowired
 	private BizInvService bizInvService;
-    private BizRoomMapper bizRoomMapper;
 
     @Override
 	public int save(BizPuchs record) {
@@ -171,9 +173,15 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 	@Override
 	public int puchsConfirm(BizPuchsUpdate record) {
 		System.out.println("订单确认开始"+ record);
+		record.setInDate("20190520");
+		record.setOutDate("20190720");
 		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
 		}
-
+        List<BizPuchs> listStat = bizPuchsMapper.findPageS(record);
+		if("2".equals(listStat.get(0).getStatus()))
+        {
+            throw new GlobalException("isOrderException");
+        }
 		//获取入住时间和退房时间
 		if(record.getOutDate() == null || record.getInDate()==null)
 		{
@@ -256,7 +264,7 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 	}
 
 	@Override
-	public List<BizPuchs> findPage(BizPuchsQuery bizPuchsQuery) {
+	public List<BizPuchsExtDto> findPage(BizPuchsQuery bizPuchsQuery) {
 		return bizPuchsMapper.findPage(bizPuchsQuery);
 	}
 
