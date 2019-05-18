@@ -108,6 +108,10 @@
 		select * from biz_puchs <include refid="where_query"/>
 	</select>
 
+	<select id="findPageS" parameterType="com.hotel.admin.qo.BizPuchsUpdate" resultMap="BaseResultMap">
+		select * from biz_puchs where 1=1 and
+		id = #{id,jdbcType=INTEGER}
+	</select>
 
 	<update id="puchsConfirm" parameterType="com.hotel.admin.qo.BizPuchsUpdate">
 		update  biz_puchs

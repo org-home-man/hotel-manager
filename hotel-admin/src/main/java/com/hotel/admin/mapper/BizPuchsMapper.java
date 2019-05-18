@@ -21,5 +21,6 @@ public interface BizPuchsMapper extends AbstractMapper<BizPuchs> {
     List<BizPuchs> findPage(BizPuchsQuery bizPuchsQuery);
     int updateBizPushs(BizPuchsUpdate bizPuchsQuery);
     int puchsConfirm(BizPuchsUpdate bizPuchsQuery);
+    List<BizPuchs> findPageS(BizPuchsUpdate bizPuchsQuery);
 
 }

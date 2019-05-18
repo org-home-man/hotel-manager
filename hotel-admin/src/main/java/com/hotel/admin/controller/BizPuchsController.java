@@ -5,6 +5,7 @@ import com.hotel.admin.model.BizPuchsUpdate;
 import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.admin.service.BizPuchsService;
 import com.hotel.core.context.PageContext;
+import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,13 @@ public class BizPuchsController {
 	@PostMapping(value="/confirm")
 	public HttpResult confirm( BizPuchsUpdate record) {
 		System.out.println("licy");
-		bizPuchsService.puchsConfirm(record);
+		try
+		{
+			bizPuchsService.puchsConfirm(record);
+		}
+	catch (GlobalException e){
+		return HttpResult.error(e.getMsg());
+	 }
 		return HttpResult.ok();
 	}
 
