@@ -2,9 +2,13 @@ package com.hotel.admin.service.impl;
 
 import com.hotel.admin.mapper.BizInvMapper;
 import com.hotel.admin.model.BizInv;
+import com.hotel.admin.model.BizPuchs;
 import com.hotel.admin.service.BizInvService;
+import com.hotel.common.utils.DateUtils;
+import com.hotel.core.context.PageContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.page.MybatisPageHelper;
+import com.hotel.core.page.Page;
 import com.hotel.core.page.PageRequest;
 import com.hotel.core.page.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +47,7 @@ public class BizInvServiceImpl implements BizInvService {
 			BizInv bp = li.get(i);
 			record.setInvDate(bp.getInvDate());
 
-			List<BizInv> bpLi = bizInvMapper.findById(record);
+			List<BizInv> bpLi = findByRoomCode(record);
 
 			if (bpLi.size() >0) {
 				int j = bizInvMapper.updateByUser(record);
@@ -60,34 +64,40 @@ public class BizInvServiceImpl implements BizInvService {
 		}
 
 		return 1;
+	}
 
+	@Override
+	public List<BizInv> findByRoomCode(BizInv record){
+		return bizInvMapper.findByRoomCode(record);
 	}
 
 	@Override
 	public int delete(BizInv record) {
-		return bizInvMapper.delete(record.getRoomCode());
+		return bizInvMapper.deleteByPrimaryKey(record);
 	}
 
 	@Override
 	public int delete(List<BizInv> records) {
-		for(BizInv record:records) {
-			delete(record);
+		for (BizInv record : records) {
+			bizInvMapper.selectByPrimaryKey(record);
 		}
 		return 1;
 	}
 
+
 	@Override
 	public BizInv findById(Long id) {
-		return null;
+		return bizInvMapper.selectByPrimaryKey(id);
 	}
 
-	public BizInv findById(String id) {
-		return null;
+
+	@Override
+	public List<BizInv> findCancelBizInv(BizPuchs bizPuchs) {
+		return bizInvMapper.findCancelBizInv(bizPuchs.getRoomCode(),DateUtils.getDateString(bizPuchs.getInDate(),"yyyyMMdd"),DateUtils.getDateString(bizPuchs.getOutDate(),"yyyyMMdd"));
 	}
 
 	@Override
-	public PageResult findPage(PageRequest pageRequest) {
-		return MybatisPageHelper.findPage(pageRequest, bizInvMapper);
+	public void update(BizInv bizInv) {
+		bizInvMapper.updateByPrimaryKeySelective(bizInv);
 	}
-	
 }

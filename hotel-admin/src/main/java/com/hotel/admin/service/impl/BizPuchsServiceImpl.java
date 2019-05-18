@@ -1,14 +1,17 @@
 package com.hotel.admin.service.impl;
 
-import com.hotel.admin.mapper.*;
+import com.hotel.admin.mapper.BizPuchsExtMapper;
+import com.hotel.admin.mapper.BizPuchsMapper;
+import com.hotel.admin.mapper.BizRoomMapper;
+import com.hotel.admin.mapper.CrtIdMapper;
 import com.hotel.admin.model.*;
 import com.hotel.admin.qo.BizPuchsQuery;
+import com.hotel.admin.service.BizInvService;
 import com.hotel.admin.service.BizPuchsService;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.util.SecurityUtils;
 import com.hotel.core.exception.GlobalException;
-import com.hotel.core.http.HttpStatus;
-import com.hotel.core.service.AbstractService;
+import com.hotel.core.service.NewCurdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +31,7 @@ import java.util.List;
  * ---------------------------
  */
 @Service
-public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements BizPuchsService {
+public class BizPuchsServiceImpl implements BizPuchsService {
 
 	@Autowired
 	private BizPuchsMapper bizPuchsMapper;
@@ -40,8 +43,12 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 	private CrtIdMapper crtIdMapper;
 	@Autowired
 	private SysUserService sysUser;
-	@Override
-	public int saveInfo(BizPuchs record) {
+	@Autowired
+	private BizInvService bizInvService;
+    private BizRoomMapper bizRoomMapper;
+
+    @Override
+	public int save(BizPuchs record) {
 		System.out.println("订单生成开始"+ record);
 		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
 			CrtId crt =crtIdMapper.findById("puchs");
@@ -210,7 +217,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 			BizInv inv = new BizInv();
 			inv.setRoomCode(record.getRoomCode());
 			inv.setInvDate(newOutdate);
-			List<BizInv> bizInvs = bizInvMapper.findById(inv);
+			List<BizInv> bizInvs = bizInvService.findByRoomCode(inv);
 			if (bizInvs.size() ==0)
 			{
 				BizRoom mroom= bizRoomMapper.findById(record.getRoomCode());
@@ -224,7 +231,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 				addInv.setRoomCode(record.getRoomCode());
 				addInv.setInventory(mroom.getRoomStock()-1);
 				addInv.setAutoClose("Y");
-				bizInvMapper.add(addInv);
+				bizInvService.save(addInv);
 				//将默认库存数插入数据库，将库存数减一
 			}
 			else{
@@ -234,7 +241,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 					System.out.println("库存数" + bizInvs.get(0).getInventory());
 					bizInvs.get(0).setInventory(bizInvs.get(0).getInventory() - record.getRoomNum());
 					bizInvs.get(0).setInvDate(newOutdate);
-					bizInvMapper.updateByUser(bizInvs.get(0));
+					bizInvService.update(bizInvs.get(0));
 				}
 				else
 				{
@@ -249,13 +256,39 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 	}
 
 	@Override
-	public BizPuchs findById(String id) {
-		return bizPuchsMapper.selectByPrimaryKey(id);
-	}
-
-	@Override
 	public List<BizPuchs> findPage(BizPuchsQuery bizPuchsQuery) {
 		return bizPuchsMapper.findPage(bizPuchsQuery);
 	}
+
+	@Override
+	public int orderCancel(BizPuchs bizPuchs) {
+		bizPuchs.setStatus("3");
+		bizPuchsMapper.updateByPrimaryKeySelective(bizPuchs);
+		List<BizInv> list = bizInvService.findCancelBizInv(bizPuchs);
+        for (BizInv bizInv : list) {
+            bizInv.setInventory(bizInv.getInventory() + bizPuchs.getRoomNum());
+            bizInvService.update(bizInv);
+        }
+		return 1;
+	}
+
+
+    @Override
+    public int delete(BizPuchs record) {
+        return bizPuchsMapper.deleteByPrimaryKey(record);
+    }
+
+    @Override
+    public int delete(List<BizPuchs> records) {
+        for(BizPuchs record:records) {
+            bizPuchsMapper.updateByPrimaryKeySelective(record);
+        }
+        return 1;
+    }
+
+    @Override
+    public BizPuchs findById(Long id) {
+        return bizPuchsMapper.selectByPrimaryKey(id);
+    }
 
 }

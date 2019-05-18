@@ -95,4 +95,9 @@ public class DateUtils {
 		SimpleDateFormat f = new SimpleDateFormat("yyyy");
 		return f.format(d);
 	}
+
+	public static String getDateString(Date date,String pattern){
+		SimpleDateFormat f = new SimpleDateFormat(pattern);
+		return f.format(date);
+	}
 }
