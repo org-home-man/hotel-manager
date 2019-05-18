@@ -19,7 +19,7 @@ import java.util.List;
  */
 public interface BizInvService extends NewCurdService<BizInv> {
 
-    List<BizInv> findByRoomCode(BizInv record);
+    BizInv findByRoomCode(BizInv record);
 
     List<BizInv> findCancelBizInv(BizPuchs bizPuchs);
 

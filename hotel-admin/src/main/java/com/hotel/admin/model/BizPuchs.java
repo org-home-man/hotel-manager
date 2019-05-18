@@ -15,17 +15,17 @@ import java.util.Date;
  */
 public class BizPuchs extends BusinessEntity {
 
-	/** 订单号 */
+	/**1 订单号 */
 	private String orderCode;
-	/** 客房编号 */
+	/**1 客房编号 */
 	private String roomCode;
-	/** 确定时间 */
-	private Date confirmTime;
-	/** 入住日期 */
-	private Date inDate;
-	/** 退房日期 */
-	private Date outDate;
-	/** 代表者姓名 */
+	/**1 确定时间 */
+	private String confirmTime;
+	/**1 入住日期 */
+	private String inDate;
+	/**1 退房日期 */
+	private String outDate;
+	/**1 代表者姓名 */
 	private String pName;
 	/** 护照号 */
 	private String passport;
@@ -49,9 +49,9 @@ public class BizPuchs extends BusinessEntity {
 	private Double totalSAmount;
 	/** 备注 */
 	private String remark;
-	/** 订单状态 */
+	/**1 订单状态 */
 	private String status;
-	/** 订单状态 */
+	/** 1酒店名称 */
 	private String hotelName;
 
 	public String getHotelName() {
@@ -78,27 +78,27 @@ public class BizPuchs extends BusinessEntity {
 		this.roomCode = roomCode;
 	}
 
-	public Date getConfirmTime() {
+	public String getConfirmTime() {
 		return confirmTime;
 	}
 
-	public void setConfirmTime(Date confirmTime) {
+	public void setConfirmTime(String confirmTime) {
 		this.confirmTime = confirmTime;
 	}
 
-	public Date getInDate() {
+	public String getInDate() {
 		return inDate;
 	}
 
-	public void setInDate(Date inDate) {
+	public void setInDate(String inDate) {
 		this.inDate = inDate;
 	}
 
-	public Date getOutDate() {
+	public String getOutDate() {
 		return outDate;
 	}
 
-	public void setOutDate(Date outDate) {
+	public void setOutDate(String outDate) {
 		this.outDate = outDate;
 	}
 

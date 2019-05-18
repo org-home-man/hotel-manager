@@ -172,14 +172,13 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 
 	@Override
 	public int puchsConfirm(BizPuchsUpdate record) {
-		System.out.println("订单确认开始"+ record);
-		record.setInDate("20190520");
-		record.setOutDate("20190720");
-		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
-		}
-        List<BizPuchs> listStat = bizPuchsMapper.findPageS(record);
-		if("2".equals(listStat.get(0).getStatus()))
-        {
+        System.out.println("订单确认开始" + record);
+        record.setInDate("20200520");
+        record.setOutDate("20200521");
+        if (record.getOrderCode() == null || record.getOrderCode() == "0") {
+        }
+        BizPuchs listStat = bizPuchsMapper.selectByPrimaryKey(record.getId());
+        if ("2".equals(listStat.getStatus())) {
             throw new GlobalException("isOrderException");
         }
 		//获取入住时间和退房时间
@@ -189,16 +188,16 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 //			System.out.println("请选择入住时间和退房时间");
 		}
 
-		SimpleDateFormat stodate = new SimpleDateFormat("yyyyMMdd");
-		int invDate = 0;
-		try {
-			Date outTdate = stodate.parse(record.getOutDate());
-			Date inTdate = stodate.parse(record.getInDate());
-			System.out.println("indate , outdate "  + outTdate +inTdate);
-			invDate = (int) ((outTdate.getTime() - inTdate.getTime()) / (1000*3600*24)) +1;
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+        SimpleDateFormat stodate = new SimpleDateFormat("yyyyMMdd");
+        int invDate = 0;
+        try {
+            Date outTdate = stodate.parse(record.getOutDate());
+            Date inTdate = stodate.parse(record.getInDate());
+            System.out.println("indate , outdate " + outTdate + inTdate);
+            invDate = (int) ((outTdate.getTime() - inTdate.getTime()) / (1000 * 3600 * 24)) + 1;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
 		String outdate = record.getOutDate();
 		String indate = record.getInDate();
@@ -271,15 +270,22 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 	}
 
 	@Override
-	public int orderCancel(BizPuchs bizPuchs) {
+	public int orderCancel(List<BizPuchs> bizPuchs) {
+		for (BizPuchs bizPuch : bizPuchs) {
+			cancel(bizPuch);
+		}
+		return 1;
+	}
+
+	@Override
+	public void cancel(BizPuchs bizPuchs){
 		bizPuchs.setStatus("3");
 		bizPuchsMapper.updateByPrimaryKeySelective(bizPuchs);
 		List<BizInv> list = bizInvService.findCancelBizInv(bizPuchs);
-        for (BizInv bizInv : list) {
-            bizInv.setInventory(bizInv.getInventory() + bizPuchs.getRoomNum());
-            bizInvService.update(bizInv);
-        }
-		return 1;
+		for (BizInv bizInv : list) {
+			bizInv.setInventory(bizInv.getInventory() + bizPuchs.getRoomNum());
+			bizInvService.update(bizInv);
+		}
 	}
 
 
