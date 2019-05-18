@@ -34,7 +34,7 @@ public class BizPuchsController {
 	 */	
 	@PostMapping(value="/save")
 	public HttpResult save(BizPuchs record) {
-		bizPuchsService.saveInfo(record);
+		bizPuchsService.save(record);
 		return HttpResult.ok();
 	}
 
@@ -75,11 +75,17 @@ public class BizPuchsController {
 	
     /**
      * 根据主键查询
-     * @param roomCode
+     * @param id
      * @return
      */ 	
 	@GetMapping(value="/findById")
-	public HttpResult findById(String roomCode) {
-		return HttpResult.ok(bizPuchsService.findById(roomCode));
+	public HttpResult findById(Long id) {
+		return HttpResult.ok(bizPuchsService.findById(id));
+	}
+
+	@PostMapping(value = "orderCancel")
+	public HttpResult OrderCancel(BizPuchs bizPuchs){
+        bizPuchsService.orderCancel(bizPuchs);
+		return HttpResult.ok();
 	}
 }

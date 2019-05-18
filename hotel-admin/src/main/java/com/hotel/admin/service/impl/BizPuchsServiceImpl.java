@@ -3,13 +3,17 @@ package com.hotel.admin.service.impl;
 import com.hotel.admin.mapper.*;
 import com.hotel.admin.model.*;
 import com.hotel.admin.qo.BizPuchsQuery;
+import com.hotel.admin.service.BizInvService;
 import com.hotel.admin.service.BizPuchsService;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.util.SecurityUtils;
+import com.hotel.common.utils.DateUtils;
+import com.hotel.common.utils.Utils;
 import com.hotel.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,7 +30,7 @@ import java.util.List;
  * ---------------------------
  */
 @Service
-public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements BizPuchsService {
+public class BizPuchsServiceImpl implements BizPuchsService {
 
 	@Autowired
 	private BizPuchsMapper bizPuchsMapper;
@@ -38,8 +42,11 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 	private CrtIdMapper crtIdMapper;
 	@Autowired
 	private SysUserService sysUser;
+	@Autowired
+	private BizInvService bizInvService;
+
 	@Override
-	public int saveInfo(BizPuchs record) {
+	public int save(BizPuchs record) {
 		System.out.println("订单生成开始"+ record);
 		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
 			CrtId crt =crtIdMapper.findById("puchs");
@@ -160,13 +167,39 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 	}
 
 	@Override
-	public BizPuchs findById(String id) {
-		return bizPuchsMapper.selectByPrimaryKey(id);
-	}
-
-	@Override
 	public List<BizPuchs> findPage(BizPuchsQuery bizPuchsQuery) {
 		return bizPuchsMapper.findPage(bizPuchsQuery);
 	}
+
+	@Override
+	public int orderCancel(BizPuchs bizPuchs) {
+		bizPuchs.setStatus("3");
+		bizPuchsMapper.updateByPrimaryKeySelective(bizPuchs);
+		List<BizInv> list = bizInvService.findCancelBizInv(bizPuchs);
+        for (BizInv bizInv : list) {
+            bizInv.setInventory(bizInv.getInventory() + bizPuchs.getRoomNum());
+            bizInvService.update(bizInv);
+        }
+		return 1;
+	}
+
+
+    @Override
+    public int delete(BizPuchs record) {
+        return bizPuchsMapper.deleteByPrimaryKey(record);
+    }
+
+    @Override
+    public int delete(List<BizPuchs> records) {
+        for(BizPuchs record:records) {
+            bizPuchsMapper.updateByPrimaryKeySelective(record);
+        }
+        return 1;
+    }
+
+    @Override
+    public BizPuchs findById(Long id) {
+        return bizPuchsMapper.selectByPrimaryKey(id);
+    }
 
 }

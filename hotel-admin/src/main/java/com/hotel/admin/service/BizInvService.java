@@ -2,7 +2,11 @@ package com.hotel.admin.service;
 
 
 import com.hotel.admin.model.BizInv;
+import com.hotel.admin.model.BizPuchs;
 import com.hotel.core.service.CurdService;
+import com.hotel.core.service.NewCurdService;
+
+import java.util.List;
 
 /**
  * ---------------------------
@@ -13,8 +17,9 @@ import com.hotel.core.service.CurdService;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public interface BizInvService extends CurdService<BizInv> {
+public interface BizInvService extends NewCurdService<BizInv> {
 
-    BizInv findById(String id);
+    List<BizInv> findCancelBizInv(BizPuchs bizPuchs);
 
+    void update(BizInv bizInv);
 }

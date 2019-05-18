@@ -48,22 +48,11 @@ public class BizInvController {
 	}
 
     /**
-     * 基础分页查询
-     * @param pageRequest
-     * @return
-     */    
-	@PostMapping(value="/findPage")
-	public HttpResult findPage(PageRequest pageRequest) {
-		return HttpResult.ok(bizInvService.findPage(pageRequest));
-	}
-	
-    /**
      * 根据主键查询
-     * @param roomCode
      * @return
      */ 	
 	@GetMapping(value="/findById")
-	public HttpResult findById(String roomCode) {
-		return HttpResult.ok(bizInvService.findById(roomCode));
+	public HttpResult findById(Long id) {
+		return HttpResult.ok(bizInvService.findById(id));
 	}
 }
