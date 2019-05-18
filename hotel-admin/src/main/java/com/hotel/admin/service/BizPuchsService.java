@@ -1,6 +1,7 @@
 package com.hotel.admin.service;
 
 import com.hotel.admin.model.BizPuchs;
+import com.hotel.admin.model.BizPuchsExtDto;
 import com.hotel.admin.model.BizPuchsUpdate;
 import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.core.service.IService;
@@ -22,7 +23,7 @@ public interface BizPuchsService extends NewCurdService<BizPuchs> {
 
     int puchsConfirm(BizPuchsUpdate record);
 
-    List<BizPuchs> findPage(BizPuchsQuery bizPuchsQuery);
+    List<BizPuchsExtDto> findPage(BizPuchsQuery bizPuchsQuery);
 
     int orderCancel(BizPuchs bizPuchs);
 }
