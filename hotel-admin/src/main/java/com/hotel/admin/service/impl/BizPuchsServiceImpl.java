@@ -1,7 +1,10 @@
 package com.hotel.admin.service.impl;
 
 import com.hotel.admin.constants.Constant;
-import com.hotel.admin.mapper.*;
+import com.hotel.admin.mapper.BizPuchsExtMapper;
+import com.hotel.admin.mapper.BizPuchsMapper;
+import com.hotel.admin.mapper.BizRoomMapper;
+import com.hotel.admin.mapper.CrtIdMapper;
 import com.hotel.admin.model.*;
 import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.admin.service.BizInvService;
@@ -14,7 +17,6 @@ import com.hotel.core.exception.GlobalException;
 import com.hotel.core.service.AbstractService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -99,11 +101,10 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         return bizPuchsMapper.updateByPrimaryKey(record);
     }
 
-    @Override
-    public int updateInfo(BizPuchsUpdate record) {
-        System.out.println("订单更新开始" + record);
-        if (record.getOrderCode() == null || record.getOrderCode() == "0") {
-        }
+	@Override
+	public int updateInfo(BizPuchsUpdate record) {
+		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
+		}
 //return 0;
         return bizPuchsMapper.updateBizPushs(record);
     }

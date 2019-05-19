@@ -53,6 +53,9 @@ public class BizRoomServiceImpl implements BizRoomService {
 	@Autowired
 	private BizInvMapper bizInvMapper;
 
+	@Autowired
+	private BizPuchsMapper bizPuchsMapper;
+
 	@Override
 	@Transactional
 	public int save(BizRoom record) {
@@ -73,7 +76,7 @@ public class BizRoomServiceImpl implements BizRoomService {
                 }
             } catch (Exception e) {
 			    a.error("更新推荐房源失败："+e.getMessage());
-			    throw new GlobalException("oraException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+			    throw new GlobalException("oraException");
             }
 		}
 		/*
@@ -96,12 +99,12 @@ public class BizRoomServiceImpl implements BizRoomService {
 				   i = crtIdMapper.add(auto);
                 }catch (Exception e) {
                     a.error("插入自增序列表失败："+e.getMessage());
-                    throw new GlobalException("oraException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+                    throw new GlobalException("oraException");
                 }
 				if (i==1) {
 					roomCode = roomCode+"0001";
 				} else {
-					throw new GlobalException("bizRoom",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+					throw new GlobalException("bizRoom");
 				}
 
 			} else {
@@ -113,12 +116,12 @@ public class BizRoomServiceImpl implements BizRoomService {
                     i = crtIdMapper.roomAutoAddUp(auto);
                 }catch (Exception e) {
                     a.error("更新自增序列表失败："+e.getMessage());
-                    throw new GlobalException("oraException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+                    throw new GlobalException("oraException");
                 }
 				if(i==1) {
 					roomCode = roomCode + ncrtNo;
 				} else {
-					throw new GlobalException("bizRoom",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+					throw new GlobalException("bizRoom");
 				}
 			}
 			//插入BizRoom表
@@ -128,10 +131,10 @@ public class BizRoomServiceImpl implements BizRoomService {
                 room =  bizRoomMapper.add(record);
             }catch (Exception e) {
                 a.error("插入客房信息失败："+e.getMessage());
-                throw new GlobalException("oraException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+                throw new GlobalException("oraException");
             }
 			if(room !=1) {
-				throw new GlobalException("bizRoom",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+				throw new GlobalException("bizRoom");
 			}
 			//插入BizRoomExt
 			BizRoomExt bizRoomExt = getBizRoomExtObject(record,"add");
@@ -140,10 +143,10 @@ public class BizRoomServiceImpl implements BizRoomService {
                 roomExt = bizRoomExtMapper.add(bizRoomExt);
             }catch (Exception e) {
                 a.error("插入客房铺表信息失败："+e.getMessage());
-                throw new GlobalException("oraException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+                throw new GlobalException("oraException");
             }
 			if (roomExt !=1 ) {
-				throw new GlobalException("bizRoom",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+				throw new GlobalException("bizRoom");
 			}
 			return 1;
 //			return bizRoomMapper.add(record);
@@ -153,16 +156,16 @@ public class BizRoomServiceImpl implements BizRoomService {
 		try {
             int room = bizRoomMapper.update(record);
             if (room !=1) {
-                throw new GlobalException("bizRoom",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+                throw new GlobalException("bizRoom");
             }
             BizRoomExt bizRoomExt = getBizRoomExtObject(record,"update");
             int roomExt = bizRoomExtMapper.update(bizRoomExt);
             if (roomExt != 1) {
-                throw new GlobalException("bizRoom",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+                throw new GlobalException("bizRoom");
             }
         }catch (Exception e) {
             a.error("更新客房信息表（铺信息）失败："+e.getMessage());
-            throw new GlobalException("oraException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+            throw new GlobalException("oraException");
         }
 		return 1;
 	}
@@ -175,6 +178,11 @@ public class BizRoomServiceImpl implements BizRoomService {
 	@Override
 	public int delete(List<BizRoom> records) {
 		for(BizRoom record:records) {
+
+			if (bizPuchsMapper.findByRoomCd(record.getRoomCode()).size() > 0) {
+				throw new GlobalException("ExistsOrderException");
+			}
+
 			delete(record);
 		}
 		return 1;
@@ -203,7 +211,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 		String[] priceDateInterval = bizProPrice.getPriceDateInterval();
 		if (StringUtils.isBlank(bizProPrice.getSprice())) {
 			a.error("销售单人价格不能为空");
-			throw new GlobalException("NotNullEception",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+			throw new GlobalException("NotNullEception");
 		}
 		List<Map> list = new ArrayList<>();
 		if (!StringUtils.isBlank(priceYear) ) {
@@ -212,19 +220,19 @@ public class BizRoomServiceImpl implements BizRoomService {
 				list = onceYearData(bizProPrice);
 			} catch (ParseException e) {
 				a.error("onceYearData Exception:"+e.getMessage());
-				throw new GlobalException("sysException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+				throw new GlobalException("sysException");
 			}
 		} else {
 			if (priceDateInterval==null) {
 				a.error("牌价年和范围时间不能同时为空");
-				throw new GlobalException("NotNullEception",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+				throw new GlobalException("NotNullEception");
 			}
 			//根据用户输入的范围生成数据
 			try {
 				list = dateIntervalData(bizProPrice);
 			} catch (ParseException e) {
 				a.error("dateIntervalData Exception:"+e.getMessage());
-				new GlobalException("sysException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+				new GlobalException("sysException");
 			}
 		}
 		try {
@@ -238,7 +246,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 			}
 		} catch (Exception e) {
 			a.error("合并牌价信息失败，mergeList："+e.getMessage());
-			new GlobalException("sysException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+			new GlobalException("sysException");
 		}
 
 		bkMap.put("list",list);
@@ -255,7 +263,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 		Map bkMap = new HashMap();
 		if (StringUtils.isBlank(bizProPrice.getDate())) {
 			a.error("当前牌价日期不能为空，系统错误");
-			throw new GlobalException("sysEception",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+			throw new GlobalException("NotNullEception");
 		}
 		System.out.println(bizProPrice);
 		List<BizPrise> bpLi =  bizPriseMapper.queryById(bizProPrice.getRoomCode());
@@ -266,7 +274,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 					bizProPrice.setDateArray(mergeList(bizProPrice.getDateArray(),bpLi));
 				}catch (Exception e) {
 					a.error("组牌价信息异常producePriceCalendar:"+e.getMessage());
-					throw new GlobalException("sysException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+					throw new GlobalException("sysException");
 				}
 
 			} else {
@@ -291,7 +299,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 			return bkMap;
 		} catch (ParseException e) {
 			a.error("根据前端传入的日期生成日历一月的数据异常："+e.getMessage());
-			throw new GlobalException("sysException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+			throw new GlobalException("sysException");
 		}
 	}
 
@@ -312,7 +320,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 		String[] priceDateInterval = bizProInv.getStockDateInterval();
 		if (StringUtils.isBlank(bizProInv.getInventory())) {
 			a.error("当前库存日期不能为空，系统错误");
-			throw new GlobalException("sysEception",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+			throw new GlobalException("NotNullEception");
 		}
 		List<Map> list = new ArrayList<>();
 		if (!StringUtils.isBlank(priceYear)) {
@@ -322,19 +330,19 @@ public class BizRoomServiceImpl implements BizRoomService {
 				list = onceYearDataStock(bizProInv);
 			} catch (ParseException e) {
 				a.error("onceYearDataStock Exception:"+e.getMessage());
-				new GlobalException("parse",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+				new GlobalException("parse");
 			}
 		} else {
 			if (priceDateInterval==null) {
 				a.error("年数据和范围数据不能同时为空，系统错误");
-				throw new GlobalException("NotNullEception",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+				throw new GlobalException("NotNullEception");
 			}
 			//根据用户输入的范围生成数据
 			try {
 				list = dateIntervalDataStock(bizProInv);
 			} catch (ParseException e) {
 				a.error("dateIntervalDataStock Exception:"+e.getMessage());
-				new GlobalException("parse", HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+				new GlobalException("parse");
 			}
 		}
 		try {
@@ -348,7 +356,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 			}
 		}catch (Exception e) {
 			a.error("合并库存信息失败，mergeStockList："+e.getMessage());
-			new GlobalException("sysException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+			new GlobalException("sysException");
 		}
 		bkMap.put("list",list);
 		bkMap.put("code" ,"0000");
@@ -364,7 +372,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 		Map bkMap = new HashMap();
 		if (StringUtils.isBlank(bizProInv.getDate())) {
 			a.error("当前日期不能为空，系统错误");
-			throw new GlobalException("sysEception",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+			throw new GlobalException("NotNullEception");
 		}
 		System.out.println(bizProInv);
 		List<BizInv> bpLi =  bizInvMapper.queryById(bizProInv.getRoomCode());
@@ -374,7 +382,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 					bizProInv.setDateArray(mergeStockList(bizProInv.getDateArray(),bpLi));
 				}catch (Exception e) {
 					a.error("合并数据库中查询到的数据异常："+e.getMessage());
-					throw new GlobalException("sysException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+					throw new GlobalException("sysException");
 				}
 
 			} else {
@@ -399,7 +407,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 			return bkMap;
 		} catch (ParseException e) {
 			a.error("根据前端传入的日期生成日历一月的库存数据异常："+e.getMessage());
-			throw new GlobalException("sysException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+			throw new GlobalException("sysException");
 		}
 
 	}

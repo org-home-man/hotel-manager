@@ -190,4 +190,13 @@
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 
+	<select id="findByRoomCd" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select a.*,b.hotel_code,b.room_style,b.bed_type,b.break_type,b.intro_c,b.intro_e,b.room_stock,b.recommended,b.scheduledays,b.favorableprice,b.evenlive,present,
+		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
+		d.ischildct,d.isroomserv,d.isknead,d.islounge,d.issuper,d.isbus,d.istrafic,d.isrestau,
+		c.country_code,c.province_code,c.city_code,c.hotel_type,c.hotel_level,c.hotel_cname,c.hotel_ename,c.hotel_addr,c.hotel_phone,c.hotel_fax,c.hotel_web
+		from biz_puchs a, biz_room b, biz_hotl c, biz_room_ext d
+		where  1=1 and a.room_code=b.room_code and b.room_code=d.room_code and b.hotel_code =c.hotel_code and a.status in ('1','2') AND a.room_code = #{roomCode,jdbcType=VARCHAR}
+	</select>
+
 </mapper>

@@ -7,6 +7,7 @@ import com.hotel.admin.mapper.DocumentMapper;
 import com.hotel.admin.model.Document;
 import com.hotel.admin.service.IDocumentService;
 import com.hotel.common.utils.IdUtil;
+import com.hotel.common.utils.StringUtils;
 import com.hotel.common.utils.SystemUtil;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.http.HttpResult;

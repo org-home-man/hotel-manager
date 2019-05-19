@@ -64,5 +64,8 @@ public interface BizRoomMapper {
      */
     List<BizRoom> findByRecommend();
 
-
+    /**
+     * 根据hotelCode查询客房信息
+     */
+    List<BizRoom> findByHtlCd(String hotelCode);
 }

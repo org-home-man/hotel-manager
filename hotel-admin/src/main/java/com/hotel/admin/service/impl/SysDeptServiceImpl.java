@@ -52,7 +52,7 @@ public class SysDeptServiceImpl extends AbstractService<SysDept> implements SysD
 				delete(record);
 			}
 		}catch (Exception e) {
-			throw new GlobalException("oraException", HttpStatus.SC_INTERNAL_SERVER_ERROR);
+			throw new GlobalException("oraException");
 		}
 
 		return 1;

@@ -9,6 +9,7 @@ import com.hotel.admin.util.PasswordUtils;
 import com.hotel.admin.util.SecurityUtils;
 import com.hotel.admin.vo.LoginBean;
 import com.hotel.common.utils.IOUtils;
+import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.model.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,16 +82,16 @@ public class SysLoginController {
 
 		// 账号不存在、密码错误
 		if (user == null) {
-			return HttpResult.error("账号不存在");
+			throw new GlobalException("AcIsNotException");
 		}
 		
 		if (!PasswordUtils.matches(user.getSalt(), password, user.getPassword())) {
-			return HttpResult.error("密码不正确");
+			throw new GlobalException("pwdErException");
 		}
 
 		// 账号锁定
 		if (user.getStatus() == 0) {
-			return HttpResult.error("账号已被锁定,请联系管理员");
+			throw new GlobalException("AccountException");
 		}
 
 		// 系统登录认证

@@ -2,6 +2,7 @@ package com.hotel.admin.service.impl;
 
 import com.hotel.admin.dto.BizHotelQueryDto;
 import com.hotel.admin.dto.BizHotlUpdate;
+import com.hotel.admin.mapper.BizRoomMapper;
 import com.hotel.admin.model.CrtId;
 import com.hotel.admin.mapper.BizHotlMapper;
 import com.hotel.admin.mapper.CrtIdMapper;
@@ -44,6 +45,8 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 
 	@Autowired
 	private CrtIdMapper crtIdMapper;
+
+	private BizRoomMapper bizRoomMapper;
 
 	@Override
 	@Transactional
@@ -99,8 +102,13 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 	}
 
 	@Override
+	@Transactional
 	public int delete(List<BizHotl> records) {
 		for(BizHotl record:records) {
+			if (bizRoomMapper.findByHtlCd(record.getHotelCode()).size() > 0) {
+				throw new GlobalException("ExistRoomException");
+			}
+
 			delete(record);
 		}
 		return 1;

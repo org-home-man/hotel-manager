@@ -41,7 +41,6 @@ public class BizPriseServiceImpl implements BizPriseService {
 			return 0;
 		}
 		List<BizPrise> li = record.getPriceDateData();
-		System.out.println("传入进来的BizPrise:"+record);
 		for (int i=0 ; i<li.size() ; i++) {
 			BizPrise bp = li.get(i);
 			record.setPriceDate(bp.getPriceDate());
@@ -64,12 +63,12 @@ public class BizPriseServiceImpl implements BizPriseService {
 			if (bpLi.size() >0) {
 				int j = bizPriseMapper.updateByUser(record);
 				if (j != 1) {
-					throw  new GlobalException("submitException",10001);
+					throw  new GlobalException("oraException");
 				}
 			} else {
 				int j = bizPriseMapper.addByUser(record);
 				if (j != 1) {
-					throw  new GlobalException("submitException",10001);
+					throw  new GlobalException("oraException");
 				}
 			}
 
