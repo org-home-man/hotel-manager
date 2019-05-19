@@ -58,12 +58,12 @@ public class BizInvServiceImpl implements BizInvService {
 			if (bpLi != null) {
 				int j = bizInvMapper.updateByUser(record);
 				if (j != 1) {
-					throw  new GlobalException("submitException",10001);
+					throw  new GlobalException("oraException");
 				}
 			} else {
 				int j = bizInvMapper.addByUser(record);
 				if (j != 1) {
-					throw  new GlobalException("submitException",10001);
+					throw  new GlobalException("oraException");
 				}
 			}
 

@@ -97,7 +97,7 @@ public class HotelRoomServiceImpl extends AbstractService<BizRoom> implements Ho
 				}
 			}else{
 				//结束日期有误
-				throw new GlobalException("日期有误");
+				throw new GlobalException("dateException");
 			}
 		}else if(Utils.isEmpty(hotelRoomQry.getOutDateEnd())){
 			//获取后五天

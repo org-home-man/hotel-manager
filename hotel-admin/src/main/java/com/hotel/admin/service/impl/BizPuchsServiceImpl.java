@@ -103,7 +103,6 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 
 	@Override
 	public int updateInfo(BizPuchsUpdate record) {
-		System.out.println("订单更新开始"+ record);
 		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
 		}
 //return 0;
