@@ -178,6 +178,9 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
 
     @Override
     public HttpResult queryByRelId(String relationId) {
+        if(Utils.isEmpty(relationId)){
+            return HttpResult.ok();
+        }
         List<String> relationIds = documentMapper.selectByRelationId(relationId);
         return HttpResult.ok(relationIds);
     }

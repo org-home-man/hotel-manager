@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import tk.mybatis.spring.annotation.MapperScan;
 
 import javax.sql.DataSource;
 
@@ -19,7 +18,6 @@ import javax.sql.DataSource;
  * @date Oct 29, 2018
  */
 @Configuration
-@MapperScan("com.hotel.*.mapper")	// 扫描DAO
 public class MybatisConfig {
   @Autowired
   private DataSource dataSource;
