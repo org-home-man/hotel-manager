@@ -9,8 +9,7 @@ import com.hotel.common.entity.BusinessEntity;
  * @Date:Created in 2019-05-06
  */
 public class BizPuchsExtDto extends BizPuchs{
-    /** 客房编号 */
-    private String roomCode;
+
     /** 酒店编码 */
     private String hotelCode;
     /** 房间类型 */
@@ -551,14 +550,6 @@ public class BizPuchsExtDto extends BizPuchs{
 
     public void setsPrice(Double sPrice) {
         this.sPrice = sPrice;
-    }
-
-    public String getRoomCode() {
-        return roomCode;
-    }
-
-    public void setRoomCode(String roomCode) {
-        this.roomCode = roomCode;
     }
 
     public String getHotelCode() {
