@@ -122,12 +122,18 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             throw new GlobalException("inoutdateIsNull");
         }
 
+
 		Date outDate = DateUtils.getDate(record.getOutDate(), "yyyyMMdd");
 		Date inDate = DateUtils.getDate(record.getInDate(), "yyyyMMdd");
 		int invDate = DateUtils.getDateDiff(outDate, inDate);
 
 		if (invDate <= 0) {
 			throw new GlobalException("inDateExcepiton");
+		}
+
+
+		if(new Date().after(inDate)){
+			throw new GlobalException("isOrderException");
 		}
 
         // 判断库存表的库存数是否满足客户需要

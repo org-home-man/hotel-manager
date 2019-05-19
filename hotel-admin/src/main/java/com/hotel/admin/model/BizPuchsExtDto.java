@@ -648,4 +648,5 @@ public class BizPuchsExtDto extends BizPuchs{
     public void setRecommended(String recommended) {
         this.recommended = recommended;
     }
+
 }

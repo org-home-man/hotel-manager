@@ -56,7 +56,6 @@ public class BizPuchsController {
 	 */
 	@PostMapping(value="/confirm")
 	public HttpResult confirm( BizPuchsUpdate record) {
-		System.out.println("licy");
 		bizPuchsService.puchsConfirm(record);
 		return HttpResult.ok();
 	}

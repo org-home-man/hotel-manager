@@ -89,29 +89,27 @@
   </resultMap>
 
 	<sql id="where_query">
-		<where>
-			<if test="orderCode != null and orderCode != ''">
-				AND order_code = #{orderCode}
-			</if>
-			<if test="roomStatus != null and roomStatus != ''">
-				AND status = #{roomStatus}
-			</if>
-			<if test="createTimeEnd != null and createTimeEnd != ''">
-				AND create_time &lt;= #{createTimeEnd}
-			</if>
-			<if test="createTimeStart != null and createTimeStart != ''">
-				AND create_time >= #{createTimeStart}
-			</if>
-			<if test="confirmTimeEnd != null and confirmTimeEnd != ''">
-				AND order_code &lt;= #{confirmTimeEnd}
-			</if>
-			<if test="confirmTimeStart != null and confirmTimeStart != ''">
-				AND order_code >= #{confirmTimeStart}
-			</if>
-			<if test="hotelName != null and hotelName != ''">
-				AND hotelName = #{hotelName}
-			</if>
-		</where>
+        <if test="orderCode != null and orderCode != ''">
+            AND a.order_code = #{orderCode}
+        </if>
+        <if test="roomStatus != null and roomStatus != ''">
+            AND a.status = #{roomStatus}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != ''">
+            AND a.create_time &lt;= #{createTimeEnd}
+        </if>
+        <if test="createTimeStart != null and createTimeStart != ''">
+            AND a.create_time >= #{createTimeStart}
+        </if>
+        <if test="confirmTimeEnd != null and confirmTimeEnd != ''">
+            AND a.order_code &lt;= #{confirmTimeEnd}
+        </if>
+        <if test="confirmTimeStart != null and confirmTimeStart != ''">
+            AND a.order_code >= #{confirmTimeStart}
+        </if>
+        <if test="hotelName != null and hotelName != ''">
+            AND a.hotelName = #{hotelName}
+        </if>
 	</sql>
 
 	<update id="updateBizPushs" parameterType="com.hotel.admin.qo.BizPuchsUpdate">
@@ -170,9 +168,7 @@
 		c.country_code,c.province_code,c.city_code,c.hotel_type,c.hotel_level,c.hotel_cname,c.hotel_ename,c.hotel_addr,c.hotel_phone,c.hotel_fax,c.hotel_web
 		 from biz_puchs a, biz_room b, biz_hotl c, biz_room_ext d
 		where  1=1 and a.room_code=b.room_code and b.room_code=d.room_code and b.hotel_code =c.hotel_code
-		<!--<if test="provinceCode != null and provinceCode!=''">-->
-			<!--AND b.province_code = #{provinceCode,jdbcType=VARCHAR}-->
-		<!--</if>-->
+	  	<include refid="where_query"/>
 	</select>
 
 	<select id="findPageS" parameterType="com.hotel.admin.qo.BizPuchsUpdate" resultMap="BaseResultMap">
