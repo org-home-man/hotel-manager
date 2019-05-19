@@ -1,6 +1,7 @@
 package com.hotel.admin.controller;
 
 import com.hotel.admin.model.BizPuchs;
+import com.hotel.admin.model.BizPuchsExtDto;
 import com.hotel.admin.model.BizPuchsUpdate;
 import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.admin.service.BizPuchsService;
@@ -97,8 +98,8 @@ public class BizPuchsController {
 	}
 
 	@PostMapping(value = "orderCancel")
-	public HttpResult OrderCancel(List<BizPuchs> bizPuchs){
-        bizPuchsService.orderCancel(bizPuchs);
+	public HttpResult OrderCancel(BizPuchsExtDto bizPuchs){
+        bizPuchsService.cancel(bizPuchs);
 		return HttpResult.ok();
 	}
 }

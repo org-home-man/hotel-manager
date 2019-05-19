@@ -49,8 +49,6 @@ public class BizPuchsExtDto extends BizPuchs{
     private String hotelType;
     private String hotelTypeKey;
 
-    private String outDateEnd;
-    private String inDateStart;
     /** 都道府县 */
     private String provinceCode;
     /** 区市町村 */
@@ -222,15 +220,6 @@ public class BizPuchsExtDto extends BizPuchs{
         this.roomTypeKey = roomTypeKey;
     }
 
-    public String getoutDateEnd() {
-        return outDateEnd;
-    }
-    public void setoutDateEnd(String outDateEnd) {
-        this.outDateEnd = outDateEnd;
-    }
-
-
-
     public void sethotelAddr(String hotelAddr) {
         this.hotelAddr = hotelAddr;
     }
@@ -251,15 +240,6 @@ public class BizPuchsExtDto extends BizPuchs{
 
     public String gethotelWeb() {
         return hotelWeb;
-    }
-
-
-    public String getinDateStart() {
-        return inDateStart;
-    }
-
-    public void setinDateStart(String inDateStart) {
-        this.inDateStart = inDateStart;
     }
 
     public String getBedTypeKey() {

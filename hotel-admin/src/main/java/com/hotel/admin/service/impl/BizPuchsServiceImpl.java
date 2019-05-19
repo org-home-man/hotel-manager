@@ -240,18 +240,25 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 	}
 
 	@Override
-	public int orderCancel(List<BizPuchs> bizPuchs) {
-		for (BizPuchs bizPuch : bizPuchs) {
+	public int orderCancel(List<BizPuchsExtDto> bizPuchs) {
+		for (BizPuchsExtDto bizPuch : bizPuchs) {
 			cancel(bizPuch);
 		}
 		return 1;
 	}
 
 	@Override
-	public void cancel(BizPuchs bizPuchs){
-		bizPuchs.setStatus("3");
+	public void cancel(BizPuchsExtDto bizPuchsExtDto){
+        BizPuchs bizPuchs = bizPuchsMapper.selectByPrimaryKey(bizPuchsExtDto.getId());
+        if(bizPuchs == null){
+            throw new GlobalException("isOrderException");
+        }
+        bizPuchs.setStatus("3");
 		bizPuchsMapper.updateByPrimaryKeySelective(bizPuchs);
 		List<BizInv> list = bizInvService.findCancelBizInv(bizPuchs);
+		if(list.size() <= 0){
+            throw new GlobalException("isOrderException");
+        }
 		for (BizInv bizInv : list) {
 			bizInv.setInventory(bizInv.getInventory() + bizPuchs.getRoomNum());
 			bizInvService.update(bizInv);
