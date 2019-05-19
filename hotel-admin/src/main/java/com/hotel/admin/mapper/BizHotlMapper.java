@@ -33,6 +33,7 @@ public interface BizHotlMapper extends AbstractMapper<BizHotl>{
     List<BizHotl> findPage();
     int deleteUp(BizHotl record);
     int update(BizHotl record);
+    BizHotl findById(BizHotl record);
 
 
 }

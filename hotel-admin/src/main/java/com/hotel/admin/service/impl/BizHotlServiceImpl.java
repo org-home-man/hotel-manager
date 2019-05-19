@@ -46,6 +46,7 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 	@Autowired
 	private CrtIdMapper crtIdMapper;
 
+	@Autowired
 	private BizRoomMapper bizRoomMapper;
 
 	@Override
@@ -105,7 +106,8 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 	@Transactional
 	public int delete(List<BizHotl> records) {
 		for(BizHotl record:records) {
-			if (bizRoomMapper.findByHtlCd(record.getHotelCode()).size() > 0) {
+			BizHotl hotel = bizHotlMapper.findById(record);
+			if ((bizRoomMapper.findByHtlCd(hotel.getHotelCode())).size() > 0) {
 				throw new GlobalException("ExistRoomException");
 			}
 

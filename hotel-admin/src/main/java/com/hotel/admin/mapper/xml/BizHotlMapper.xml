@@ -95,6 +95,11 @@
  from biz_hotl a WHERE del_flag != -1
   </select>
 
+    <select id="findById" parameterType="com.hotel.admin.model.BizHotl" resultMap="BaseResultMap">
+        select *
+        from biz_hotl a WHERE  id = #{id,jdbcType=INTEGER}
+    </select>
+
   <select id="findPageByPara" parameterType="com.hotel.admin.dto.BizHotelQueryDto" resultMap="BaseResultMap">
       select
     a.id, a.hotel_code, a.country_code,(select area_Cname from hotel_area where  area_Lvl = "1" AND area_Code=a.province_code) province_Cname,
