@@ -95,7 +95,6 @@ public class SysUserController {
 		return HttpResult.ok(sysUserService.findPage(qo));
 	}
 
-	@PreAuthorize("hasAuthority('sys:user:edit')")
 	@PostMapping(value="/updatePassword")
 	public HttpResult updatePassword(SysUserUp record) {
 		try {
