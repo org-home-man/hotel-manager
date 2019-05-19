@@ -99,7 +99,7 @@ public class BizInvServiceImpl implements BizInvService {
 
 	@Override
 	public List<BizInv> findCancelBizInv(BizPuchs bizPuchs) {
-		return bizInvMapper.findCancelBizInv(bizPuchs.getRoomCode(),bizPuchs.getInDate(),bizPuchs.getOutDate());
+		return bizInvMapper.findCancelBizInv(bizPuchs.getRoomCode(),bizPuchs.getInDateStart(),bizPuchs.getOutDateEnd());
 	}
 
 	@Override

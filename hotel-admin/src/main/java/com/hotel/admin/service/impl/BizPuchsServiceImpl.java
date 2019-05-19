@@ -8,6 +8,7 @@ import com.hotel.admin.service.BizPuchsService;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.util.SecurityUtils;
 import com.hotel.common.utils.DateUtils;
+import com.hotel.common.utils.Utils;
 import com.hotel.core.exception.GlobalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,9 @@ public class BizPuchsServiceImpl implements BizPuchsService {
 
     @Override
 	public int save(BizPuchs record) {
-		System.out.println("订单生成开始"+ record);
+		if(Utils.isEmpty(record.getInDateStart()) || Utils.isEmpty(record.getOutDateEnd())){
+			return 0;
+		}
 		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
 			CrtId crt =crtIdMapper.findById("puchs");
 

@@ -22,9 +22,9 @@ public class BizPuchs extends BusinessEntity {
 	/**1 确定时间 */
 	private String confirmTime;
 	/**1 入住日期 */
-	private String inDate;
+	private String inDateStart;
 	/**1 退房日期 */
-	private String outDate;
+	private String outDateEnd;
 	/**1 代表者姓名 */
 	private String pName;
 	/** 护照号 */
@@ -86,20 +86,20 @@ public class BizPuchs extends BusinessEntity {
 		this.confirmTime = confirmTime;
 	}
 
-	public String getInDate() {
-		return inDate;
+	public String getInDateStart() {
+		return inDateStart;
 	}
 
-	public void setInDate(String inDate) {
-		this.inDate = inDate;
+	public void setInDateStart(String inDateStart) {
+		this.inDateStart = inDateStart;
 	}
 
-	public String getOutDate() {
-		return outDate;
+	public String getOutDateEnd() {
+		return outDateEnd;
 	}
 
-	public void setOutDate(String outDate) {
-		this.outDate = outDate;
+	public void setOutDateEnd(String outDateEnd) {
+		this.outDateEnd = outDateEnd;
 	}
 
 	public String getpName() {
