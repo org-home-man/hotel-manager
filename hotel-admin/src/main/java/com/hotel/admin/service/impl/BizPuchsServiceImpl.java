@@ -91,7 +91,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                 crtIdMapper.update(crt);
                 record.setOrderCode(id + timeNow + newCrt);
             }
-
+            record.setStatus(Constant.BOOL_NO);
             bizPuchsMapper.insertSelective(record);
             BizPuchsExt recordExt = new BizPuchsExt();
             recordExt.setRoomCode(record.getRoomCode());
