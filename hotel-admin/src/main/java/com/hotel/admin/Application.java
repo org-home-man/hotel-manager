@@ -2,6 +2,7 @@ package com.hotel.admin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
@@ -11,9 +12,11 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 //@EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages={"com.hotel"})
-public class KittyAdminApplication {
+//@ComponentScan(basePackages = "com.hotel.admin.config")
+@tk.mybatis.spring.annotation.MapperScan("com.hotel.*.mapper")	// 扫描DAO
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(KittyAdminApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 }

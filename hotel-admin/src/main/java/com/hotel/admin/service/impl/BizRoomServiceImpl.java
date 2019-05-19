@@ -53,6 +53,9 @@ public class BizRoomServiceImpl implements BizRoomService {
 	@Autowired
 	private BizInvMapper bizInvMapper;
 
+	@Autowired
+	private BizPuchsMapper bizPuchsMapper;
+
 	@Override
 	@Transactional
 	public int save(BizRoom record) {
@@ -175,6 +178,11 @@ public class BizRoomServiceImpl implements BizRoomService {
 	@Override
 	public int delete(List<BizRoom> records) {
 		for(BizRoom record:records) {
+
+			if (bizPuchsMapper.findByRoomCd(record.getRoomCode()).size() > 0) {
+				throw new GlobalException("ExistsOrderException");
+			}
+
 			delete(record);
 		}
 		return 1;

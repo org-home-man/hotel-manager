@@ -6,9 +6,7 @@ import com.hotel.admin.service.IDocumentService;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +19,8 @@ import java.net.URLEncoder;
 @RestController
 @RequestMapping("/document")
 public class DocumentController extends BaseController {
-
-
     @Autowired
     IDocumentService documentService;
-
 
     @RequestMapping("/upload")
     public HttpResult fileUpload(MultipartFile[] files, String businessId) {
@@ -53,7 +48,7 @@ public class DocumentController extends BaseController {
     }
 
 
-    @RequestMapping("/preview/{documentId}")
+    @GetMapping("/preview/{documentId}")
     public void preview(HttpServletRequest request, HttpServletResponse response, @PathVariable Long documentId) {
         FileInfo fileInfo = documentService.queryFileInfo(documentId);
         if(Utils.isEmpty(fileInfo)){
@@ -72,18 +67,18 @@ public class DocumentController extends BaseController {
         }
     }
 
-    @RequestMapping("deleteRealFiles")
+    @PostMapping("deleteRealFiles")
     public HttpResult deleteRealFiles(String ids) {
         documentService.deleteRealFiles(ids);
         return HttpResult.ok();
     }
 
-    @RequestMapping("/query/{documentId}")
+    @PostMapping("/query/{documentId}")
     public HttpResult queryById(@PathVariable Long documentId) {
         return documentService.queryById(documentId);
     }
 
-    @RequestMapping("/queryByRelId")
+    @PostMapping("/queryByRelId")
     public HttpResult queryByRelId(String relationId) {
         return documentService.queryByRelId(relationId);
     }

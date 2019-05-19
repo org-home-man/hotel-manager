@@ -275,6 +275,11 @@
     where room_code = #{roomCode,jdbcType=VARCHAR}
   </select>
 
+  <select id="findByHtlCd" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from biz_room
+    where hotel_code = #{hotelCode,jdbcType=VARCHAR} and DEL_FLAG = 0
+  </select>
+
   <select id="findPageByPara" parameterType="com.hotel.admin.dto.BizRoomQuery" resultMap="BaseResultMap">
 
     select

@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * ---------------------------
- * 订单信息表 (BizPuchsServiceImpl)         
+ * 订单信息表 (BizPuchsServiceImpl)
  * ---------------------------
  * 作者：  kitty-generator
  * 时间：  2019-04-30 12:29:00
@@ -32,11 +32,13 @@ import java.util.List;
 @Service
 public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements BizPuchsService {
 
-	@Autowired
-	private BizPuchsMapper bizPuchsMapper;
+    private Logger LOGGER = LoggerFactory.getLogger(BizPuchsServiceImpl.class);
 
-	@Autowired
-	private BizPuchsExtMapper bizPuchsExtMapper;
+    @Autowired
+    private BizPuchsMapper bizPuchsMapper;
+
+    @Autowired
+    private BizPuchsExtMapper bizPuchsExtMapper;
 
     @Autowired
     private BizInvMapper bizInvMapper;
@@ -44,73 +46,69 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     @Autowired
     private BizRoomMapper bizRoomMapper;
 
-	@Autowired
-	private CrtIdMapper crtIdMapper;
-	@Autowired
-	private SysUserService sysUser;
-	@Autowired
-	private BizInvService bizInvService;
+    @Autowired
+    private CrtIdMapper crtIdMapper;
+    @Autowired
+    private SysUserService sysUser;
+    @Autowired
+    private BizInvService bizInvService;
 
     @Override
-	public int save(BizPuchs record) {
-		if(Utils.isEmpty(record.getInDateStart()) || Utils.isEmpty(record.getOutDateEnd())){
-			return 0;
-		}
-		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
-			CrtId crt =crtIdMapper.findById("puchs");
+    public int save(BizPuchs record) {
+        if (Utils.isEmpty(record.getInDateStart()) || Utils.isEmpty(record.getOutDateEnd())) {
+            return 0;
+        }
+        if (record.getOrderCode() == null || record.getOrderCode() == "0") {
+            CrtId crt = crtIdMapper.findById("puchs");
 
-			Date now = new Date();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");//可以方便地修改日期格式
-			String timeNow = dateFormat.format( now );
-			System.out.println(timeNow);
+            Date now = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");//可以方便地修改日期格式
+            String timeNow = dateFormat.format(now);
 
-			//获取用户id
-			String userName = SecurityUtils.getUsername();
-			System.out.println(userName);
-			String id= sysUser.findByName(userName).getDeptId() +"";
+            //获取用户id
+            String userName = SecurityUtils.getUsername();
+            if (Utils.isEmpty(userName)) {
+                return 0;
+            }
+            String id = sysUser.findByName(userName).getDeptId() + "";
+            if (Utils.isEmpty(crt)) {
+                CrtId ncrt = new CrtId();
+                ncrt.setCrtNo("0001");
+                ncrt.setCrtType(Constant.ORDER_TYPE);
+                crtIdMapper.add(ncrt);
+                record.setOrderCode(id + timeNow + Constant.ORDER_FIRST_CODE);
+            } else {
+                String crtno = crt.getCrtNo();
+                String newCrt = String.valueOf(Integer.parseInt(crtno) + 1);
+                while (newCrt.length() < 4) {
+                    newCrt = "0" + newCrt;
+                }
+                System.out.println(newCrt);
+                crt.setCrtNo(newCrt);
+                crtIdMapper.update(crt);
+                record.setOrderCode(id + timeNow + newCrt);
+            }
 
-			if(crt == null)
-			{
-				CrtId ncrt = new CrtId();
-//				System.out.println("licy1");
-				ncrt.setCrtNo("0001");
-				ncrt.setCrtType("puchs");
-				crtIdMapper.add(ncrt);
-				record.setOrderCode(id+timeNow+"0001");
-			}
-			else {
-				String crtno = crt.getCrtNo();
-				System.out.println(crtno);
-				String newCrt = String.valueOf(Integer.parseInt(crtno) + 1);
-				while (newCrt.length() < 4) {
-					newCrt = "0" + newCrt;
-				}
-				System.out.println(newCrt);
-				crt.setCrtNo(newCrt);
-				crtIdMapper.update(crt);
-				record.setOrderCode(id+timeNow+newCrt);
-			}
+            bizPuchsMapper.insertSelective(record);
+            BizPuchsExt recordExt = new BizPuchsExt();
+            recordExt.setRoomCode(record.getRoomCode());
+            recordExt.setOrderCode(record.getOrderCode());
+            return bizPuchsExtMapper.insertSelective(recordExt);
+        }
 
-			bizPuchsMapper.insertSelective(record);
-			BizPuchsExt recordExt = new BizPuchsExt();
-			recordExt.setRoomCode(record.getRoomCode());
-			recordExt.setOrderCode(record.getOrderCode());
-			return  bizPuchsExtMapper.insertSelective(recordExt);
-		}
-
-		return bizPuchsMapper.updateByPrimaryKey(record);
-	}
+        return bizPuchsMapper.updateByPrimaryKey(record);
+    }
 
 	@Override
 	public int updateInfo(BizPuchsUpdate record) {
 		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
 		}
 //return 0;
-		return bizPuchsMapper.updateBizPushs(record);
-	}
+        return bizPuchsMapper.updateBizPushs(record);
+    }
 
-	@Override
-	public int puchsConfirm(BizPuchsUpdate record) {
+    @Override
+    public int puchsConfirm(BizPuchsUpdate record) {
         if (record.getOrderCode() == null || record.getOrderCode() == "0") {
         }
         BizPuchs listStat = bizPuchsMapper.selectByPrimaryKey(record.getId());
@@ -122,14 +120,13 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             throw new GlobalException("inoutdateIsNull");
         }
 
+        Date outDate = DateUtils.getDate(record.getOutDate(), "yyyyMMdd");
+        Date inDate = DateUtils.getDate(record.getInDate(), "yyyyMMdd");
+        int invDate = DateUtils.getDateDiff(outDate, inDate);
 
-		Date outDate = DateUtils.getDate(record.getOutDate(), "yyyyMMdd");
-		Date inDate = DateUtils.getDate(record.getInDate(), "yyyyMMdd");
-		int invDate = DateUtils.getDateDiff(outDate, inDate);
-
-		if (invDate <= 0) {
-			throw new GlobalException("inDateExcepiton");
-		}
+        if (invDate <= 0) {
+            throw new GlobalException("inDateExcepiton");
+        }
 
 
 		if(new Date().after(inDate)){
@@ -140,8 +137,8 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         //如果库存表没有值则将默认库存数插入库存表管理
         //获取时间跨度
 
-        for (int index = 0; index < invDate ; index++) {
-        	String newInDate = DateUtils.getDateString(DateUtils.addDays(inDate,index),"yyyyMMdd");
+        for (int index = 0; index < invDate; index++) {
+            String newInDate = DateUtils.getDateString(DateUtils.addDays(inDate, index), "yyyyMMdd");
             BizInv inv = new BizInv();
             inv.setRoomCode(record.getRoomCode());
             inv.setInvDate(newInDate);
@@ -175,38 +172,38 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 
         record.setStatus("2");
         return bizPuchsMapper.puchsConfirm(record);
-	}
+    }
 
-	@Override
-	public List<BizPuchsExtDto> findPage(BizPuchsQuery bizPuchsQuery) {
-		return bizPuchsMapper.findPage(bizPuchsQuery);
-	}
+    @Override
+    public List<BizPuchsExtDto> findPage(BizPuchsQuery bizPuchsQuery) {
+        return bizPuchsMapper.findPage(bizPuchsQuery);
+    }
 
-	@Override
-	public int orderCancel(List<BizPuchsExtDto> bizPuchs) {
-		for (BizPuchsExtDto bizPuch : bizPuchs) {
-			cancel(bizPuch);
-		}
-		return 1;
-	}
+    @Override
+    public int orderCancel(List<BizPuchsExtDto> bizPuchs) {
+        for (BizPuchsExtDto bizPuch : bizPuchs) {
+            cancel(bizPuch);
+        }
+        return 1;
+    }
 
-	@Override
-	public void cancel(BizPuchsExtDto bizPuchsExtDto){
+    @Override
+    public void cancel(BizPuchsExtDto bizPuchsExtDto) {
         BizPuchs bizPuchs = bizPuchsMapper.selectByPrimaryKey(bizPuchsExtDto.getId());
-        if(bizPuchs == null){
+        if (bizPuchs == null) {
             throw new GlobalException("isOrderException");
         }
         bizPuchs.setStatus("3");
-		bizPuchsMapper.updateByPrimaryKeySelective(bizPuchs);
-		List<BizInv> list = bizInvService.findCancelBizInv(bizPuchs);
-		if(list.size() <= 0){
+        bizPuchsMapper.updateByPrimaryKeySelective(bizPuchs);
+        List<BizInv> list = bizInvService.findCancelBizInv(bizPuchs);
+        if (list.size() <= 0) {
             throw new GlobalException("isOrderException");
         }
-		for (BizInv bizInv : list) {
-			bizInv.setInventory(bizInv.getInventory() + bizPuchs.getRoomNum());
-			bizInvService.update(bizInv);
-		}
-	}
+        for (BizInv bizInv : list) {
+            bizInv.setInventory(bizInv.getInventory() + bizPuchs.getRoomNum());
+            bizInvService.update(bizInv);
+        }
+    }
 
 
 }

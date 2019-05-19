@@ -111,11 +111,12 @@
               (SELECT
                   f.room_code,
                   avg(g.s_price) price,
-                  min(bi.inventory) inventory
+                  min( IFNULL(bi.inventory,f.room_stock) ) inventory
               FROM
                   (SELECT
                         x.date,
-                        c.room_code
+                        c.room_code,
+                        c.room_stock
                   FROM
                         biz_room c
                   JOIN ( SELECT DATE_FORMAT( date, '%Y%m%d' ) date

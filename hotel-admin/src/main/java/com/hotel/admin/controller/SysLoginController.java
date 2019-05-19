@@ -86,7 +86,7 @@ public class SysLoginController {
 		}
 		
 		if (!PasswordUtils.matches(user.getSalt(), password, user.getPassword())) {
-			throw new GlobalException("passErException");
+			throw new GlobalException("pwdErException");
 		}
 
 		// 账号锁定

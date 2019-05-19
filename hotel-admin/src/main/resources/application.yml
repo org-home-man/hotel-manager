@@ -47,3 +47,7 @@ logging:
   file: ./logs/hotel-log.log
   level:
     com.hotel.admin.mapper: debug
+mapper:
+  mappers: com.hotel.core.mybatis.mapper.AbstractMapper
+  identity: MYSQL
+  not-empty: false
