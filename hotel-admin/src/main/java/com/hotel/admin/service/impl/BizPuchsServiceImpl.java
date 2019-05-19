@@ -14,7 +14,6 @@ import com.hotel.core.exception.GlobalException;
 import com.hotel.core.service.AbstractService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +54,12 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     private SysUserService sysUser;
     @Autowired
     private BizInvService bizInvService;
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    private SysUserRoleMapper sysUserRoleMapper;
+    @Autowired
+    private SysRoleMapper sysRoleMapper;
 
     @Override
     public int save(BizPuchs record) {
@@ -174,11 +179,25 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         }
 
         record.setStatus("2");
+        record.setConfirmTime(DateUtils.getNowTime());
         return bizPuchsMapper.puchsConfirm(record);
     }
 
     @Override
     public List<BizPuchsExtDto> findPage(BizPuchsQuery bizPuchsQuery) {
+        String username = SecurityUtils.getUsername();
+        SysUser sysUser = sysUserService.findByName(username);
+        List<SysUserRole> userRoles = sysUserRoleMapper.findUserRoles(sysUser.getId());
+        for (SysUserRole userRole : userRoles) {
+            SysRole role = new SysRole();
+            role.setId(userRole.getRoleId());
+
+            role = sysRoleMapper.selectByPrimaryKey(role);
+            if("02".equals(role.getRoleId())){
+                bizPuchsQuery.setCreateName(username);
+                break;
+            }
+        }
         return bizPuchsMapper.findPage(bizPuchsQuery);
     }
 

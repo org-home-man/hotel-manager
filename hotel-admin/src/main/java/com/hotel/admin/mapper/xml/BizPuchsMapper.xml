@@ -23,10 +23,7 @@
 	<result column="remark" jdbcType="VARCHAR" property="remark" />
 	<result column="status" jdbcType="VARCHAR" property="status" />
   	<result column="hotel_name" jdbcType="VARCHAR" property="hotelName" />
-	<result column="create_by" jdbcType="VARCHAR" property="createName" />
 	<result column="create_time" jdbcType="VARCHAR" property="createTime" />
-	<result column="last_update_by" jdbcType="VARCHAR" property="updateName" />
-	<result column="last_update_time" jdbcType="VARCHAR" property="updateTime" />
     <result column="hotel_code" jdbcType="VARCHAR" property="hotelCode" />
     <result column="room_type" jdbcType="VARCHAR" property="roomType" />
     <result column="room_type_key" jdbcType="VARCHAR" property="roomTypeKey" />
@@ -45,7 +42,6 @@
     <result column="room_stock" jdbcType="INTEGER" property="roomStock" />
     <result column="recommended" jdbcType="VARCHAR" property="recommended" />
     <result column="create_name" jdbcType="VARCHAR" property="createName" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_name" jdbcType="VARCHAR" property="updateName" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
@@ -108,8 +104,11 @@
             AND a.order_code >= #{confirmTimeStart}
         </if>
         <if test="hotelName != null and hotelName != ''">
-            AND a.hotelName = #{hotelName}
+            AND a.hotel_cname = #{hotelName}
         </if>
+		<if test="createName != null and createName != ''">
+			AND a.create_name = #{createName}
+		</if>
 	</sql>
 
 	<update id="updateBizPushs" parameterType="com.hotel.admin.qo.BizPuchsUpdate">
@@ -180,7 +179,10 @@
 		update  biz_puchs
 		<set>
 			<if test="status != null and status !=''">
-				status = #{status,jdbcType=TIMESTAMP},
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="confirmDate != null and confirmDate !=''">
+				confirm_date = #{confirmDate,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
