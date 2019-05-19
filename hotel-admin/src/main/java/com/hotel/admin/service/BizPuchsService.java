@@ -18,7 +18,7 @@ import java.util.List;
  * 说明：  我是由代码生成器生生成的
  * ---------------------------
  */
-public interface BizPuchsService extends NewCurdService<BizPuchs> {
+public interface BizPuchsService extends IService<BizPuchs> {
     int updateInfo(BizPuchsUpdate record);
 
     int puchsConfirm(BizPuchsUpdate record);

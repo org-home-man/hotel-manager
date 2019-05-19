@@ -18,10 +18,6 @@ import java.util.List;
  * ---------------------------
  * 订单信息表 (BizPuchsController)         
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-30 12:29:00
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
 @RestController
 @RequestMapping("bizPuchs")
@@ -94,7 +90,7 @@ public class BizPuchsController {
      */ 	
 	@GetMapping(value="/findById")
 	public HttpResult findById(Long id) {
-		return HttpResult.ok(bizPuchsService.findById(id));
+		return HttpResult.ok(bizPuchsService.selectByKey(id));
 	}
 
 	@PostMapping(value = "orderCancel")
