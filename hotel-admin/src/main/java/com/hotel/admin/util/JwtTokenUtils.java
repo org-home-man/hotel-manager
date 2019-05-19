@@ -129,8 +129,6 @@ public class JwtTokenUtils implements Serializable {
 		}
 		if(null!=authentication){
 			PageContext.init(request);
-		}else{
-			System.out.println("aaaaaaaaaaaa");
 		}
 		return authentication;
 	}

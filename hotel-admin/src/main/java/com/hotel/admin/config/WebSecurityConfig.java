@@ -43,14 +43,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     		// 跨域预检请求
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             // web jars
+            .antMatchers("/webjars/**").permitAll()
             .antMatchers("/static/**").permitAll()
-            // 查看SQL监控（druid）
+            .antMatchers("/favicon.ico").permitAll()
+            // 查看SQL监控（druid）// web jars
             // 首页和登录页面
             .antMatchers("/").permitAll()
             .antMatchers("/login").permitAll()
             // swagger
             .antMatchers("/img/**").permitAll()
-            .antMatchers("/document/**").permitAll()
+            .antMatchers("/document/preview/**").permitAll()
+            .antMatchers("/document/queryByRelId/**").permitAll()
             // 验证码
             .antMatchers("/captcha.jpg**").permitAll()
             // 服务监控

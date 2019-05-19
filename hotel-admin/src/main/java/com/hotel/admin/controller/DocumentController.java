@@ -55,8 +55,6 @@ public class DocumentController extends BaseController {
             return;
         }
         try {
-//            response.setCharacterEncoding("UTF-8");
-//            response.reset();
             response.setContentType("image/png;charset=UTF-8");
             OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
             outputStream.write(fileInfo.getContent());
@@ -82,15 +80,5 @@ public class DocumentController extends BaseController {
     public HttpResult queryByRelId(String relationId) {
         return documentService.queryByRelId(relationId);
     }
-
-
-    private void writeData2Resp(HttpServletResponse response, String s) {
-        try {
-            response.getWriter().write(s);
-        } catch (IOException e) {
-            logger.error("回写信息失败", e);
-        }
-    }
-
 
 }

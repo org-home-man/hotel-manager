@@ -2,6 +2,7 @@ package com.hotel.admin.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -20,5 +21,10 @@ public class CorsConfig implements WebMvcConfigurer {
         .maxAge(168000)	// 预检间隔时间
         .allowedHeaders("*")  // 允许头部设置
         .allowCredentials(true);	// 是否发送cookie
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
     }
 }
