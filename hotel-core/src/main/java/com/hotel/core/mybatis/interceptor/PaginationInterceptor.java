@@ -41,6 +41,9 @@ public class PaginationInterceptor implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
+        if (!PageContext.isPager() ){
+            return invocation.proceed();
+        }
         if (PageContext.getLocalPage().get() == null) {
             return invocation.proceed();
         }
