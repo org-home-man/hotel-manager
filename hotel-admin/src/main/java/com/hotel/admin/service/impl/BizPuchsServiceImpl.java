@@ -10,6 +10,7 @@ import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.util.SecurityUtils;
 import com.hotel.common.utils.DateUtils;
 import com.hotel.common.utils.Utils;
+import com.hotel.core.context.PageContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.service.AbstractService;
 import org.slf4j.Logger;
@@ -185,6 +186,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 
     @Override
     public List<BizPuchsExtDto> findPage(BizPuchsQuery bizPuchsQuery) {
+        PageContext.setPagination(false);
         String username = SecurityUtils.getUsername();
         SysUser sysUser = sysUserService.findByName(username);
         List<SysUserRole> userRoles = sysUserRoleMapper.findUserRoles(sysUser.getId());
@@ -198,6 +200,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                 break;
             }
         }
+        PageContext.setPagination(true);
         return bizPuchsMapper.findPage(bizPuchsQuery);
     }
 
