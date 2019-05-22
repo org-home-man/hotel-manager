@@ -19,7 +19,24 @@
     <sql id="Base_Column_List">
     id,  cn_name,en_name,code, type,cn_remark,en_remark,parent_id, sort, create_name, create_time, update_name, update_time
   </sql>
-    <select id="findPageByName" resultMap="BaseResultMap">
+    <select id="validateUnique" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dict
+        where code = #{code}
+        <choose>
+            <when test="type!=null and type!=''">
+                AND type = #{type}
+            </when>
+            <otherwise>
+                AND type = "1"
+            </otherwise>
+        </choose>
+        <if test="parentId!=null">
+            AND parent_id = #{parentId}
+        </if>
+    </select>
+    <!--<select id="findPageByName" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from sys_dict
@@ -29,6 +46,6 @@
         </if>
     </where>
 
-  </select>
+  </select>-->
 
 </mapper>

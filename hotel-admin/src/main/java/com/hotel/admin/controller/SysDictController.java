@@ -35,10 +35,17 @@ public class SysDictController {
 		return HttpResult.ok();
 	}
 
+	@PreAuthorize("hasAuthority('sys:dict:delete')")
+	@PostMapping(value="/del")
+	public HttpResult del(SysDict records) {
+		sysDictService.delete(records);
+		return HttpResult.ok();
+	}
+
 	@PreAuthorize("hasAuthority('sys:dict:view')")
 	@PostMapping(value="/findPage")
-	public HttpResult findPage(String name) {
-		return HttpResult.ok(sysDictService.findPage(name));
+	public HttpResult findPage(SysDict sysDict) {
+		return HttpResult.ok(sysDictService.findPage(sysDict));
 	}
 
 }

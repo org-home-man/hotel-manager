@@ -9,5 +9,7 @@ import java.util.List;
 
 public interface SysDictMapper extends AbstractMapper<SysDict> {
 
-    List<SysDict> findPageByName(@Param("name") String name);
+    SysDict validateUnique(SysDict dict);
+
+//    List<SysDict> findPage(SysDict name);
 }

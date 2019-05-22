@@ -13,8 +13,8 @@ public interface SysDictService extends IService<SysDict> {
 
 	/**
 	 * 分页查询字典
-	 * @param label
+	 * @param sysDict
 	 * @return
 	 */
-	Page findPage(String label);
+	Page findPage(SysDict sysDict);
 }

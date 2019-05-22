@@ -35,12 +35,7 @@ public class SysDict extends BusinessEntity {
 	/**
 	 * 上级ID
 	 */
-	private String parentId;
-
-	/**
-	 * 描述
-	 */
-	private String remarks;
+	private Long parentId;
 
 	/**
 	 * 排序号
@@ -95,20 +90,12 @@ public class SysDict extends BusinessEntity {
 		this.type = type;
 	}
 
-	public String getParentId() {
+	public Long getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(String parentId) {
+	public void setParentId(Long parentId) {
 		this.parentId = parentId;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
 	}
 
 	public Long getSort() {
