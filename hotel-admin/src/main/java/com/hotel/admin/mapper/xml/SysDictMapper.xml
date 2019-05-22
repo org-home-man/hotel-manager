@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hotel.admin.mapper.SysDictMapper">
-  <resultMap id="BaseResultMap" type="com.hotel.admin.model.SysDict">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="value" jdbcType="VARCHAR" property="value" />
-    <result column="label" jdbcType="VARCHAR" property="label" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="sort" jdbcType="DECIMAL" property="sort" />
-    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
-    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
-    <result column="create_name" jdbcType="VARCHAR" property="createName" />
-    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
-    <result column="update_name" jdbcType="VARCHAR" property="updateName" />
-    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, value, label, type, description, sort, remarks, del_flag , create_name, create_time, update_name, update_time
+    <resultMap id="BaseResultMap" type="com.hotel.admin.model.SysDict">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="cn_name" jdbcType="VARCHAR" property="cnName"/>
+        <result column="en_name" jdbcType="VARCHAR" property="enName"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="cn_remark" jdbcType="VARCHAR" property="cnRemark"/>
+        <result column="en_remark" jdbcType="VARCHAR" property="enRemark"/>
+        <result column="sort" jdbcType="DECIMAL" property="sort"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="create_name" jdbcType="VARCHAR" property="createName"/>
+        <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+        <result column="update_name" jdbcType="VARCHAR" property="updateName"/>
+        <result column="update_time" jdbcType="VARCHAR" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id,  cn_name,en_name,code, type,cn_remark,en_remark,parent_id, sort, create_name, create_time, update_name, update_time
   </sql>
-
-  <select id="findPageByLabel" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	select
-    <include refid="Base_Column_List" />
+    <select id="findPageByName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
     from sys_dict
     <where>
-      <if test="label!=null and label!=''">
-        label like concat('%',#{pattern},'%')
-      </if>
+        <if test="name!=null and name!=''">
+            cn_name like concat('%',#{name},'%') or en_name like concat('%',#{name},'%')
+        </if>
     </where>
+
   </select>
+
 </mapper>

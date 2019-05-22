@@ -37,13 +37,8 @@ public class SysDictController {
 
 	@PreAuthorize("hasAuthority('sys:dict:view')")
 	@PostMapping(value="/findPage")
-	public HttpResult findPage(String lable) {
-		return HttpResult.ok(sysDictService.findPage(lable));
+	public HttpResult findPage(String name) {
+		return HttpResult.ok(sysDictService.findPage(name));
 	}
-	
-	@PreAuthorize("hasAuthority('sys:dict:view')")
-	@GetMapping(value="/findByLable")
-	public HttpResult findByLable(String lable) {
-		return HttpResult.ok(sysDictService.findByLable(lable));
-	}
+
 }

@@ -4,34 +4,87 @@ import com.hotel.common.entity.BusinessEntity;
 
 public class SysDict extends BusinessEntity {
 
-    private String value;
+	/**
+	 * 名称
+	 */
+	private String cnName;
+	/**
+	 * 名称
+	 */
+	private String enName;
+	/**
+	 * 字典对应编码 key 唯一
+	 */
+	private String code;
 
-    private String label;
-
+	/**
+	 * 字典类型 1 顶级  2子级
+	 */
     private String type;
 
-    private String description;
+	/**
+	 * 字典 数据值 中文
+	 */
+	private String cnRemark;
 
+	/**
+	 * 字典 数据值 英文
+	 */
+	private String enRemark;
+
+	/**
+	 * 上级ID
+	 */
+	private String parentId;
+
+	/**
+	 * 描述
+	 */
+	private String remarks;
+
+	/**
+	 * 排序号
+	 */
     private Long sort;
 
-    private String remarks;
-
-    private Byte delFlag;
-
-	public String getValue() {
-		return value;
+	public String getCnRemark() {
+		return cnRemark;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setCnRemark(String cnRemark) {
+		this.cnRemark = cnRemark;
 	}
 
-	public String getLabel() {
-		return label;
+	public String getEnRemark() {
+		return enRemark;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
+	public void setEnRemark(String enRemark) {
+		this.enRemark = enRemark;
+	}
+
+	public String getCnName() {
+		return cnName;
+	}
+
+	public void setCnName(String cnName) {
+		this.cnName = cnName;
+	}
+
+	public String getEnName() {
+		return enName;
+	}
+
+	public void setEnName(String enName) {
+		this.enName = enName;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getType() {
@@ -42,20 +95,12 @@ public class SysDict extends BusinessEntity {
 		this.type = type;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getParentId() {
+		return parentId;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Long getSort() {
-		return sort;
-	}
-
-	public void setSort(Long sort) {
-		this.sort = sort;
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 
 	public String getRemarks() {
@@ -66,12 +111,11 @@ public class SysDict extends BusinessEntity {
 		this.remarks = remarks;
 	}
 
-	public Byte getDelFlag() {
-		return delFlag;
+	public Long getSort() {
+		return sort;
 	}
 
-	public void setDelFlag(Byte delFlag) {
-		this.delFlag = delFlag;
+	public void setSort(Long sort) {
+		this.sort = sort;
 	}
-
 }

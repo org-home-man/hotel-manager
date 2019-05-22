@@ -78,13 +78,13 @@ public class SysUserController {
 	}
 	
 //	@PreAuthorize("hasAuthority('sys:user:view')")
-	@GetMapping(value="/findPermissions")
+	@PostMapping(value="/findPermissions")
 	public HttpResult findPermissions(String name) {
 		return HttpResult.ok(sysUserService.findPermissions(name));
 	}
 	
 	@PreAuthorize("hasAuthority('sys:user:view')")
-	@GetMapping(value="/findUserRoles")
+	@PostMapping(value="/findUserRoles")
 	public HttpResult findUserRoles(Long userId) {
 		return HttpResult.ok(sysUserService.findUserRoles(userId));
 	}
@@ -97,12 +97,7 @@ public class SysUserController {
 
 	@PostMapping(value="/updatePassword")
 	public HttpResult updatePassword(SysUserUp record) {
-		try {
-			sysUserService.updatePassword(record);
-		}catch (GlobalException e) {
-			return HttpResult.error(e.getCode(),e.getMsg());
-		}
-
+		sysUserService.updatePassword(record);
 		return HttpResult.ok();
 	}
 

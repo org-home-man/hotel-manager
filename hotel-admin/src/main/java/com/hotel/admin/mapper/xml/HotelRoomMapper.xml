@@ -18,7 +18,7 @@
     <result column="room_area" jdbcType="DOUBLE" property="roomArea" />
 	<result column="intro_c" jdbcType="VARCHAR" property="introC" />
 	<result column="intro_e" jdbcType="VARCHAR" property="introE" />
-	<result column="photo" jdbcType="BINARY" property="photo" />
+	<result column="photo" jdbcType="VARCHAR" property="photo" />
 	<result column="room_stock" jdbcType="INTEGER" property="roomStock" />
 	<result column="recommended" jdbcType="VARCHAR" property="recommended" />
 	<result column="create_name" jdbcType="VARCHAR" property="createName" />
@@ -74,7 +74,7 @@
     b.hotel_code,b.province_code,b.city_code,b.hotel_type,b.hotel_level,b.hotel_cname,b.hotel_ename,b.hotel_addr,b.hotel_phone,b.hotel_web
   </sql>
   <sql id="br_room_sql">
-    a.room_code,a.room_type,a.room_style,a.bed_type,a.break_type,a.room_area,a.room_stock
+    a.room_code,a.room_type,a.room_style,a.bed_type,a.break_type,a.room_area,a.room_stock,a.photo
   </sql>
   <sql id="br_room_ext_sql">
     iswify,isfront,isbarrifr,isbalcony,iskitchen,iswindow,isheat,isicebox,isiron,isnosmk,islandscape,ishighrise,ispark,isgym,isswmp,isbeach,ishotsp,ischildct,isroomserv,isknead,islounge,issuper,isbus,istrafic,isrestau

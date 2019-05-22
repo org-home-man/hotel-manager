@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface SysDictMapper extends AbstractMapper<SysDict> {
-    
-    List<SysDict> findPageByLabel(@Param(value = "label") String label);
 
+    List<SysDict> findPageByName(@Param("name") String name);
 }

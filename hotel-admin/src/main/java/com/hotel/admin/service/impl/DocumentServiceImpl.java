@@ -7,9 +7,9 @@ import com.hotel.admin.mapper.DocumentMapper;
 import com.hotel.admin.model.Document;
 import com.hotel.admin.service.IDocumentService;
 import com.hotel.common.utils.IdUtil;
-import com.hotel.common.utils.StringUtils;
 import com.hotel.common.utils.SystemUtil;
 import com.hotel.common.utils.Utils;
+import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.service.AbstractService;
 import com.hotel.core.utils.SimpleUtils;
@@ -23,9 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @PropertySource(value = "classpath:application-sys.properties", ignoreResourceNotFound = true)
@@ -38,13 +36,15 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
 
     @Value("${linux.store.path}")
     private String linuxFileStorePath;
-
     @Value("${windows.store.path}")
     private String windowFileStorePath;
-
+    @Value("${file.max.size}")
+    private Integer fileMaxSize;
+    @Value("${file.allow.type}")
+    private String fileAllowType;
 
     private String fileStoreBasePath;
-
+    private List<String> fileAllowTypeList = new ArrayList<>();
 
     @PostConstruct
     public void initFileStorePath() {
@@ -55,6 +55,11 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
         } else {
             fileStoreBasePath = "/";
         }
+        //初始化图片类型
+        if(Utils.isEmpty(fileAllowType)){
+            String[] types = fileAllowType.split(",");
+            fileAllowTypeList.addAll(Arrays.asList(types));
+        }
     }
 
 
@@ -63,6 +68,15 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
         if (files == null || files.length <=0) {
             return HttpResult.error();
         }
+        //校验图片大小 和类型
+        Arrays.stream(files).forEach(t -> {
+            if(t.getSize()>fileMaxSize){
+                throw new GlobalException("imgLtKb");
+            }
+            if(!fileAllowTypeList.contains(t.getContentType())){
+                throw new GlobalException("imgNotType");
+            }
+        });
         HttpResult result = HttpResult.ok();
         String relationId = generate32BitUUID();
         if(Utils.isNotEmpty(businessId)){
@@ -122,7 +136,6 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
             deleteDistFile(Long.valueOf(id));
         }
     }
-
 
     private void deleteDistFile(Long id) {
         Document document = documentMapper.selectByPrimaryKey(id);
