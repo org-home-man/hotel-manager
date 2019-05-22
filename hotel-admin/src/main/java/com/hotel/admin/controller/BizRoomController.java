@@ -42,11 +42,7 @@ public class BizRoomController {
 	 */	
 	@PostMapping(value="/save")
 	public HttpResult save(BizRoom record) {
-		try {
-			bizRoomService.save(record);
-		}catch (GlobalException e) {
-			return HttpResult.error(e.getCode(),e.getMsg());
-		}
+		bizRoomService.save(record);
 		return HttpResult.ok();
 	}
 
@@ -117,11 +113,7 @@ public class BizRoomController {
 	@PostMapping(value="/producePriceCalendar")
 	public HttpResult producePriceCalendar(@RequestBody BizProPrice bizProPrice) {
 		Map map = new HashMap();
-		try {
-			map = bizRoomService.producePriceCalendar(bizProPrice);
-		}catch (GlobalException e) {
-			return HttpResult.error(e.getCode(),e.getMsg());
-		}
+		map = bizRoomService.producePriceCalendar(bizProPrice);
 		return HttpResult.ok(map);
 	}
 
@@ -133,11 +125,7 @@ public class BizRoomController {
 	@PostMapping(value="/priceDatePro")
 	public HttpResult priceDatePro(@RequestBody BizProPrice bizProPrice) {
 		Map map = new HashMap();
-		try {
-			map = bizRoomService.productDatePrice(bizProPrice);
-		}catch (GlobalException e) {
-			return HttpResult.error(e.getCode(),e.getMsg());
-		}
+		map = bizRoomService.productDatePrice(bizProPrice);
 		return HttpResult.ok(map);
 	}
 
@@ -149,11 +137,7 @@ public class BizRoomController {
 	@PostMapping(value="/produceStockCalendar")
 	public HttpResult produceStockCalendar(@RequestBody BizProInv bizProInv) {
 		Map map = new HashMap();
-		try {
-			map = bizRoomService.produceStockCalendar(bizProInv);
-		}catch (GlobalException e) {
-			return HttpResult.error(e.getCode(),e.getMsg());
-		}
+		map = bizRoomService.produceStockCalendar(bizProInv);
 		return HttpResult.ok(map);
 	}
 
@@ -165,11 +149,8 @@ public class BizRoomController {
 	@PostMapping(value="/stockDatePro")
 	public HttpResult stockDatePro(@RequestBody BizProInv bizProInv) {
 		Map map = new HashMap();
-		try {
-			map = bizRoomService.productDateStock(bizProInv);
-		}catch (GlobalException e) {
-			return HttpResult.error(e.getCode(),e.getMsg());
-		}
+		map = bizRoomService.productDateStock(bizProInv);
+
 		return HttpResult.ok(map);
 	}
 
