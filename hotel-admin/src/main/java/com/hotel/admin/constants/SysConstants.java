@@ -11,5 +11,6 @@ public interface SysConstants {
 	 * 系统管理员用户名
 	 */
 	String ADMIN = "admin";
-	
+	String CHINESE = "zh_cn";
+	String ENGLISH = "en_us";
 }

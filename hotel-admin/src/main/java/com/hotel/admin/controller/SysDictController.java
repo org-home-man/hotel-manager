@@ -48,4 +48,10 @@ public class SysDictController {
 		return HttpResult.ok(sysDictService.findPage(sysDict));
 	}
 
+//	@PreAuthorize("hasAuthority('sys:dict:view')")
+	@PostMapping(value="/findByCode/{code}")
+	public HttpResult findByCode(@PathVariable("code")String code,String locale) {
+		return HttpResult.ok(sysDictService.findByCode(code,locale));
+	}
+
 }

@@ -16,6 +16,10 @@
         <result column="update_name" jdbcType="VARCHAR" property="updateName"/>
         <result column="update_time" jdbcType="VARCHAR" property="updateTime"/>
     </resultMap>
+    <resultMap id="DictDtoMap" type="com.hotel.admin.dto.SysDictDto">
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+    </resultMap>
     <sql id="Base_Column_List">
     id,  cn_name,en_name,code, type,cn_remark,en_remark,parent_id, sort, create_name, create_time, update_name, update_time
   </sql>
@@ -36,16 +40,12 @@
             AND parent_id = #{parentId}
         </if>
     </select>
-    <!--<select id="findPageByName" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"/>
-    from sys_dict
-    <where>
-        <if test="name!=null and name!=''">
-            cn_name like concat('%',#{name},'%') or en_name like concat('%',#{name},'%')
-        </if>
-    </where>
+    <select id="findByCode" resultMap="DictDtoMap">
+        select b.code,
+        (case #{locale} when '1' then b.cn_name else b.en_name end) name
+        from sys_dict a join sys_dict b on a.id = b.parent_id
+        where a.code = #{code}
+    </select>
 
-  </select>-->
 
 </mapper>
