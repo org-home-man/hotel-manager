@@ -14,7 +14,11 @@ import com.hotel.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class SysDictServiceImpl extends AbstractService<SysDict> implements SysDictService {
@@ -50,6 +54,29 @@ public class SysDictServiceImpl extends AbstractService<SysDict> implements SysD
 
 	@Override
 	public List<SysDictDto> findByCode(String code, String locale) {
+		if(Utils.isEmpty(code)){
+			return new ArrayList<>();
+		}
+		locale = validateLocale(locale);
+		List<SysDictDto> list = sysDictMapper.findByCode(code,locale);
+		return list;
+	}
+
+	@Override
+	public Map<String, List<SysDictDto>> findByCodes(String code, String locale) {
+		if(Utils.isEmpty(code)){
+			return new HashMap<>();
+		}
+		locale = validateLocale(locale);
+		//分割code
+		String[] codeArr = code.split(",");
+		List<SysDictDto> list = sysDictMapper.findByCodes(codeArr,locale);
+		//根据code分组
+		Map<String, List<SysDictDto>> collect = list.stream().collect(Collectors.groupingBy(SysDictDto::getParCode));
+		return collect;
+	}
+
+	private String validateLocale(String locale){
 		if(SysConstants.CHINESE.equalsIgnoreCase(locale)){
 			locale = Constant.BOOL_NO;
 		}else if(SysConstants.ENGLISH.equals(locale)){
@@ -57,7 +84,6 @@ public class SysDictServiceImpl extends AbstractService<SysDict> implements SysD
 		}else{
 			locale = Constant.BOOL_NO;
 		}
-		List<SysDictDto> list = sysDictMapper.findByCode(code,locale);
-		return list;
+		return locale;
 	}
 }

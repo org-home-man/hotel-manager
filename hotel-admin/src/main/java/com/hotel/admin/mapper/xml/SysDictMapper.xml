@@ -19,6 +19,7 @@
     <resultMap id="DictDtoMap" type="com.hotel.admin.dto.SysDictDto">
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="parCode" jdbcType="VARCHAR" property="parCode"/>
     </resultMap>
     <sql id="Base_Column_List">
     id,  cn_name,en_name,code, type,cn_remark,en_remark,parent_id, sort, create_name, create_time, update_name, update_time
@@ -45,6 +46,15 @@
         (case #{locale} when '1' then b.cn_name else b.en_name end) name
         from sys_dict a join sys_dict b on a.id = b.parent_id
         where a.code = #{code}
+    </select>
+    <select id="findByCodes" resultMap="DictDtoMap">
+        select a.code parCode,b.code,
+        (case #{locale} when '1' then b.cn_name else b.en_name end) name
+        from sys_dict a join sys_dict b on a.id = b.parent_id
+        where a.code in
+        <foreach collection="codeArr" item="itm" open="(" separator="," close=")">
+            #{itm}
+        </foreach>
     </select>
 
 

@@ -14,4 +14,5 @@ public interface SysDictMapper extends AbstractMapper<SysDict> {
 
     List<SysDictDto> findByCode(@Param("code") String code, @Param("locale") String locale);
 
+    List<SysDictDto> findByCodes(@Param("codeArr")String[] codeArr,@Param("locale") String locale);
 }

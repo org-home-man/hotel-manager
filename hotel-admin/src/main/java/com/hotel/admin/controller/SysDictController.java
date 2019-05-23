@@ -53,5 +53,9 @@ public class SysDictController {
 	public HttpResult findByCode(@PathVariable("code")String code,String locale) {
 		return HttpResult.ok(sysDictService.findByCode(code,locale));
 	}
+	@PostMapping(value="/findByCodes/{code}")
+	public HttpResult findByCodes(@PathVariable("code")String code,String locale) {
+		return HttpResult.ok(sysDictService.findByCodes(code,locale));
+	}
 
 }
