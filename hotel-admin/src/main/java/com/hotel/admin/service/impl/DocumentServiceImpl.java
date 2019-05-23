@@ -56,7 +56,7 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
             fileStoreBasePath = "/";
         }
         //初始化图片类型
-        if(Utils.isEmpty(fileAllowType)){
+        if(Utils.isNotEmpty(fileAllowType)){
             String[] types = fileAllowType.split(",");
             fileAllowTypeList.addAll(Arrays.asList(types));
         }
