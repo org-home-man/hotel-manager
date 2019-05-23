@@ -6,15 +6,9 @@
 	<id column="room_code" jdbcType="VARCHAR" property="roomCode" />
 	<result column="hotel_code" jdbcType="VARCHAR" property="hotelCode" />
 	<result column="room_type" jdbcType="VARCHAR" property="roomType" />
-    <result column="room_type_key" jdbcType="VARCHAR" property="roomTypeKey" />
 	<result column="room_style" jdbcType="VARCHAR" property="roomStyle" />
 	<result column="bed_type" jdbcType="VARCHAR" property="bedType" />
 	<result column="break_type" jdbcType="VARCHAR" property="breakType" />
-    <result column="break_type_key" jdbcType="VARCHAR" property="breakTypeKey" />
-    <result column="bed_type_key" jdbcType="VARCHAR" property="bedTypeKey" />
-    <result column="province_code_key" jdbcType="VARCHAR" property="provinceCodeKey" />
-    <result column="city_code_key" jdbcType="VARCHAR" property="cityCodeKey" />
-    <result column="hotel_type_key" jdbcType="VARCHAR" property="hotelTypeKey" />
     <result column="room_area" jdbcType="DOUBLE" property="roomArea" />
 	<result column="intro_c" jdbcType="VARCHAR" property="introC" />
 	<result column="intro_e" jdbcType="VARCHAR" property="introE" />
@@ -95,14 +89,8 @@
         <include refid="br_hotel_sql"/>,
         <include refid="br_room_ext_sql"/>,
         <include refid="br_room_sql"/>,
-      (select para_code from sys_para_config where para_code LIKE 'roomtype%' and para_sub_code1='bizroom' AND para_value1=a.room_type) room_type_key,
-      (select para_code from sys_para_config where para_code LIKE 'bedtype%' and para_sub_code1='bizroom' AND para_value1=a.bed_type)  bed_type_key,
-      (select para_code from sys_para_config where para_code LIKE 'breakType%' and para_sub_code1='bizroom' AND para_value1=a.break_type)  break_type_key,
-      (select para_code from sys_para_config where para_code LIKE 'province%' and para_sub_code1='provinceCode' AND para_value1=b.province_code)  province_code_key,
-      (select para_code from sys_para_config where para_code LIKE 'cityCode%' and para_sub_code1='cityCode' AND para_value1=b.city_code)  city_code_key,
-      (select para_code from sys_para_config where para_code LIKE 'hotelType%' and para_sub_code1='hotelType' AND para_value1=b.hotel_type)  hotel_type_key,
         <include refid="br_price_sql"/>,
-        <include refid="br_bi_sql"></include>
+        <include refid="br_bi_sql"/>
     FROM
         biz_room a
         JOIN biz_hotl b ON a.hotel_code = b.hotel_code
@@ -186,7 +174,7 @@
       AND b.hotel_level = #{hotelLevel,jdbcType=VARCHAR}
     </if>
     <if test="hotelName !=null and hotelName!=''">
-      AND (b.hotem_cname LIKE CONCAT('%',#{hotelName},'%') or b.hotel_ename LIKE CONCAT('%',#{hotelName},'%'))
+      AND (b.hotel_cname LIKE CONCAT('%',#{hotelName},'%') or b.hotel_ename LIKE CONCAT('%',#{hotelName},'%'))
     </if>
     <if test="roomType != null and roomType!=''">
       AND a.room_type = #{roomType,jdbcType=VARCHAR}
@@ -286,6 +274,19 @@
     </if>
     <if test="isrestau != null and isrestau !=''">
         AND bre.isrestau = #{isrestau,jdbcType=VARCHAR}
+    </if>
+    <if test="adultNum!=null or childNum!=null">
+        <choose>
+            <when test="adultNum!=null and childNum==null">
+                AND (p.inventory * a.room_type) &gt;= #{adultNum}
+            </when>
+            <when test="adultNum==null and childNum!=null">
+                AND (p.inventory * a.room_type) &gt;= #{childNum}
+            </when>
+            <otherwise>
+                AND (p.inventory * a.room_type) &gt;= (#{adultNum} + #{childNum})
+            </otherwise>
+        </choose>
     </if>
     <if test="lowRoomPrice!=null or highRoomPrice!=null">
         <choose>

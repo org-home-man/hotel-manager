@@ -21,17 +21,10 @@ public class HotelRoomDto extends BusinessEntity{
 	private String roomType;
 	/** 房间样式 */
 	private String roomStyle;
-
-	/** 房间类型key */
-	private String roomTypeKey;
-
-	/** 床铺类型key */
-	private String bedTypeKey;
 	/** 床铺类型 */
 	private String bedType;
 	/** 餐食条件 */
 	private String breakType;
-	private String breakTypeKey;
 	/** 客房面积 */
 	private Double roomArea;
 	/** 中文文字介绍 */
@@ -45,44 +38,23 @@ public class HotelRoomDto extends BusinessEntity{
 	/** 是否本期推荐 */
 	private String recommended;
 
-	private int scheduledays;
-	private double favorableprice;
-	private int evenlive;
-	private String present;
-
 	private String hotelType;
-	private String hotelTypeKey;
 
-	private String outDateEnd;
-	private String inDateStart;
 	/** 都道府县 */
 	private String provinceCode;
 	/** 区市町村 */
 	private String cityCode;
 
-	/** 都道府县 */
-	private String provinceCodeKey;
-	private String provinceEname;
-	private String provinceCname;
-	/** 区市町村 */
-	private String cityCodeKey;
-	private String cityEname;
-	private String cityCname;
 	/** 酒店星级 */
 	private String hotelLevel;
 	/** 酒店中文名称 */
 	private String hotelCname;
 
 	/** 酒店英文名称 */
-
 	private String hotelEname;
 	/** 库存数量 */
 	private Integer inventory;
 
-	private String autoClose;
-
-	/** 销售房价 */
-	private Double sRoomPrice;
 	/** 销售房价 */
 	private Double sPrice;
 
@@ -137,8 +109,6 @@ public class HotelRoomDto extends BusinessEntity{
 	/** 附近有餐厅 */
 	private String isrestau;
 
-	/** 结算价格  */
-	private Double tPrice;
 	/** 酒店地址 */
 	private String hotelAddr;
 	/** 酒店电话 */
@@ -146,37 +116,6 @@ public class HotelRoomDto extends BusinessEntity{
 	/** 酒店网址 */
 	private String hotelWeb;
 
-	public int getScheduledays() {
-		return scheduledays;
-	}
-
-	public void setScheduledays(int scheduledays) {
-		this.scheduledays = scheduledays;
-	}
-
-	public double getFavorableprice() {
-		return favorableprice;
-	}
-
-	public void setFavorableprice(double favorableprice) {
-		this.favorableprice = favorableprice;
-	}
-
-	public int getEvenlive() {
-		return evenlive;
-	}
-
-	public void setEvenlive(int evenlive) {
-		this.evenlive = evenlive;
-	}
-
-	public String getPresent() {
-		return present;
-	}
-
-	public void setPresent(String present) {
-		this.present = present;
-	}
 
 	public String getHotelLevel() {
 		return hotelLevel;
@@ -185,55 +124,6 @@ public class HotelRoomDto extends BusinessEntity{
 	public void setHotelLevel(String hotelLevel) {
 		this.hotelLevel = hotelLevel;
 	}
-
-	public String getAutoClose() {
-		return autoClose;
-	}
-
-	public void setAutoClose(String autoClose) {
-		this.autoClose = autoClose;
-	}
-
-	public String getProvinceCodeKey() {
-		return provinceCodeKey;
-	}
-
-	public void setProvinceCodeKey(String provinceCodeKey) {
-		this.provinceCodeKey = provinceCodeKey;
-	}
-
-	public String getCityCodeKey() {
-		return cityCodeKey;
-	}
-
-	public void setCityCodeKey(String cityCodeKey) {
-		this.cityCodeKey = cityCodeKey;
-	}
-
-	public Double getTPrice() {
-		return tPrice;
-	}
-
-	public void setTPrice(Double tPrice) {
-		this.tPrice = tPrice;
-	}
-
-	public String getRoomTypeKey() {
-		return roomTypeKey;
-	}
-
-	public void setRoomTypeKey(String roomTypeKey) {
-		this.roomTypeKey = roomTypeKey;
-	}
-
-	public String getoutDateEnd() {
-		return outDateEnd;
-	}
-	public void setoutDateEnd(String outDateEnd) {
-		this.outDateEnd = outDateEnd;
-	}
-
-
 
 	public void sethotelAddr(String hotelAddr) {
 		this.hotelAddr = hotelAddr;
@@ -257,36 +147,12 @@ public class HotelRoomDto extends BusinessEntity{
 		return hotelWeb;
 	}
 
-
-	public String getinDateStart() {
-		return inDateStart;
-	}
-
-	public void setinDateStart(String inDateStart) {
-		this.inDateStart = inDateStart;
-	}
-
-	public String getBedTypeKey() {
-		return bedTypeKey;
-	}
-
-	public void setBedTypeKey(String bedTypeKey) {
-		this.bedTypeKey = bedTypeKey;
-	}
-
 	public String getHotelType() {
 		return hotelType;
 	}
 
 	public void setHotelType(String hotelType) {
 		this.hotelType = hotelType;
-	}
-	public String getHotelTypeKey() {
-		return hotelTypeKey;
-	}
-
-	public void setHotelTypeKey(String hotelTypeKey) {
-		this.hotelTypeKey = hotelTypeKey;
 	}
 
 	public String getIswify() {
@@ -505,38 +371,6 @@ public class HotelRoomDto extends BusinessEntity{
 		this.cityCode = cityCode;
 	}
 
-	public String getProvinceEname() {
-		return provinceEname;
-	}
-
-	public void setProvinceEname(String provinceEname) {
-		this.provinceEname = provinceEname;
-	}
-
-	public String getProvinceCname() {
-		return provinceCname;
-	}
-
-	public void setProvinceCname(String provinceCname) {
-		this.provinceCname = provinceCname;
-	}
-
-	public String getCityEname() {
-		return cityEname;
-	}
-
-	public void setCityEname(String cityEname) {
-		this.cityEname = cityEname;
-	}
-
-	public String getCityCname() {
-		return cityCname;
-	}
-
-	public void setCityCname(String cityCname) {
-		this.cityCname = cityCname;
-	}
-
 	public String getHotelCname() {
 		return hotelCname;
 	}
@@ -559,14 +393,6 @@ public class HotelRoomDto extends BusinessEntity{
 
 	public void setInventory(Integer inventory) {
 		this.inventory = inventory;
-	}
-
-	public Double getsRoomPrice() {
-		return sRoomPrice;
-	}
-
-	public void setsRoomPrice(Double sRoomPrice) {
-		this.sRoomPrice = sRoomPrice;
 	}
 
 	public Double getsPrice() {
@@ -624,15 +450,6 @@ public class HotelRoomDto extends BusinessEntity{
 	public void setBreakType(String breakType) {
 		this.breakType = breakType;
 	}
-
-	public String getBreakTypeKey() {
-		return breakTypeKey;
-	}
-
-	public void setBreakTypeKey(String breakTypeKey) {
-		this.breakTypeKey = breakTypeKey;
-	}
-
 
 	public Double getRoomArea() {
 		return roomArea;

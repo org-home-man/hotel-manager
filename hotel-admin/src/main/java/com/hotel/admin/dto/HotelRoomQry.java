@@ -16,7 +16,7 @@ public class HotelRoomQry {
 	private String breakType;
 	/** 客房面积 */
 	private Double roomArea;
-	/** 默认库存数 */
+	/** 房间数 */
 	private Integer roomNum;
 	/** 退房时间 */
 	private String outDateEnd;
@@ -26,14 +26,14 @@ public class HotelRoomQry {
 	private String provinceCode;
 	/** 区市町村 */
 	private String cityCode;
-	/** 都道府县 */
-	private String provinceCodeKey;
-	/** 区市町村 */
-	private String cityCodeKey;
 	/** 房间价格 */
 	private Integer highRoomPrice;
 	/** 房间价格 */
 	private Integer lowRoomPrice;
+	/** 成人数 */
+	private Integer adultNum;
+	/** 儿童数 */
+	private Integer childNum;
 	/** 酒店名称 */
 	private String hotelName;
 	/** 酒店类型 */
@@ -177,22 +177,6 @@ public class HotelRoomQry {
 
 	public void setCityCode(String cityCode) {
 		this.cityCode = cityCode;
-	}
-
-	public String getProvinceCodeKey() {
-		return provinceCodeKey;
-	}
-
-	public void setProvinceCodeKey(String provinceCodeKey) {
-		this.provinceCodeKey = provinceCodeKey;
-	}
-
-	public String getCityCodeKey() {
-		return cityCodeKey;
-	}
-
-	public void setCityCodeKey(String cityCodeKey) {
-		this.cityCodeKey = cityCodeKey;
 	}
 
 	public Integer getHighRoomPrice() {
@@ -425,5 +409,21 @@ public class HotelRoomQry {
 
 	public void setHotelType(String hotelType) {
 		this.hotelType = hotelType;
+	}
+
+	public Integer getAdultNum() {
+		return adultNum;
+	}
+
+	public void setAdultNum(Integer adultNum) {
+		this.adultNum = adultNum;
+	}
+
+	public Integer getChildNum() {
+		return childNum;
+	}
+
+	public void setChildNum(Integer childNum) {
+		this.childNum = childNum;
 	}
 }

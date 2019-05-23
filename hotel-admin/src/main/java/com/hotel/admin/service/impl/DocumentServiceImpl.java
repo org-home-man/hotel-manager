@@ -115,8 +115,7 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
             fileInfo.setContent(byteArrayOutputStream.toByteArray());
             return fileInfo;
         } catch (FileNotFoundException e) {
-            LOGGER.error("文件读取失败", e);
-            //throw new BusinessException("读取文件失败");
+            LOGGER.error("文件读取失败");
             return null;
         } finally {
             SimpleUtils.closeStream(byteArrayOutputStream, fileInputStream);
