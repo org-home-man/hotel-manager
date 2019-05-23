@@ -1,17 +1,11 @@
 package com.hotel.admin.dto;
 
-import com.hotel.common.entity.BusinessEntity;
-
 /**
  * ---------------------------
  * 客房信息表 (BizRoom)         
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-01 21:00:17
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
-public class HotelRoomDto extends BusinessEntity{
+public class HotelRoomDto {
 
 	/** 客房编号 */
 	private String roomCode;
