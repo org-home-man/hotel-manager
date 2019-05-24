@@ -13,4 +13,11 @@ public interface SysLoginService {
      * @return
      */
     HttpResult login(LoginBean loginBean, HttpServletRequest request);
+
+    /**
+     * 登出操作
+     * @return
+     */
+    HttpResult logout();
+
 }

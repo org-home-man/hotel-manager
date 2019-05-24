@@ -1,10 +1,10 @@
 package com.hotel.admin.mybatis.interceptor;
 
-import com.hotel.admin.util.SecurityUtils;
 import com.hotel.common.entity.BusinessEntity;
+import com.hotel.common.entity.auth.ISysUser;
 import com.hotel.common.utils.DateUtils;
-import com.hotel.common.utils.IdUtil;
 import com.hotel.common.utils.Utils;
+import com.hotel.core.context.UserContext;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
@@ -29,9 +29,6 @@ import java.util.Properties;
 @Intercepts({ @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class }) })
 public class BusinessInfoInterceptor implements Interceptor {
 
-	@Autowired
-	SecurityUtils securityUtils;
-
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
 		MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
@@ -41,10 +38,11 @@ public class BusinessInfoInterceptor implements Interceptor {
 		if (obj instanceof BusinessEntity) {
 			entity = (BusinessEntity) obj;
 		}
+		ISysUser currentUser = UserContext.getCurrentUser();
 		if (sqlCommandType == SqlCommandType.UPDATE) {
 			if (entity != null) {
 				entity.setUpdateTime(DateUtils.getNowTime());
-				entity.setUpdateName(securityUtils.getUsername());
+				entity.setUpdateName(currentUser.getName());
 			}
 			
 		}else if (sqlCommandType == SqlCommandType.INSERT) {
@@ -53,8 +51,8 @@ public class BusinessInfoInterceptor implements Interceptor {
 					entity.setCreateTime(DateUtils.getNowTime());
 				}
 				entity.setUpdateTime(DateUtils.getNowTime());
-				entity.setCreateName(securityUtils.getUsername());
-				entity.setUpdateName(securityUtils.getUsername());
+				entity.setCreateName(currentUser.getName());
+				entity.setUpdateName(currentUser.getName());
 //				if(Utils.isEmpty(entity.getId())){
 //					//自动生成ID
 //					Long id = IdUtil.nextId();

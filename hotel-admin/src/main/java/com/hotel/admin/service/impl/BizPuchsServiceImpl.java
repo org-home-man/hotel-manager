@@ -7,10 +7,10 @@ import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.admin.service.BizInvService;
 import com.hotel.admin.service.BizPuchsService;
 import com.hotel.admin.service.SysUserService;
-import com.hotel.admin.util.SecurityUtils;
 import com.hotel.common.utils.DateUtils;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
+import com.hotel.core.context.UserContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.service.AbstractService;
 import org.slf4j.Logger;
@@ -45,8 +45,6 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 
     @Autowired
     private BizInvMapper bizInvMapper;
-    @Autowired
-    SecurityUtils securityUtils;
 
     @Autowired
     private BizRoomMapper bizRoomMapper;
@@ -77,7 +75,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             String timeNow = dateFormat.format(now);
 
             //获取用户id
-            String userName = securityUtils.getUsername();
+            String userName = UserContext.getCurrentUser().getName();
             if (Utils.isEmpty(userName)) {
                 return 0;
             }
@@ -189,7 +187,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     @Override
     public List<BizPuchsExtDto> findPage(BizPuchsQuery bizPuchsQuery) {
         PageContext.setPagination(false);
-        String username = securityUtils.getUsername();
+        String username = UserContext.getCurrentUser().getName();
         SysUser sysUser = sysUserService.findByName(username);
         List<SysUserRole> userRoles = sysUserRoleMapper.findUserRoles(sysUser.getId());
         for (SysUserRole userRole : userRoles) {

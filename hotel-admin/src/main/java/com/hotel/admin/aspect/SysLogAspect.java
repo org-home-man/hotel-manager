@@ -3,6 +3,7 @@ package com.hotel.admin.aspect;
 import javax.servlet.http.HttpServletRequest;
 
 import com.hotel.admin.service.SysLogService;
+import com.hotel.core.context.UserContext;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,20 +16,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.hotel.admin.model.SysLog;
 import com.hotel.admin.util.HttpUtils;
 import com.hotel.admin.util.IPUtils;
-import com.hotel.admin.util.SecurityUtils;
 
 
 /**
  * 系统日志，切面处理类，记录日志
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class SysLogAspect {
 	
 	@Autowired
 	private SysLogService sysLogService;
-	@Autowired
-	private SecurityUtils securityUtils;
 	
 	@Pointcut("execution(* com.hotel.*.service.*.*(..))")
 	public void logPointCut() { 
@@ -48,7 +46,7 @@ public class SysLogAspect {
 	}
 
 	private void saveSysLog(ProceedingJoinPoint joinPoint, long time) {
-		String userName = securityUtils.getUsername();
+//		String userName = "admin";
 		if(joinPoint.getTarget() instanceof SysLogService) {
 			return ;
 		}
@@ -65,6 +63,9 @@ public class SysLogAspect {
 		// 请求的方法名
 		String className = joinPoint.getTarget().getClass().getName();
 		String methodName = signature.getName();
+		if(methodName.indexOf("login")!=-1 ){
+			return;
+		}
 		sysLog.setMethod(className + "." + methodName + "()");
 
 		// 请求的参数
@@ -83,8 +84,9 @@ public class SysLogAspect {
 		// 设置IP地址
 		sysLog.setIp(IPUtils.getIpAddr(request));
 
+//		String userName = UserContext.getCurrentUser().getName();
 		// 用户名
-		sysLog.setUserName(userName);
+//		sysLog.setUserName(userName);
 		
 		// 执行时长(毫秒)
 		sysLog.setTime(time);

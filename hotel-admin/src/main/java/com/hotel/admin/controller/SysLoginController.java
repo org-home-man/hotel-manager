@@ -2,28 +2,16 @@ package com.hotel.admin.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
-import com.hotel.admin.model.SysUser;
-import com.hotel.admin.redis.RedisService;
-import com.hotel.admin.security.JwtAuthenticatioToken;
 import com.hotel.admin.service.SysLoginService;
-import com.hotel.admin.service.SysUserService;
-import com.hotel.admin.util.JwtTokenUtils;
-import com.hotel.admin.util.PasswordUtils;
-import com.hotel.admin.util.SecurityUtils;
 import com.hotel.admin.vo.LoginBean;
 import com.hotel.common.utils.IOUtils;
-import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
-import com.hotel.core.model.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,19 +29,10 @@ public class SysLoginController {
 	@Autowired
 	private Producer producer;
 	@Autowired
-	private SysUserService sysUserService;
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	@Autowired
-	private RedisService redisService;
-	@Autowired
-	private SecurityUtils securityUtils;
-
-	@Autowired
 	private SysLoginService loginService;
 
 	@GetMapping("captcha.jpg")
-	public void captcha(HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+	public void captcha(HttpServletResponse response, HttpServletRequest request) throws IOException {
 		response.setHeader("Cache-Control", "no-store, no-cache");
 		response.setContentType("image/jpeg");
 
@@ -73,8 +52,15 @@ public class SysLoginController {
 	 * 登录接口
 	 */
 	@PostMapping(value = "/login")
-	public HttpResult login(LoginBean loginBean, HttpServletRequest request) throws IOException {
+	public HttpResult login(LoginBean loginBean, HttpServletRequest request){
 		return loginService.login(loginBean,request);
 	}
 
+	/**
+	 * 登录接口
+	 */
+	@GetMapping(value = "/signOut")
+	public HttpResult logout(){
+		return loginService.logout();
+	}
 }

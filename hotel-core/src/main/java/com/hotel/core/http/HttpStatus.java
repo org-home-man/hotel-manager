@@ -149,5 +149,9 @@ public interface HttpStatus {
      * 业务异常统一返回状态码
      */
     public static final int SC_INSUFFICIENT_BUSINESERR = 10001;
+    /**
+     * 登录过期
+     */
+    public static final int SC_LOGIN_EXPIRE = 2001;
 
 }

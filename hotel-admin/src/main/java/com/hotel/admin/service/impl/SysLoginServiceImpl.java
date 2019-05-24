@@ -3,11 +3,12 @@ package com.hotel.admin.service.impl;
 import com.google.code.kaptcha.Constants;
 import com.hotel.admin.mapper.SysUserMapper;
 import com.hotel.admin.model.SysUser;
+import com.hotel.admin.redis.UserInfoCache;
 import com.hotel.admin.security.JwtAuthenticatioToken;
 import com.hotel.admin.service.SysLoginService;
-import com.hotel.admin.util.JwtTokenUtils;
 import com.hotel.admin.util.PasswordUtils;
 import com.hotel.admin.vo.LoginBean;
+import com.hotel.core.context.UserContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class SysLoginServiceImpl implements SysLoginService {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private JwtTokenUtils jwtTokenUtils;
+    private UserInfoCache userInfoCache;
 
     @Override
     public HttpResult login(LoginBean loginBean, HttpServletRequest request) {
@@ -40,10 +41,10 @@ public class SysLoginServiceImpl implements SysLoginService {
         // 从session中获取之前保存的验证码跟前台传来的验证码进行匹配
 		Object kaptcha = request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
 		if(kaptcha == null){
-			return HttpResult.error("验证码已失效");
+            throw new GlobalException("captchaExpire");
 		}
 		if(!captcha.equals(kaptcha)){
-			return HttpResult.error("验证码不正确");
+            throw new GlobalException("captchaNotMatch");
 		}
 
         // 用户信息
@@ -62,6 +63,7 @@ public class SysLoginServiceImpl implements SysLoginService {
         if (user.getStatus() == 0) {
             throw new GlobalException("AccountException");
         }
+        UserContext.setUser(user);
 
         // 系统登录认证
         JwtAuthenticatioToken token = new JwtAuthenticatioToken(username, password);
@@ -72,8 +74,15 @@ public class SysLoginServiceImpl implements SysLoginService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         // 生成令牌并返回给客户端
 
-        token.setToken(jwtTokenUtils.generateToken(authentication,user));
+        token.setToken(userInfoCache.generateToken(authentication,user));
+
 //        redisService.setValue(username,token.getToken(), JwtTokenUtils.EXPIRE_TIME); //登录成功缓存token
         return HttpResult.ok(token);
+    }
+
+    @Override
+    public HttpResult logout() {
+        userInfoCache.clearUserInfoByToken(UserContext.getToken());
+        return HttpResult.ok();
     }
 }

@@ -1,7 +1,9 @@
 package com.hotel.admin.config;
 
+import com.hotel.admin.redis.UserInfoCache;
 import com.hotel.admin.security.JwtAuthenticationFilter;
 import com.hotel.admin.security.JwtAuthenticationProvider;
+import com.hotel.admin.security.JwtLogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 /**
  * Spring Security Config
@@ -29,6 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private UserInfoCache userInfoCache;
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -38,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.cors().and().csrf().disable();
         // 禁用 csrf, 由于使用的是JWT，我们这里不需要csrf
         http.authorizeRequests().
                 // 跨域预检请求
@@ -59,10 +62,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //            .antMatchers("/actuator/**").permitAll()
                 // 其他所有请求需要身份认证
                 .anyRequest().authenticated();
+//        http.formLogin().loginPage("/login").successHandler(new JwtLoginSuccessHandler());
         // 退出登录处理器
-        http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+//        http.logout().logoutSuccessHandler(new JwtLogoutSuccessHandler(userInfoCache));
+//        http.logout().logoutUrl("/signOut").logoutSuccessUrl("login").deleteCookies("JSESSIONID");
         // token验证过滤器
-        http.addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtAuthenticationFilter(authenticationManager(),userInfoCache), UsernamePasswordAuthenticationFilter.class);
 
     }
 
@@ -71,5 +76,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
+
 
 }
