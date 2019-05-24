@@ -14,7 +14,7 @@ public class SysUser extends BusinessEntity implements ISysUser {
 
     private String realName;
 
-    private Long sex;
+    private String sex;
 
     private String password;
 
@@ -216,11 +216,38 @@ public class SysUser extends BusinessEntity implements ISysUser {
         this.realName = realName;
     }
 
-    public Long getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Long sex) {
+    public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    @Override
+    public String toString() {
+        return "SysUser{" +
+                "name='" + name + '\'' +
+                ", realName='" + realName + '\'' +
+                ", sex=" + sex +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", email='" + email + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", phone='" + phone + '\'' +
+                ", status=" + status +
+                ", deptId=" + deptId +
+                ", deptName='" + deptName + '\'' +
+                ", delFlag=" + delFlag +
+                ", roleNames='" + roleNames + '\'' +
+                ", userRoles=" + userRoles +
+                ", birthday=" + birthday +
+                ", deptNumber='" + deptNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", region='" + region + '\'' +
+                ", net='" + net + '\'' +
+                ", remark='" + remark + '\'' +
+                ", path='" + path + '\'' +
+                '}';
     }
 }

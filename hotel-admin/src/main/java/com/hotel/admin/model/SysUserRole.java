@@ -24,4 +24,11 @@ public class SysUserRole extends BusinessEntity {
 		this.roleId = roleId;
 	}
 
+	@Override
+	public String toString() {
+		return "SysUserRole{" +
+				"userId=" + userId +
+				", roleId=" + roleId +
+				'}';
+	}
 }
