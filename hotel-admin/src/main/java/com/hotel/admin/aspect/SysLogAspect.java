@@ -27,6 +27,8 @@ public class SysLogAspect {
 	
 	@Autowired
 	private SysLogService sysLogService;
+	@Autowired
+	private SecurityUtils securityUtils;
 	
 	@Pointcut("execution(* com.hotel.*.service.*.*(..))")
 	public void logPointCut() { 
@@ -46,7 +48,7 @@ public class SysLogAspect {
 	}
 
 	private void saveSysLog(ProceedingJoinPoint joinPoint, long time) {
-		String userName = SecurityUtils.getUsername();
+		String userName = securityUtils.getUsername();
 		if(joinPoint.getTarget() instanceof SysLogService) {
 			return ;
 		}

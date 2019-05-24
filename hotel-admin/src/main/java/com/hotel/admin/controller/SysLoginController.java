@@ -3,8 +3,11 @@ package com.hotel.admin.controller;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.hotel.admin.model.SysUser;
+import com.hotel.admin.redis.RedisService;
 import com.hotel.admin.security.JwtAuthenticatioToken;
+import com.hotel.admin.service.SysLoginService;
 import com.hotel.admin.service.SysUserService;
+import com.hotel.admin.util.JwtTokenUtils;
 import com.hotel.admin.util.PasswordUtils;
 import com.hotel.admin.util.SecurityUtils;
 import com.hotel.admin.vo.LoginBean;
@@ -41,6 +44,13 @@ public class SysLoginController {
 	private SysUserService sysUserService;
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	@Autowired
+	private RedisService redisService;
+	@Autowired
+	private SecurityUtils securityUtils;
+
+	@Autowired
+	private SysLoginService loginService;
 
 	@GetMapping("captcha.jpg")
 	public void captcha(HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
@@ -64,40 +74,7 @@ public class SysLoginController {
 	 */
 	@PostMapping(value = "/login")
 	public HttpResult login(LoginBean loginBean, HttpServletRequest request) throws IOException {
-		String username = loginBean.getAccount();
-		String password = loginBean.getPassword();
-		String captcha = loginBean.getCaptcha();
-		
-		// 从session中获取之前保存的验证码跟前台传来的验证码进行匹配
-//		Object kaptcha = request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-//		if(kaptcha == null){
-//			return HttpResult.error("验证码已失效");
-//		}
-//		if(!captcha.equals(kaptcha)){
-//			return HttpResult.error("验证码不正确");
-//		}
-
-		// 用户信息
-		SysUser user = sysUserService.findByName(username);
-
-		// 账号不存在、密码错误
-		if (user == null) {
-			throw new GlobalException("AcIsNotException");
-		}
-		
-		if (!PasswordUtils.matches(user.getSalt(), password, user.getPassword())) {
-			throw new GlobalException("pwdErException");
-		}
-
-		// 账号锁定
-		if (user.getStatus() == 0) {
-			throw new GlobalException("AccountException");
-		}
-
-		// 系统登录认证
-		JwtAuthenticatioToken token = SecurityUtils.login(request, username, password, authenticationManager);
-
-		return HttpResult.ok(token);
+		return loginService.login(loginBean,request);
 	}
 
 }

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 安全用户模型
- * @author Louis
+ * @author chenchao
  * @date Nov 20, 2018
  */
 public class JwtUserDetails implements UserDetails {

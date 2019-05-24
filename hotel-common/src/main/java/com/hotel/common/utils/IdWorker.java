@@ -19,7 +19,7 @@ package com.hotel.common.utils;
 public class IdWorker {
 
     //开始该类生成ID的时间截，1288834974657 (Thu, 04 Nov 2010 01:42:54 GMT) 这一时刻到当前时间所经过的毫秒数，占 41 位（还有一位是符号位，永远为 0）。
-    private final long startTime = 1463834116272L;
+    private final long startTime = 1558664676184L;
 
     //机器id所占的位数
     private long workerIdBits = 5L;
@@ -87,7 +87,8 @@ public class IdWorker {
                 //序列从0开始
                 sequence = 0L;
             }
-        } else {
+        }
+        else {
             //如果发现是下一个时间单位，则自增序列回0，重新自增
             sequence = 0L;
         }

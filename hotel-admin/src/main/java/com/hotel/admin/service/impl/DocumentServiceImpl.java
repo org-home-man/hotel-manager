@@ -85,13 +85,13 @@ public class DocumentServiceImpl extends AbstractService<Document> implements ID
         for (MultipartFile file : files) {
             Document document = new Document();
             writeFile2Dist(file, document);
-            InsertContext.setInsertion(false);
-            document.setId(IdUtil.nextId());
+//            InsertContext.setInsertion(false);
+//            document.setId(IdUtil.nextId());
             document.setStatus(Constant.BOOL_NO);
             document.setRelationId(relationId);
             //开始保存文件
             documentMapper.insertSelective(document);
-            InsertContext.setInsertion(true);
+//            InsertContext.setInsertion(true);
             result.setData(relationId);
         }
         return result;

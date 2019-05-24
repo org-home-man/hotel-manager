@@ -45,6 +45,8 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 
     @Autowired
     private BizInvMapper bizInvMapper;
+    @Autowired
+    SecurityUtils securityUtils;
 
     @Autowired
     private BizRoomMapper bizRoomMapper;
@@ -75,7 +77,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             String timeNow = dateFormat.format(now);
 
             //获取用户id
-            String userName = SecurityUtils.getUsername();
+            String userName = securityUtils.getUsername();
             if (Utils.isEmpty(userName)) {
                 return 0;
             }
@@ -187,7 +189,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     @Override
     public List<BizPuchsExtDto> findPage(BizPuchsQuery bizPuchsQuery) {
         PageContext.setPagination(false);
-        String username = SecurityUtils.getUsername();
+        String username = securityUtils.getUsername();
         SysUser sysUser = sysUserService.findByName(username);
         List<SysUserRole> userRoles = sysUserRoleMapper.findUserRoles(sysUser.getId());
         for (SysUserRole userRole : userRoles) {

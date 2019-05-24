@@ -9,6 +9,7 @@ import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Properties;
@@ -27,6 +28,10 @@ import java.util.Properties;
 @Component
 @Intercepts({ @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class }) })
 public class BusinessInfoInterceptor implements Interceptor {
+
+	@Autowired
+	SecurityUtils securityUtils;
+
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
 		MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
@@ -39,7 +44,7 @@ public class BusinessInfoInterceptor implements Interceptor {
 		if (sqlCommandType == SqlCommandType.UPDATE) {
 			if (entity != null) {
 				entity.setUpdateTime(DateUtils.getNowTime());
-				entity.setUpdateName(SecurityUtils.getUsername());
+				entity.setUpdateName(securityUtils.getUsername());
 			}
 			
 		}else if (sqlCommandType == SqlCommandType.INSERT) {
@@ -48,8 +53,8 @@ public class BusinessInfoInterceptor implements Interceptor {
 					entity.setCreateTime(DateUtils.getNowTime());
 				}
 				entity.setUpdateTime(DateUtils.getNowTime());
-				entity.setCreateName(SecurityUtils.getUsername());
-				entity.setUpdateName(SecurityUtils.getUsername());
+				entity.setCreateName(securityUtils.getUsername());
+				entity.setUpdateName(securityUtils.getUsername());
 //				if(Utils.isEmpty(entity.getId())){
 //					//自动生成ID
 //					Long id = IdUtil.nextId();
