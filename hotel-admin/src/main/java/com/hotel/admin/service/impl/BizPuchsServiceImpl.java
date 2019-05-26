@@ -124,22 +124,23 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         if ("2".equals(listStat.getStatus())) {
             throw new GlobalException("isOrderException");
         }
+        System.out.println(record.getoutDateEnd()+ record.getinDateStart() );
         //获取入住时间和退房时间
-        if (record.getOutDate() == null || record.getInDate() == null) {
+        if (record.getoutDateEnd() == null || record.getinDateStart() == null) {
             throw new GlobalException("inoutdateIsNull");
         }
 
-        Date outDate = DateUtils.getDate(record.getOutDate(), "yyyyMMdd");
-        Date inDate = DateUtils.getDate(record.getInDate(), "yyyyMMdd");
+        Date outDate = DateUtils.getDate(record.getoutDateEnd(), "yyyyMMdd");
+        Date inDate = DateUtils.getDate(record.getinDateStart(), "yyyyMMdd");
         int invDate = DateUtils.getDateDiff(outDate, inDate);
 
         if (invDate <= 0) {
             throw new GlobalException("inDateExcepiton");
         }
 
-
+System.out.println(inDate +"  " + new Date() );
 		if(new Date().after(inDate)){
-			throw new GlobalException("isOrderException");
+			throw new GlobalException("isinDateOutException");
 		}
 
         // 判断库存表的库存数是否满足客户需要

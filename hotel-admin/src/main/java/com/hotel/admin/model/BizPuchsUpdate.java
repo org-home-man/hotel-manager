@@ -20,9 +20,9 @@ public class BizPuchsUpdate extends BusinessEntity {
 	/** 确定时间 */
 	private String confirmTime;
 	/** 入住日期 */
-	private String inDate;
+	private String inDateStart;
 	/** 退房日期 */
-	private String outDate;
+	private String outDateEnd;
 	/** 代表者姓名 */
 	private String pName;
 	/** 护照号 */
@@ -51,6 +51,17 @@ public class BizPuchsUpdate extends BusinessEntity {
 	private String status;
 	/** 订单状态 */
 	private String hotelName;
+
+	private String  confirmDate;
+
+	public String getconfirmDatee() {
+		return confirmDate;
+	}
+
+	public void setconfirmDate(String confirmDate) {
+		this.confirmDate = confirmDate;
+	}
+
 
 	public String getHotelName() {
 		return hotelName;
@@ -84,20 +95,20 @@ public class BizPuchsUpdate extends BusinessEntity {
 		this.confirmTime = confirmTime;
 	}
 
-	public String getInDate() {
-		return inDate;
+	public String getinDateStart() {
+		return inDateStart;
 	}
 
-	public void setInDate(String inDate) {
-		this.inDate = inDate;
+	public void setinDateStart(String inDateStart) {
+		this.inDateStart = inDateStart;
 	}
 
-	public String getOutDate() {
-		return outDate;
+	public String getoutDateEnd() {
+		return outDateEnd;
 	}
 
-	public void setOutDate(String outDate) {
-		this.outDate = outDate;
+	public void setoutDateEnd(String outDateEnd) {
+		this.outDateEnd = outDateEnd;
 	}
 
 	public String getpName() {

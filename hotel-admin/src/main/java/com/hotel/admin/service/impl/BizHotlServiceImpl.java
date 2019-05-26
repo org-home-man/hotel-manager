@@ -56,6 +56,15 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
                 System.out.println("licy12345");
                 /* 获取自增序列并加1*/
                 System.out.println(record.getHotelCode());
+                String ProvinceCode = record.getProvinceCode();
+                String CityCode = record.getCityCode();
+				while (ProvinceCode.length() < 3) {
+					ProvinceCode = "0"+ ProvinceCode;
+				}
+				while (CityCode.length() <2)
+				{
+					CityCode= "0" + CityCode;
+				}
 				 CrtId crt =crtIdMapper.findById("hotel");
 				 if(crt == null)
 				 {
@@ -64,19 +73,19 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 					 ncrt.setCrtNo("1");
 					 ncrt.setCrtType("hotel");
 					 crtIdMapper.add(ncrt);
-					 record.setHotelCode(record.getProvinceCode()+record.getCityCode() + "0000001");
+					 record.setHotelCode(ProvinceCode+CityCode + "00001");
 				 }
 				 else {
 					 String crtno = crt.getCrtNo();
 					 System.out.println(crtno);
       			     String newCrt = String.valueOf(Integer.parseInt(crtno) + 1);
-      			     while (newCrt.length() < 7) {
+      			     while (newCrt.length() < 5) {
                          newCrt = "0" + newCrt;
                      }
 					 System.out.println(newCrt);
 					 crt.setCrtNo(newCrt);
 					 crtIdMapper.update(crt);
-					 record.setHotelCode(record.getProvinceCode()+record.getCityCode()+ newCrt);
+					 record.setHotelCode(ProvinceCode+CityCode+ newCrt);
 				 }
 				 try
 				 {
