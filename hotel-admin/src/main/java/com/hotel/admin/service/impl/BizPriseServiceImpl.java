@@ -46,16 +46,16 @@ public class BizPriseServiceImpl implements BizPriseService {
 			record.setPriceDate(bp.getPriceDate());
 			record.setSPrice(bp.getSPrice());
 			record.setTPrice(bp.getTPrice());
-			if("01".equals( record.getRoomType() ) ) {
+			if("1".equals( record.getRoomType() ) ) {
 				record.setSRoomPrice(bp.getSPrice());
 			}
-			if("02".equals( record.getRoomType() ) ) {
+			if("2".equals( record.getRoomType() ) ) {
 				record.setSRoomPrice(bp.getSPrice()*2);
 			}
-			if("03".equals( record.getRoomType() ) ) {
+			if("3".equals( record.getRoomType() ) ) {
 				record.setSRoomPrice(bp.getSPrice()*3);
 			}
-			if("04".equals( record.getRoomType() ) ) {
+			if("4".equals( record.getRoomType() ) ) {
 				record.setSRoomPrice(bp.getSPrice()*4);
 			}
 			List<BizPrise> bpLi = bizPriseMapper.findById(record);
