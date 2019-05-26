@@ -101,4 +101,10 @@ public class SysUserController {
 		return HttpResult.ok();
 	}
 
+	@PostMapping(value = "/findLikeByName")
+	public HttpResult findLikeByName(String name){
+		List<SysUser> likeByName = sysUserService.findLikeByName(name);
+		return HttpResult.ok(likeByName);
+	}
+
 }

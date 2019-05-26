@@ -65,7 +65,7 @@
   </resultMap>
 
   <sql id="br_hotel_sql">
-    b.hotel_code,b.province_code,b.city_code,b.hotel_type,b.hotel_level,b.hotel_cname,b.hotel_ename,b.hotel_addr,b.hotel_phone,b.hotel_web
+    b.hotel_code AS hotelCode,b.province_code AS provinceCode ,b.city_code AS cityCode,b.hotel_type AS hotelType,b.hotel_level AS hotelLevel,b.hotel_cname AS hotelCname,b.hotel_ename AS hotelEname,b.hotel_addr AS hotelAddr,b.hotel_phone AS hotelPhone,b.hotel_web AS hotelWeb
   </sql>
   <sql id="br_room_sql">
     a.room_code,a.room_type,a.room_style,a.bed_type,a.break_type,a.room_area,a.room_stock,a.photo
@@ -302,5 +302,8 @@
         </choose>
     </if>
   </select>
+    <select id="findLikeByName" resultType="com.hotel.admin.model.BizHotl">
+        SELECT <include refid="br_hotel_sql"/> from biz_hotl b where b.hotel_cname LIKE CONCAT('%',#{name},'%') or b.hotel_ename LIKE CONCAT('%',#{name},'%') limit 5
+    </select>
 
 </mapper>

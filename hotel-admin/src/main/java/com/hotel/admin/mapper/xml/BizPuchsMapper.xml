@@ -98,13 +98,13 @@
             AND a.create_time >= #{createTimeStart}
         </if>
         <if test="confirmTimeEnd != null and confirmTimeEnd != ''">
-            AND a.order_code &lt;= #{confirmTimeEnd}
+            AND a.confirm_date &lt;= #{confirmTimeEnd}
         </if>
         <if test="confirmTimeStart != null and confirmTimeStart != ''">
-            AND a.order_code >= #{confirmTimeStart}
+            AND a.confirm_date >= #{confirmTimeStart}
         </if>
         <if test="hotelName != null and hotelName != ''">
-            AND a.hotel_cname = #{hotelName}
+            AND (c.hotel_cname = #{hotelName} OR c.hotel_ename = #{hotelName})
         </if>
 		<if test="createName != null and createName != ''">
 			AND a.create_name = #{createName}
@@ -161,7 +161,7 @@
 	</update>
 
 	<select id="findPage" resultMap="BaseResultMap">
-		select a.*,b.hotel_code,b.room_style,b.bed_type,b.break_type,b.intro_c,b.intro_e,b.room_stock,b.recommended,b.scheduledays,b.favorableprice,b.evenlive,present,
+		select a.*,b.hotel_code,b.room_style,b.room_type,b.bed_type,b.break_type,b.intro_c,b.intro_e,b.room_stock,b.recommended,b.scheduledays,b.favorableprice,b.evenlive,present,
 		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
 		d.ischildct,d.isroomserv,d.isknead,d.islounge,d.issuper,d.isbus,d.istrafic,d.isrestau,
 		c.country_code,c.province_code,c.city_code,c.hotel_type,c.hotel_level,c.hotel_cname,c.hotel_ename,c.hotel_addr,c.hotel_phone,c.hotel_fax,c.hotel_web

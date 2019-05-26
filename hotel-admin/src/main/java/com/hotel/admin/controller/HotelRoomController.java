@@ -1,7 +1,9 @@
 package com.hotel.admin.controller;
 
 import com.hotel.admin.dto.HotelRoomQry;
+import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.model.BizRoom;
+import com.hotel.admin.model.SysUser;
 import com.hotel.admin.service.BizRoomService;
 import com.hotel.admin.service.HotelRoomService;
 import com.hotel.core.context.PageContext;
@@ -56,6 +58,12 @@ public class HotelRoomController {
     @GetMapping(value = "/findById")
     public HttpResult findById(String id) {
         return HttpResult.ok(hotelRoomService.selectByKey(id));
+    }
+
+    @PostMapping(value = "/findLikeByName")
+    public HttpResult findLikeByName(String name){
+        List<BizHotl> likeByName = hotelRoomService.findLikeByName(name);
+        return HttpResult.ok(likeByName);
     }
 
 }

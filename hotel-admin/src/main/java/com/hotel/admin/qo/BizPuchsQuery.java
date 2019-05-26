@@ -19,6 +19,16 @@ public class BizPuchsQuery extends BusinessEntity {
 
     private String createTimeEnd;
 
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getOrderCode() {
         return orderCode;
     }

@@ -207,4 +207,9 @@ public class SysUserServiceImpl  implements SysUserService {
 
 		return 1;
 	}
+
+	@Override
+	public List<SysUser> findLikeByName(String name) {
+		return sysUserMapper.findLikeByName(name);
+	}
 }

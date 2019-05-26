@@ -1,11 +1,12 @@
 package com.hotel.admin.service;
 
 import com.hotel.admin.dto.HotelRoomQry;
+import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.model.BizRoom;
 import com.hotel.core.page.Page;
-import com.hotel.core.page.PageRequest;
-import com.hotel.core.service.CurdService;
 import com.hotel.core.service.IService;
+
+import java.util.List;
 
 /**
  * ---------------------------
@@ -24,4 +25,6 @@ public interface HotelRoomService extends IService<BizRoom> {
      * @return
      */
     Page findPagePara(HotelRoomQry HotelRoomQry);
+
+    List<BizHotl> findLikeByName(String name);
 }
