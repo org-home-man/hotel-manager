@@ -10,7 +10,7 @@ public class BizHotelQueryDto {
     private String hotelCode;
     private String provinceCode;
     private String cityCode;
-    private String hotelCname;
+    private String hotelname;
     private String hotelType;
     private String hotelLevel;
 
@@ -38,12 +38,12 @@ public class BizHotelQueryDto {
         this.cityCode = cityCode;
     }
 
-    public String getHotelCname() {
-        return hotelCname;
+    public String gethotelname() {
+        return hotelname;
     }
 
-    public void setHotelCname(String hotelCname) {
-        this.hotelCname = hotelCname;
+    public void sethotelname(String hotelname) {
+        this.hotelname = hotelname;
     }
 
     public String getHotelType() {
