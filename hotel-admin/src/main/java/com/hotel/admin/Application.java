@@ -3,6 +3,8 @@ package com.hotel.admin;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
@@ -12,7 +14,8 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 //@EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages={"com.hotel"})
-//@ComponentScan(basePackages = "com.hotel.admin.config")
+@EnableScheduling //开启定时任务
+@EnableAsync //开启异步定时任务
 @tk.mybatis.spring.annotation.MapperScan("com.hotel.*.mapper")	// 扫描DAO
 public class Application {
 

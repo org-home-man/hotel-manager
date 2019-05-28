@@ -16,6 +16,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,6 +50,8 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
     /** redis中用户token key */
     private static final String TOKEN_KEY = "hotel:token_info";
 
+    @Value("${allow.login.max}")
+    private String LOGIN_MODE;
 
     /**
      * 根据请求令牌获取登录认证信息

@@ -15,4 +15,8 @@ public class Constant {
     public static final String ORDER_TYPE = "puchs";
     /** 订单初始编码 **/
     public static final String ORDER_FIRST_CODE = "0001";
+
+    /** 登陆模式 **/
+    public static final String LOGIN_MODE_M = "1"; //多次
+    public static final String LOGIN_MODE_S = "2";  //单次
 }
