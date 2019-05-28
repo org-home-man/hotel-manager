@@ -37,6 +37,8 @@ public class BusinessInfoInterceptor implements Interceptor {
 		BusinessEntity entity = null;
 		if (obj instanceof BusinessEntity) {
 			entity = (BusinessEntity) obj;
+		}else{
+			return invocation.proceed();
 		}
 		ISysUser currentUser = UserContext.getCurrentUser();
 		if (sqlCommandType == SqlCommandType.UPDATE) {
