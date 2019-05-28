@@ -93,6 +93,7 @@ public class TestSchedule {
      *
      */
     @Scheduled(fixedRate = 1000*15) //每15s执行一次
+//    @Scheduled(cron = "0 15 10 * * ?") //每天上午10:15触发 
     public void test(){
         System.out.println("当前时间" + new Date());
     }
