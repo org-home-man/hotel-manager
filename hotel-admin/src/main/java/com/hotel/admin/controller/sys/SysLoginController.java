@@ -1,9 +1,9 @@
-package com.hotel.admin.controller;
+package com.hotel.admin.controller.sys;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.hotel.admin.service.SysLoginService;
-import com.hotel.admin.vo.LoginBean;
+import com.hotel.admin.dto.LoginBean;
 import com.hotel.common.utils.IOUtils;
 import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -8,9 +8,9 @@ public class SysRole extends BusinessEntity {
 
     private String remark;
 
-    private Byte delFlag;
+    private Boolean delFlag;
 
-    private String roleId;
+    private String isManager;
 
 	public String getName() {
 		return name;
@@ -28,19 +28,19 @@ public class SysRole extends BusinessEntity {
 		this.remark = remark;
 	}
 
-	public Byte getDelFlag() {
+	public Boolean getDelFlag() {
 		return delFlag;
 	}
 
-	public void setDelFlag(Byte delFlag) {
+	public void setDelFlag(Boolean delFlag) {
 		this.delFlag = delFlag;
 	}
 
-	public String getRoleId() {
-		return roleId;
+	public String getIsManager() {
+		return isManager;
 	}
 
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
+	public void setIsManager(String isManager) {
+		this.isManager = isManager;
 	}
 }

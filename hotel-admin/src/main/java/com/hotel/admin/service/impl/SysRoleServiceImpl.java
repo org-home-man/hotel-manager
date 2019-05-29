@@ -1,7 +1,6 @@
 package com.hotel.admin.service.impl;
 
 import com.hotel.admin.constants.SysConstants;
-import com.hotel.admin.dto.SysRoleEx;
 import com.hotel.admin.mapper.SysMenuMapper;
 import com.hotel.admin.mapper.SysRoleMapper;
 import com.hotel.admin.mapper.SysRoleMenuMapper;
@@ -11,8 +10,7 @@ import com.hotel.admin.model.SysRoleMenu;
 import com.hotel.admin.service.SysRoleService;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
-import com.hotel.core.exception.GlobalException;
-import com.hotel.core.http.HttpStatus;
+import com.hotel.core.http.HttpResult;
 import com.hotel.core.page.Page;
 import com.hotel.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +31,22 @@ public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysR
 	private SysMenuMapper sysMenuMapper;
 
 	@Override
-	public int save(SysRole record) {
-		if(record.getId() == null || record.getId() == 0) {
-			return sysRoleMapper.insertSelective(record);
-		}
-		return sysRoleMapper.updateByPrimaryKeySelective(record);
+	public HttpResult addRole(SysRole sysRole) {
+		SysRole role = sysRoleMapper.selectByPrimaryKey(sysRole.getId());
+//		if(role != null) {
+//			if(SysConstants.ADMIN.equalsIgnoreCase(role.getName())) {
+//				return HttpResult.error("超级管理员不允许修改!");
+//			}
+//		}
+//		// 新增角色
+//		if((sysRole.getId() == null || sysRole.getId() ==0) && !sysRoleService.findByName(record.getName()).isEmpty()) {
+//			return HttpResult.error("角色名已存在!");
+//		}
+//		if(sysRole.getId() == null || sysRole.getId() == 0) {
+//			return sysRoleMapper.insertSelective(record);
+//		}
+//		return sysRoleMapper.updateByPrimaryKeySelective(record);
+        return null;
 	}
 
 	@Override
@@ -74,22 +83,9 @@ public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysR
 	}
 
 	@Override
-	public List<SysRoleEx> findByName(String name) {
-		return sysRoleMapper.findByName(name);
-	}
-
-	@Override
-	public int deleteBatch(List<SysRole> records) {
-		try {
-			for(SysRole record:records) {
-				delete(record);
-			}
-		}catch (Exception e) {
-			throw new GlobalException("oraException");
-		}
-
-		return 1;
-
+	public void deleteBatch(List<SysRole> records) {
+		records.forEach( s -> s.setDelFlag(true));
+		updateNotNull(records);
 	}
 	
 }

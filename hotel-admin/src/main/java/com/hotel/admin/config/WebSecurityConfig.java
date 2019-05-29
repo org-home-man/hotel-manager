@@ -50,6 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 antMatchers("/webjars/**").permitAll().
                 antMatchers("/static/**").permitAll().
                 antMatchers("/favicon.ico").permitAll().
+                antMatchers("/websocket/**").permitAll().
+                antMatchers("/checkcenter/**").permitAll().
                 // 首页和登录页面
                 antMatchers("/").permitAll().
                 antMatchers("/login").permitAll().

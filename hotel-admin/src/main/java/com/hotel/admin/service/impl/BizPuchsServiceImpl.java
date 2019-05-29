@@ -196,7 +196,7 @@ System.out.println(inDate +"  " + new Date() );
             role.setId(userRole.getRoleId());
 
             role = sysRoleMapper.selectByPrimaryKey(role);
-            if("02".equals(role.getRoleId())){
+            if(Constant.NO_MANAGER_ROLE.equals(role.getIsManager())){
                 bizPuchsQuery.setCreateName(username);
                 break;
             }

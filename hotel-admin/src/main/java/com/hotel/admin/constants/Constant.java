@@ -19,4 +19,8 @@ public class Constant {
     /** 登陆模式 **/
     public static final String LOGIN_MODE_M = "1"; //多次
     public static final String LOGIN_MODE_S = "2";  //单次
+
+    public static final String MANAGER_ROLE = "1";
+    public static final String NO_MANAGER_ROLE = "2";
+
 }
