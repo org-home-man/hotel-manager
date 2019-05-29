@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysRoleService {
+public class SysRoleServiceImpl implements SysRoleService {
 
 	@Autowired
 	private SysRoleMapper sysRoleMapper;
@@ -31,7 +31,7 @@ public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysR
 	private SysMenuMapper sysMenuMapper;
 
 	@Override
-	public HttpResult addRole(SysRole sysRole) {
+	public HttpResult save(SysRole sysRole) {
 		SysRole role = sysRoleMapper.selectByPrimaryKey(sysRole.getId());
 //		if(role != null) {
 //			if(SysConstants.ADMIN.equalsIgnoreCase(role.getName())) {
@@ -47,6 +47,15 @@ public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysR
 //		}
 //		return sysRoleMapper.updateByPrimaryKeySelective(record);
         return null;
+	}
+
+	@Override
+	public HttpResult update(SysRole sysRole) {
+		if(Utils.isEmpty(sysRole.getId())){
+			return HttpResult.ok();
+		}
+		//校验修改的角色名是否存在
+		return null;
 	}
 
 	@Override
@@ -85,7 +94,7 @@ public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysR
 	@Override
 	public void deleteBatch(List<SysRole> records) {
 		records.forEach( s -> s.setDelFlag(true));
-		updateNotNull(records);
+//		updateNotNull(records);
 	}
-	
+
 }

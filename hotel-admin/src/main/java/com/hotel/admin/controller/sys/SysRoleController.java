@@ -30,14 +30,13 @@ public class SysRoleController {
 	@PreAuthorize("hasAuthority('sys:role:add')")
 	@PostMapping(value="/save")
 	public HttpResult save(SysRole record) {
-		sysRoleService.save(record);
-		return HttpResult.ok();
+		return sysRoleService.save(record);
 	}
 	@PreAuthorize("hasAuthority('sys:role:edit')")
 	@PostMapping(value="/update")
 	public HttpResult update(SysRole record) {
-		sysRoleService.updateNotNull(record);
-		return HttpResult.ok();
+//		return sysRoleService.updateNotNull(record);
+		return null;
 	}
 
 	@PreAuthorize("hasAuthority('sys:role:delete')")
@@ -56,9 +55,10 @@ public class SysRoleController {
 //	@PreAuthorize("hasAuthority('sys:role:view')")
 	@GetMapping(value="/findAll")
 	public HttpResult findAll() {
-		List<SysRole> sysRoles = sysRoleService.selectAll();
-		Stream<SysRole> sysRoleStream = sysRoles.stream().filter(r -> !SysConstants.ADMIN.equals(r.getName()));
-		return HttpResult.ok(sysRoleStream);
+//		List<SysRole> sysRoles = sysRoleService.selectAll();
+//		Stream<SysRole> sysRoleStream = sysRoles.stream().filter(r -> !SysConstants.ADMIN.equals(r.getName()));
+//		return HttpResult.ok(sysRoleStream);
+		return null;
 	}
 	
 	@PreAuthorize("hasAuthority('sys:role:view')")
