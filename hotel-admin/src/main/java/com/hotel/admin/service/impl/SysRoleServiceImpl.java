@@ -10,6 +10,7 @@ import com.hotel.admin.model.SysRoleMenu;
 import com.hotel.admin.service.SysRoleService;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
+import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.page.Page;
 import com.hotel.core.service.AbstractService;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SysRoleServiceImpl implements SysRoleService {
+public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysRoleService {
 
 	@Autowired
 	private SysRoleMapper sysRoleMapper;
@@ -31,31 +32,35 @@ public class SysRoleServiceImpl implements SysRoleService {
 	private SysMenuMapper sysMenuMapper;
 
 	@Override
-	public HttpResult save(SysRole sysRole) {
-		SysRole role = sysRoleMapper.selectByPrimaryKey(sysRole.getId());
-//		if(role != null) {
-//			if(SysConstants.ADMIN.equalsIgnoreCase(role.getName())) {
-//				return HttpResult.error("超级管理员不允许修改!");
-//			}
-//		}
-//		// 新增角色
-//		if((sysRole.getId() == null || sysRole.getId() ==0) && !sysRoleService.findByName(record.getName()).isEmpty()) {
-//			return HttpResult.error("角色名已存在!");
-//		}
-//		if(sysRole.getId() == null || sysRole.getId() == 0) {
-//			return sysRoleMapper.insertSelective(record);
-//		}
-//		return sysRoleMapper.updateByPrimaryKeySelective(record);
-        return null;
+	public int save(SysRole sysRole) {
+		List<SysRole> byName = sysRoleMapper.findByName(sysRole.getName());
+		if(Utils.isNotEmpty(byName)){
+			throw new GlobalException("roleNameExist");
+		}
+		sysRoleMapper.insertSelective(sysRole);
+        return 1;
 	}
 
 	@Override
-	public HttpResult update(SysRole sysRole) {
-		if(Utils.isEmpty(sysRole.getId())){
-			return HttpResult.ok();
+	public int updateNotNull(SysRole sysRole) {
+		Long id = sysRole.getId();
+		if(Utils.isEmpty(id)){
+			return 1;
 		}
+		SysRole role = sysRoleMapper.selectByPrimaryKey(id);
 		//校验修改的角色名是否存在
-		return null;
+		if(SysConstants.ADMIN.equals(role.getName())){
+			throw new GlobalException("noEdit");
+		}
+		//校验角色是否重复
+		if(!role.getName().equals(sysRole.getName())){
+			List<SysRole> byName = sysRoleMapper.findByName(sysRole.getName());
+			if(Utils.isNotEmpty(byName)){
+				throw new GlobalException("roleNameExist");
+			}
+		}
+		sysRoleMapper.updateByPrimaryKeySelective(sysRole);
+		return 1;
 	}
 
 	@Override
@@ -94,7 +99,7 @@ public class SysRoleServiceImpl implements SysRoleService {
 	@Override
 	public void deleteBatch(List<SysRole> records) {
 		records.forEach( s -> s.setDelFlag(true));
-//		updateNotNull(records);
+		updateNotNull(records);
 	}
 
 }

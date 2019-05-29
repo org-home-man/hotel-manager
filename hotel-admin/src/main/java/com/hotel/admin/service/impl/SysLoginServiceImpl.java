@@ -78,7 +78,6 @@ public class SysLoginServiceImpl implements SysLoginService {
 
 //        redisService.setValue(username,token.getToken(), JwtTokenUtils.EXPIRE_TIME); //登录成功缓存token
         //登录成功后,校验是否是管理员
-
         return HttpResult.ok(token);
     }
 

@@ -13,11 +13,12 @@
     <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, role_id ,is_manager,remark, del_flag, create_name, create_time, update_name, update_time
+    id, name ,is_manager,remark, del_flag, create_name, create_time, update_name, update_time
   </sql>
 
   <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
+    <include refid="Base_Column_List"></include>
     from sys_role
     <where>
       <if test="name!=null and name!=''">

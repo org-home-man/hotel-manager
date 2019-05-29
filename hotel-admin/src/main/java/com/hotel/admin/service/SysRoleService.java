@@ -14,21 +14,8 @@ import com.hotel.core.service.IService;
  * @author Louis
  * @date Oct 29, 2018
  */
-public interface SysRoleService{
+public interface SysRoleService extends IService<SysRole>{
 
-	/**
-	 * 添加系统角色
-	 * @param sysRole
-	 * @return
-	 */
-	HttpResult save(SysRole sysRole);
-
-	/**
-	 * 添加系统角色
-	 * @param sysRole
-	 * @return
-	 */
-	HttpResult update(SysRole sysRole);
 	/**
 	 * 查询角色菜单集合
 	 * @return
