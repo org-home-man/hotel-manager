@@ -1,8 +1,8 @@
-package com.hotel.admin.vo;
+package com.hotel.admin.dto;
 
 /**
  * 登录接口封装对象
- * @author Louis
+ * @author cc
  * @date Oct 29, 2018
  */
 public class LoginBean {

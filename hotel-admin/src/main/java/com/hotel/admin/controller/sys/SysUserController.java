@@ -1,4 +1,4 @@
-package com.hotel.admin.controller;
+package com.hotel.admin.controller.sys;
 
 import com.hotel.admin.constants.SysConstants;
 import com.hotel.admin.dto.SysUserUp;

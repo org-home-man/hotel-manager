@@ -7,7 +7,7 @@ import com.hotel.admin.redis.UserInfoCache;
 import com.hotel.admin.security.JwtAuthenticatioToken;
 import com.hotel.admin.service.SysLoginService;
 import com.hotel.admin.util.PasswordUtils;
-import com.hotel.admin.vo.LoginBean;
+import com.hotel.admin.dto.LoginBean;
 import com.hotel.core.context.UserContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
@@ -77,6 +77,7 @@ public class SysLoginServiceImpl implements SysLoginService {
         token.setToken(userInfoCache.generateToken(authentication,user));
 
 //        redisService.setValue(username,token.getToken(), JwtTokenUtils.EXPIRE_TIME); //登录成功缓存token
+        //登录成功后,校验是否是管理员
         return HttpResult.ok(token);
     }
 

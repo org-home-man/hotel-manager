@@ -1,6 +1,6 @@
 package com.hotel.admin.service;
 
-import com.hotel.admin.vo.LoginBean;
+import com.hotel.admin.dto.LoginBean;
 import com.hotel.core.http.HttpResult;
 
 import javax.servlet.http.HttpServletRequest;

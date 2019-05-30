@@ -1,4 +1,4 @@
-package com.hotel.admin.controller;
+package com.hotel.admin.controller.sys;
 
 import com.hotel.admin.model.SysDept;
 import com.hotel.admin.service.SysDeptService;

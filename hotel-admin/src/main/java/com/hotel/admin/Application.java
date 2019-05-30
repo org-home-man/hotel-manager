@@ -9,7 +9,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * 启动器
- * @author Louis
+ * @author cc
  * @date Oct 29, 2018
  */
 //@EnableDiscoveryClient

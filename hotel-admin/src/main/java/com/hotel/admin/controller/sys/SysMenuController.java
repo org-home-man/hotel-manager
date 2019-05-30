@@ -1,4 +1,4 @@
-package com.hotel.admin.controller;
+package com.hotel.admin.controller.sys;
 
 import com.hotel.admin.model.SysMenu;
 import com.hotel.admin.service.SysMenuService;

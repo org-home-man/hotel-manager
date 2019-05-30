@@ -1,4 +1,4 @@
-package com.hotel.admin.controller;
+package com.hotel.admin.controller.sys;
 
 import com.hotel.admin.service.SysLogService;
 import com.hotel.core.http.HttpResult;

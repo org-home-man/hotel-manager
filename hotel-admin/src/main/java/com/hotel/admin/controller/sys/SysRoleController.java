@@ -1,4 +1,4 @@
-package com.hotel.admin.controller;
+package com.hotel.admin.controller.sys;
 
 import com.hotel.admin.constants.SysConstants;
 import com.hotel.admin.mapper.SysRoleMapper;
@@ -27,20 +27,16 @@ public class SysRoleController {
 	@Autowired
 	private SysRoleMapper sysRoleMapper;
 	
-	@PreAuthorize("hasAuthority('sys:role:add') AND hasAuthority('sys:role:edit')")
+	@PreAuthorize("hasAuthority('sys:role:add')")
 	@PostMapping(value="/save")
 	public HttpResult save(SysRole record) {
-		SysRole role = sysRoleService.selectByKey(record.getId());
-		if(role != null) {
-			if(SysConstants.ADMIN.equalsIgnoreCase(role.getName())) {
-				return HttpResult.error("超级管理员不允许修改!");
-			}
-		}
-		// 新增角色
-		if((record.getId() == null || record.getId() ==0) && !sysRoleService.findByName(record.getName()).isEmpty()) {
-			return HttpResult.error("角色名已存在!");
-		}
 		sysRoleService.save(record);
+		return HttpResult.ok();
+	}
+	@PreAuthorize("hasAuthority('sys:role:edit')")
+	@PostMapping(value="/update")
+	public HttpResult update(SysRole record) {
+		sysRoleService.updateNotNull(record);
 		return HttpResult.ok();
 	}
 
