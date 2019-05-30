@@ -138,10 +138,10 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             throw new GlobalException("inDateExcepiton");
         }
 
-System.out.println(inDate +"  " + new Date() );
-		if(new Date().after(inDate)){
-			throw new GlobalException("isinDateOutException");
-		}
+//System.out.println(inDate +"  " + new Date() );
+//		if(new Date().after(inDate)){
+//			throw new GlobalException("isinDateOutException");
+//		}
 
         // 判断库存表的库存数是否满足客户需要
         //如果库存表没有值则将默认库存数插入库存表管理
@@ -175,7 +175,7 @@ System.out.println(inDate +"  " + new Date() );
                     bizInvService.update(bizInvs);
                 } else {
                     //提示库存数不够
-                    throw new GlobalException("oraException");
+                    throw new GlobalException("invIsOutException");
                 }
             }
         }

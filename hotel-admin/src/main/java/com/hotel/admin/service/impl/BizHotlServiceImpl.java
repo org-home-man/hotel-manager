@@ -96,7 +96,7 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 				 {
 				 	/* 返回错误信息  预留开发*/
 					 a.error("新增酒店信息失败："+e.getMessage());
-					 throw new GlobalException("oraException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+					 throw new GlobalException("oraException");
 				 }
                 return 0;
             }
@@ -140,7 +140,7 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 		catch (Exception e)
 		{
 			a.error("查询酒店信息失败："+e.getMessage());
-			throw new GlobalException("oraException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+			throw new GlobalException("oraException");
 		}
 //		(BizHotl)(li.get(0)).get()
 //		PageResult pr =  MybatisPageHelper.findPage(pageRequest, bizHotlMapper,"findPageByPara",map);

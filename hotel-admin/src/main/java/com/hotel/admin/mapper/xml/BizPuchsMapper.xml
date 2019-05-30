@@ -6,7 +6,7 @@
   	<id column="id" jdbcType="BIGINT" property="id" />
 	<result column="order_code" jdbcType="VARCHAR" property="orderCode" />
 	<result column="room_code" jdbcType="VARCHAR" property="roomCode" />
-  	<result column="confirm_date" jdbcType="VARCHAR" property="confirmTime" />
+  	<result column="confirm_time" jdbcType="VARCHAR" property="confirmTime" />
 	<result column="in_date_start" jdbcType="VARCHAR" property="inDateStart" />
 	<result column="out_date_end" jdbcType="VARCHAR" property="outDateEnd" />
 	<result column="p_name" jdbcType="VARCHAR" property="pName" />

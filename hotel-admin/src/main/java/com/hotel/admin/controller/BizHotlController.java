@@ -40,12 +40,8 @@ public class BizHotlController {
     public HttpResult save(BizHotl record) {
 
         System.out.println("licy12347" + record.getHotelAddr());
-        try{
+
         bizHotlService.save(record);
-        }catch (
-    GlobalException e) {
-        return HttpResult.error(e.getCode(),e.getMsg());
-    }
         return HttpResult.ok();
     }
 
@@ -57,11 +53,8 @@ public class BizHotlController {
      */
     @PostMapping(value = "/delete")
     public HttpResult delete(@RequestBody List<BizHotl> records) {
-        try{
+
         bizHotlService.delete(records);
-    }catch (GlobalException e) {
-        return HttpResult.error(e.getCode(),e.getMsg());
-    }
         return HttpResult.ok();
     }
 
@@ -74,11 +67,7 @@ public class BizHotlController {
     @PostMapping(value = "/findPage")
     public HttpResult findPage(BizHotelQueryDto dto) {
         Page list = null;
-        try {
-             list=  bizHotlService.findPage(dto);
-    }catch (GlobalException e) {
-        return HttpResult.error(e.getCode(),e.getMsg());
-    }
+        list=  bizHotlService.findPage(dto);
         return HttpResult.ok(list);
     }
 
