@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hotel.admin.mapper.SysSocketMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.hotel.admin.model.SysSocketMessage" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="message" property="message" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,user_id, message, status
+  </sql>
+  <select id="selectNoRead" resultMap="BaseResultMap" >
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM sys_socket_message
+    where status = 1
+    <if test="userId!=null and userId!=''">
+      user_id = #{userId}
+    </if>
+  </select>
+</mapper>

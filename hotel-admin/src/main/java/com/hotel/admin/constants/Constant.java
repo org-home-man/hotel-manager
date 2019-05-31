@@ -24,4 +24,6 @@ public class Constant {
     public static final String NO_MANAGER_ROLE = "2";
 
     public static final String SOCKET_LOGIN = "101";
+    //登录过期
+    public static final String LOGIN_EXPIRED_KEY = "loginExpired";
 }

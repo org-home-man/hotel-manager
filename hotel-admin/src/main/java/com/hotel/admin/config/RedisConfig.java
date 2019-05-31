@@ -3,6 +3,7 @@ package com.hotel.admin.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
@@ -115,6 +116,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         // 配置redisTemplate
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
         redisTemplate.setConnectionFactory(lettuceConnectionFactory);
+
         RedisSerializer<?> stringSerializer = new StringRedisSerializer();
         redisTemplate.setKeySerializer(stringSerializer);// key序列化
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);// value序列化

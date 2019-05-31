@@ -2,15 +2,19 @@ package com.hotel.admin.redis;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.hotel.admin.constants.Constant;
 import com.hotel.admin.model.SysUser;
 import com.hotel.admin.security.GrantedAuthorityImpl;
 import com.hotel.admin.security.JwtAuthenticatioToken;
+import com.hotel.admin.websocket.WebSocketServer;
 import com.hotel.common.entity.auth.ISysUser;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.context.UserContext;
+import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
 import com.hotel.common.redis.RedisCacheTemplate;
+import com.hotel.core.http.HttpStatus;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -44,53 +48,43 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
     private static final String AUTHORITIES = "authorities";
     /** 密钥 */
     private static final String SECRET = "chen";
-    /** 有效期12小时  */
-    private static final long EXPIRE_TIME = 12 * 60 * 60 * 1000;
     /** redis中用户token key */
     private static final String TOKEN_KEY = "hotel:token_info";
+    private static final String USER_KEY = "hotel:user_info:";
+    private static final String TIME_KEY = "hotel:act_time:";
 
     @Value("${allow.login.max}")
     private String LOGIN_MODE;
+    @Value("${act.expire.time}")
+    private Long EXPIRE_TIME;
 
     /**
      * 根据请求令牌获取登录认证信息
      * @param request
      */
-    public void checkAuthentication(HttpServletRequest request) {
-        Authentication authentication = validateTokenForRequest(request);
-        // 设置登录认证信息到上下文
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
-
-    /**
-     * 校验请求中token信息 以及redis状态
-     * @param request
-     * @return
-     */
-    public Authentication validateTokenForRequest(HttpServletRequest request){
-        // 获取令牌并根据令牌获取登录认证信息
+    public Boolean checkAuthentication(HttpServletRequest request,HttpServletResponse response) {
         Authentication authentication = null;
         // 获取请求携带的令牌
         String token = getToken(request);
         if(token != null) {
-            //校验token是否存在
-            if(!validateToken(token)){
-                //token不存在
-                return null;
-            }
             // 请求令牌不能为空
             if(getAuthentication() == null) {
+
                 // 上下文中Authentication为空
                 Claims claims = getClaimsFromToken(token);
                 if(claims == null) {
-                    return null;
+                    writeMessage(response, HttpStatus.SC_LOGIN_EXPIRE,Constant.LOGIN_EXPIRED_KEY);
+                    return false;
                 }
                 String username = claims.getSubject();
                 if(username == null) {
-                    return null;
+                    writeMessage(response, HttpStatus.SC_LOGIN_EXPIRE,Constant.LOGIN_EXPIRED_KEY);
+                    return false;
                 }
+                //校验token是否过期
                 if(isTokenExpired(token)) {
-                    return null;
+                    writeMessage(response, HttpStatus.SC_LOGIN_EXPIRE,Constant.LOGIN_EXPIRED_KEY);
+                    return false;
                 }
                 Object authors = claims.get(AUTHORITIES);
                 List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
@@ -111,9 +105,12 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
             UserContext.setToken(token);
             SysUser user = getUserByToken(token);
             UserContext.setUser(user);
+            //刷新token
+            refreshToken(token);
         }
-
-        return authentication;
+        // 设置登录认证信息到上下文
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return true;
     }
 
 
@@ -156,13 +153,29 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
      * @return 令牌
      */
     public String generateToken(Authentication authentication, ISysUser sysUser) {
+
+        //校验是否需要提出上一个用户
+        if(Constant.LOGIN_MODE_S.equals(LOGIN_MODE)){
+            List<String> tokens = getTokensByUser(sysUser);
+            if(Utils.isNotEmpty(tokens)){
+                for (String tk : tokens) {
+                    clearUserInfoByToken(tk);
+                }
+                //清除前一个用户的session
+                WebSocketServer.webSocketMap.remove(sysUser.getId());
+                logger.info("踢出上一个用户,用户名 [{}]",sysUser.getName());
+            }
+        }
         Map<String, Object> claims = new HashMap<>(3);
         claims.put(USERNAME, sysUser.getName());
-        claims.put(CREATED, new Date());
+        claims.put(CREATED, System.currentTimeMillis());
         claims.put(AUTHORITIES, authentication.getAuthorities());
         String token = generateToken(claims);
         //缓存token 进 redis
-        hSet(TOKEN_KEY,token, JSONObject.toJSONString(sysUser),EXPIRE_TIME);
+        hSet(TOKEN_KEY,token, JSONObject.toJSONString(sysUser));
+        sadd(USER_KEY+sysUser.getId(),token);
+        hSet(TIME_KEY,token,System.currentTimeMillis()+"");
+//        hSet()
         logger.info("生成token 存入redis中 ---> token:{}",token);
         return token;
     }
@@ -175,7 +188,7 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
      */
     private String generateToken(Map<String, Object> claims) {
         Date expirationDate = new Date(System.currentTimeMillis() + EXPIRE_TIME);
-        return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, SECRET).compact();
+        return Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS512, SECRET).compact();
     }
 
     /**
@@ -192,6 +205,18 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
             return null;
         return JSON.parseObject(userStr, SysUser.class);
     }
+    /**
+     * 根据用户id获取所有token
+     *
+     * @param user
+     * @return
+
+     * @date 2016年11月7日
+     */
+    public List<String> getTokensByUser(ISysUser user) {
+
+        return sMembers(USER_KEY + user.getId());
+    }
 
     /**
      * 根据用户token清除用户缓存
@@ -205,7 +230,8 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
         logger.info("清除redis中用户信息 {}  ---> token:{}",user==null?"":user.getName(),token);
         if (user != null) {
             hDel(TOKEN_KEY, token);
-
+            del(USER_KEY+user.getId());
+            hDel(TIME_KEY,token);
         }
     }
 
@@ -241,34 +267,24 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
         }
         return userName!=null && (userName.equals(username) && !isTokenExpired(token));
     }
-    /**
-     * 验证令牌 从redis中
-     * @param token
-     * @return
-     */
-    public Boolean validateToken(String token) {
-        String value = this.hGet(TOKEN_KEY,token);
-        if(null==value){
-            return false;
-        }
-        return true;
-    }
 
     /**
      * 刷新令牌
      * @param token
      * @return
      */
-    public String refreshToken(String token) {
+    public void refreshToken(String token) {
         String refreshedToken;
         try {
-            Claims claims = getClaimsFromToken(token);
-            claims.put(CREATED, new Date());
-            refreshedToken = generateToken(claims);
+//            Claims claims = getClaimsFromToken(token);
+//            claims.put(CREATED, new Date());
+//            refreshedToken = generateToken(claims);
+            //更新redis中 token
+            hSet(TIME_KEY,token,System.currentTimeMillis()+"");
         } catch (Exception e) {
             refreshedToken = null;
         }
-        return refreshedToken;
+//        return refreshedToken;
     }
 
     /**
@@ -279,9 +295,21 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
      */
     public Boolean isTokenExpired(String token) {
         try {
-            Claims claims = getClaimsFromToken(token);
-            Date expiration = claims.getExpiration();
-            return expiration.before(new Date());
+//            Claims claims = getClaimsFromToken(token);
+////            Date expiration = claims.getExpiration();
+////            return expiration.before(new Date());
+            String s = hGet(TIME_KEY, token);
+            if(Utils.isEmpty(s)){
+                return true;
+            }
+            //上次访问时间
+            long actTime = Long.parseLong(s);
+            //本次访问时间
+            long now = System.currentTimeMillis();
+            if(now-actTime > EXPIRE_TIME){
+                return true;
+            }
+            return false;
         } catch (Exception e) {
             return false;
         }

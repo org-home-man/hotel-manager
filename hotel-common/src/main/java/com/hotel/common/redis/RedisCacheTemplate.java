@@ -33,7 +33,26 @@ public class RedisCacheTemplate {
     /*****************************************************/
     /********************* key 操作 **********************/
     /*****************************************************/
-
+    /**
+     * 封装redis缓存服务接口
+     *
+     * @param keys
+     * @return 删除的条数
+     * @throws
+     * @date 2015年8月25日
+     */
+    public Long del(final String... keys) {
+        return redisTemplate.execute(new RedisCallback<Long>() {
+            @Override
+            public Long doInRedis(RedisConnection connection) throws DataAccessException {
+                long result = 0;
+                for (int i = 0; i < keys.length; i++) {
+                    result = connection.del(keys[i].getBytes());
+                }
+                return result;
+            }
+        });
+    }
     /**
      * 检查key是否已经存在
      *
@@ -208,12 +227,203 @@ public class RedisCacheTemplate {
     public Long decrBy(final String key, final long number) {
         return redisTemplate.execute((RedisCallback<Long>) connection -> connection.decrBy(key.getBytes(), number));
     }
+    /*****************************************************/
+    /******************** set集合操作 *********************/
+    /*****************************************************/
+
+    /**
+     * 往集合key中增加元素集合
+     *
+     * @param key
+     * @param values
+     * @return
+     * @throws
+
+     * @date 2015年8月26日
+     */
+    public Long sadd(final String key, final byte[]... values) {
+        return this.sadd(key, 0l, values);
+    }
+
+    /**
+     * 往集合key中增加元素集合
+     *
+     * @param key
+     * @param values
+     * @return
+     * @throws
+
+     * @date 2015年8月26日
+     */
+    public Long sadd(final String key, final List<String> values) {
+        if (values == null || values.size() == 0)
+            return 0l;
+        return this.sadd(key, 0l, (byte[][]) strListToByteList(values).toArray());
+    }
+
+    /**
+     * 往集合key中增加元素，并设置过期时间
+     *
+     * @param key
+     * @param liveTime
+     * @param value
+     * @return
+     * @throws
+
+     * @date 2015年8月26日
+     */
+    public Long sadd(final String key, final long liveTime, final String value) {
+        return this.sadd(key, liveTime, value.getBytes());
+    }
+
+    /**
+     * 往集合key中增加元素
+     *
+     * @param key
+     * @param value
+     * @return
+     * @throws
+
+     * @date 2015年8月26日
+     */
+    public Long sadd(final String key, final String value) {
+        return this.sadd(key, 0l, value.getBytes());
+    }
+
+    /**
+     * 往集合key中增加元素集合，并设置过期时间
+     *
+     * @param key
+     * @param values
+     * @param liveTime
+     *            过期时间(秒)
+     * @return
+     * @throws
+
+     * @date 2015年8月26日
+     */
+    public Long sadd(final String key, final long liveTime, final byte[]... values) {
+        return redisTemplate.execute(new RedisCallback<Long>() {
+            public Long doInRedis(RedisConnection connection) throws DataAccessException {
+                connection.sAdd(key.getBytes(), values);
+                if (liveTime > 0)
+                    connection.expire(key.getBytes(), liveTime);
+                return (long) values.length;
+            }
+        });
+    }
+
+    /**
+     * 删除集合中集为 values的元素
+     *
+     * @param key
+     * @param values
+     * @return 忽略不存在的元素后,真正删除掉的元素的个数
+     * @throws
+
+     * @date 2015年8月26日
+     */
+    public Long sRem(final String key, final byte[]... values) {
+        return redisTemplate.execute(new RedisCallback<Long>() {
+            public Long doInRedis(RedisConnection connection) throws DataAccessException {
+                return connection.sRem(key.getBytes(), values);
+            }
+        });
+    }
+
+    /**
+     * 查询并删除集合中key中1个随机元素
+     *
+     * @param key
+     * @return 返回并删除集合中key中1个随机元素
+     * @throws
+
+     * @date 2015年8月26日
+     */
+    public String spop(final String key) {
+        return redisTemplate.execute(new RedisCallback<String>() {
+            public String doInRedis(RedisConnection connection) throws DataAccessException {
+                return byteToString(connection.sPop(key.getBytes()));
+            }
+        });
+    }
+
+    /**
+     * 返回集合中随机一个元素
+     *
+     * @param key
+     * @return
+     * @throws
+
+     * @date 2015年8月26日
+     */
+    public String sRandMember(final String key) {
+        return redisTemplate.execute(new RedisCallback<String>() {
+            public String doInRedis(RedisConnection connection) throws DataAccessException {
+                return byteToString(connection.sRandMember(key.getBytes()));
+            }
+        });
+    }
+
+    /**
+     * 判断value是否在key集合中
+     *
+     * @param key
+     * @return
+     * @throws
+
+     * @date 2015年8月26日
+     */
+    public Boolean sIsMember(final String key, final String value) {
+        return redisTemplate.execute(new RedisCallback<Boolean>() {
+            public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
+                return connection.sIsMember(key.getBytes(), value.getBytes());
+            }
+        });
+    }
+
+    /**
+     * 获取集合中所有的元素
+     *
+     * @param key
+     * @param value
+     * @return 返回集合中所有的元素
+     * @throws
+
+     * @date 2015年8月26日
+     */
+    public List<String> sMembers(final String key) {
+        Set<byte[]> values = redisTemplate.execute(new RedisCallback<Set<byte[]>>() {
+            public Set<byte[]> doInRedis(RedisConnection connection) throws DataAccessException {
+                return connection.sMembers(key.getBytes());
+            }
+        });
+        return byteSetToStrSet(values);
+    }
+
+    /**
+     * 获取集合中元素的个数
+     *
+     * @param key
+     * @param value
+     * @return 返回集合中元素的个数
+     * @throws
+
+     * @date 2015年8月26日
+     */
+    public Long scard(final String key) {
+        return redisTemplate.execute(new RedisCallback<Long>() {
+            public Long doInRedis(RedisConnection connection) throws DataAccessException {
+                return connection.sCard(key.getBytes());
+            }
+        });
+    }
+
 
 
     /*****************************************************/
     /******************** hash哈希操作 ********************/
     /*****************************************************/
-
 
     /**
      * 把key中 filed域的值设为value 注:如果没有field域,直接添加,如果有,则覆盖原field域的值
