@@ -6,6 +6,7 @@ import com.hotel.admin.model.SysUser;
 import com.hotel.admin.security.GrantedAuthorityImpl;
 import com.hotel.admin.security.JwtAuthenticatioToken;
 import com.hotel.common.entity.auth.ISysUser;
+import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.context.UserContext;
 import com.hotel.core.http.HttpResult;
@@ -20,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

@@ -1,8 +1,9 @@
 package com.hotel.admin.config;
 
-import org.springframework.context.annotation.Bean;
+import com.hotel.admin.redis.UserInfoCache;
+import com.hotel.admin.websocket.WebSocketServer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 @Configuration
 public class WebSocketConfig {
@@ -11,4 +12,8 @@ public class WebSocketConfig {
 //    public ServerEndpointExporter serverEndpointExporter(){
 //        return new ServerEndpointExporter();
 //    }
+    @Autowired
+    public void setUserInfoCache(UserInfoCache userInfoCache){
+        WebSocketServer.userInfoCache = userInfoCache;
+    }
 }

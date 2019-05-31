@@ -20,7 +20,7 @@ public class BizPuchs extends BusinessEntity {
 	/**1 客房编号 */
 	private String roomCode;
 	/**1 确定时间 */
-	private String confirmTime;
+	private String lastCrtTime;
 	/**1 入住日期 */
 	private String inDateStart;
 	/**1 退房日期 */
@@ -36,9 +36,9 @@ public class BizPuchs extends BusinessEntity {
 	/** 联系人邮件 */
 	private String emailAddress;
 	/** 成人人数 */
-	private Integer aNum;
+	private Integer adultNum;
 	/** 儿童数 */
-	private Integer bNum;
+	private Integer childNum;
 	/** 幼儿数 */
 	private Integer cNum;
 	/** 房间数 */
@@ -78,12 +78,12 @@ public class BizPuchs extends BusinessEntity {
 		this.roomCode = roomCode;
 	}
 
-	public String getConfirmTime() {
-		return confirmTime;
+	public String getLastCrtTime() {
+		return lastCrtTime;
 	}
 
-	public void setConfirmTime(String confirmTime) {
-		this.confirmTime = confirmTime;
+	public void setLastCrtTime(String lastCrtTime) {
+		this.lastCrtTime = lastCrtTime;
 	}
 
 	public String getInDateStart() {
@@ -142,20 +142,20 @@ public class BizPuchs extends BusinessEntity {
 		this.emailAddress = emailAddress;
 	}
 
-	public Integer getaNum() {
-		return aNum;
+	public Integer getAdultNum() {
+		return adultNum;
 	}
 
-	public void setaNum(Integer aNum) {
-		this.aNum = aNum;
+	public void setAdultNum(Integer adultNum) {
+		this.adultNum = adultNum;
 	}
 
-	public Integer getbNum() {
-		return bNum;
+	public Integer getChildNum() {
+		return childNum;
 	}
 
-	public void setbNum(Integer bNum) {
-		this.bNum = bNum;
+	public void setChildNum(Integer childNum) {
+		this.childNum = childNum;
 	}
 
 	public Integer getcNum() {

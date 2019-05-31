@@ -6,7 +6,7 @@
   	<id column="id" jdbcType="BIGINT" property="id" />
 	<result column="order_code" jdbcType="VARCHAR" property="orderCode" />
 	<result column="room_code" jdbcType="VARCHAR" property="roomCode" />
-  	<result column="confirm_time" jdbcType="VARCHAR" property="confirmTime" />
+  	<result column="last_crt_time" jdbcType="VARCHAR" property="lastCrtTime" />
 	<result column="in_date_start" jdbcType="VARCHAR" property="inDateStart" />
 	<result column="out_date_end" jdbcType="VARCHAR" property="outDateEnd" />
 	<result column="p_name" jdbcType="VARCHAR" property="pName" />
@@ -14,8 +14,8 @@
 	<result column="birth" jdbcType="VARCHAR" property="birth" />
 	<result column="phone" jdbcType="VARCHAR" property="phone" />
 	<result column="email_address" jdbcType="VARCHAR" property="emailAddress" />
-	<result column="a_num" jdbcType="INTEGER" property="aNum" />
-	<result column="b_num" jdbcType="INTEGER" property="bNum" />
+	<result column="adult_num" jdbcType="INTEGER" property="adultNum" />
+	<result column="child_num" jdbcType="INTEGER" property="childNum" />
 	<result column="c_num" jdbcType="INTEGER" property="cNum" />
 	<result column="room_num" jdbcType="INTEGER" property="roomNum" />
 	<result column="currency" jdbcType="VARCHAR" property="currency" />

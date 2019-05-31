@@ -7,6 +7,7 @@ import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.admin.service.BizInvService;
 import com.hotel.admin.service.BizPuchsService;
 import com.hotel.admin.service.SysUserService;
+import com.hotel.admin.websocket.WebSocketServer;
 import com.hotel.common.utils.DateUtils;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
@@ -102,6 +103,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             BizPuchsExt recordExt = new BizPuchsExt();
             recordExt.setRoomCode(record.getRoomCode());
             recordExt.setOrderCode(record.getOrderCode());
+            WebSocketServer.sendMessage("订单号:"+record.getOrderCode());
             return bizPuchsExtMapper.insertSelective(recordExt);
         }
 

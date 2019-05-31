@@ -23,4 +23,5 @@ public class Constant {
     public static final String MANAGER_ROLE = "1";
     public static final String NO_MANAGER_ROLE = "2";
 
+    public static final String SOCKET_LOGIN = "101";
 }

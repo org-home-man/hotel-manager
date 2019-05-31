@@ -1,11 +1,17 @@
 package com.hotel.core.exception;
 
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 自定义异常
  * @author Louis
  * @date Aug 21, 2018
  */
-public class GlobalException extends RuntimeException {
+public class GlobalException extends RuntimeException implements HandlerExceptionResolver {
 	private static final long serialVersionUID = 1L;
 	
     private String msg;
@@ -48,5 +54,9 @@ public class GlobalException extends RuntimeException {
 	public void setCode(int code) {
 		this.code = code;
 	}
-	
+
+	@Override
+	public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
+		return null;
+	}
 }

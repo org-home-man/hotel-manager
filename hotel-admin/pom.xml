@@ -163,6 +163,11 @@
 			<version>1.0.0</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-websocket</artifactId>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 	
 	<!--srping cloud-->
