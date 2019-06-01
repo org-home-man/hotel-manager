@@ -133,7 +133,8 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         }
         System.out.println(record.getoutDateEnd()+ record.getinDateStart() );
         //获取入住时间和退房时间
-        if (record.getoutDateEnd() == null || record.getinDateStart() == null) {
+        if (record.getoutDateEnd() == null || record.getoutDateEnd() == "" || record.getinDateStart() == null || record.getinDateStart() == "") {
+            System.out.println("入住时间和退房时间不能为空");
             throw new GlobalException("inoutdateIsNull");
         }
 
