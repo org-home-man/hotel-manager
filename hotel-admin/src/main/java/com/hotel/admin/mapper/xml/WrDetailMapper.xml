@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hotel.admin.mapper.WrDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.hotel.admin.model.WrDetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="report_id" property="reportId" jdbcType="VARCHAR" />
+    <result column="report_month" property="reportMonth" jdbcType="VARCHAR" />
+    <result column="report_seq" property="reportSeq" jdbcType="VARCHAR" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="room_code" property="roomCode" jdbcType="VARCHAR" />
+    <result column="in_date_start" property="inDateStart" jdbcType="VARCHAR" />
+    <result column="out_date_end" property="outDateEnd" jdbcType="VARCHAR" />
+    <result column="p_name" property="pName" jdbcType="VARCHAR" />
+    <result column="passport" property="passport" jdbcType="VARCHAR" />
+    <result column="birth" property="birth" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email_address" property="emailAddress" jdbcType="VARCHAR" />
+    <result column="adult_num" property="adultNum" jdbcType="INTEGER" />
+    <result column="child_num" property="childNum" jdbcType="INTEGER" />
+    <result column="c_num" property="cNum" jdbcType="INTEGER" />
+    <result column="room_num" property="roomNum" jdbcType="INTEGER" />
+    <result column="currency" property="currency" jdbcType="VARCHAR" />
+    <result column="total_s_amount" property="totalSAmount" jdbcType="DOUBLE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="create_name" property="createName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_name" property="updateName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="last_crt_time" property="lastCrtTime" jdbcType="VARCHAR" />
+    <result column="hotel_name" property="hotelName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, report_id, report_month, report_seq, order_code, room_code, in_date_start, out_date_end, 
+    p_name, passport, birth, phone, email_address, adult_num, child_num, c_num, room_num, 
+    currency, total_s_amount, remark, status, create_name, create_time, update_name, 
+    update_time, last_crt_time, hotel_name
+  </sql>
+</mapper>
