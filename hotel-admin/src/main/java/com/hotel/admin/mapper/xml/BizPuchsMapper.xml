@@ -83,33 +83,81 @@
     <result column="istrafic" jdbcType="VARCHAR" property="istrafic" />
     <result column="isrestau" jdbcType="VARCHAR" property="isrestau" />
   </resultMap>
-
-	<sql id="where_query">
-        <if test="orderCode != null and orderCode != ''">
-            AND a.order_code = #{orderCode}
-        </if>
-        <if test="roomStatus != null and roomStatus != ''">
-            AND a.status = #{roomStatus}
-        </if>
-        <if test="createTimeEnd != null and createTimeEnd != ''">
-            AND a.create_time &lt;= #{createTimeEnd}
-        </if>
-        <if test="createTimeStart != null and createTimeStart != ''">
-            AND a.create_time >= #{createTimeStart}
-        </if>
-        <if test="confirmTimeEnd != null and confirmTimeEnd != ''">
-            AND a.last_crt_time &lt;= #{confirmTimeEnd}
-        </if>
-        <if test="confirmTimeStart != null and confirmTimeStart != ''">
-            AND a.last_crt_time >= #{confirmTimeStart}
-        </if>
-        <if test="hotelName != null and hotelName != ''">
-            AND (c.hotel_cname = #{hotelName} OR c.hotel_ename = #{hotelName})
-        </if>
-		<if test="createName != null and createName != ''">
-			AND a.create_name = #{createName}
-		</if>
+	<sql id="room_sql">
+		r.hotel_code,r.room_style,r.room_type,r.bed_type,r.break_type,r.intro_c,r.intro_e,r.room_stock,r.recommended,r.scheduledays,r.favorableprice,r.evenlive
 	</sql>
+	<sql id="room_ext_sql">
+		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
+		d.ischildct,d.isroomserv,d.isknead,d.islounge,d.issuper,d.isbus,d.istrafic,d.isrestau
+	</sql>
+	<sql id="hotel_sql">
+		h.country_code,h.province_code,h.city_code,h.hotel_type,h.hotel_level,h.hotel_cname,h.hotel_ename,h.hotel_addr,h.hotel_phone,h.hotel_fax,h.hotel_web
+	</sql>
+	<select id="findPage" resultMap="BaseResultMap">
+		select bp.*,
+			<include refid="room_sql"/>,
+			present,
+			<include refid="room_ext_sql"/>,
+			<include refid="hotel_sql"/>
+		from
+		    biz_room r JOIN biz_puchs bp  ON r.room_code=bp.room_code
+			JOIN biz_hotl h ON r.hotel_code =h.hotel_code
+		 	JOIN biz_room_ext d ON  r.room_code=d.room_code
+			<where>
+				<if test="orderCode != null and orderCode != ''">
+					AND bp,order_code = #{orderCode}
+				</if>
+				<if test="roomStatus != null and roomStatus != ''">
+					AND bp,status = #{roomStatus}
+				</if>
+				<if test="createTimeEnd != null and createTimeEnd != ''">
+					AND bp,create_time &lt;= #{createTimeEnd}
+				</if>
+				<if test="createTimeStart != null and createTimeStart != ''">
+					AND bp,create_time >= #{createTimeStart}
+				</if>
+				<if test="confirmTimeEnd != null and confirmTimeEnd != ''">
+					AND bp,last_crt_time &lt;= #{confirmTimeEnd}
+				</if>
+				<if test="confirmTimeStart != null and confirmTimeStart != ''">
+					AND bp,last_crt_time >= #{confirmTimeStart}
+				</if>
+				<if test="hotelName != null and hotelName != ''">
+					AND (h.hotel_cname = #{hotelName} OR h.hotel_ename = #{hotelName})
+				</if>
+				<if test="createName != null and createName != ''">
+					AND bp,create_name = #{createName}
+				</if>
+			</where>
+	</select>
+
+	<select id="findPageS" parameterType="com.hotel.admin.qo.BizPuchsUpdate" resultMap="BaseResultMap">
+		select * from biz_puchs where 1=1 and
+		id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<update id="puchsConfirm" parameterType="com.hotel.admin.qo.BizPuchsUpdate">
+		update  biz_puchs
+		<set>
+			<if test="status != null and status !=''">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="confirmDate != null and confirmDate !=''">
+				confirm_date = #{confirmDate,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="findByRoomCd" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select a.*,b.hotel_code,b.room_style,b.bed_type,b.break_type,b.intro_c,b.intro_e,b.room_stock,b.recommended,b.scheduledays,b.favorableprice,b.evenlive,present,
+		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
+		d.ischildct,d.isroomserv,d.isknead,d.islounge,d.issuper,d.isbus,d.istrafic,d.isrestau,
+		c.country_code,c.province_code,c.city_code,c.hotel_type,c.hotel_level,c.hotel_cname,c.hotel_ename,c.hotel_addr,c.hotel_phone,c.hotel_fax,c.hotel_web
+		from biz_puchs a, biz_room b, biz_hotl c, biz_room_ext d
+		where  1=1 and a.room_code=b.room_code and b.room_code=d.room_code and b.hotel_code =c.hotel_code and a.status in ('1','2') AND a.room_code = #{roomCode,jdbcType=VARCHAR}
+	</select>
+
 
 	<update id="updateBizPushs" parameterType="com.hotel.admin.qo.BizPuchsUpdate">
 		update  biz_puchs
@@ -159,42 +207,4 @@
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
-
-	<select id="findPage" resultMap="BaseResultMap">
-		select a.*,b.hotel_code,b.room_style,b.room_type,b.bed_type,b.break_type,b.intro_c,b.intro_e,b.room_stock,b.recommended,b.scheduledays,b.favorableprice,b.evenlive,present,
-		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
-		d.ischildct,d.isroomserv,d.isknead,d.islounge,d.issuper,d.isbus,d.istrafic,d.isrestau,
-		c.country_code,c.province_code,c.city_code,c.hotel_type,c.hotel_level,c.hotel_cname,c.hotel_ename,c.hotel_addr,c.hotel_phone,c.hotel_fax,c.hotel_web
-		 from biz_puchs a, biz_room b, biz_hotl c, biz_room_ext d
-		where  1=1 and a.room_code=b.room_code and b.room_code=d.room_code and b.hotel_code =c.hotel_code
-	  	<include refid="where_query"/>
-	</select>
-
-	<select id="findPageS" parameterType="com.hotel.admin.qo.BizPuchsUpdate" resultMap="BaseResultMap">
-		select * from biz_puchs where 1=1 and
-		id = #{id,jdbcType=INTEGER}
-	</select>
-
-	<update id="puchsConfirm" parameterType="com.hotel.admin.qo.BizPuchsUpdate">
-		update  biz_puchs
-		<set>
-			<if test="status != null and status !=''">
-				status = #{status,jdbcType=VARCHAR},
-			</if>
-			<if test="confirmDate != null and confirmDate !=''">
-				confirm_date = #{confirmDate,jdbcType=VARCHAR},
-			</if>
-		</set>
-		where id = #{id,jdbcType=INTEGER}
-	</update>
-
-	<select id="findByRoomCd" resultMap="BaseResultMap" parameterType="java.lang.String">
-		select a.*,b.hotel_code,b.room_style,b.bed_type,b.break_type,b.intro_c,b.intro_e,b.room_stock,b.recommended,b.scheduledays,b.favorableprice,b.evenlive,present,
-		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
-		d.ischildct,d.isroomserv,d.isknead,d.islounge,d.issuper,d.isbus,d.istrafic,d.isrestau,
-		c.country_code,c.province_code,c.city_code,c.hotel_type,c.hotel_level,c.hotel_cname,c.hotel_ename,c.hotel_addr,c.hotel_phone,c.hotel_fax,c.hotel_web
-		from biz_puchs a, biz_room b, biz_hotl c, biz_room_ext d
-		where  1=1 and a.room_code=b.room_code and b.room_code=d.room_code and b.hotel_code =c.hotel_code and a.status in ('1','2') AND a.room_code = #{roomCode,jdbcType=VARCHAR}
-	</select>
-
 </mapper>

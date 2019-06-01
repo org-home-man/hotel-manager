@@ -1,6 +1,7 @@
 package com.hotel.admin.controller;
 
 import com.hotel.admin.model.BizInv;
+import com.hotel.admin.model.BizPuchs;
 import com.hotel.admin.service.BizInvService;
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.page.PageRequest;
@@ -54,5 +55,14 @@ public class BizInvController {
 	@GetMapping(value="/findById")
 	public HttpResult findById(Long id) {
 		return HttpResult.ok(bizInvService.findById(id));
+	}
+
+    /**
+     * 根据主键查询
+     * @return
+     */
+	@PostMapping(value="/findInv")
+	public HttpResult findInv(BizPuchs bizPuchs) {
+		return HttpResult.ok(bizInvService.findInventory(bizPuchs));
 	}
 }

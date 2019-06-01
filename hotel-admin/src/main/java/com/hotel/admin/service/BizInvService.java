@@ -26,4 +26,11 @@ public interface BizInvService extends NewCurdService<BizInv> {
     int addByUser(BizInv code);
     void update(BizInv bizInv);
 
+    /**
+     * 通过订单查询 房间库存
+     * @param bizPuchs
+     * @return
+     */
+    Integer findInventory(BizPuchs bizPuchs);
+
 }

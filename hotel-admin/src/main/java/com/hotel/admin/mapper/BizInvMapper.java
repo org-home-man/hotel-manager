@@ -42,4 +42,6 @@ public interface BizInvMapper  extends AbstractMapper<BizInv> {
     int updateByUser(BizInv code);
 
     List<BizInv> findCancelBizInv(@Param("roomCode") String roomCode, @Param("inDate") String inDate, @Param("outDate") String outDate);
+
+    Integer selectInventory(BizPuchs bizPuchs);
 }

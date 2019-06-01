@@ -5,6 +5,7 @@ import com.hotel.admin.model.BizInv;
 import com.hotel.admin.model.BizPuchs;
 import com.hotel.admin.service.BizInvService;
 import com.hotel.common.utils.DateUtils;
+import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.page.MybatisPageHelper;
@@ -105,5 +106,14 @@ public class BizInvServiceImpl implements BizInvService {
 	@Override
 	public void update(BizInv bizInv) {
 		bizInvMapper.updateByPrimaryKeySelective(bizInv);
+	}
+
+	@Override
+	public Integer findInventory(BizPuchs bizPuchs) {
+		if(Utils.isEmpty(bizPuchs.getRoomCode()) || Utils.isEmpty(bizPuchs.getInDateStart()) || Utils.isEmpty(bizPuchs.getOutDateEnd())){
+			return 0;
+		}
+		Integer inventory = bizInvMapper.selectInventory(bizPuchs);
+		return inventory;
 	}
 }

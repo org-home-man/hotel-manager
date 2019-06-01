@@ -10,6 +10,7 @@ import com.hotel.admin.service.BizInvService;
 import com.hotel.admin.service.BizPuchsService;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.websocket.WebSocketServer;
+import com.hotel.common.entity.auth.ISysUser;
 import com.hotel.common.utils.DateUtils;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
@@ -195,16 +196,17 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     @Override
     public List<BizPuchsExtDto> findPage(BizPuchsQuery bizPuchsQuery) {
         PageContext.setPagination(false);
-        String username = UserContext.getCurrentUser().getName();
-        SysUser sysUser = sysUserService.findByName(username);
-        List<SysUserRole> userRoles = sysUserRoleMapper.findUserRoles(sysUser.getId());
+//        String username = UserContext.getCurrentUser().getName();
+//        SysUser sysUser = sysUserService.findByName(username);
+        ISysUser currentUser = UserContext.getCurrentUser();
+        List<SysUserRole> userRoles = sysUserRoleMapper.findUserRoles(currentUser.getId());
         for (SysUserRole userRole : userRoles) {
             SysRole role = new SysRole();
             role.setId(userRole.getRoleId());
 
             role = sysRoleMapper.selectByPrimaryKey(role);
             if(Constant.NO_MANAGER_ROLE.equals(role.getIsManager())){
-                bizPuchsQuery.setCreateName(username);
+                bizPuchsQuery.setCreateName(currentUser.getName());
                 break;
             }
         }

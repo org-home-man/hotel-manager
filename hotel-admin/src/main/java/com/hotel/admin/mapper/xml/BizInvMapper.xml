@@ -34,6 +34,31 @@
     select * from biz_inv
     where room_code = #{roomCode,jdbcType=VARCHAR} AND inv_date >= #{inDate} AND inv_date &lt; #{outDate}
   </select>
+  <select id="selectInventory" resultType="java.lang.Integer">
+    SELECT
+        min( IFNULL(bi.inventory,f.room_stock) ) inventory
+    FROM
+        (SELECT
+              x.date,
+              c.room_code,
+              c.room_stock
+        FROM
+              biz_room c
+        JOIN ( SELECT DATE_FORMAT( date, '%Y%m%d' ) date
+               FROM calendar
+               WHERE date BETWEEN DATE_FORMAT( #{inDateStart}, '%Y%m%d') AND DATE_FORMAT( #{outDateEnd}, '%Y%m%d')
+               ) x
+        ) f
+        LEFT JOIN biz_inv bi ON f.room_code = bi.room_code AND f.date = bi.inv_date
+        LEFT JOIN biz_prise g ON f.room_code = g.room_code and f.date = g.price_date
+    WHERE
+        g.s_price is not null
+        AND f.room_code = #{roomCode}
+    GROUP BY
+        f.room_code
+    HAVING
+    count( f.room_code ) = DATEDIFF(DATE_FORMAT( #{outDateEnd}, '%Y%m%d'),DATE_FORMAT( #{inDateStart}, '%Y%m%d') ) +1
+  </select>
 
   <insert id="addByUser" parameterType="com.hotel.admin.model.BizInv">
     insert into biz_inv
