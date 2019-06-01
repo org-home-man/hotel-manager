@@ -227,16 +227,18 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         if (bizPuchs == null) {
             throw new GlobalException("isOrderException");
         }
+        if("2".equals(bizPuchs.getStatus())){
+            List<BizInv> list = bizInvService.findCancelBizInv(bizPuchs);
+            if (list.size() <= 0) {
+                throw new GlobalException("isOrderException");
+            }
+            for (BizInv bizInv : list) {
+                bizInv.setInventory(bizInv.getInventory() + bizPuchs.getRoomNum());
+                bizInvService.update(bizInv);
+            }
+        }
         bizPuchs.setStatus("3");
         bizPuchsMapper.updateByPrimaryKeySelective(bizPuchs);
-        List<BizInv> list = bizInvService.findCancelBizInv(bizPuchs);
-        if (list.size() <= 0) {
-            throw new GlobalException("isOrderException");
-        }
-        for (BizInv bizInv : list) {
-            bizInv.setInventory(bizInv.getInventory() + bizPuchs.getRoomNum());
-            bizInvService.update(bizInv);
-        }
     }
 
 
