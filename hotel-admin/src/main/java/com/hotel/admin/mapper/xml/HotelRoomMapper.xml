@@ -96,7 +96,7 @@
           JOIN (
               (SELECT
                   f.room_code,
-                  ceil(avg(g.s_price))price,
+                  ceil(avg(g.s_room_price))price,
                   min( IFNULL(bi.inventory,f.room_stock) ) inventory
               FROM
                   (SELECT

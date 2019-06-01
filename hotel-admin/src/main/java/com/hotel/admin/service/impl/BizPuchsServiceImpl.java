@@ -134,7 +134,8 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         }
         System.out.println(record.getoutDateEnd()+ record.getinDateStart() );
         //获取入住时间和退房时间
-        if (record.getoutDateEnd() == null || record.getinDateStart() == null) {
+        if (record.getoutDateEnd() == null || record.getoutDateEnd() == "" || record.getinDateStart() == null || record.getinDateStart() == "") {
+            System.out.println("入住时间和退房时间不能为空");
             throw new GlobalException("inoutdateIsNull");
         }
 
@@ -189,7 +190,6 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         }
 
         record.setStatus("2");
-        record.setConfirmTime(DateUtils.getDateString(new Date(),"yyyyMMdd"));
         return bizPuchsMapper.puchsConfirm(record);
     }
 
@@ -229,16 +229,18 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         if (bizPuchs == null) {
             throw new GlobalException("isOrderException");
         }
+        if("2".equals(bizPuchs.getStatus())){
+            List<BizInv> list = bizInvService.findCancelBizInv(bizPuchs);
+            if (list.size() <= 0) {
+                throw new GlobalException("isOrderException");
+            }
+            for (BizInv bizInv : list) {
+                bizInv.setInventory(bizInv.getInventory() + bizPuchs.getRoomNum());
+                bizInvService.update(bizInv);
+            }
+        }
         bizPuchs.setStatus("3");
         bizPuchsMapper.updateByPrimaryKeySelective(bizPuchs);
-        List<BizInv> list = bizInvService.findCancelBizInv(bizPuchs);
-        if (list.size() <= 0) {
-            throw new GlobalException("isOrderException");
-        }
-        for (BizInv bizInv : list) {
-            bizInv.setInventory(bizInv.getInventory() + bizPuchs.getRoomNum());
-            bizInvService.update(bizInv);
-        }
     }
 
 
