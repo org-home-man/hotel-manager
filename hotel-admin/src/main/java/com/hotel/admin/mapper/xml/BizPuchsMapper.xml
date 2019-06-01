@@ -182,7 +182,7 @@
 				status = #{status,jdbcType=VARCHAR},
 			</if>
 			<if test="confirmDate != null and confirmDate !=''">
-				confirm_date = #{confirmDate,jdbcType=VARCHAR},
+				last_crt_time = #{confirmDate,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
