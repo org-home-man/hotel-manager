@@ -15,10 +15,6 @@
 	<result column="photo" jdbcType="VARCHAR" property="photo" />
 	<result column="room_stock" jdbcType="INTEGER" property="roomStock" />
 	<result column="recommended" jdbcType="VARCHAR" property="recommended" />
-	<result column="create_name" jdbcType="VARCHAR" property="createName" />
-	<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-	<result column="update_name" jdbcType="VARCHAR" property="updateName" />
-	<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
 
 <!--    <result column="country_code" jdbcType="VARCHAR" property="countryCode" />-->
     <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
@@ -28,7 +24,6 @@
     <result column="hotel_cname" jdbcType="VARCHAR" property="hotelCname" />
     <result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
     <result column="inventory" jdbcType="INTEGER" property="inventory" />
-    <result column="s_room_price" jdbcType="DOUBLE" property="sRoomPrice" />
     <result column="price" jdbcType="DOUBLE" property="sPrice" />
     <!--<result column="out_date" jdbcType="VARCHAR" property="outDateEnd" />-->
     <!--<result column="in_date" jdbcType="VARCHAR" property="inDateStart" />-->
