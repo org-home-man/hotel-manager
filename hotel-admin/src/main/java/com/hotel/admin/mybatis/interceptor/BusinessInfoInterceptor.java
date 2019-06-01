@@ -43,6 +43,7 @@ public class BusinessInfoInterceptor implements Interceptor {
 		ISysUser currentUser = UserContext.getCurrentUser();
 		if (sqlCommandType == SqlCommandType.UPDATE) {
 			if (entity != null) {
+				entity.setUpdateId(currentUser.getId());
 				entity.setUpdateTime(DateUtils.getNowTime());
 				entity.setUpdateName(currentUser.getName());
 			}
@@ -54,6 +55,7 @@ public class BusinessInfoInterceptor implements Interceptor {
 				}
 				entity.setUpdateTime(DateUtils.getNowTime());
 				entity.setCreateName(currentUser.getName());
+				entity.setCreateId(currentUser.getId());
 				entity.setUpdateName(currentUser.getName());
 //				if(Utils.isEmpty(entity.getId())){
 //					//自动生成ID
