@@ -1,6 +1,8 @@
 package com.hotel.admin.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hotel.admin.constants.Constant;
+import com.hotel.admin.dto.SocketMessage;
 import com.hotel.admin.mapper.*;
 import com.hotel.admin.model.*;
 import com.hotel.admin.qo.BizPuchsQuery;
@@ -103,7 +105,10 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             BizPuchsExt recordExt = new BizPuchsExt();
             recordExt.setRoomCode(record.getRoomCode());
             recordExt.setOrderCode(record.getOrderCode());
-            WebSocketServer.sendMessage("订单号:"+record.getOrderCode());
+            SocketMessage message = new SocketMessage();
+            message.setType(Constant.SOCKET_ORDER_MESSAGE);
+            message.setMessage("订单号:"+record.getOrderCode());
+            WebSocketServer.sendMessage(JSONObject.toJSONString(message));
             return bizPuchsExtMapper.insertSelective(recordExt);
         }
 

@@ -22,4 +22,6 @@ public interface SysUserMapper extends AbstractMapper<SysUser>{
 	SysUser findByNameAll(@Param(value = "name") String name);/* 查询所有状态用户 */
 
     List<SysUser> findLikeByName(@Param("name") String name);
+
+    void deleteByIds(List<Long> ids);
 }

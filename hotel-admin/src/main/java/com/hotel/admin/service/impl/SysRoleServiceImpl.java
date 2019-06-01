@@ -1,9 +1,7 @@
 package com.hotel.admin.service.impl;
 
 import com.hotel.admin.constants.SysConstants;
-import com.hotel.admin.mapper.SysMenuMapper;
-import com.hotel.admin.mapper.SysRoleMapper;
-import com.hotel.admin.mapper.SysRoleMenuMapper;
+import com.hotel.admin.mapper.*;
 import com.hotel.admin.model.SysMenu;
 import com.hotel.admin.model.SysRole;
 import com.hotel.admin.model.SysRoleMenu;
@@ -20,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysRoleService {
@@ -28,6 +27,10 @@ public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysR
 	private SysRoleMapper sysRoleMapper;
 	@Autowired
 	private SysRoleMenuMapper sysRoleMenuMapper;
+	@Autowired
+	private SysRoleDeptMapper sysRoleDeptMapper;
+	@Autowired
+	private SysUserRoleMapper sysUserRoleMapper;
 	@Autowired
 	private SysMenuMapper sysMenuMapper;
 
@@ -98,8 +101,16 @@ public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysR
 
 	@Override
 	public void deleteBatch(List<SysRole> records) {
-		records.forEach( s -> s.setDelFlag(true));
-		updateNotNull(records);
+		//删除角色，删除角色对于的所有关系
+		List<Long> ids = records.stream().map(r -> r.getId()).collect(Collectors.toList());
+		//1.删除角色用户关系表
+		sysUserRoleMapper.deleteByRoleIds(ids);
+		//2.删除角色菜单关系表
+		sysRoleMenuMapper.deleteByRoleIds(ids);
+		//3.删除角色部门关系表
+		sysRoleDeptMapper.deleteByRoleIds(ids);
+		//删除对于角色
+		sysRoleMapper.deleteByIds(ids);
 	}
 
 }

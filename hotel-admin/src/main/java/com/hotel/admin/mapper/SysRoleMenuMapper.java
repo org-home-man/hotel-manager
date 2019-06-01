@@ -11,4 +11,6 @@ public interface SysRoleMenuMapper extends AbstractMapper<SysRoleMenu>{
 	List<SysRoleMenu> findRoleMenus(@Param(value = "roleId") Long roleId);
 
 	int deleteByRoleId(@Param(value = "roleId") Long roleId);
+
+    void deleteByRoleIds(List<Long> ids);
 }

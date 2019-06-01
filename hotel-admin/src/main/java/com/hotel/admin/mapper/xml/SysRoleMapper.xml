@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hotel.admin.mapper.SysRoleMapper">
-  <resultMap id="BaseResultMap" type="com.hotel.admin.model.SysRole">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
-    <result column="is_manager" jdbcType="TINYINT" property="isManager" />
-    <result column="create_name" jdbcType="VARCHAR" property="createName" />
-    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
-    <result column="update_name" jdbcType="VARCHAR" property="updateName" />
-    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.hotel.admin.model.SysRole">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="del_flag" jdbcType="TINYINT" property="delFlag"/>
+        <result column="is_manager" jdbcType="TINYINT" property="isManager"/>
+        <result column="create_name" jdbcType="VARCHAR" property="createName"/>
+        <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+        <result column="update_name" jdbcType="VARCHAR" property="updateName"/>
+        <result column="update_time" jdbcType="VARCHAR" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, name ,is_manager,remark, del_flag, create_name, create_time, update_name, update_time
   </sql>
+    <delete id="deleteByIds">
+        delete from sys_role
+        where id in
+        <foreach collection="ids" index="itm" open="(" separator="," close=")">
+            #{itm}
+        </foreach>
+    </delete>
 
-  <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"></include>
-    from sys_role
-    <where>
-      <if test="name!=null and name!=''">
-        name like concat('%',#{name,jdbcType=VARCHAR},'%')
-      </if>
-    </where>
-  </select>
+    <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from sys_role
+        <where>
+            <if test="name!=null and name!=''">
+                name like concat('%',#{name,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
 </mapper>

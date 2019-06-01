@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class SysUserServiceImpl  implements SysUserService {
@@ -67,10 +68,11 @@ public class SysUserServiceImpl  implements SysUserService {
 
 	@Override
 	public int delete(List<SysUser> records) {
-		for(SysUser record:records) {
-			record.setDelFlag((byte) -1);
-			sysUserMapper.updateByPrimaryKeySelective(record);
-		}
+		List<Long> ids = records.stream().map(r -> r.getId()).collect(Collectors.toList());
+		//先删除用户对于角色关系
+		sysUserRoleMapper.deleteByUserIds(ids);
+		//删除用户
+		sysUserMapper.deleteByIds(ids);
 		return 1;
 	}
 
