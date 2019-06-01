@@ -170,8 +170,8 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
                 if(Utils.isNotEmpty(session)){
                     try {
                         SocketMessage message = new SocketMessage();
-                        message.setType("101");
-                        message.setMessage("removeLogin");
+                        message.setType(Constant.SOCKET_LOGIN_EXPIRED);
+                        message.setMessage(Constant.REMOVE_LOGIN_KEY);
                         session.getBasicRemote().sendText(JSONObject.toJSONString(message));
                     } catch (IOException e) {
                         logger.error("websocket通讯异常");

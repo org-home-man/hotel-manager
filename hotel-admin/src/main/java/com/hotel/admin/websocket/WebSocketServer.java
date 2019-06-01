@@ -72,6 +72,24 @@ public class WebSocketServer {
                     webSocketMap.put(user.getId(),session);
                     LOGGER.info("有新连接加入！当前在线人数为 [{}] , map={}",webSocketMap.size(),webSocketMap);
                 }
+            }else if(Constant.SOCKET_HEAT_BEAT.equals(socketMessage.getType())){
+                //心跳检查,响应数据
+                //1.监测token是否超时
+                String tk = socketMessage.getMessage();
+                Boolean expired = userInfoCache.isTokenExpired(tk);
+                SocketMessage heartMessage = new SocketMessage();
+                if(expired){
+                    heartMessage.setType(Constant.SOCKET_LOGIN_EXPIRED);
+                    heartMessage.setMessage(Constant.LOGIN_EXPIRED_KEY);
+                }else{
+                    heartMessage.setType(Constant.SOCKET_HEAT_BEAT);
+                    heartMessage.setMessage("心跳响应");
+                }
+                try {
+                    session.getBasicRemote().sendText(JSONObject.toJSONString(heartMessage));
+                } catch (IOException e) {
+                    LOGGER.error("websocket消息推送异常");
+                }
             }
         }
     }
