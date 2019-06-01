@@ -22,6 +22,9 @@ public class SysWebSocketMessageServiceImpl implements ISysWebSocketMessageServi
 
     @Override
     public void update(SysSocketMessage socketMessage) {
+        if(Utils.isEmpty(socketMessage.getId())){
+            return;
+        }
         //点击后更新状态
         socketMessage.setStatus(Constant.BOOL_YES); //已查看
         socketMessageMapper.updateByPrimaryKeySelective(socketMessage);
@@ -34,5 +37,14 @@ public class SysWebSocketMessageServiceImpl implements ISysWebSocketMessageServi
         sysSocketMessage.setUserId(currentUser.getId());
         List<SysSocketMessage> list = socketMessageMapper.selectNoRead(sysSocketMessage);
         return list;
+    }
+
+    @Override
+    public Long findNoReadCount() {
+        SysSocketMessage sysSocketMessage = new SysSocketMessage();
+        ISysUser currentUser = UserContext.getCurrentUser();
+        sysSocketMessage.setUserId(currentUser.getId());
+        Long count = socketMessageMapper.selectNoReadCount(sysSocketMessage);
+        return count;
     }
 }

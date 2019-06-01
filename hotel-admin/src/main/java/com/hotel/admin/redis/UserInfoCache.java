@@ -307,6 +307,7 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
             //本次访问时间
             long now = System.currentTimeMillis();
             if(now-actTime > EXPIRE_TIME){
+                clearUserInfoByToken(token);
                 return true;
             }
             return false;
