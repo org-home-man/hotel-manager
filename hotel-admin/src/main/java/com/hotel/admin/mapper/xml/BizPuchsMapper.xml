@@ -98,10 +98,10 @@
             AND a.create_time >= #{createTimeStart}
         </if>
         <if test="confirmTimeEnd != null and confirmTimeEnd != ''">
-            AND a.confirm_date &lt;= #{confirmTimeEnd}
+            AND a.last_crt_time &lt;= #{confirmTimeEnd}
         </if>
         <if test="confirmTimeStart != null and confirmTimeStart != ''">
-            AND a.confirm_date >= #{confirmTimeStart}
+            AND a.last_crt_time >= #{confirmTimeStart}
         </if>
         <if test="hotelName != null and hotelName != ''">
             AND (c.hotel_cname = #{hotelName} OR c.hotel_ename = #{hotelName})
