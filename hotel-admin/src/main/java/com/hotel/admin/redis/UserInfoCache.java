@@ -3,6 +3,7 @@ package com.hotel.admin.redis;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hotel.admin.constants.Constant;
+import com.hotel.admin.dto.SocketMessage;
 import com.hotel.admin.model.SysUser;
 import com.hotel.admin.security.GrantedAuthorityImpl;
 import com.hotel.admin.security.JwtAuthenticatioToken;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.Session;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
@@ -100,13 +102,15 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
                     authentication = getAuthentication();
                 }
             }
-            //初始化page
-            PageContext.init(request);
-            UserContext.setToken(token);
-            SysUser user = getUserByToken(token);
-            UserContext.setUser(user);
-            //刷新token
-            refreshToken(token);
+            if(authentication !=null){
+                //初始化page
+                PageContext.init(request);
+                UserContext.setToken(token);
+                SysUser user = getUserByToken(token);
+                UserContext.setUser(user);
+                //刷新token
+                refreshToken(token);
+            }
         }
         // 设置登录认证信息到上下文
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -160,6 +164,18 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
             if(Utils.isNotEmpty(tokens)){
                 for (String tk : tokens) {
                     clearUserInfoByToken(tk);
+                }
+                //移除前提示
+                Session session = WebSocketServer.webSocketMap.get(sysUser.getId());
+                if(Utils.isNotEmpty(session)){
+                    try {
+                        SocketMessage message = new SocketMessage();
+                        message.setType("101");
+                        message.setMessage("removeLogin");
+                        session.getBasicRemote().sendText(JSONObject.toJSONString(message));
+                    } catch (IOException e) {
+                        logger.error("websocket通讯异常");
+                    }
                 }
                 //清除前一个用户的session
                 WebSocketServer.webSocketMap.remove(sysUser.getId());

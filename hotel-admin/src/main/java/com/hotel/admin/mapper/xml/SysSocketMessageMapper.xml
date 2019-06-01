@@ -16,7 +16,7 @@
     FROM sys_socket_message
     where status = 1
     <if test="userId!=null and userId!=''">
-      user_id = #{userId}
+      AND user_id = #{userId}
     </if>
   </select>
   <select id="selectNoReadCount" resultType="java.lang.Long">
@@ -24,7 +24,7 @@
     from sys_socket_message
     where status = 1
     <if test="userId!=null and userId!=''">
-      user_id = #{userId}
+      AND user_id = #{userId}
     </if>
   </select>
 </mapper>

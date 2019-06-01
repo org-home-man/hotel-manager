@@ -38,9 +38,10 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws GlobalException,IOException, ServletException {
     	// 获取token, 并检查登录状态
-        if(userInfoCache.checkAuthentication(request,response)){
-            chain.doFilter(request, response);
+        if(!userInfoCache.checkAuthentication(request,response)){
+            return;
         }
+        chain.doFilter(request, response);
     }
 
 
