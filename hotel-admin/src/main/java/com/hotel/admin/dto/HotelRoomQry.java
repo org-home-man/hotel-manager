@@ -8,6 +8,8 @@ public class HotelRoomQry {
 	private  String hotelLevel;
 	/** 房间类型 */
 	private String roomType;
+	/** 房间编码 */
+	private String roomCode;
 	/** 房间样式 */
 	private String roomStyle;
 	/** 床铺类型 */
@@ -97,6 +99,14 @@ public class HotelRoomQry {
 
 	public void setHotelLevel(String hotelLevel) {
 		this.hotelLevel = hotelLevel;
+	}
+
+	public String getRoomCode() {
+		return roomCode;
+	}
+
+	public void setRoomCode(String roomCode) {
+		this.roomCode = roomCode;
 	}
 
 	public String getRoomType() {
