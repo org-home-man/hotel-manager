@@ -36,4 +36,21 @@
     currency, total_s_amount, remark, status, create_name, create_time, update_name, 
     update_time, last_crt_time, hotel_name
   </sql>
+  <insert id="impWeekData" parameterType="com.hotel.admin.model.WrDetail" >
+
+    insert into wr_detail( <include refid="Base_Column_List"/> ) SELECT id,
+         #{reportMonth},
+       #{reportMonth},
+       #{reportMonth},
+     order_code, room_code, in_date_start, out_date_end, p_name, passport, birth, phone, email_address, adult_num, child_num, c_num, room_num,
+    currency, total_s_amount, remark, status, create_name, create_time, update_name, update_time, last_crt_time, hotel_name FROM biz_puchs  where
+    <if test="createTimeEnd != null and createTimeEnd != ''">
+      create_time  &lt;=  DATE_FORMAT(#{createTimeEnd}, '%Y-%m-%d %H:%i:%S')
+    </if>
+    <if test="createTimeStart != null and createTimeStart != ''">
+      AND create_time  >= DATE_FORMAT(#{createTimeStart}, '%Y-%m-%d %H:%i:%S')
+    </if>
+
+    </insert>
+
 </mapper>

@@ -105,22 +105,22 @@
 		 	JOIN biz_room_ext d ON  r.room_code=d.room_code
 			<where>
 				<if test="orderCode != null and orderCode != ''">
-					AND bp,order_code = #{orderCode}
+					AND bp.order_code = #{orderCode}
 				</if>
 				<if test="roomStatus != null and roomStatus != ''">
-					AND bp,status = #{roomStatus}
+					AND bp.status = #{roomStatus}
 				</if>
 				<if test="createTimeEnd != null and createTimeEnd != ''">
-					AND bp,create_time &lt;= #{createTimeEnd}
+					AND bp.create_time &lt;= #{createTimeEnd}
 				</if>
 				<if test="createTimeStart != null and createTimeStart != ''">
-					AND bp,create_time >= #{createTimeStart}
+					AND bp.create_time >= #{createTimeStart}
 				</if>
 				<if test="confirmTimeEnd != null and confirmTimeEnd != ''">
-					AND bp,last_crt_time &lt;= #{confirmTimeEnd}
+					AND bp.last_crt_time &lt;= #{confirmTimeEnd}
 				</if>
 				<if test="confirmTimeStart != null and confirmTimeStart != ''">
-					AND bp,last_crt_time >= #{confirmTimeStart}
+					AND bp.last_crt_time >= #{confirmTimeStart}
 				</if>
 				<if test="hotelName != null and hotelName != ''">
 					AND (h.hotel_cname = #{hotelName} OR h.hotel_ename = #{hotelName})
