@@ -53,9 +53,9 @@ public class BizInvServiceImpl implements BizInvService {
 		for (int i=0 ; i<li.size() ; i++) {
 			BizInv bp = li.get(i);
 			record.setInvDate(bp.getInvDate());
-
 			BizInv bpLi = findByRoomCode(record);
 
+			record.setInventory(bp.getInventory());
 			if (bpLi != null) {
 				int j = bizInvMapper.updateByUser(record);
 				if (j != 1) {
