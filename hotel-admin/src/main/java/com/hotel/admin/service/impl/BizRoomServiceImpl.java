@@ -5,6 +5,7 @@ import com.hotel.admin.dto.BizRoomQuery;
 import com.hotel.admin.mapper.*;
 import com.hotel.admin.model.*;
 import com.hotel.admin.service.BizRoomService;
+import com.hotel.admin.util.IdUtils;
 import com.hotel.common.utils.DateUtils;
 import com.hotel.common.utils.StringUtils;
 import com.hotel.core.context.PageContext;
@@ -56,6 +57,9 @@ public class BizRoomServiceImpl implements BizRoomService {
 	@Autowired
 	private BizPuchsMapper bizPuchsMapper;
 
+	@Autowired
+	private IdUtils idUtils;
+
 	@Override
 	@Transactional
 	public int save(BizRoom record) {
@@ -83,47 +87,48 @@ public class BizRoomServiceImpl implements BizRoomService {
 		新增及更新操作
 		 */
 		if(StringUtils.isBlank( record.getRoomCode() )  ) {
-			System.out.println("进入了新增");
+			System.out.println("进入新增"+record);
 			//新增客房信息，
-			String roomCode = record.getHotelCode()+record.getRoomType();
+//			String roomCode = record.getHotelCode()+record.getRoomType();
 			//根据客房类型+ 酒店编号+ crt_type=room查询编号，如果查询到就加1，查询不到就插入一条数据
-			CrtId auto = new CrtId();
-			auto.setCrtType("room");
-			auto.setTypeno(record.getHotelCode());
-			auto.setType(record.getRoomType());
-			CrtId ci =  crtIdMapper.findByRoomId(auto);
-			if (ci == null) {
-				auto.setCrtNo("0001");
-                int i = 0;
-				try {
-				   i = crtIdMapper.add(auto);
-                }catch (Exception e) {
-                    a.error("插入自增序列表失败："+e.getMessage());
-                    throw new GlobalException("oraException");
-                }
-				if (i==1) {
-					roomCode = roomCode+"0001";
-				} else {
-					throw new GlobalException("bizRoom");
-				}
-
-			} else {
-				String crtNo = ci.getCrtNo();
-				String ncrtNo = String.format("%04d",Integer.parseInt(crtNo)+1 );
-				auto.setCrtNo(ncrtNo);
-				int i = 0;
-				try {
-                    i = crtIdMapper.roomAutoAddUp(auto);
-                }catch (Exception e) {
-                    a.error("更新自增序列表失败："+e.getMessage());
-                    throw new GlobalException("oraException");
-                }
-				if(i==1) {
-					roomCode = roomCode + ncrtNo;
-				} else {
-					throw new GlobalException("bizRoom");
-				}
-			}
+//			CrtId auto = new CrtId();
+//			auto.setCrtType("room");
+//			auto.setTypeno(record.getHotelCode());
+//			auto.setType(record.getRoomType());
+//			CrtId ci =  crtIdMapper.findByRoomId(auto);
+//			if (ci == null) {
+//				auto.setCrtNo("0001");
+//                int i = 0;
+//				try {
+//				   i = crtIdMapper.add(auto);
+//                }catch (Exception e) {
+//                    a.error("插入自增序列表失败："+e.getMessage());
+//                    throw new GlobalException("oraException");
+//                }
+//				if (i==1) {
+//					roomCode = roomCode+"0001";
+//				} else {
+//					throw new GlobalException("bizRoom");
+//				}
+//
+//			} else {
+//				String crtNo = ci.getCrtNo();
+//				String ncrtNo = String.format("%04d",Integer.parseInt(crtNo)+1 );
+//				auto.setCrtNo(ncrtNo);
+//				int i = 0;
+//				try {
+//                    i = crtIdMapper.roomAutoAddUp(auto);
+//                }catch (Exception e) {
+//                    a.error("更新自增序列表失败："+e.getMessage());
+//                    throw new GlobalException("oraException");
+//                }
+//				if(i==1) {
+//					roomCode = roomCode + ncrtNo;
+//				} else {
+//					throw new GlobalException("bizRoom");
+//				}
+//			}
+			String roomCode = idUtils.generateRoomCode(record);
 			//插入BizRoom表
 			record.setRoomCode(roomCode);
 			int room = 0;
@@ -374,7 +379,6 @@ public class BizRoomServiceImpl implements BizRoomService {
 			a.error("当前日期不能为空，系统错误");
 			throw new GlobalException("NotNullEception");
 		}
-		System.out.println(bizProInv);
 		List<BizInv> bpLi =  bizInvMapper.queryById(bizProInv.getRoomCode());
 		if (bpLi.size() > 0) {
 			if(bizProInv.getDateArray() != null && bizProInv.getDateArray().size()>0) {

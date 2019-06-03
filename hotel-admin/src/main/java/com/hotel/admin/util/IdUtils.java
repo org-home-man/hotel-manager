@@ -80,7 +80,7 @@ public class IdUtils {
         }else {
             redisCacheTemplate.set(key,String.valueOf(number));
         }
-        String typeCode = new DecimalFormat("00").format(roomType);
+        String typeCode = new DecimalFormat("00").format(Long.parseLong(roomType));
         String numCode = new DecimalFormat("0000").format(number);
         StringBuilder code = new StringBuilder();
         code.append(hotelCode).append(typeCode).append(numCode);

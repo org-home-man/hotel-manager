@@ -9,6 +9,7 @@ import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.admin.service.BizInvService;
 import com.hotel.admin.service.BizPuchsService;
 import com.hotel.admin.service.SysUserService;
+import com.hotel.admin.util.IdUtils;
 import com.hotel.admin.websocket.WebSocketServer;
 import com.hotel.common.entity.auth.ISysUser;
 import com.hotel.common.utils.DateUtils;
@@ -66,13 +67,16 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     @Autowired
     private SysRoleMapper sysRoleMapper;
 
+    @Autowired
+    private IdUtils idUtils;
+
     @Override
     public int save(BizPuchs record) {
         if (Utils.isEmpty(record.getInDateStart()) || Utils.isEmpty(record.getOutDateEnd())) {
             return 0;
         }
         if (record.getOrderCode() == null || record.getOrderCode() == "0") {
-            CrtId crt = crtIdMapper.findById("puchs");
+//            CrtId crt = crtIdMapper.findById("puchs");
 
             Date now = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");//可以方便地修改日期格式
@@ -84,23 +88,25 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                 return 0;
             }
             String id = sysUser.findByName(userName).getDeptId() + "";
-            if (Utils.isEmpty(crt)) {
-                CrtId ncrt = new CrtId();
-                ncrt.setCrtNo("0001");
-                ncrt.setCrtType(Constant.ORDER_TYPE);
-                crtIdMapper.add(ncrt);
-                record.setOrderCode(id + timeNow + Constant.ORDER_FIRST_CODE);
-            } else {
-                String crtno = crt.getCrtNo();
-                String newCrt = String.valueOf(Integer.parseInt(crtno) + 1);
-                while (newCrt.length() < 4) {
-                    newCrt = "0" + newCrt;
-                }
-                System.out.println(newCrt);
-                crt.setCrtNo(newCrt);
-                crtIdMapper.update(crt);
-                record.setOrderCode(id + timeNow + newCrt);
-            }
+//            if (Utils.isEmpty(crt)) {
+//                CrtId ncrt = new CrtId();
+//                ncrt.setCrtNo("0001");
+//                ncrt.setCrtType(Constant.ORDER_TYPE);
+//                crtIdMapper.add(ncrt);
+//                record.setOrderCode(id + timeNow + Constant.ORDER_FIRST_CODE);
+//            } else {
+//                String crtno = crt.getCrtNo();
+//                String newCrt = String.valueOf(Integer.parseInt(crtno) + 1);
+//                while (newCrt.length() < 4) {
+//                    newCrt = "0" + newCrt;
+//                }
+//                System.out.println(newCrt);
+//                crt.setCrtNo(newCrt);
+//                crtIdMapper.update(crt);
+//                record.setOrderCode(id + timeNow + newCrt);
+//            }
+            String orderCode = idUtils.generateOrderCode(record);
+            record.setOrderCode(orderCode);
             record.setStatus(Constant.BOOL_NO);
             bizPuchsMapper.insertSelective(record);
             BizPuchsExt recordExt = new BizPuchsExt();

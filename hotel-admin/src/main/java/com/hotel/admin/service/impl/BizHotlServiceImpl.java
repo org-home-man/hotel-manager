@@ -8,6 +8,7 @@ import com.hotel.admin.mapper.BizHotlMapper;
 import com.hotel.admin.mapper.CrtIdMapper;
 import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.service.BizHotlService;
+import com.hotel.admin.util.IdUtils;
 import com.hotel.common.utils.StringUtils;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
@@ -49,47 +50,51 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 	@Autowired
 	private BizRoomMapper bizRoomMapper;
 
+	@Autowired
+	private IdUtils idUtils;
+
 	@Override
 	@Transactional
 	public int save(BizHotl record) {
             if(Utils.isEmpty(record.getHotelCode()) || record.getHotelCode() == "0") {
                 System.out.println("licy12345");
                 /* 获取自增序列并加1*/
-                System.out.println(record.getHotelCode());
-                String ProvinceCode = record.getProvinceCode();
-                String CityCode = record.getCityCode();
-				while (ProvinceCode.length() < 3) {
-					ProvinceCode = "0"+ ProvinceCode;
-				}
-				while (CityCode.length() <2)
-				{
-					CityCode= "0" + CityCode;
-				}
-				 CrtId crt =crtIdMapper.findById("hotel");
-				 if(crt == null)
-				 {
-					 CrtId ncrt = new CrtId();
-					 System.out.println("licy1");
-					 ncrt.setCrtNo("1");
-					 ncrt.setCrtType("hotel");
-					 crtIdMapper.add(ncrt);
-					 record.setHotelCode(ProvinceCode+CityCode + "00001");
-				 }
-				 else {
-					 String crtno = crt.getCrtNo();
-					 System.out.println(crtno);
-      			     String newCrt = String.valueOf(Integer.parseInt(crtno) + 1);
-      			     while (newCrt.length() < 5) {
-                         newCrt = "0" + newCrt;
-                     }
-					 System.out.println(newCrt);
-					 crt.setCrtNo(newCrt);
-					 crtIdMapper.update(crt);
-					 record.setHotelCode(ProvinceCode+CityCode+ newCrt);
-				 }
+//                System.out.println(record.getHotelCode());
+//                String ProvinceCode = record.getProvinceCode();
+//                String CityCode = record.getCityCode();
+//				while (ProvinceCode.length() < 3) {
+//					ProvinceCode = "0"+ ProvinceCode;
+//				}
+//				while (CityCode.length() <2)
+//				{
+//					CityCode= "0" + CityCode;
+//				}
+//				 CrtId crt =crtIdMapper.findById("hotel");
+//				 if(crt == null)
+//				 {
+//					 CrtId ncrt = new CrtId();
+//					 System.out.println("licy1");
+//					 ncrt.setCrtNo("1");
+//					 ncrt.setCrtType("hotel");
+//					 crtIdMapper.add(ncrt);
+//					 record.setHotelCode(ProvinceCode+CityCode + "00001");
+//				 }
+//				 else {
+//					 String crtno = crt.getCrtNo();
+//					 System.out.println(crtno);
+//      			     String newCrt = String.valueOf(Integer.parseInt(crtno) + 1);
+//      			     while (newCrt.length() < 5) {
+//                         newCrt = "0" + newCrt;
+//                     }
+//					 System.out.println(newCrt);
+//					 crt.setCrtNo(newCrt);
+//					 crtIdMapper.update(crt);
+//					 record.setHotelCode(ProvinceCode+CityCode+ newCrt);
+//				 }
+				String hotelCode = idUtils.generateHotelCode(record);
+				record.setHotelCode(hotelCode);
 				 try
 				 {
-                     System.out.println(record.getHotelAddr());
 					 bizHotlMapper.insertSelective(record);
 				 }
 				 catch (Exception e)
