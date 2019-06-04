@@ -134,10 +134,10 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     public int puchsConfirm(BizPuchsUpdate record) {
         if (record.getOrderCode() == null || record.getOrderCode() == "0") {
         }
-        BizPuchs listStat = bizPuchsMapper.selectByPrimaryKey(record.getId());
-        if ("2".equals(listStat.getStatus())) {
-            throw new GlobalException("isOrderException");
-        }
+//        BizPuchs listStat = bizPuchsMapper.selectByPrimaryKey(record.getId());
+//        if ("2".equals(listStat.getStatus())) {
+//            throw new GlobalException("isOrderException");
+//        }
         System.out.println(record.getoutDateEnd()+ record.getinDateStart() );
         //获取入住时间和退房时间
         if (record.getoutDateEnd() == null || record.getoutDateEnd() == "" || record.getinDateStart() == null || record.getinDateStart() == "") {
