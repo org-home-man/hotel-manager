@@ -1,5 +1,6 @@
 package com.hotel.admin.task;
 
+import com.alibaba.druid.sql.visitor.functions.Trim;
 import com.hotel.admin.mapper.WrDetailMapper;
 import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.model.WrDetail;
@@ -19,7 +20,7 @@ public class WeekReportSchedule {
     @Autowired(required=false)
     private WrDetailMapper weekReportMapper;
 
-//    @Scheduled(fixedRate = 1000*100) //每15s执行一次
+//    @Scheduled(fixedRate = 1000*200) //每15s执行一次
     @Scheduled(cron = "0 30 01 ? * MON") //每周1上午01:30触发 
 
     public void weekReport() throws ParseException {
@@ -36,9 +37,20 @@ public class WeekReportSchedule {
         String dateStart = fmt.format(calendar.getTime());
         System.out.println("报表生成时间范围" + dateStart +"  "+ dateEnd);
         WrDetail wrDetail = new WrDetail();
-        wrDetail.setReportId("11");
-        wrDetail.setReportMonth("2");
-        wrDetail.setReportSeq("4");
+        //按“所属公司”产生本周内发生的订单信息报表
+        wrDetail.setReportId("R0002");
+        //获取月份
+        calendar.add(Calendar.DAY_OF_MONTH,6);
+
+        String lastDate =  fmt.format(calendar.getTime());
+        String lastMonth = lastDate.substring(4,6);
+        System.out.println("lastMonth=" +lastMonth);
+        wrDetail.setReportMonth(lastMonth);
+        //获取报表第几周
+        int week = calendar.get(Calendar.WEEK_OF_MONTH);
+        System.out.println("week=" +String.valueOf(week) +"week");
+
+        wrDetail.setReportSeq(String.valueOf(week));
         wrDetail.setCreateTimeStart(dateStart);
         wrDetail.setCreateTimeEnd(dateEnd);
         int ret = weekReportMapper.impWeekData(wrDetail);
