@@ -2,6 +2,7 @@ package com.hotel.admin.service;
 
 import com.hotel.admin.dto.HotelRoomQry;
 import com.hotel.admin.model.BizHotl;
+import com.hotel.admin.model.BizRecommendRoom;
 import com.hotel.admin.model.BizRoom;
 import com.hotel.core.page.Page;
 import com.hotel.core.service.IService;
@@ -27,4 +28,6 @@ public interface HotelRoomService extends IService<BizRoom> {
     Page findPagePara(HotelRoomQry HotelRoomQry);
 
     List<BizHotl> findLikeByName(String name);
+
+    List<BizRecommendRoom> findCustroomInfo();
 }

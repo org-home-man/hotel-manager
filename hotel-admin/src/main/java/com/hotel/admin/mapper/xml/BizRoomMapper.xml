@@ -33,6 +33,9 @@
     <result column="city_cname" jdbcType="VARCHAR" property="cityCname" />
     <result column="city_ename" jdbcType="VARCHAR" property="cityEname" />
     <result column="city_code_key" jdbcType="VARCHAR" property="cityCodeKey" />
+    <result column="hotel_addr" jdbcType="VARCHAR" property="hotelAddr" />
+    <result column="hotel_phone" jdbcType="VARCHAR" property="hotelPhone" />
+    <result column="hotel_web" jdbcType="VARCHAR" property="hotelWeb" />
 
     <result column="hotel_cname" jdbcType="VARCHAR" property="hotelCname" />
     <result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
@@ -71,8 +74,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_name" jdbcType="VARCHAR" property="updateName" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-
   </resultMap>
+
   
   <insert id="add" parameterType="com.hotel.admin.model.BizRoom">
     insert into biz_room
@@ -289,6 +292,9 @@
     d.hotel_ename   hotel_ename,
     d.province_code province_code,
     d.city_code    city_code,
+    d.hotel_addr   hotel_addr,
+    d.hotel_phone  hotel_phone,
+    d.hotel_web    hotel_web,
     a.room_type    room_type,
     a.bed_type     bed_type,
     a.photo        photo,
@@ -340,6 +346,9 @@
     <if test="hotelCode != null and hotelCode != ''">
       AND d.hotel_code = #{hotelCode,jdbcType=VARCHAR}
     </if>
+    <if test="roomCode != null and roomCode != ''">
+      AND a.room_code = #{roomCode,jdbcType=VARCHAR}
+    </if>
     <if test="hotelName != null and hotelName !=''">
       AND (d.hotel_cname LIKE concat('%',#{hotelName,jdbcType=VARCHAR},'%') OR d.hotel_ename LIKE concat('%',#{hotelName,jdbcType=VARCHAR},'%'))
     </if>
@@ -357,5 +366,25 @@
     </if>
 
   </select>
+
+  <sql id="br_hotel_sql">
+    b.hotel_code,b.province_code ,b.city_code,b.hotel_type ,b.hotel_level ,b.hotel_cname ,b.hotel_ename ,b.hotel_addr ,b.hotel_phone ,b.hotel_web
+  </sql>
+  <sql id="br_hotel_sql2">
+    b.hotel_code AS hotelCode,b.province_code AS provinceCode ,b.city_code AS cityCode,b.hotel_type AS hotelType,b.hotel_level AS hotelLevel,b.hotel_cname AS hotelCname,b.hotel_ename AS hotelEname,b.hotel_addr AS hotelAddr,b.hotel_phone AS hotelPhone,b.hotel_web AS hotelWeb
+  </sql>
+  <sql id="br_room_sql">
+    a.room_code,a.room_type,a.room_style,a.bed_type,a.break_type,a.room_area,a.room_stock,a.photo
+  </sql>
+  <sql id="br_room_ext_sql">
+    iswify,isfront,isbarrifr,isbalcony,iskitchen,iswindow,isheat,isicebox,isiron,isnosmk,islandscape,ishighrise,ispark,isgym,isswmp,isbeach,ishotsp,ischildct,isroomserv,isknead,islounge,issuper,isbus,istrafic,isrestau
+  </sql>
+  <sql id="br_price_sql">
+    p.price
+  </sql>
+  <sql id="br_bi_sql">
+    p.inventory
+  </sql>
+
   
 </mapper>

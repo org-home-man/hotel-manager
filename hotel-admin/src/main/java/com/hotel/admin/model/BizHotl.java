@@ -2,6 +2,9 @@ package com.hotel.admin.model;
 
 import com.hotel.common.entity.BusinessEntity;
 
+import javax.persistence.Transient;
+
+
 /**
  * ---------------------------
  * 酒店信息表 (BizHotl)         
@@ -208,6 +211,5 @@ public class BizHotl extends BusinessEntity{
 	public void setHotelEname(String hotelEname) {
 		this.hotelEname = hotelEname;
 	}
-
 
 }

@@ -67,4 +67,14 @@ public class BizInv extends BusinessEntity {
 		this.autoClose = autoClose;
 	}
 
+	@Override
+	public String toString() {
+		return "BizInv{" +
+				"roomCode='" + roomCode + '\'' +
+				", invDate='" + invDate + '\'' +
+				", inventory=" + inventory +
+				", autoClose='" + autoClose + '\'' +
+				", stockDateData=" + stockDateData +
+				'}';
+	}
 }
