@@ -76,7 +76,6 @@ public class BizRoom extends BusinessEntity{
 	private String hotelCname;
 
 	/** 酒店英文名称 */
-
 	private String hotelEname;
 	/** 库存数量 */
 	private Integer inventory;
@@ -681,5 +680,76 @@ public class BizRoom extends BusinessEntity{
 		this.recommended = recommended;
 	}
 
-
+	@Override
+	public String toString() {
+		return "BizRoom{" +
+				"roomCode='" + roomCode + '\'' +
+				", hotelCode='" + hotelCode + '\'' +
+				", roomType='" + roomType + '\'' +
+				", roomStyle='" + roomStyle + '\'' +
+				", roomTypeKey='" + roomTypeKey + '\'' +
+				", bedTypeKey='" + bedTypeKey + '\'' +
+				", bedType='" + bedType + '\'' +
+				", breakType='" + breakType + '\'' +
+				", breakTypeKey='" + breakTypeKey + '\'' +
+				", roomArea=" + roomArea +
+				", introC='" + introC + '\'' +
+				", introE='" + introE + '\'' +
+				", photo='" + photo + '\'' +
+				", roomStock=" + roomStock +
+				", recommended='" + recommended + '\'' +
+				", scheduledays=" + scheduledays +
+				", favorableprice=" + favorableprice +
+				", evenlive=" + evenlive +
+				", present='" + present + '\'' +
+				", hotelType='" + hotelType + '\'' +
+				", hotelTypeKey='" + hotelTypeKey + '\'' +
+				", outDateEnd='" + outDateEnd + '\'' +
+				", inDateStart='" + inDateStart + '\'' +
+				", provinceCode='" + provinceCode + '\'' +
+				", cityCode='" + cityCode + '\'' +
+				", provinceCodeKey='" + provinceCodeKey + '\'' +
+				", provinceEname='" + provinceEname + '\'' +
+				", provinceCname='" + provinceCname + '\'' +
+				", cityCodeKey='" + cityCodeKey + '\'' +
+				", cityEname='" + cityEname + '\'' +
+				", cityCname='" + cityCname + '\'' +
+				", hotelLevel='" + hotelLevel + '\'' +
+				", hotelCname='" + hotelCname + '\'' +
+				", hotelEname='" + hotelEname + '\'' +
+				", inventory=" + inventory +
+				", autoClose='" + autoClose + '\'' +
+				", sRoomPrice=" + sRoomPrice +
+				", sPrice=" + sPrice +
+				", iswify='" + iswify + '\'' +
+				", isfront='" + isfront + '\'' +
+				", isbarrifr='" + isbarrifr + '\'' +
+				", isbalcony='" + isbalcony + '\'' +
+				", iskitchen='" + iskitchen + '\'' +
+				", iswindow='" + iswindow + '\'' +
+				", isheat='" + isheat + '\'' +
+				", isicebox='" + isicebox + '\'' +
+				", isiron='" + isiron + '\'' +
+				", isnosmk='" + isnosmk + '\'' +
+				", islandscape='" + islandscape + '\'' +
+				", ishighrise='" + ishighrise + '\'' +
+				", ispark='" + ispark + '\'' +
+				", isgym='" + isgym + '\'' +
+				", isswmp='" + isswmp + '\'' +
+				", isbeach='" + isbeach + '\'' +
+				", ishotsp='" + ishotsp + '\'' +
+				", ischildct='" + ischildct + '\'' +
+				", isroomserv='" + isroomserv + '\'' +
+				", isknead='" + isknead + '\'' +
+				", islounge='" + islounge + '\'' +
+				", issuper='" + issuper + '\'' +
+				", isbus='" + isbus + '\'' +
+				", istrafic='" + istrafic + '\'' +
+				", isrestau='" + isrestau + '\'' +
+				", tPrice=" + tPrice +
+				", hotelAddr='" + hotelAddr + '\'' +
+				", hotelPhone='" + hotelPhone + '\'' +
+				", hotelWeb='" + hotelWeb + '\'' +
+				'}';
+	}
 }
