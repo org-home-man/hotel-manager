@@ -66,7 +66,7 @@
     b.hotel_code AS hotelCode,b.province_code AS provinceCode ,b.city_code AS cityCode,b.hotel_type AS hotelType,b.hotel_level AS hotelLevel,b.hotel_cname AS hotelCname,b.hotel_ename AS hotelEname,b.hotel_addr AS hotelAddr,b.hotel_phone AS hotelPhone,b.hotel_web AS hotelWeb
   </sql>
   <sql id="br_room_sql">
-    a.room_code,a.room_type,a.room_style,a.bed_type,a.break_type,a.room_area,a.room_stock,a.photo
+    a.room_code,a.room_type,a.room_style,a.bed_type,a.break_type,a.room_area,a.room_stock,a.photo,a.intro_c,a.intro_e
   </sql>
   <sql id="br_room_ext_sql">
     iswify,isfront,isbarrifr,isbalcony,iskitchen,iswindow,isheat,isicebox,isiron,isnosmk,islandscape,ishighrise,ispark,isgym,isswmp,isbeach,ishotsp,ischildct,isroomserv,isknead,islounge,issuper,isbus,istrafic,isrestau

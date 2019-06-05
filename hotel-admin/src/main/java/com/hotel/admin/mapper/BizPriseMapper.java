@@ -3,6 +3,7 @@ package com.hotel.admin.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.hotel.admin.dto.HotelRoomQry;
 import com.hotel.admin.model.BizPrise;
 
 /**
@@ -61,5 +62,7 @@ public interface BizPriseMapper {
     */
     int addByUser(BizPrise code);
     int updateByUser(BizPrise code);
+
+    List<BizPrise> findByDate(HotelRoomQry record);
     
 }

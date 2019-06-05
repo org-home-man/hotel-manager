@@ -233,5 +233,24 @@
     where room_code = #{roomCode,jdbcType=VARCHAR} AND price_date = #{priceDate,jdbcType=TIMESTAMP}
   </update>
 
+  <select id="findByDate" parameterType="com.hotel.admin.dto.HotelRoomQry" resultMap="BaseResultMap">
+    select
+      room_code,
+      price_date,
+      s_room_price,
+      t_price
+    from
+      biz_prise
+    where
+      room_code = #{roomCode,jdbcType=VARCHAR}
+    AND
+      price_date &gt;= #{inDateStart,jdbcType=VARCHAR}
+    AND
+      price_date &lt; #{outDateEnd,jdbcType=VARCHAR}
+
+    ORDER  BY price_date
+
+  </select>
+
   
 </mapper>
