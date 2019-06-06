@@ -66,4 +66,9 @@ public class HotelRoomController {
         return HttpResult.ok(likeByName);
     }
 
+    @PostMapping(value="/findCustroomInfo")
+    public HttpResult findCustroomInfo() {
+        return HttpResult.ok(hotelRoomService.findCustroomInfo());
+    }
+
 }

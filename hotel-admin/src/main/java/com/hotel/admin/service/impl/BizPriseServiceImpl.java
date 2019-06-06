@@ -3,6 +3,7 @@ package com.hotel.admin.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.hotel.admin.dto.HotelRoomQry;
 import com.hotel.admin.mapper.BizPriseMapper;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.page.MybatisPageHelper;
@@ -107,5 +108,11 @@ public class BizPriseServiceImpl implements BizPriseService {
 	@Override
 	public BizPrise findById(String id) {
 		return null;
+	}
+
+	@Override
+	public List<BizPrise> findByDate(HotelRoomQry record) {
+		List<BizPrise> li =  bizPriseMapper.findByDate(record);
+		return li;
 	}
 }

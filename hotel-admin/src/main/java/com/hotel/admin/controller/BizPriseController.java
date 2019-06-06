@@ -1,5 +1,6 @@
 package com.hotel.admin.controller;
 
+import com.hotel.admin.dto.HotelRoomQry;
 import com.hotel.admin.model.BizPrise;
 import com.hotel.admin.service.BizPriseService;
 import com.hotel.core.http.HttpResult;
@@ -65,5 +66,10 @@ public class BizPriseController {
 	@GetMapping(value="/findById")
 	public HttpResult findById(String roomCode) {
 		return HttpResult.ok(bizPriseService.findById(roomCode));
+	}
+
+	@PostMapping(value = "/findByDate")
+	public HttpResult findByDate(HotelRoomQry record) {
+		return HttpResult.ok(bizPriseService.findByDate(record));
 	}
 }
