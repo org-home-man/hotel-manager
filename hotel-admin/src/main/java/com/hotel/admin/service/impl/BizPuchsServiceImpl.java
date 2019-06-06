@@ -105,6 +105,8 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 //                crtIdMapper.update(crt);
 //                record.setOrderCode(id + timeNow + newCrt);
 //            }
+            //获取用户id
+            record.setCreateId(UserContext.getCurrentUser().getId());
             String orderCode = idUtils.generateOrderCode(record);
             record.setOrderCode(orderCode);
             record.setStatus(Constant.BOOL_NO);
