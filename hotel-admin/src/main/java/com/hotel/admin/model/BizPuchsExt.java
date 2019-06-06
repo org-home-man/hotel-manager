@@ -18,7 +18,7 @@ public class BizPuchsExt extends BusinessEntity {
 	/** 客房编号 */
 	private String roomCode;
 	/** 居住日期 */
-	private java.util.Date liveDate;
+	private String liveDate;
 	/** 销售价 */
 	private Double sAmount;
 	/** 结算价 */
@@ -40,11 +40,11 @@ public class BizPuchsExt extends BusinessEntity {
 		this.roomCode = roomCode;
 	}
 
-	public java.util.Date getLiveDate() {
+	public String getLiveDate() {
 		return liveDate;
 	}
 
-	public void setLiveDate(java.util.Date liveDate) {
+	public void setLiveDate(String liveDate) {
 		this.liveDate = liveDate;
 	}
 

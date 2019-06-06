@@ -13,5 +13,6 @@ import com.hotel.core.mybatis.mapper.AbstractMapper;
  * ---------------------------
  */
 public interface BizPuchsExtMapper extends AbstractMapper<BizPuchsExt> {
-    
+
+    int updateByUnique(BizPuchsExt record);
 }

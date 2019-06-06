@@ -2,6 +2,7 @@ package com.hotel.admin.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hotel.admin.constants.Constant;
+import com.hotel.admin.dto.HotelRoomQry;
 import com.hotel.admin.dto.SocketMessage;
 import com.hotel.admin.mapper.*;
 import com.hotel.admin.model.*;
@@ -22,8 +23,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -66,62 +70,87 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     private SysUserRoleMapper sysUserRoleMapper;
     @Autowired
     private SysRoleMapper sysRoleMapper;
-
+    @Autowired
+    private BizPriseMapper bizPriseMapper;
     @Autowired
     private IdUtils idUtils;
 
     @Override
+    @Transactional
     public int save(BizPuchs record) {
+        //根据入住日期和退房日期 生成订单详细信息；详细信息需要订单的 每日的房间价格
+        long days = 0;
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         if (Utils.isEmpty(record.getInDateStart()) || Utils.isEmpty(record.getOutDateEnd())) {
             return 0;
+        } else {
+            try {
+                Date startDate = sdf.parse(record.getInDateStart());
+                calendar.setTime(startDate);
+                Date endDate = sdf.parse(record.getOutDateEnd());
+                days = (Long)(endDate.getTime()-startDate.getTime())/(1000*3600*24);
+            } catch (ParseException e) {
+                new GlobalException("sysException");
+            }
         }
+        //根据入离日期查询出相应的牌价信息
+        HotelRoomQry hotelRoomQry = new HotelRoomQry();
+        hotelRoomQry.setRoomCode(record.getRoomCode());
+        hotelRoomQry.setInDateStart(record.getInDateStart());
+        hotelRoomQry.setOutDateEnd(record.getOutDateEnd());
+        List<BizPrise> priceList = bizPriseMapper.findByDate(hotelRoomQry);
+
         if (record.getOrderCode() == null || record.getOrderCode() == "0") {
 //            CrtId crt = crtIdMapper.findById("puchs");
-
             Date now = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");//可以方便地修改日期格式
             String timeNow = dateFormat.format(now);
 
-            //获取用户id
-            String userName = UserContext.getCurrentUser().getName();
-            if (Utils.isEmpty(userName)) {
-                return 0;
-            }
-            String id = sysUser.findByName(userName).getDeptId() + "";
-//            if (Utils.isEmpty(crt)) {
-//                CrtId ncrt = new CrtId();
-//                ncrt.setCrtNo("0001");
-//                ncrt.setCrtType(Constant.ORDER_TYPE);
-//                crtIdMapper.add(ncrt);
-//                record.setOrderCode(id + timeNow + Constant.ORDER_FIRST_CODE);
-//            } else {
-//                String crtno = crt.getCrtNo();
-//                String newCrt = String.valueOf(Integer.parseInt(crtno) + 1);
-//                while (newCrt.length() < 4) {
-//                    newCrt = "0" + newCrt;
-//                }
-//                System.out.println(newCrt);
-//                crt.setCrtNo(newCrt);
-//                crtIdMapper.update(crt);
-//                record.setOrderCode(id + timeNow + newCrt);
-//            }
             //获取用户id
             record.setCreateId(UserContext.getCurrentUser().getId());
             String orderCode = idUtils.generateOrderCode(record);
             record.setOrderCode(orderCode);
             record.setStatus(Constant.BOOL_NO);
             bizPuchsMapper.insertSelective(record);
-            BizPuchsExt recordExt = new BizPuchsExt();
-            recordExt.setRoomCode(record.getRoomCode());
-            recordExt.setOrderCode(record.getOrderCode());
+
+            for (int i = 0 ; i < days ; i++) {
+
+                BizPuchsExt recordExt = new BizPuchsExt();
+                recordExt.setRoomCode(record.getRoomCode());
+                recordExt.setOrderCode(orderCode);
+                recordExt.setLiveDate(sdf.format(calendar.getTime()));
+                recordExt.setSAmount(priceList.get(i).getSRoomPrice()*record.getRoomNum());
+
+                bizPuchsExtMapper.insertSelective(recordExt);
+
+                calendar.add(Calendar.DATE,1);
+            }
+
+
             SocketMessage message = new SocketMessage();
             message.setType(Constant.SOCKET_ORDER_MESSAGE);
             message.setMessage("订单号:"+record.getOrderCode());
             WebSocketServer.sendMessage(JSONObject.toJSONString(message));
-            return bizPuchsExtMapper.insertSelective(recordExt);
+
+            return 1;
         }
 
-        return bizPuchsMapper.updateByPrimaryKey(record);
+        bizPuchsMapper.updateByPrimaryKey(record);
+
+        for (int i = 0 ; i < days ; i++) {
+
+            BizPuchsExt recordExt = new BizPuchsExt();
+            recordExt.setRoomCode(record.getRoomCode());
+            recordExt.setOrderCode(record.getOrderCode());
+            recordExt.setLiveDate(sdf.format(calendar.getTime()));
+            recordExt.setSAmount(priceList.get(i).getSRoomPrice()*record.getRoomNum());
+
+            bizPuchsExtMapper.updateByUnique(recordExt);
+            calendar.add(Calendar.DATE,1);
+        }
+
+        return 1;
     }
 
 	@Override

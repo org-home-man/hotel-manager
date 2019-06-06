@@ -14,5 +14,26 @@
 	<result column="update_name" jdbcType="VARCHAR" property="updateName" />
 	<result column="update_time" jdbcType="VARCHAR" property="updateTime" />
   </resultMap>
+	<update id="updateByUser" parameterType="com.hotel.admin.model.BizPuchsExt">
+		update biz_puchs_ext
+		<set>
+			<if test="orderCode != null">
+				order_code = #{orderCode,jdbcType=VARCHAR},
+			</if>
+			<if test="roomCode != null">
+				room_code = #{roomCode,jdbcType=VARCHAR},
+			</if>
+			<if test="liveDate != null">
+				live_date = #{liveDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sAmount != null">
+				s_amount = #{sAmount,jdbcType=DOUBLE},
+			</if>
+			<if test="tAmount != null">
+				t_amount = #{tAmount,jdbcType=DOUBLE},
+			</if>
+		</set>
+		where room_code = #{roomCode,jdbcType=VARCHAR} AND live_date = #{liveDate,jdbcType=VARCHAR} AND order_code=#{orderCode,jdbcType=VARCHAR}
+	</update>
   
 </mapper>
