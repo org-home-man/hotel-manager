@@ -14,7 +14,7 @@
 	<result column="update_name" jdbcType="VARCHAR" property="updateName" />
 	<result column="update_time" jdbcType="VARCHAR" property="updateTime" />
   </resultMap>
-	<update id="updateByUser" parameterType="com.hotel.admin.model.BizPuchsExt">
+	<update id="updateByUnique" parameterType="com.hotel.admin.model.BizPuchsExt">
 		update biz_puchs_ext
 		<set>
 			<if test="orderCode != null">

@@ -158,6 +158,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
 		}
 //return 0;
+
         return bizPuchsMapper.updateBizPushs(record);
     }
 
