@@ -84,7 +84,7 @@
     <result column="isrestau" jdbcType="VARCHAR" property="isrestau" />
   </resultMap>
 	<sql id="room_sql">
-		r.hotel_code,r.room_style,r.room_type,r.bed_type,r.break_type,r.intro_c,r.intro_e,r.room_stock,r.recommended,r.scheduledays,r.favorableprice,r.evenlive
+		r.room_style,r.room_type,r.bed_type,r.break_type,r.intro_c,r.intro_e,r.room_stock,r.recommended,r.scheduledays,r.favorableprice,r.evenlive
 	</sql>
 	<sql id="room_ext_sql">
 		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
