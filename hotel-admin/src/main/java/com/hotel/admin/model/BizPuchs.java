@@ -54,6 +54,16 @@ public class BizPuchs extends BusinessEntity {
 	/** 1酒店名称 */
 	private String hotelName;
 
+	private String hotelCode;
+
+	public String getHotelCode() {
+		return hotelCode;
+	}
+
+	public void setHotelCode(String hotelCode) {
+		this.hotelCode = hotelCode;
+	}
+
 	public String getHotelName() {
 		return hotelName;
 	}
