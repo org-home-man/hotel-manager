@@ -2,8 +2,10 @@ package com.hotel.admin.mapper;
 
 import java.util.List;
 
+import com.hotel.admin.dto.DateRangeDto;
 import com.hotel.admin.model.*;
 import com.hotel.admin.qo.BizPuchsQuery;
+import com.hotel.admin.qo.BizPuchsStatusUpdate;
 import com.hotel.core.mybatis.mapper.AbstractMapper;
 
 /**
@@ -22,5 +24,9 @@ public interface BizPuchsMapper extends AbstractMapper<BizPuchs> {
     int puchsConfirm(BizPuchsUpdate bizPuchsQuery);
     List<BizPuchs> findPageS(BizPuchsUpdate bizPuchsQuery);
     List<BizPuchs> findByRoomCd(String roomCode);
+
+    String findGroupRoomCode();
+    String findMonthLowestRoom(DateRangeDto record);
+    int puchsStatusUpdate(BizPuchsStatusUpdate bizPuchsStatusUpdate);
 
 }

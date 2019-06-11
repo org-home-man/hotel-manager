@@ -31,4 +31,24 @@ public class Constant {
     public static final String LOGIN_EXPIRED_KEY = "loginExpired";
     //踢出用户
     public static final String REMOVE_LOGIN_KEY = "removeLogin";
+
+    //待确认
+    public static final String PUCHS_STAT_NO_CONFIRM ="1";
+    //确认
+    public static final String PUCHS_STAT_CONFIRM = "2";
+    //订单取消
+    public static final String PUCHS_STAT_CANCEL = "3";
+    //订单自动取消
+    public static final String PUCHS_STAT_CANCEL_AUTO = "4";
+    //订单未结算
+    public static final String PUCHS_STAT_NO_ACCOUNTS = "5";
+    //订单已结算
+    public static final String PUCHS_STAT_ACCOUNTS = "6";
+
+    //客房类型 当月房价最低
+    public static final String CUSTROOM_PRICE_LOWEST = "01";
+
+    //客房类型 历史预定最多
+    public static final String CUSTROOM_MAXINUM = "02";
+
 }

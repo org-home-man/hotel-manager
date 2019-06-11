@@ -111,7 +111,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             record.setCreateId(UserContext.getCurrentUser().getId());
             String orderCode = idUtils.generateOrderCode(record);
             record.setOrderCode(orderCode);
-            record.setStatus(Constant.BOOL_NO);
+            record.setStatus(Constant.PUCHS_STAT_NO_CONFIRM);
             bizPuchsMapper.insertSelective(record);
 
             for (int i = 0 ; i < days ; i++) {
@@ -227,7 +227,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             }
         }
 
-        record.setStatus("2");
+        record.setStatus(Constant.PUCHS_STAT_CONFIRM);
         return bizPuchsMapper.puchsConfirm(record);
     }
 
@@ -277,7 +277,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                 bizInvService.update(bizInv);
             }
         }
-        bizPuchs.setStatus("3");
+        bizPuchs.setStatus(Constant.PUCHS_STAT_CANCEL);
         bizPuchsMapper.updateByPrimaryKeySelective(bizPuchs);
     }
 

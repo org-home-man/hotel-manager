@@ -205,4 +205,40 @@
 		where  1=1 and a.room_code=b.room_code and b.room_code=d.room_code and b.hotel_code =c.hotel_code and a.status in ('1','2') AND a.room_code = #{roomCode,jdbcType=VARCHAR}
 	</select>
 
+	<select id="findGroupRoomCode" resultType="java.lang.String">
+      SELECT
+		room_code
+      FROM
+      	(
+			select
+				room_code , count(1) num
+			FROM
+				biz_puchs
+			where
+				status IN  ('2','5','6')
+			GROUP BY room_code
+		) t
+	  ORDER BY  t.num DESC limit 1
+	</select>
+
+	<select id="findMonthLowestRoom" resultType="java.lang.String">
+		select
+			room_code
+		from
+			biz_prise
+		where
+			price_date BETWEEN #{earlyMonth,jdbcType=VARCHAR} AND #{todayMonth,jdbcType=VARCHAR}
+		ORDER BY s_room_price desc LIMIT 1
+	</select>
+
+	<update id="puchsStatusUpdate" parameterType="com.hotel.admin.qo.BizPuchsStatusUpdate">
+		update  biz_puchs
+		<set>
+			<if test="status != null and status !=''">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where status = #{oldStatus,jdbcType=VARCHAR} AND  in_date_start &lt;= #{inDateStart,jdbcType=VARCHAR}
+	</update>
+
 </mapper>
