@@ -27,6 +27,7 @@ public class MonReportSchedule {
 //    @Scheduled(fixedRate = 1000*200) //每15s执行一次
     @Scheduled(cron = "0 0 2 1 * ? * ") //每月1上午02：:0触发 
 
+
     public void weekReport() throws ParseException {
          SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
         //当前日期
