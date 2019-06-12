@@ -126,7 +126,7 @@
 					AND (h.hotel_cname = #{hotelName} OR h.hotel_ename = #{hotelName})
 				</if>
 				<if test="createName != null and createName != ''">
-					AND bp,create_name = #{createName}
+					AND bp.create_name = #{createName}
 				</if>
 			</where>
 	</select>
