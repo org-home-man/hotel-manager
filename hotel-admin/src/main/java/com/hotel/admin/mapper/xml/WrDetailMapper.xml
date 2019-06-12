@@ -49,7 +49,7 @@
       biz_room r JOIN biz_puchs bp  ON r.room_code=bp.room_code
       JOIN biz_hotl h ON r.hotel_code =h.hotel_code JOIN sys_user s ON bp.create_id=s.id
       join sys_dept pt on pt.id = s.dept_id
-       where
+       where  1=1
     <if test="createTimeEnd != null and createTimeEnd != ''">
       bp.create_time  &lt;=  DATE_FORMAT(#{createTimeEnd}, '%Y-%m-%d %H:%i:%S')
     </if>

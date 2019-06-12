@@ -38,7 +38,7 @@ public class WrDetail extends Entity {
      */
     private String outDateEnd;
 
-    /**
+    /**create
      * ?????
      */
     private String pName;

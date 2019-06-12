@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hotel.admin.mapper.WrSummaryMapper" >
+  <resultMap id="BaseResultMap" type="com.hotel.admin.model.WrSummary" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="report_id" property="reportId" jdbcType="VARCHAR" />
+    <result column="report_txt" property="reportTxt" jdbcType="VARCHAR" />
+    <result column="report_month" property="reportMonth" jdbcType="VARCHAR" />
+    <result column="report_seq" property="reportSeq" jdbcType="VARCHAR" />
+    <result column="creat_time" property="creatTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, report_id, report_txt, report_month, report_seq, creat_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from wr_summary
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+</mapper>
