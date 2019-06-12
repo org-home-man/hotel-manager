@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hotel.admin.constants.Constant;
 import com.hotel.admin.dto.HotelRoomQry;
 import com.hotel.admin.dto.SocketMessage;
+import com.hotel.admin.dto.SysDictDto;
 import com.hotel.admin.mapper.*;
 import com.hotel.admin.model.*;
 import com.hotel.admin.qo.BizPuchsQuery;
@@ -75,6 +76,9 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     @Autowired
     private IdUtils idUtils;
 
+    @Autowired
+    private SysDictMapper sysDictMapper;
+
     @Override
     @Transactional
     public int save(BizPuchs record) {
@@ -85,6 +89,13 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         if (Utils.isEmpty(record.getInDateStart()) || Utils.isEmpty(record.getOutDateEnd())) {
             return 0;
         } else {
+            try {
+                validDateInDateStart(record.getInDateStart(),getSystemParams());
+            }catch (Exception e) {
+                new GlobalException(e.getMessage());
+            }
+
+
             try {
                 Date startDate = sdf.parse(record.getInDateStart());
                 calendar.setTime(startDate);
@@ -149,7 +160,6 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             bizPuchsExtMapper.updateByUnique(recordExt);
             calendar.add(Calendar.DATE,1);
         }
-
         return 1;
     }
 
@@ -173,7 +183,6 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         System.out.println(record.getoutDateEnd()+ record.getinDateStart() );
         //获取入住时间和退房时间
         if (record.getoutDateEnd() == null || record.getoutDateEnd() == "" || record.getinDateStart() == null || record.getinDateStart() == "") {
-            System.out.println("入住时间和退房时间不能为空");
             throw new GlobalException("inoutdateIsNull");
         }
 
@@ -281,5 +290,55 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         bizPuchsMapper.updateByPrimaryKeySelective(bizPuchs);
     }
 
+    /*
+    日期校验每晚18.30之后的就无法预定7天内的房间
+     */
+    private void validDateInDateStart(String inDateStart,int systemDays) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMdd");
+        Date date = new Date();
+        String dateString = sf.format(date);
+        try {
+            Date eighteenDate = sdf.parse(dateString+"183000");
+            if (date.after(eighteenDate)) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                calendar.add(Calendar.DAY_OF_MONTH,systemDays);
 
+                Date sysDate = calendar.getTime();
+                if (sf.parse(inDateStart).before(sysDate)) {
+                    throw new GlobalException("OverSevenAfterExcetpion");
+                }
+
+            } else {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                calendar.add(Calendar.DAY_OF_MONTH,systemDays-1);
+                Date sysDate = calendar.getTime();
+                if (sf.parse(inDateStart).before(sysDate)) {
+                    throw new GlobalException("OverSevenAfterExcetpion");
+                }
+            }
+
+        } catch (Exception e) {
+            throw new GlobalException(e.getMessage());
+        }
+    }
+
+    /*
+    获取系统参数
+     */
+    private int getSystemParams() {
+        List<SysDictDto> dict = sysDictMapper.findByCode("SYSTEM_DAYS","1");
+        if (dict.size() < 1) {
+            throw new GlobalException("sysExcetpion");
+        }
+
+        try{
+            return Integer.parseInt(dict.get(0).getCode());
+        }catch (Exception e) {
+            throw new GlobalException("sysExcetpion");
+        }
+
+    }
 }
