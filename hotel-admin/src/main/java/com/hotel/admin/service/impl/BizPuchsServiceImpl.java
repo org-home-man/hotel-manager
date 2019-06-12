@@ -157,7 +157,34 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 	public int updateInfo(BizPuchsUpdate record) {
 		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
 		}
-//return 0;
+        //判断库存数是否够用
+        Date outDate = DateUtils.getDate(record.getoutDateEnd(), "yyyyMMdd");
+        Date inDate = DateUtils.getDate(record.getinDateStart(), "yyyyMMdd");
+        int invDate = DateUtils.getDateDiff(outDate, inDate);
+
+        for (int index = 0; index < invDate; index++) {
+            String newInDate = DateUtils.getDateString(DateUtils.addDays(inDate, index), "yyyyMMdd");
+            BizInv inv = new BizInv();
+            inv.setRoomCode(record.getRoomCode());
+            inv.setInvDate(newInDate);
+            BizInv bizInvs = bizInvService.findByRoomCode(inv);
+            if (bizInvs == null) {
+                BizRoom mroom = bizRoomMapper.findById(record.getRoomCode());
+                if (mroom.getRoomStock() <= 0 || mroom.getRoomStock() == null) {
+                    throw new GlobalException("RoomStockIsNull");
+                }
+                if(mroom.getRoomStock() < record.getRoomNum() )
+                {
+                    throw new GlobalException("invIsOutException");
+                }
+
+            } else {
+                //k库存数大于1这可以减1
+                if (bizInvs.getInventory() < record.getRoomNum() ) {
+                    throw new GlobalException("invIsOutException");
+                }
+            }
+        }
 
         return bizPuchsMapper.updateBizPushs(record);
     }
