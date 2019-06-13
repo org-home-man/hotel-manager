@@ -31,12 +31,18 @@ public class DemoServiceImpl implements IDemoService {
     @Override
     public Page findPage(String name) {
 //        Page page = PageContext.getPage();
-//        List<Demo> demos = demoMapper.selectBy();
+        List<Demo> demos = demoMapper.selectBy();
 //        demos.forEach( d -> d.setName("aaa"));
 //        page.setRows(demos);
         BizRoom bizRoom = new BizRoom();
         bizRoom.setHotelCode("111");
         System.out.println("id生成:" + idUtils.generateRoomCode(bizRoom));
         return null;
+    }
+
+    @Override
+    public List<Demo> selectAll() {
+        List<Demo> list = demoMapper.selectAll();
+        return list;
     }
 }
