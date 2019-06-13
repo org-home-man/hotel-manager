@@ -61,7 +61,7 @@
     <set>
       a.dept_id = b.dept_id, a.dept_name = c.name
     </set>
-    where a.create_id = b.id and b.dept_id = c.id and a.report_id='R0004'
+    where a.create_id = b.id and b.dept_id = c.id and a.report_id like '%R0004%'
     <if test="reportMonth != null and reportSeq != ''">
       AND  report_month  = #{reportMonth,jdbcType=VARCHAR}
     </if>

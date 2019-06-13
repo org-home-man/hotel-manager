@@ -12,10 +12,10 @@
   <sql id="Base_Column_List" >
     id, report_id, report_txt, report_month, report_seq, creat_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from wr_summary
-    where id = #{id,jdbcType=BIGINT}
-  </select>
+  <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >-->
+    <!--select -->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from wr_summary-->
+    <!--where id = #{id,jdbcType=BIGINT}-->
+  <!--</select>-->
 </mapper>

@@ -2,8 +2,10 @@ package com.hotel.admin.task;
 
 import com.alibaba.druid.sql.visitor.functions.Trim;
 import com.hotel.admin.mapper.WrDetailMapper;
+import com.hotel.admin.mapper.WrSummaryMapper;
 import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.model.WrDetail;
+import com.hotel.admin.model.WrSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -19,9 +21,11 @@ public class WeekReportSchedule {
 
     @Autowired(required=false)
     private WrDetailMapper weekReportMapper;
+    @Autowired(required=false)
+    private WrSummaryMapper wrSummaryMapper;
 
-//    @Scheduled(fixedRate = 1000*200) //每15s执行一次
-    @Scheduled(cron = "0 30 01 ? * MON") //每周1上午01:30触发 
+    @Scheduled(fixedRate = 1000*200) //每15s执行一次
+//    @Scheduled(cron = "0 30 01 ? * MON") //每周1上午01:30触发 
 
     public void weekReport() throws ParseException {
          SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
@@ -35,25 +39,37 @@ public class WeekReportSchedule {
         String dateEnd = fmt.format(calendar.getTime());
         calendar.add(Calendar.DAY_OF_MONTH,-7);
         String dateStart = fmt.format(calendar.getTime());
+        calendar.add(Calendar.DAY_OF_MONTH,6);
+        String lastDate =  fmt.format(calendar.getTime());
+        //获取年份
+        String lastYear = lastDate.substring(0,4);
         System.out.println("报表生成时间范围" + dateStart +"  "+ dateEnd);
         WrDetail wrDetail = new WrDetail();
+        WrSummary wrSummary =new WrSummary();
         //按“所属公司”产生本周内发生的订单信息报表
-        wrDetail.setReportId("R0002");
+        wrDetail.setReportId(lastYear+"R0002");
+        wrSummary.setReportId(lastYear+"R0002");
+        wrSummary.setReportTxt("订单信息-公司分类周报表");
         //获取月份
-        calendar.add(Calendar.DAY_OF_MONTH,6);
-
-        String lastDate =  fmt.format(calendar.getTime());
         String lastMonth = lastDate.substring(4,6);
         System.out.println("lastMonth=" +lastMonth);
         wrDetail.setReportMonth(lastMonth);
+        wrSummary.setReportMonth(lastMonth);
         //获取报表第几周
         int week = calendar.get(Calendar.WEEK_OF_MONTH);
         System.out.println("week=" +String.valueOf(week) +"week");
 
+        wrSummary.setReportSeq(String.valueOf(week));
+        wrSummary.setCreatTime(curDateStr);
         wrDetail.setReportSeq(String.valueOf(week));
         wrDetail.setCreateTimeStart(dateStart);
         wrDetail.setCreateTimeEnd(dateEnd);
-        int ret = weekReportMapper.impWeekData(wrDetail);
-        System.out.println("ret =" + ret);
+        WrSummary retSummary = wrSummaryMapper.selectOne(wrSummary);
+        if(retSummary ==null) {
+             wrSummaryMapper.insertSelective(wrSummary);
+             weekReportMapper.impWeekData(wrDetail);
+        }else {
+            System.out.println("retSummary " + retSummary.getReportId() + retSummary.getReportSeq());
+        }
     }
 }

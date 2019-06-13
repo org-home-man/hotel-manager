@@ -51,12 +51,13 @@
       join sys_dept pt on pt.id = s.dept_id
        where  1=1
     <if test="createTimeEnd != null and createTimeEnd != ''">
-      bp.create_time  &lt;=  DATE_FORMAT(#{createTimeEnd}, '%Y-%m-%d %H:%i:%S')
+     AND bp.create_time  &lt;=  DATE_FORMAT(#{createTimeEnd}, '%Y-%m-%d %H:%i:%S')
     </if>
     <if test="createTimeStart != null and createTimeStart != ''">
       AND  bp.create_time  >= DATE_FORMAT(#{createTimeStart}, '%Y-%m-%d %H:%i:%S')
     </if>
 
     </insert>
+
 
 </mapper>
