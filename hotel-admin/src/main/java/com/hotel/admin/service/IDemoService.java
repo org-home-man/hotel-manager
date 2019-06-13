@@ -1,6 +1,9 @@
 package com.hotel.admin.service;
 
+import com.hotel.admin.entity.Demo;
 import com.hotel.core.page.Page;
+
+import java.util.List;
 
 /**
  * @ProjectName: hotel-admin
@@ -12,4 +15,7 @@ import com.hotel.core.page.Page;
  */
 public interface IDemoService {
     Page findPage(String name);
+
+    List<Demo> selectAll();
+
 }
