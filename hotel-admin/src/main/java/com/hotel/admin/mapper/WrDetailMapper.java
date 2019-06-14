@@ -5,4 +5,5 @@ import com.hotel.core.mybatis.mapper.AbstractMapper;
 
 public interface WrDetailMapper extends AbstractMapper<WrDetail> {
     int impWeekData(WrDetail wrDetail);
+    int insertWrSummary(WrDetail wrDetail);
 }
