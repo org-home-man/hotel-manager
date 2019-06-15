@@ -90,7 +90,7 @@
       ) hotel_name,
       (
       select
-      (CASE WHEN '1' =	'1'
+      (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
       THEN b.cn_name
       ELSE b.en_name
       END
