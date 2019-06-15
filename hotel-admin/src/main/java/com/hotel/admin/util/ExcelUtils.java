@@ -217,7 +217,7 @@ public class ExcelUtils {
 
     }
 
-    public static <T> void writeExcel(HttpServletResponse response, List<T> dataList, Class<T> cls,String fileName){
+    public static <T> void writeMoreSheetExcel(HttpServletResponse response, Map<String,List<T>> dataMap, Class<T> cls,String fileName){
         Field[] fields = cls.getDeclaredFields();
         List<Field> fieldList = Arrays.stream(fields)
                 .filter(field -> {
@@ -237,58 +237,63 @@ public class ExcelUtils {
                 })).collect(Collectors.toList());
 
         Workbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet("Sheet1");
-        AtomicInteger ai = new AtomicInteger();
-        {
-            Row row = sheet.createRow(ai.getAndIncrement());
-            AtomicInteger aj = new AtomicInteger();
-            //写入头部
-            fieldList.forEach(field -> {
-                ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);
-                String columnName = "";
-                if (annotation != null) {
-                    columnName = annotation.value();
-                }
-                Cell cell = row.createCell(aj.getAndIncrement());
-
-                CellStyle cellStyle = wb.createCellStyle();
-                cellStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
-                cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-                cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
-
-                Font font = wb.createFont();
-                font.setBoldweight(Font.BOLDWEIGHT_NORMAL);
-                cellStyle.setFont(font);
-                cell.setCellStyle(cellStyle);
-                cell.setCellValue(columnName);
-            });
-        }
-        if (CollectionUtils.isNotEmpty(dataList)) {
-            dataList.forEach(t -> {
-                Row row1 = sheet.createRow(ai.getAndIncrement());
+        Set<Map.Entry<String, List<T>>> entries = dataMap.entrySet();
+        for (Map.Entry<String, List<T>> entry : entries) {
+            String sheetName = entry.getKey();
+            List<T> dataList = entry.getValue();
+            Sheet sheet = wb.createSheet(sheetName);
+            AtomicInteger ai = new AtomicInteger();
+            {
+                Row row = sheet.createRow(ai.getAndIncrement());
                 AtomicInteger aj = new AtomicInteger();
+                //写入头部
                 fieldList.forEach(field -> {
-                    Class<?> type = field.getType();
-                    Object value = "";
-                    try {
-                        value = field.get(t);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    ExcelColumn annotation = field.getAnnotation(ExcelColumn.class);
+                    String columnName = "";
+                    if (annotation != null) {
+                        columnName = annotation.value();
                     }
-                    Cell cell = row1.createCell(aj.getAndIncrement());
-                    if (value != null) {
-                        if (type == Date.class) {
-                            cell.setCellValue(value.toString());
-                        } else {
+                    Cell cell = row.createCell(aj.getAndIncrement());
+
+                    CellStyle cellStyle = wb.createCellStyle();
+                    cellStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+                    cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+                    cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+
+                    Font font = wb.createFont();
+                    font.setBoldweight(Font.BOLDWEIGHT_NORMAL);
+                    cellStyle.setFont(font);
+                    cell.setCellStyle(cellStyle);
+                    cell.setCellValue(columnName);
+                });
+            }
+            if (CollectionUtils.isNotEmpty(dataList)) {
+                dataList.forEach(t -> {
+                    Row row1 = sheet.createRow(ai.getAndIncrement());
+                    AtomicInteger aj = new AtomicInteger();
+                    fieldList.forEach(field -> {
+                        Class<?> type = field.getType();
+                        Object value = "";
+                        try {
+                            value = field.get(t);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        Cell cell = row1.createCell(aj.getAndIncrement());
+                        if (value != null) {
+                            if (type == Date.class) {
+                                cell.setCellValue(value.toString());
+                            } else {
+                                cell.setCellValue(value.toString());
+                            }
                             cell.setCellValue(value.toString());
                         }
-                        cell.setCellValue(value.toString());
-                    }
+                    });
                 });
-            });
+            }
+            //冻结窗格
+            wb.getSheet(sheetName).createFreezePane(0, 1, 0, 1);
         }
-        //冻结窗格
-        wb.getSheet("Sheet1").createFreezePane(0, 1, 0, 1);
         if(StringUtils.isBlank(fileName)){
             fileName = "exportFile";
         }

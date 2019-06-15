@@ -26,8 +26,8 @@ public class MonReportSchedule {
 
     @Autowired(required=false)
     private MrSummaryMapper mrSummaryMapper;
-    @Scheduled(fixedRate = 1000*200) //每15s执行一次
-//    @Scheduled(cron = "0 0 2 1 * ?") //每月1上午02：:0触发 
+//    @Scheduled(fixedRate = 1000*200) //每15s执行一次
+    @Scheduled(cron = "0 0 2 1 * ?") //每月1上午02：:0触发 
 //    @Scheduled(cron = "0 30 01 ? * MON") //每周1上午01:30触发 
 
 
@@ -63,12 +63,12 @@ public class MonReportSchedule {
         mrDetail.setReportSeq("1");
         mrSummary.setReportSeq("1");
         mrSummary.setReportTxt("订单信息-酒店汇总月报表");
-        mrSummary.setCreatTime(curDateStr);
         MrSummary mrSummary1 = mrSummaryMapper.selectOne(mrSummary);
+        mrSummary.setCreatTime(curDateStr);
         if (mrSummary1 == null)
         {
-            monReportMapper.impMonDeptData(mrDetail);
             mrSummaryMapper.insertSelective(mrSummary);
+            monReportMapper.impMonDeptData(mrDetail);
         }
 
         //按照用户id进行报表统计
@@ -76,7 +76,9 @@ public class MonReportSchedule {
         mrSummary.setReportId(lastYear+"R0004");
         mrSummary.setReportTxt("订单信息-公司汇总月报表");
         mrSummary.setId(null);
+        mrSummary.setCreatTime(null);
         MrSummary mrSummary2 = mrSummaryMapper.selectOne(mrSummary);
+        mrSummary.setCreatTime(curDateStr);
         if (mrSummary2  == null)
         {
             mrSummaryMapper.insertSelective(mrSummary);
