@@ -59,7 +59,7 @@ public class SysLoginServiceImpl implements SysLoginService {
             throw new GlobalException("AcIsNotException");
         }
         // 账号锁定
-        if (user.getStatus() == 0) {
+        if (user.getStatus() != 1) {
             throw new GlobalException("AccountException");
         }
         if (!PasswordUtils.matches(user.getSalt(), password, user.getPassword())) {
