@@ -53,7 +53,8 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
     /** redis中用户token key */
     private static final String TOKEN_KEY = "hotel:token_info";
     private static final String USER_KEY = "hotel:user_info:";
-    private static final String TIME_KEY = "hotel:act_time:";
+    private static final String TIME_KEY = "hotel:act_time:"; //活动时间
+    private final static String ERROR_KEY = "pwd_error_count:";// 用户密码错误数
 
     @Value("${allow.login.max}")
     private String LOGIN_MODE;
@@ -349,6 +350,28 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
             token = null;
         }
         return token;
+    }
+
+    /**
+     * 添加密码错误数
+     */
+    public void addPwdErrorCount(String userName) {
+        incrBy(ERROR_KEY+userName, 1l);
+    }
+    /**
+     * 获取密码错误数
+     */
+    public int getPwdErrorCount(String userName) {
+        String value = get(ERROR_KEY+userName);
+        if(Utils.isEmpty(value)){
+            return 0;
+        }
+        return Integer.valueOf(value);
+    }
+    public void clearErrorKey(String userName) {
+        if (userName != null) {
+            del(ERROR_KEY+userName);
+        }
     }
 
     /**
