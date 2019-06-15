@@ -24,8 +24,8 @@ public class WeekReportSchedule {
     @Autowired(required=false)
     private WrSummaryMapper wrSummaryMapper;
 
-    @Scheduled(fixedRate = 1000*200) //每15s执行一次
-//    @Scheduled(cron = "0 30 01 ? * MON") //每周1上午01:30触发 
+//    @Scheduled(fixedRate = 1000*200) //每15s执行一次
+    @Scheduled(cron = "0 30 01 ? * MON") //每周1上午01:30触发 
 
     public void weekReport() throws ParseException {
          SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
@@ -60,11 +60,11 @@ public class WeekReportSchedule {
         System.out.println("week=" +String.valueOf(week) +"week");
 
         wrSummary.setReportSeq(String.valueOf(week));
-        wrSummary.setCreatTime(curDateStr);
         wrDetail.setReportSeq(String.valueOf(week));
         wrDetail.setCreateTimeStart(dateStart);
         wrDetail.setCreateTimeEnd(dateEnd);
         WrSummary retSummary = wrSummaryMapper.selectOne(wrSummary);
+        wrSummary.setCreatTime(curDateStr);
         if(retSummary ==null) {
              wrSummaryMapper.insertSelective(wrSummary);
              weekReportMapper.impWeekData(wrDetail);
