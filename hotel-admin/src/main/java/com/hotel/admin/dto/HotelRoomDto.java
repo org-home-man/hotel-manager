@@ -112,10 +112,18 @@ public class HotelRoomDto {
 	/** 酒店网址 */
 	private String hotelWeb;
 
-	/** 连住天数 */
+	/** 提前预定天数 */
 	private Integer scheduledays;
 	/** 优惠价格 */
 	private Double favorableprice;
+	/**
+	 连住天数
+	 */
+	private int evenlive;
+	/**
+	 连住馈赠
+	 */
+	private String present;
 
 	public Integer getScheduledays() {
 		return scheduledays;
@@ -523,5 +531,21 @@ public class HotelRoomDto {
 
 	public void setHotelWeb(String hotelWeb) {
 		this.hotelWeb = hotelWeb;
+	}
+
+	public int getEvenlive() {
+		return evenlive;
+	}
+
+	public void setEvenlive(int evenlive) {
+		this.evenlive = evenlive;
+	}
+
+	public String getPresent() {
+		return present;
+	}
+
+	public void setPresent(String present) {
+		this.present = present;
 	}
 }

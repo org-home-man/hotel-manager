@@ -33,6 +33,8 @@
     <result column="hotel_web" jdbcType="VARCHAR" property="hotelWeb" />
     <result column="scheduledays" jdbcType="VARCHAR" property="scheduledays" />
     <result column="favorableprice" jdbcType="VARCHAR" property="favorableprice" />
+      <result column="evenlive" jdbcType="VARCHAR" property="evenlive"/>
+      <result column="present" jdbcType="VARCHAR" property="present"/>
 
     <result column="hotel_type" jdbcType="VARCHAR" property="hotelType" />
     <result column="iswify" jdbcType="VARCHAR" property="iswify" />
@@ -63,7 +65,7 @@
   </resultMap>
 
   <sql id="br_hotel_sql">
-    b.hotel_code,b.province_code ,b.city_code,b.hotel_type ,b.hotel_level ,b.hotel_cname ,b.hotel_ename ,b.hotel_addr ,b.hotel_phone ,b.hotel_web,b.scheduledays,b.favorableprice
+    b.hotel_code,b.province_code ,b.city_code,b.hotel_type ,b.hotel_level ,b.hotel_cname ,b.hotel_ename ,b.hotel_addr ,b.hotel_phone ,b.hotel_web,b.scheduledays,b.favorableprice,b.present,b.evenlive
   </sql>
   <sql id="br_hotel_sql2">
     b.hotel_code AS hotelCode,b.province_code AS provinceCode ,b.city_code AS cityCode,b.hotel_type AS hotelType,b.hotel_level AS hotelLevel,b.hotel_cname AS hotelCname,b.hotel_ename AS hotelEname,b.hotel_addr AS hotelAddr,b.hotel_phone AS hotelPhone,b.hotel_web AS hotelWeb

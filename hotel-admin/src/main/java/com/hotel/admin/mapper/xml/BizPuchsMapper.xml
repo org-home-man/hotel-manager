@@ -84,19 +84,18 @@
     <result column="isrestau" jdbcType="VARCHAR" property="isrestau" />
   </resultMap>
 	<sql id="room_sql">
-		r.room_style,r.room_type,r.bed_type,r.break_type,r.intro_c,r.intro_e,r.room_stock,r.recommended,r.scheduledays,r.favorableprice,r.evenlive
+		r.room_style,r.room_type,r.bed_type,r.break_type,r.intro_c,r.intro_e,r.room_stock,r.recommended
 	</sql>
 	<sql id="room_ext_sql">
 		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
 		d.ischildct,d.isroomserv,d.isknead,d.islounge,d.issuper,d.isbus,d.istrafic,d.isrestau
 	</sql>
 	<sql id="hotel_sql">
-		h.country_code,h.province_code,h.city_code,h.hotel_type,h.hotel_level,h.hotel_cname,h.hotel_ename,h.hotel_addr,h.hotel_phone,h.hotel_fax,h.hotel_web
+		h.country_code,h.province_code,h.city_code,h.hotel_type,h.hotel_level,h.hotel_cname,h.hotel_ename,h.hotel_addr,h.hotel_phone,h.hotel_fax,h.hotel_web,h.present,h.scheduledays,h.favorableprice,h.evenlive
 	</sql>
 	<select id="findPage" resultMap="BaseResultMap">
 		select bp.*,
 			<include refid="room_sql"/>,
-			present,
 			<include refid="room_ext_sql"/>,
 			<include refid="hotel_sql"/>
 		from
@@ -197,7 +196,7 @@
 	</update>
 
 	<select id="findByRoomCd" resultMap="BaseResultMap" parameterType="java.lang.String">
-		select a.*,b.hotel_code,b.room_style,b.bed_type,b.break_type,b.intro_c,b.intro_e,b.room_stock,b.recommended,b.scheduledays,b.favorableprice,b.evenlive,present,
+		select a.*,b.hotel_code,b.room_style,b.bed_type,b.break_type,b.intro_c,b.intro_e,b.room_stock,b.recommended,c.scheduledays,c.favorableprice,c.evenlive,c.present,
 		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
 		d.ischildct,d.isroomserv,d.isknead,d.islounge,d.issuper,d.isbus,d.istrafic,d.isrestau,
 		c.country_code,c.province_code,c.city_code,c.hotel_type,c.hotel_level,c.hotel_cname,c.hotel_ename,c.hotel_addr,c.hotel_phone,c.hotel_fax,c.hotel_web
