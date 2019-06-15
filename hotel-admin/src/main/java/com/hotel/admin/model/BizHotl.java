@@ -60,6 +60,11 @@ public class BizHotl extends BusinessEntity{
 	/** 酒店网址 */
 	private String hotelWeb;
 
+	private int scheduledays;
+	private double favorableprice;
+	private int evenlive;
+	private String present;
+
 	private Byte  delFlag;
 
 //	public Byte getdelFlag() {
@@ -212,4 +217,35 @@ public class BizHotl extends BusinessEntity{
 		this.hotelEname = hotelEname;
 	}
 
+	public int getScheduledays() {
+		return scheduledays;
+	}
+
+	public void setScheduledays(int scheduledays) {
+		this.scheduledays = scheduledays;
+	}
+
+	public double getFavorableprice() {
+		return favorableprice;
+	}
+
+	public void setFavorableprice(double favorableprice) {
+		this.favorableprice = favorableprice;
+	}
+
+	public int getEvenlive() {
+		return evenlive;
+	}
+
+	public void setEvenlive(int evenlive) {
+		this.evenlive = evenlive;
+	}
+
+	public String getPresent() {
+		return present;
+	}
+
+	public void setPresent(String present) {
+		this.present = present;
+	}
 }

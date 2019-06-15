@@ -59,43 +59,11 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
             if(Utils.isEmpty(record.getHotelCode()) || record.getHotelCode() == "0") {
                 System.out.println("licy12345");
                 /* 获取自增序列并加1*/
-//                System.out.println(record.getHotelCode());
-//                String ProvinceCode = record.getProvinceCode();
-//                String CityCode = record.getCityCode();
-//				while (ProvinceCode.length() < 3) {
-//					ProvinceCode = "0"+ ProvinceCode;
-//				}
-//				while (CityCode.length() <2)
-//				{
-//					CityCode= "0" + CityCode;
-//				}
-//				 CrtId crt =crtIdMapper.findById("hotel");
-//				 if(crt == null)
-//				 {
-//					 CrtId ncrt = new CrtId();
-//					 System.out.println("licy1");
-//					 ncrt.setCrtNo("1");
-//					 ncrt.setCrtType("hotel");
-//					 crtIdMapper.add(ncrt);
-//					 record.setHotelCode(ProvinceCode+CityCode + "00001");
-//				 }
-//				 else {
-//					 String crtno = crt.getCrtNo();
-//					 System.out.println(crtno);
-//      			     String newCrt = String.valueOf(Integer.parseInt(crtno) + 1);
-//      			     while (newCrt.length() < 5) {
-//                         newCrt = "0" + newCrt;
-//                     }
-//					 System.out.println(newCrt);
-//					 crt.setCrtNo(newCrt);
-//					 crtIdMapper.update(crt);
-//					 record.setHotelCode(ProvinceCode+CityCode+ newCrt);
-//				 }
 				String hotelCode = idUtils.generateHotelCode(record);
 				record.setHotelCode(hotelCode);
 				 try
 				 {
-					 bizHotlMapper.insertSelective(record);
+					 bizHotlMapper.insertInfo(record);
 				 }
 				 catch (Exception e)
 				 {
@@ -105,7 +73,6 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 				 }
                 return 0;
             }
-			System.out.println(record.getHotelCode());
 //			return bizHotlMapper.updateByPrimaryKeySelective(record);
 			return bizHotlMapper.update(record);
 	}
