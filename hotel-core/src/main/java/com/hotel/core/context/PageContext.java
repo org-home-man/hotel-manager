@@ -106,7 +106,6 @@ public class PageContext {
         }else{
             localPage.set(new Page());
         }
-
         /**
          * 设置总计信息
          */

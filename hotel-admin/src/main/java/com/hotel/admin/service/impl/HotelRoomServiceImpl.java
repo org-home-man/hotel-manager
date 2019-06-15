@@ -1,5 +1,6 @@
 package com.hotel.admin.service.impl;
 
+import com.hotel.admin.dto.HotelRoomDto;
 import com.hotel.admin.dto.HotelRoomQry;
 import com.hotel.admin.mapper.BizRecommendRoomMapper;
 import com.hotel.admin.mapper.BizRoomMapper;
@@ -55,7 +56,7 @@ public class HotelRoomServiceImpl extends AbstractService<BizRoom> implements Ho
 		//调用存储过程获取当前返回时间轴
 		hotelRoomMapper.callCalendar(hotelRoomQry.getInDateStart(),hotelRoomQry.getOutDateEnd());
 
-		List<BizRoom> pageByPara = hotelRoomMapper.findPageByPara(hotelRoomQry);
+		List<HotelRoomDto> pageByPara = hotelRoomMapper.findPageByPara(hotelRoomQry);
 
 		return PageContext.getPage();
 	}

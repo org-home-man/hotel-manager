@@ -47,14 +47,55 @@ public class BizPuchs extends BusinessEntity {
 	private String currency;
 	/** 销售总价 */
 	private Double totalSAmount;
+	/** 结算总价 */
+	private Double totalTAmount;
 	/** 备注 */
 	private String remark;
 	/**1 订单状态 */
 	private String status;
 	/** 1酒店名称 */
 	private String hotelName;
+	/** 6-12岁儿童 */
+	private String children612;
+	/** 4-6岁儿童 */
+	private String children46;
+	/** 4岁以下儿童 */
+	private String children4;
 
 	private String hotelCode;
+
+
+	public Double getTotalTAmount() {
+		return totalTAmount;
+	}
+
+	public void setTotalTAmount(Double totalTAmount) {
+		this.totalTAmount = totalTAmount;
+	}
+
+	public String getChildren612() {
+		return children612;
+	}
+
+	public void setChildren612(String children612) {
+		this.children612 = children612;
+	}
+
+	public String getChildren46() {
+		return children46;
+	}
+
+	public void setChildren46(String children46) {
+		this.children46 = children46;
+	}
+
+	public String getChildren4() {
+		return children4;
+	}
+
+	public void setChildren4(String children4) {
+		this.children4 = children4;
+	}
 
 	public String getHotelCode() {
 		return hotelCode;

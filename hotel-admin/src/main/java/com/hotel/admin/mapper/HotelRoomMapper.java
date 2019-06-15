@@ -1,5 +1,6 @@
 package com.hotel.admin.mapper;
 
+import com.hotel.admin.dto.HotelRoomDto;
 import com.hotel.admin.dto.HotelRoomQry;
 import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.model.BizRoom;
@@ -15,7 +16,7 @@ public interface HotelRoomMapper extends AbstractMapper<BizRoom> {
      * @param hotelRoomQry
      * @return
      */    
-    List<BizRoom> findPageByPara(HotelRoomQry hotelRoomQry);
+    List<HotelRoomDto> findPageByPara(HotelRoomQry hotelRoomQry);
 
     void callCalendar(@Param("inDateStart") String inDateStart,@Param("outDateEnd") String outDateEnd);
 

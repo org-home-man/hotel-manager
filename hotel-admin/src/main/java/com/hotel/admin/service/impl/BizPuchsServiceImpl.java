@@ -95,7 +95,6 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                 new GlobalException(e.getMessage());
             }
 
-
             try {
                 Date startDate = sdf.parse(record.getInDateStart());
                 calendar.setTime(startDate);
@@ -113,10 +112,6 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         List<BizPrise> priceList = bizPriseMapper.findByDate(hotelRoomQry);
 
         if (record.getOrderCode() == null || record.getOrderCode() == "0") {
-//            CrtId crt = crtIdMapper.findById("puchs");
-            Date now = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");//可以方便地修改日期格式
-            String timeNow = dateFormat.format(now);
 
             //获取用户id
             record.setCreateId(UserContext.getCurrentUser().getId());

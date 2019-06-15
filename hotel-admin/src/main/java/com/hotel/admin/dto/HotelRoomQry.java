@@ -1,11 +1,13 @@
 package com.hotel.admin.dto;
 
+import java.util.List;
+
 /**
  * 酒店客房检索表
  */
 public class HotelRoomQry {
 	/** 酒店星级 */
-	private  String hotelLevel;
+	private String hotelLevel;
 	/** 房间类型 */
 	private String roomType;
 	/** 房间编码 */

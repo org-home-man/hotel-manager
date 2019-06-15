@@ -25,11 +25,14 @@
     <result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
     <result column="inventory" jdbcType="INTEGER" property="inventory" />
     <result column="price" jdbcType="DOUBLE" property="sPrice" />
+    <result column="end_price" jdbcType="DOUBLE" property="endPrice" />
     <!--<result column="out_date" jdbcType="VARCHAR" property="outDateEnd" />-->
     <!--<result column="in_date" jdbcType="VARCHAR" property="inDateStart" />-->
     <result column="hotel_addr" jdbcType="VARCHAR" property="hotelAddr" />
     <result column="hotel_phone" jdbcType="VARCHAR" property="hotelPhone" />
     <result column="hotel_web" jdbcType="VARCHAR" property="hotelWeb" />
+    <result column="scheduledays" jdbcType="VARCHAR" property="scheduledays" />
+    <result column="favorableprice" jdbcType="VARCHAR" property="favorableprice" />
 
     <result column="hotel_type" jdbcType="VARCHAR" property="hotelType" />
     <result column="iswify" jdbcType="VARCHAR" property="iswify" />
@@ -60,7 +63,7 @@
   </resultMap>
 
   <sql id="br_hotel_sql">
-    b.hotel_code,b.province_code ,b.city_code,b.hotel_type ,b.hotel_level ,b.hotel_cname ,b.hotel_ename ,b.hotel_addr ,b.hotel_phone ,b.hotel_web
+    b.hotel_code,b.province_code ,b.city_code,b.hotel_type ,b.hotel_level ,b.hotel_cname ,b.hotel_ename ,b.hotel_addr ,b.hotel_phone ,b.hotel_web,b.scheduledays,b.favorableprice
   </sql>
   <sql id="br_hotel_sql2">
     b.hotel_code AS hotelCode,b.province_code AS provinceCode ,b.city_code AS cityCode,b.hotel_type AS hotelType,b.hotel_level AS hotelLevel,b.hotel_cname AS hotelCname,b.hotel_ename AS hotelEname,b.hotel_addr AS hotelAddr,b.hotel_phone AS hotelPhone,b.hotel_web AS hotelWeb
@@ -72,7 +75,7 @@
     iswify,isfront,isbarrifr,isbalcony,iskitchen,iswindow,isheat,isicebox,isiron,isnosmk,islandscape,ishighrise,ispark,isgym,isswmp,isbeach,ishotsp,ischildct,isroomserv,isknead,islounge,issuper,isbus,istrafic,isrestau
   </sql>
   <sql id="br_price_sql">
-    p.price
+    p.price,p.end_price
   </sql>
   <sql id="br_bi_sql">
     p.inventory
@@ -96,7 +99,8 @@
           JOIN (
               (SELECT
                   f.room_code,
-                  ceil(avg(g.s_room_price))price,
+                  ceil(avg(g.s_room_price)) price,
+                  ceil(avg(g.t_price)) end_price,
                   min( IFNULL(bi.inventory,f.room_stock) ) inventory
               FROM
                   (SELECT
@@ -169,7 +173,10 @@
       AND b.hotel_type = #{hotelType,jdbcType=VARCHAR}
     </if>
     <if test="hotelLevel != null and hotelLevel!=''">
-      AND b.hotel_level = #{hotelLevel,jdbcType=VARCHAR}
+      AND b.hotel_level in
+      <foreach collection="hotelLevel.split(',')" item="itm" open="(" separator="," close=")">
+          #{itm}
+      </foreach>
     </if>
     <if test="hotelName !=null and hotelName!=''">
       AND (b.hotel_cname LIKE CONCAT('%',#{hotelName},'%') or b.hotel_ename LIKE CONCAT('%',#{hotelName},'%'))

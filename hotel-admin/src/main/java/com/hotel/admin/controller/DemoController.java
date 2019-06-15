@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +37,7 @@ public class DemoController {
         List<Demo> list = demoService.selectAll();
         Map<String,List<Demo>> map = new HashMap<>();
         map.put("sheet1",list);
+        map.put("sheet2",list);
         ExcelUtils.writeMoreSheetExcel(response,map,Demo.class,"aa");
-        return ;
     }
 }

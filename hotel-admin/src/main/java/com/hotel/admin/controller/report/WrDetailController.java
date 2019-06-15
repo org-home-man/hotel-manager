@@ -1,16 +1,10 @@
 package com.hotel.admin.controller.report;
 
-import com.hotel.admin.dto.HotelRoomQry;
 import com.hotel.admin.dto.WrDetailDto;
-import com.hotel.admin.entity.Demo;
-import com.hotel.admin.entity.R0002Excel;
-import com.hotel.admin.model.WrDetail;
-import com.hotel.admin.model.WrSummary;
 import com.hotel.admin.qo.WrSummaryQo;
 import com.hotel.admin.service.WrDetailService;
 import com.hotel.admin.util.ExcelUtils;
 import com.hotel.core.http.HttpResult;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,10 +34,10 @@ public class WrDetailController {
     }
 
     @RequestMapping("/r0002ExportExcel")
-    public HttpResult exportExcel(HttpServletResponse response, WrSummaryQo record) throws IOException {
+    public void exportExcel(HttpServletResponse response, WrSummaryQo record) throws IOException {
         Map<String,List<WrDetailDto>> map = wrDetailService.selectAll(record);
         ExcelUtils.writeMoreSheetExcel(response,map,WrDetailDto.class,"R0002excel");
-        return HttpResult.ok("1");
+//        return HttpResult.ok("1");
     }
 
     /**
