@@ -111,10 +111,10 @@
 					AND bp.status = #{roomStatus}
 				</if>
 				<if test="createTimeEnd != null and createTimeEnd != ''">
-					AND bp.create_time &lt;= #{createTimeEnd}
+					AND bp.create_time &lt;=  DATE_FORMAT(#{createTimeEnd}, '%Y-%m-%d 24:%i:%S')
 				</if>
 				<if test="createTimeStart != null and createTimeStart != ''">
-					AND bp.create_time >= #{createTimeStart}
+					AND bp.create_time >=  DATE_FORMAT(#{createTimeStart}, '%Y-%m-%d %H:%i:%S')
 				</if>
 				<if test="confirmTimeEnd != null and confirmTimeEnd != ''">
 					AND bp.last_crt_time &lt;= #{confirmTimeEnd}
