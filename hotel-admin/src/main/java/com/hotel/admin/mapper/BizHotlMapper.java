@@ -23,6 +23,7 @@ public interface BizHotlMapper extends AbstractMapper<BizHotl>{
 
 
     List<Map> findPageByPara(BizHotelQueryDto dto);
+    int insertInfo(BizHotl record);
 
 
         /**

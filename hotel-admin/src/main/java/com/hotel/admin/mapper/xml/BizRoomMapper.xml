@@ -116,18 +116,6 @@
       <if test="recommended != null">
         recommended,
       </if>
-      <if test="scheduledays!=null">
-        scheduledays,
-      </if>
-      <if test="favorableprice!=null">
-        favorableprice,
-      </if>
-      <if test="evenlive!=null">
-        evenlive,
-      </if>
-      <if test="present!=null">
-        present,
-      </if>
       <if test="createName != null">
         create_name,
       </if>
@@ -171,18 +159,6 @@
       </if>
       <if test="recommended != null">
         #{recommended,jdbcType=VARCHAR},
-      </if>
-      <if test="scheduledays!=null">
-        #{scheduledays,jdbcType=DOUBLE},
-      </if>
-      <if test="favorableprice!=null">
-        #{favorableprice,jdbcType=DOUBLE},
-      </if>
-      <if test="evenlive!=null">
-        #{evenlive,jdbcType=DOUBLE},
-      </if>
-      <if test="present!=null">
-        #{present,jdbcType=DOUBLE},
       </if>
       <if test="createName != null">
         #{createName,jdbcType=VARCHAR},
@@ -246,18 +222,6 @@
       <if test="recommended != null">
         recommended = #{recommended,jdbcType=VARCHAR},
       </if>
-      <if test="scheduledays!=null">
-        scheduledays= #{scheduledays,jdbcType=DOUBLE},
-      </if>
-      <if test="favorableprice!=null">
-        favorableprice = #{favorableprice,jdbcType=DOUBLE},
-      </if>
-      <if test="evenlive!=null">
-        evenlive = #{evenlive,jdbcType=DOUBLE},
-      </if>
-      <if test="present!=null">
-        present = #{present,jdbcType=DOUBLE},
-      </if>
       <if test="updateName != null">
         update_name = #{updateName,jdbcType=VARCHAR},
       </if>
@@ -298,10 +262,10 @@
     a.room_type    room_type,
     a.bed_type     bed_type,
     a.photo        photo,
-    a.scheduledays scheduledays,
-    a.favorableprice favorableprice,
-    a.evenlive     evenlive,
-    a.present      present,
+    d.scheduledays scheduledays,
+    d.favorableprice favorableprice,
+    d.evenlive     evenlive,
+    d.present      present,
     ifnull(b.inventory,a.room_stock)    inventory,
     b.auto_close   auto_close,
     c.s_room_price s_room_price,
@@ -367,24 +331,4 @@
 
   </select>
 
-  <sql id="br_hotel_sql">
-    b.hotel_code,b.province_code ,b.city_code,b.hotel_type ,b.hotel_level ,b.hotel_cname ,b.hotel_ename ,b.hotel_addr ,b.hotel_phone ,b.hotel_web
-  </sql>
-  <sql id="br_hotel_sql2">
-    b.hotel_code AS hotelCode,b.province_code AS provinceCode ,b.city_code AS cityCode,b.hotel_type AS hotelType,b.hotel_level AS hotelLevel,b.hotel_cname AS hotelCname,b.hotel_ename AS hotelEname,b.hotel_addr AS hotelAddr,b.hotel_phone AS hotelPhone,b.hotel_web AS hotelWeb
-  </sql>
-  <sql id="br_room_sql">
-    a.room_code,a.room_type,a.room_style,a.bed_type,a.break_type,a.room_area,a.room_stock,a.photo
-  </sql>
-  <sql id="br_room_ext_sql">
-    iswify,isfront,isbarrifr,isbalcony,iskitchen,iswindow,isheat,isicebox,isiron,isnosmk,islandscape,ishighrise,ispark,isgym,isswmp,isbeach,ishotsp,ischildct,isroomserv,isknead,islounge,issuper,isbus,istrafic,isrestau
-  </sql>
-  <sql id="br_price_sql">
-    p.price
-  </sql>
-  <sql id="br_bi_sql">
-    p.inventory
-  </sql>
-
-  
 </mapper>

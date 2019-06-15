@@ -16,6 +16,10 @@
 	<result column="hotel_level" jdbcType="VARCHAR" property="hotelLevel" />
     <result column="hotel_type_key" jdbcType="VARCHAR" property="hotelTypeKey" />
     <result column="hotel_level_key" jdbcType="VARCHAR" property="hotelLevelKey" />
+      <result column="scheduledays" jdbcType="VARCHAR" property="scheduledays"/>
+      <result column="evenlive" jdbcType="VARCHAR" property="evenlive"/>
+      <result column="favorableprice" jdbcType="VARCHAR" property="favorableprice"/>
+      <result column="present" jdbcType="VARCHAR" property="present"/>
 	<result column="hotel_cname" jdbcType="VARCHAR" property="hotelCname" />
 	<result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
     <result column="hotel_addr" jdbcType="VARCHAR" property="hotelAddr" />
@@ -27,6 +31,123 @@
     <result column="update_name" jdbcType="VARCHAR" property="updateName" />
     <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
   </resultMap>
+
+    <insert id="insertInfo" parameterType="com.hotel.admin.model.BizHotl">
+        INSERT INTO  biz_hotl
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="hotelCode != null and hotelCode!=''">
+                hotel_code,
+            </if>
+            <if test="countryCode != null and countryCode!=''">
+                country_code,
+            </if>
+            <if test="provinceCode != null and provinceCode !=''">
+                province_code,
+            </if>
+            <if test="cityCode != null and cityCode !=''">
+                city_code,
+            </if>
+            <if test="hotelType != null and hotelType !=''">
+                hotel_type,
+            </if>
+            <if test="hotelLevel != null and hotelLevel !=''">
+                hotel_level,
+            </if>
+            <if test="hotelCname != null and hotelCname !=''">
+                hotel_cname,
+            </if>
+            <if test="hotelEname != null and hotelEname !=''">
+                hotel_ename,
+            </if>
+            <if test="hotelAddr != null and hotelAddr !=''">
+                hotel_addr,
+            </if>
+            <if test="hotelPhone != null and hotelPhone !=''">
+                hotel_phone,
+            </if>
+            <if test="hotelFax != null and hotelFax !=''">
+                hotel_fax,
+            </if>
+            <if test="hotelWeb != null and hotelWeb !=''">
+                hotel_web,
+            </if>
+            <if test="scheduledays!=null">
+                scheduledays,
+            </if>
+            <if test="favorableprice!=null">
+                favorableprice,
+            </if>
+            <if test="evenlive!=null">
+                evenlive,
+            </if>
+            <if test="present!=null">
+                present,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="hotelCode != null and hotelCode!=''">
+                #{hotelCode,jdbcType=VARCHAR},
+            </if>
+            <if test="countryCode != null and countryCode!=''">
+                #{countryCode,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceCode != null and provinceCode !=''">
+                #{provinceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="cityCode != null and cityCode !=''">
+                #{cityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelType != null and hotelType !=''">
+               #{hotelType,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelLevel != null and hotelLevel !=''">
+                 #{hotelLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelCname != null and hotelCname !=''">
+               #{hotelCname,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelEname != null and hotelEname !=''">
+                #{hotelEname,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelAddr != null and hotelAddr !=''">
+                 #{hotelAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelPhone != null and hotelPhone !=''">
+                #{hotelPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelFax != null and hotelFax !=''">
+                #{hotelFax,jdbcType=VARCHAR},
+            </if>
+            <if test="hotelWeb != null and hotelWeb !=''">
+               #{hotelWeb,jdbcType=VARCHAR},
+            </if>
+            <if test="scheduledays!=null">
+                 #{scheduledays,jdbcType=DOUBLE},
+            </if>
+            <if test="favorableprice!=null">
+               #{favorableprice,jdbcType=DOUBLE},
+            </if>
+            <if test="evenlive!=null">
+                 #{evenlive,jdbcType=DOUBLE},
+            </if>
+            <if test="present!=null">
+              #{present,jdbcType=VARCHAR},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+               #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+
+    </insert>
 
     <update id="deleteUp" parameterType="com.hotel.admin.model.BizHotl">
         update  biz_hotl
@@ -78,6 +199,18 @@
             <if test="hotelWeb != null and hotelWeb !=''">
                 hotel_web = #{hotelWeb,jdbcType=VARCHAR},
             </if>
+            <if test="scheduledays!=null">
+                scheduledays= #{scheduledays,jdbcType=DOUBLE},
+            </if>
+            <if test="favorableprice!=null">
+                favorableprice = #{favorableprice,jdbcType=DOUBLE},
+            </if>
+            <if test="evenlive!=null">
+                evenlive = #{evenlive,jdbcType=DOUBLE},
+            </if>
+            <if test="present!=null">
+                present = #{present,jdbcType=DOUBLE},
+            </if>
             <if test="updateName != null">
                 update_name = #{updateName,jdbcType=VARCHAR},
             </if>
@@ -89,9 +222,13 @@
     </update>
   
   <select id="findPage" resultMap="BaseResultMap">
-    select a.hotel_code, a.country_code, a.province_code, a.city_code, (select para_code from sys_para_config where para_code LIKE 'hotelType%' and para_sub_code1='hotelType' AND para_value1=a.hotel_type) hotel_type_key,
-    a.hotel_type, a.hotel_Level, (select para_code from sys_para_config where para_code LIKE 'hotelLevel%' and para_sub_code1='hotelLevel' AND para_value1=a.hotel_Level) hotel_Level_key,
-     a.hotel_cname, a.hotel_ename, a.create_name,a.create_time,a.update_name, a.update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web
+    select a.hotel_code, a.country_code, a.province_code, a.city_code,
+    a.hotel_type, a.hotel_Level,
+     a.hotel_cname, a.hotel_ename, a.create_name,a.create_time,a.update_name, a.update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web,
+     a.scheduledays ,
+    a.favorableprice,
+    a.evenlive,
+    a.present
  from biz_hotl a WHERE del_flag != -1
   </select>
 
@@ -104,7 +241,11 @@
       select
     a.id, a.hotel_code, a.country_code,
   a.hotel_type, a.hotel_Level,
-  a.hotel_cname, a.hotel_ename, a.create_time,a.create_name,a.update_name, a.update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web,a.province_code,a.city_code
+  a.hotel_cname, a.hotel_ename, a.create_time,a.create_name,a.update_name, a.update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web,a.province_code,a.city_code,
+      a.scheduledays ,
+      a.favorableprice,
+      a.evenlive,
+      a.present
   from biz_hotl a where  1=1  AND  del_flag != -1
   <if test="hotelCode != null and hotelCode!=''">
     AND  a.hotel_code = #{hotelCode,jdbcType=VARCHAR}
