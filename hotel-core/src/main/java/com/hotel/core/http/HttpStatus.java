@@ -150,6 +150,10 @@ public interface HttpStatus {
      */
     public static final int SC_INSUFFICIENT_BUSINESERR = 10001;
     /**
+     * 登录mic错误
+     */
+    public static final int SC_INSUFFICIENT_LOGIN = 10002;
+    /**
      * 登录过期
      */
     public static final int SC_LOGIN_EXPIRE = 2001;

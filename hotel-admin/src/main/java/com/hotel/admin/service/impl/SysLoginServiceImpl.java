@@ -1,16 +1,20 @@
 package com.hotel.admin.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.code.kaptcha.Constants;
 import com.hotel.admin.mapper.SysUserMapper;
 import com.hotel.admin.model.SysUser;
 import com.hotel.admin.redis.UserInfoCache;
 import com.hotel.admin.security.JwtAuthenticatioToken;
 import com.hotel.admin.service.SysLoginService;
+import com.hotel.admin.util.MockLoginUtils;
 import com.hotel.admin.util.PasswordUtils;
 import com.hotel.admin.dto.LoginBean;
+import com.hotel.common.utils.Utils;
 import com.hotel.core.context.UserContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
+import com.hotel.core.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -21,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Transactional
 @Service
 public class SysLoginServiceImpl implements SysLoginService {
 
@@ -31,6 +34,7 @@ public class SysLoginServiceImpl implements SysLoginService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private UserInfoCache userInfoCache;
+    private int errorNum = 3;
 
     @Override
     public HttpResult login(LoginBean loginBean, HttpServletRequest request) {
@@ -54,15 +58,33 @@ public class SysLoginServiceImpl implements SysLoginService {
         if (user == null) {
             throw new GlobalException("AcIsNotException");
         }
-
-        if (!PasswordUtils.matches(user.getSalt(), password, user.getPassword())) {
-            throw new GlobalException("pwdErException");
-        }
-
         // 账号锁定
         if (user.getStatus() == 0) {
             throw new GlobalException("AccountException");
         }
+        if (!PasswordUtils.matches(user.getSalt(), password, user.getPassword())) {
+            //密码错误 加锁 redis添加次数
+            if(Utils.isNotEmpty(errorNum) && errorNum>0){
+                if(userInfoCache.getPwdErrorCount(username)+1 == errorNum){
+                    //更新用户状态
+                    MockLoginUtils.mockLogin();
+                    user.setStatus((byte)0);
+                    sysUserMapper.updateByPrimaryKey(user);
+                    MockLoginUtils.logout();
+                    userInfoCache.clearErrorKey(username);
+                    throw new GlobalException("accountLockout");
+                }else{
+                    userInfoCache.addPwdErrorCount(username);
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("num",errorNum);
+                    jsonObject.put("curNum",userInfoCache.getPwdErrorCount(username));
+                    return HttpResult.error(HttpStatus.SC_INSUFFICIENT_LOGIN,jsonObject.toJSONString());
+                }
+
+            }
+            throw new GlobalException("pwdErException");
+        }
+
         UserContext.setUser(user);
 
         // 系统登录认证
