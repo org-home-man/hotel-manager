@@ -107,4 +107,5 @@ public class WrSummary extends Entity {
     public void setCreatTime(String creatTime) {
         this.creatTime = creatTime == null ? null : creatTime.trim();
     }
+
 }

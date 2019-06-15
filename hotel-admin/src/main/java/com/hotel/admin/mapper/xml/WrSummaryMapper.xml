@@ -12,10 +12,25 @@
   <sql id="Base_Column_List" >
     id, report_id, report_txt, report_month, report_seq, creat_time
   </sql>
-  <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >-->
-    <!--select -->
-    <!--<include refid="Base_Column_List" />-->
-    <!--from wr_summary-->
-    <!--where id = #{id,jdbcType=BIGINT}-->
-  <!--</select>-->
+
+  <select id="findPage" resultMap="BaseResultMap" parameterType="com.hotel.admin.model.WrSummary">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM wr_summary a
+    WHERE 1=1
+    <if test="reportId != null and reportId !=''">
+      AND a.report_id = #{reportId,jdbcType=VARCHAR}
+    </if>
+    <if test="reportTxt != null and reportTxt !=''">
+      AND a.report_txt like concat('%',#{reportTxt,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="reportMonth != null and reportMonth !=''">
+      AND a.report_month = #{reportMonth,jdbcType=VARCHAR}
+    </if>
+    <if test="reportSeq != null and reportSeq !=''">
+      AND a.report_seq = #{reportSeq,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+
 </mapper>

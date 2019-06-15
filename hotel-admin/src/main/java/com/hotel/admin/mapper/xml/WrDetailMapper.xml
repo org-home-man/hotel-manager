@@ -30,6 +30,24 @@
     <result column="last_crt_time" property="lastCrtTime" jdbcType="VARCHAR" />
     <result column="hotel_name" property="hotelName" jdbcType="VARCHAR" />
   </resultMap>
+
+  <resultMap id="R0002ResultMap" type="com.hotel.admin.dto.WrDetailDto">
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="hotel_name" property="hotelName" jdbcType="VARCHAR" />
+    <result column="room_type" property="roomType" jdbcType="VARCHAR" />
+    <result column="in_date_start" property="inDateStart" jdbcType="VARCHAR" />
+    <result column="total_s_amount" property="totalSAmount" jdbcType="VARCHAR" />
+    <result column="total_t_amount" property="totalTAmount" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="sum_s_amount" property="sumSAmount" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    <result column="create_name" property="createName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_name" property="updateName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+
+  </resultMap>
   <sql id="Base_Column_List" >
     id, report_id, report_month, report_seq, order_code, hotel_code,hotel_cname,hotel_ename, room_code, in_date_start,
     out_date_end,p_name, passport, birth, phone, email_address, adult_num, child_num, c_num, room_num,
@@ -59,5 +77,201 @@
 
     </insert>
 
+
+
+    <select id="findR0002Page" parameterType="com.hotel.admin.qo.WrSummaryQo" resultMap="R0002ResultMap">
+      select
+      a.order_code,
+      (case
+      when #{local,jdbcType=VARCHAR} =	'1'
+      then a.hotel_cname
+      ELSE a.hotel_ename
+      END
+      ) hotel_name,
+      (
+      select
+      (CASE WHEN '1' =	'1'
+      THEN b.cn_name
+      ELSE b.en_name
+      END
+      )
+      from sys_dict c join sys_dict b on c.id = b.parent_id
+      where c.code = 'ROOM_TYPE' and b.code = (SELECT room_type from biz_room where room_code = a.room_code)
+      ) room_type,
+      a.in_date_start,
+      a.total_s_amount,
+      a.create_time,
+      a.create_name,
+      a.update_time,
+      a.update_name,
+      (select
+      (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+      THEN b.cn_name
+      ELSE b.en_name
+      END
+      )
+      from sys_dict c join sys_dict b on c.id = b.parent_id
+      where c.code = 'ROOM_STATUS' and b.code = a.status) status,
+      a.dept_name
+      from
+      wr_detail a
+      where
+      a.report_id =#{reportId,jdbcType=VARCHAR}
+      AND a.report_month = #{reportMonth,jdbcType=VARCHAR}
+      and a.report_seq=#{reportSeq,jdbcType=VARCHAR}
+      and a.dept_id = #{deptId,jdbcType=VARCHAR}
+
+      UNION all
+      SELECT
+      (case
+      when #{local,jdbcType=VARCHAR} =	'1'
+      then '销售总价求和'
+      ELSE 'xiaoshou total prise:'
+      END
+      ) order_code,
+      (
+      select
+      SUM(total_s_amount)
+      from wr_detail
+      where
+      report_id =#{reportId,jdbcType=VARCHAR}
+      AND report_month = #{reportMonth,jdbcType=VARCHAR}
+      and report_seq=#{reportSeq,jdbcType=VARCHAR}
+      and dept_id = #{deptId,jdbcType=VARCHAR}
+      ) hotel_name,
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      ''
+      FROM DUAL
+      UNION ALL
+
+      SELECT
+      (case
+      when #{local,jdbcType=VARCHAR} =	'1'
+      then '待结算金额：'
+      ELSE 'no account prise:'
+      END
+      ) order_code,
+      (select SUM(total_s_amount) from wr_detail
+      where
+      report_id =#{reportId,jdbcType=VARCHAR}
+      AND report_month = #{reportMonth,jdbcType=VARCHAR}
+      and report_seq=#{reportSeq,jdbcType=VARCHAR}
+      and dept_id = #{deptId,jdbcType=VARCHAR}
+      and status = '5' ) hotel_name,
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      ''
+      FROM DUAL
+  </select>
+
+  <select id="findR0003Page" parameterType="com.hotel.admin.qo.WrSummaryQo" resultMap="R0002ResultMap">
+    select
+    a.order_code,
+    (case
+    when #{local,jdbcType=VARCHAR} =	'1'
+    then a.hotel_cname
+    ELSE a.hotel_ename
+    END
+    ) hotel_name,
+    (
+    select
+    (CASE WHEN '1' =	'1'
+    THEN b.cn_name
+    ELSE b.en_name
+    END
+    )
+    from sys_dict c join sys_dict b on c.id = b.parent_id
+    where c.code = 'ROOM_TYPE' and b.code = (SELECT room_type from biz_room where room_code = a.room_code)
+    ) room_type,
+    a.in_date_start,
+    a.total_s_amount,
+    a.create_time,
+    a.create_name,
+    a.update_time,
+    a.update_name,
+    (select
+    (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+    THEN b.cn_name
+    ELSE b.en_name
+    END
+    )
+    from sys_dict c join sys_dict b on c.id = b.parent_id
+    where c.code = 'ROOM_STATUS' and b.code = a.status) status,
+    a.dept_name
+    from
+    wr_detail a
+    where
+    a.report_id =#{reportId,jdbcType=VARCHAR}
+    AND a.report_month = #{reportMonth,jdbcType=VARCHAR}
+    and a.report_seq=#{reportSeq,jdbcType=VARCHAR}
+    and a.hotel_code = #{hotelCode,jdbcType=VARCHAR}
+
+    UNION all
+    SELECT
+    (case
+    when #{local,jdbcType=VARCHAR} =	'1'
+    then '销售总价求和'
+    ELSE 'xiaoshou total prise:'
+    END
+    ) order_code,
+    (
+    select
+    SUM(total_s_amount)
+    from wr_detail
+    where
+    report_id =#{reportId,jdbcType=VARCHAR}
+    AND report_month = #{reportMonth,jdbcType=VARCHAR}
+    and report_seq=#{reportSeq,jdbcType=VARCHAR}
+    and a.hotel_code = #{hotelCode,jdbcType=VARCHAR}
+    ) hotel_name,
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    ''
+    FROM DUAL
+    UNION ALL
+    SELECT
+    (case
+    when #{local,jdbcType=VARCHAR} =	'1'
+    then '待结算金额：'
+    ELSE 'no account prise:'
+    END
+    ) order_code,
+    (select SUM(total_s_amount) from wr_detail
+    where
+    report_id =#{reportId,jdbcType=VARCHAR}
+    AND report_month = #{reportMonth,jdbcType=VARCHAR}
+    and report_seq=#{reportSeq,jdbcType=VARCHAR}
+    and a.hotel_code = #{hotelCode,jdbcType=VARCHAR}
+    and status = '5' ) hotel_name,
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    ''
+    FROM DUAL
+  </select>
 
 </mapper>
