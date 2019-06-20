@@ -97,4 +97,29 @@ public class BizPuchsController {
         bizPuchsService.cancel(bizPuchs);
 		return HttpResult.ok();
 	}
+
+
+	/**
+	 * 订单信息更新 订单状态（结算）
+	 *  @param record
+	 * @return
+	 */
+	@PostMapping(value="/accountsConfirm")
+	public HttpResult accountsConfirm( BizPuchsUpdate record) {
+		bizPuchsService.accountsConfirm(record);
+		return HttpResult.ok();
+	}
+
+	/**
+	 * 导出 订单状态excel
+	 *  @param record
+	 * @return
+	 */
+	@PostMapping(value="/exportExcel")
+	public void exportExcel( BizPuchsUpdate record) {
+		bizPuchsService.exportExcel(record);
+
+	}
+
+
 }

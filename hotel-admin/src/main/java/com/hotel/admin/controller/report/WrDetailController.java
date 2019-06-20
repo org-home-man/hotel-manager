@@ -1,6 +1,7 @@
 package com.hotel.admin.controller.report;
 
 import com.hotel.admin.dto.WrDetailDto;
+import com.hotel.admin.dto.WrR0003DetailDto;
 import com.hotel.admin.qo.WrSummaryQo;
 import com.hotel.admin.service.WrDetailService;
 import com.hotel.admin.util.ExcelUtils;
@@ -33,9 +34,12 @@ public class WrDetailController {
         return HttpResult.ok(wrDetailService.findR0002Page(record));
     }
 
+    /*
+    导出报表
+     */
     @RequestMapping("/r0002ExportExcel")
-    public void exportExcel(HttpServletResponse response, WrSummaryQo record) throws IOException {
-        Map<String,List<WrDetailDto>> map = wrDetailService.selectAll(record);
+    public void exportR0002Excel(HttpServletResponse response, WrSummaryQo record) throws IOException {
+        Map<String,List<WrDetailDto>> map = wrDetailService.selectR0002All(record);
         ExcelUtils.writeMoreSheetExcel(response,map,WrDetailDto.class,"R0002excel");
 //        return HttpResult.ok("1");
     }
@@ -51,5 +55,14 @@ public class WrDetailController {
         return HttpResult.ok(wrDetailService.findR0003Page(record));
     }
 
+    /*
+    导出报表
+     */
+    @RequestMapping("/r0003ExportExcel")
+    public void exportR0003Excel(HttpServletResponse response, WrSummaryQo record) throws IOException {
+        Map<String,List<WrR0003DetailDto>> map = wrDetailService.selectR0003All(record);
+        ExcelUtils.writeMoreSheetExcel(response,map,WrR0003DetailDto.class,"R0003excel");
+//        return HttpResult.ok("1");
+    }
 
 }

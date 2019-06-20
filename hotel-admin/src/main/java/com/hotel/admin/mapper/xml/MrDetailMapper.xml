@@ -16,6 +16,27 @@
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="hotel_name" property="hotelName" jdbcType="VARCHAR" />
   </resultMap>
+
+  <resultMap id="r0004ReportMap" type="com.hotel.admin.dto.MrR0004DetailDto" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="dept_id" property="deptId" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    <result column="order_num" property="orderNum" jdbcType="VARCHAR" />
+    <result column="room_num" property="roomNum" jdbcType="VARCHAR" />
+    <result column="total_sell_amt" property="totalSellAmt" jdbcType="VARCHAR" />
+    <result column="total_settlement_amt" property="totalSettlementAmt" jdbcType="VARCHAR" />
+    <result column="pending_amt" property="pendingAmt" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="r0005ReportMap" type="com.hotel.admin.dto.MrR0005DetailDto" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="hotel_name" property="hotelName" jdbcType="VARCHAR" />
+    <result column="order_num" property="orderNum" jdbcType="VARCHAR" />
+    <result column="room_num" property="roomNum" jdbcType="VARCHAR" />
+    <result column="total_sell_amt" property="totalSellAmt" jdbcType="VARCHAR" />
+    <result column="total_settlement_amt" property="totalSettlementAmt" jdbcType="VARCHAR" />
+    <result column="pending_amt" property="pendingAmt" jdbcType="VARCHAR" />
+  </resultMap>
+
   <sql id="Dept_Column_List" >
      report_id, report_month, report_seq,hotel_code,
     order_num,room_num,total_sell_amt,total_settlement_amt, status
@@ -70,5 +91,37 @@
     </if>
 
   </update>
+
+  <select id="r0004ReportSelect" parameterType="com.hotel.admin.qo.MrSummaryQo" resultMap="r0004ReportMap">
+    select
+    *
+    from mr_detail
+    where
+    report_id = #{reportId,jdbcType=VARCHAR}
+    AND
+    report_month = #{reportMonth,jdbcType=VARCHAR}
+  </select>
+
+  <select id="r0005ReportSelect" parameterType="com.hotel.admin.qo.MrSummaryQo" resultMap="r0005ReportMap">
+    select
+    (case
+      when #{local,jdbcType=VARCHAR} =	'1'
+      then hotel_cname
+      ELSE hotel_ename
+      END
+    ) hotel_name,
+    order_num,
+    room_num,
+    total_sell_amt,
+    total_settlement_amt,
+    pending_amt
+    from mr_detail
+    where
+    report_id = #{reportId,jdbcType=VARCHAR}
+    AND
+    report_month = #{reportMonth,jdbcType=VARCHAR}
+
+
+  </select>
 
 </mapper>

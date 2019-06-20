@@ -32,6 +32,7 @@ public class DemoController {
     public Page findPage(String name){
         return demoService.findPage(name);
     }
+
     @RequestMapping("exportExcel")
     public void exportExcel(HttpServletResponse response) throws IOException {
         List<Demo> list = demoService.selectAll();

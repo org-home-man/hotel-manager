@@ -39,8 +39,6 @@ public class BizPuchs extends BusinessEntity {
 	private Integer adultNum;
 	/** 儿童数 */
 	private Integer childNum;
-	/** 幼儿数 */
-	private Integer cNum;
 	/** 房间数 */
 	private Integer roomNum;
 	/** 币种 */
@@ -207,14 +205,6 @@ public class BizPuchs extends BusinessEntity {
 
 	public void setChildNum(Integer childNum) {
 		this.childNum = childNum;
-	}
-
-	public Integer getcNum() {
-		return cNum;
-	}
-
-	public void setcNum(Integer cNum) {
-		this.cNum = cNum;
 	}
 
 	public Integer getRoomNum() {

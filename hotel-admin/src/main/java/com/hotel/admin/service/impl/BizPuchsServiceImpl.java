@@ -127,7 +127,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                 recordExt.setOrderCode(orderCode);
                 recordExt.setLiveDate(sdf.format(calendar.getTime()));
                 recordExt.setSAmount(priceList.get(i).getSRoomPrice()*record.getRoomNum());
-
+                recordExt.setTAmount(priceList.get(i).getTPrice()*(record.getAdultNum()+record.getChildNum()));
                 bizPuchsExtMapper.insertSelective(recordExt);
 
                 calendar.add(Calendar.DATE,1);
@@ -151,7 +151,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             recordExt.setOrderCode(record.getOrderCode());
             recordExt.setLiveDate(sdf.format(calendar.getTime()));
             recordExt.setSAmount(priceList.get(i).getSRoomPrice()*record.getRoomNum());
-
+//            recordExt.setTAmount(priceList.get(i).getTPrice()*(record.getAdultNum()+record.getChildNum()));
             bizPuchsExtMapper.updateByUnique(recordExt);
             calendar.add(Calendar.DATE,1);
         }
@@ -310,6 +310,21 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         }
         bizPuchs.setStatus(Constant.PUCHS_STAT_CANCEL);
         bizPuchsMapper.updateByPrimaryKeySelective(bizPuchs);
+    }
+
+    @Override
+    public int accountsConfirm(BizPuchsUpdate record) {
+        if (!Constant.PUCHS_STAT_NO_ACCOUNTS.equals( record.getStatus())) {
+            throw new GlobalException("OrderStatusNomatchException");
+        }
+        record.setStatus(Constant.PUCHS_STAT_ACCOUNTS);
+        return bizPuchsMapper.puchsConfirm(record);
+    }
+
+    @Override
+    public List<BizPuchsExtDto> exportExcel(BizPuchsUpdate record) {
+
+        return null;
     }
 
     /*

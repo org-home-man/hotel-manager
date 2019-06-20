@@ -1,12 +1,9 @@
 package com.hotel.admin.service.impl;
 
 import com.hotel.admin.dto.WrDetailDto;
-import com.hotel.admin.mapper.SysDeptMapper;
-import com.hotel.admin.mapper.WrDetailMapper;
-import com.hotel.admin.mapper.WrSummaryMapper;
-import com.hotel.admin.model.SysDept;
-import com.hotel.admin.model.WrDetail;
-import com.hotel.admin.model.WrSummary;
+import com.hotel.admin.dto.WrR0003DetailDto;
+import com.hotel.admin.mapper.*;
+import com.hotel.admin.model.*;
 import com.hotel.admin.qo.WrSummaryQo;
 import com.hotel.admin.service.SysDeptService;
 import com.hotel.admin.service.WrDetailService;
@@ -30,6 +27,11 @@ public class WrDetailServiceImpl implements WrDetailService {
     @Autowired
     private SysDeptMapper sysDeptMapper;
 
+    @Autowired
+    private BizHotlMapper bizHotlMapper;
+
+
+
     @Override
     public List<WrDetailDto> findR0002Page(WrSummaryQo record) {
 
@@ -46,11 +48,13 @@ public class WrDetailServiceImpl implements WrDetailService {
         return list;
     }
 
+    /*
+    查询R0002报表
+     */
     @Override
-    public Map<String, List<WrDetailDto>> selectAll(WrSummaryQo record) {
+    public Map<String, List<WrDetailDto>> selectR0002All(WrSummaryQo record) {
         List<SysDept> deptLi =  sysDeptMapper.selectAll();
         Map<String,List<WrDetailDto>> map = new HashMap<>();
-        List<WrDetailDto> list = new ArrayList<WrDetailDto>();
         for (int i = 0;i<deptLi.size() ; i++) {
             SysDept sysDept = deptLi.get(i);
             record.setDeptId(String.valueOf(sysDept.getId()));
@@ -65,18 +69,36 @@ public class WrDetailServiceImpl implements WrDetailService {
     }
 
     @Override
-    public List<WrDetailDto> findR0003Page(WrSummaryQo record) {
-        List<SysDept> deptLi =  sysDeptMapper.selectAll();
-        List<WrDetailDto> list = new ArrayList<WrDetailDto>();
-        for (int i = 0;i<deptLi.size() ; i++) {
-            SysDept sysDept = deptLi.get(i);
-            record.setDeptId(String.valueOf(sysDept.getId()));
-            List<WrDetailDto> li = wrDetailMapper.findR0003Page(record);
+    public List<WrR0003DetailDto> findR0003Page(WrSummaryQo record) {
+        List<BizHotl> hotlLi = bizHotlMapper.selectAll();
+        List<WrR0003DetailDto> list = new ArrayList<WrR0003DetailDto>();
+        for (int i = 0;i<hotlLi.size() ; i++) {
+            BizHotl bizHotl = hotlLi.get(i);
+            record.setHotelCode(bizHotl.getHotelCode());
+            List<WrR0003DetailDto> li = wrDetailMapper.findR0003Page(record);
             if (li.size()>2) {
                 list.addAll(li);
             }
         }
         return list;
+    }
+
+    @Override
+    public Map<String, List<WrR0003DetailDto>> selectR0003All(WrSummaryQo record) {
+        List<BizHotl> hotlLi = bizHotlMapper.selectAll();
+        Map<String,List<WrR0003DetailDto>> map = new HashMap<>();
+        for (int i = 0;i<hotlLi.size() ; i++) {
+            BizHotl bizHotl = hotlLi.get(i);
+            record.setHotelCode(bizHotl.getHotelCode());
+            List<WrR0003DetailDto> li = wrDetailMapper.findR0003Page(record);
+            if (li.size()>2) {
+                WrR0003DetailDto WrR0003DetailDto = li.get(0);
+                String sheetName = WrR0003DetailDto.getHotelName();
+                map.put(sheetName,li);
+            }
+        }
+        return map;
+
     }
 
 

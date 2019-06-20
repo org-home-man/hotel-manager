@@ -2,7 +2,7 @@ package com.hotel.admin.qo;
 
 import com.hotel.common.entity.Entity;
 
-public class WrSummaryQo extends Entity {
+public class MrSummaryQo extends Entity {
     /**
      * 
      */
@@ -33,6 +33,10 @@ public class WrSummaryQo extends Entity {
     private String deptId;
 
     private String hotelCode;
+
+    private String startDate;
+
+    private String endDate;
 
     /**
      * 
@@ -136,5 +140,22 @@ public class WrSummaryQo extends Entity {
 
     public void setHotelCode(String hotelCode) {
         this.hotelCode = hotelCode;
+    }
+
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }

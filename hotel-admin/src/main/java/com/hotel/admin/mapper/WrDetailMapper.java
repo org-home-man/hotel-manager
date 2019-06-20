@@ -1,6 +1,7 @@
 package com.hotel.admin.mapper;
 
 import com.hotel.admin.dto.WrDetailDto;
+import com.hotel.admin.dto.WrR0003DetailDto;
 import com.hotel.admin.model.WrDetail;
 import com.hotel.admin.model.WrSummary;
 import com.hotel.admin.qo.WrSummaryQo;
@@ -14,5 +15,5 @@ public interface WrDetailMapper extends AbstractMapper<WrDetail> {
 
     List<WrDetailDto> findR0002Page(WrSummaryQo record);
 
-    List<WrDetailDto> findR0003Page(WrSummaryQo record);
+    List<WrR0003DetailDto> findR0003Page(WrSummaryQo record);
 }

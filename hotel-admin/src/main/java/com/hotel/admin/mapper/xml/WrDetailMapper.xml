@@ -46,8 +46,23 @@
     <result column="create_time" property="createTime" jdbcType="VARCHAR" />
     <result column="update_name" property="updateName" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
-
   </resultMap>
+
+  <resultMap id="R0003ResultMap" type="com.hotel.admin.dto.WrR0003DetailDto">
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="hotel_name" property="hotelName" jdbcType="VARCHAR" />
+    <result column="room_type" property="roomType" jdbcType="VARCHAR" />
+    <result column="in_date_start" property="inDateStart" jdbcType="VARCHAR" />
+    <result column="total_t_amount" property="totalTAmount" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    <result column="create_name" property="createName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_name" property="updateName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+
   <sql id="Base_Column_List" >
     id, report_id, report_month, report_seq, order_code, hotel_code,hotel_cname,hotel_ename, room_code, in_date_start,
     out_date_end,p_name, passport, birth, phone, email_address, adult_num, child_num, c_num, room_num,
@@ -177,7 +192,7 @@
       FROM DUAL
   </select>
 
-  <select id="findR0003Page" parameterType="com.hotel.admin.qo.WrSummaryQo" resultMap="R0002ResultMap">
+  <select id="findR0003Page" parameterType="com.hotel.admin.qo.WrSummaryQo" resultMap="R0003ResultMap">
     select
     a.order_code,
     (case
@@ -188,7 +203,7 @@
     ) hotel_name,
     (
     select
-    (CASE WHEN '1' =	'1'
+    (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
     THEN b.cn_name
     ELSE b.en_name
     END
@@ -197,7 +212,7 @@
     where c.code = 'ROOM_TYPE' and b.code = (SELECT room_type from biz_room where room_code = a.room_code)
     ) room_type,
     a.in_date_start,
-    a.total_s_amount,
+    a.total_t_amount,
     a.create_time,
     a.create_name,
     a.update_time,
@@ -218,12 +233,12 @@
     AND a.report_month = #{reportMonth,jdbcType=VARCHAR}
     and a.report_seq=#{reportSeq,jdbcType=VARCHAR}
     and a.hotel_code = #{hotelCode,jdbcType=VARCHAR}
-
+    order by a.create_time
     UNION all
     SELECT
     (case
     when #{local,jdbcType=VARCHAR} =	'1'
-    then '销售总价求和'
+    then '销售结算求和'
     ELSE 'xiaoshou total prise:'
     END
     ) order_code,
@@ -255,7 +270,7 @@
     ELSE 'no account prise:'
     END
     ) order_code,
-    (select SUM(total_s_amount) from wr_detail
+    (select SUM(total_t_amount) from wr_detail
     where
     report_id =#{reportId,jdbcType=VARCHAR}
     AND report_month = #{reportMonth,jdbcType=VARCHAR}
