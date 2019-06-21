@@ -1,10 +1,14 @@
 package com.hotel.admin.controller;
 
+import com.hotel.admin.dto.ManagerRequestReportDto;
+import com.hotel.admin.dto.UserRequestReportDto;
+import com.hotel.admin.dto.WrDetailDto;
 import com.hotel.admin.model.BizPuchs;
 import com.hotel.admin.model.BizPuchsExtDto;
 import com.hotel.admin.model.BizPuchsUpdate;
 import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.admin.service.BizPuchsService;
+import com.hotel.admin.util.ExcelUtils;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
@@ -12,7 +16,10 @@ import com.hotel.core.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ---------------------------
@@ -115,11 +122,28 @@ public class BizPuchsController {
 	 *  @param record
 	 * @return
 	 */
-	@PostMapping(value="/exportExcel")
-	public void exportExcel( BizPuchsUpdate record) {
-		bizPuchsService.exportExcel(record);
-
+	@RequestMapping(value="/exportExcel")
+	public void exportExcel(HttpServletResponse response, BizPuchsUpdate record) {
+		List<UserRequestReportDto> li = bizPuchsService.exportExcel(record);
+		Map<String,List<UserRequestReportDto>> map = new HashMap<>();
+		map.put("userOrderReport",li);
+		ExcelUtils.writeMoreSheetExcel(response,map,UserRequestReportDto.class,"userOrderReport");
 	}
+
+	/**
+	 * 导出 订单管理员excel
+	 *  @param record
+	 * @return
+	 */
+	@RequestMapping(value="/exportManagerExcel")
+	public void exportManagerExcel(HttpServletResponse response, BizPuchsUpdate record) {
+		List<ManagerRequestReportDto> li = bizPuchsService.exportManagerExcel(record);
+		Map<String,List<ManagerRequestReportDto>> map = new HashMap<>();
+		map.put("managerOrderReport",li);
+		ExcelUtils.writeMoreSheetExcel(response,map,ManagerRequestReportDto.class,"managerOrderReport");
+	}
+
+
 
 
 }

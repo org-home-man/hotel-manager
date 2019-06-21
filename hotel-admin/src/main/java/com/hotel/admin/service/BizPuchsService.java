@@ -1,5 +1,7 @@
 package com.hotel.admin.service;
 
+import com.hotel.admin.dto.ManagerRequestReportDto;
+import com.hotel.admin.dto.UserRequestReportDto;
 import com.hotel.admin.model.BizPuchs;
 import com.hotel.admin.model.BizPuchsExt;
 import com.hotel.admin.model.BizPuchsExtDto;
@@ -32,5 +34,7 @@ public interface BizPuchsService extends IService<BizPuchs> {
 
     int accountsConfirm(BizPuchsUpdate record);
 
-    List<BizPuchsExtDto> exportExcel(BizPuchsUpdate record);
+    List<UserRequestReportDto> exportExcel(BizPuchsUpdate record);
+
+    List<ManagerRequestReportDto> exportManagerExcel(BizPuchsUpdate record);
 }

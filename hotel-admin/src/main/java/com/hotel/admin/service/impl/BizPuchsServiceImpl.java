@@ -2,9 +2,7 @@ package com.hotel.admin.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hotel.admin.constants.Constant;
-import com.hotel.admin.dto.HotelRoomQry;
-import com.hotel.admin.dto.SocketMessage;
-import com.hotel.admin.dto.SysDictDto;
+import com.hotel.admin.dto.*;
 import com.hotel.admin.mapper.*;
 import com.hotel.admin.model.*;
 import com.hotel.admin.qo.BizPuchsQuery;
@@ -322,10 +320,18 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     }
 
     @Override
-    public List<BizPuchsExtDto> exportExcel(BizPuchsUpdate record) {
-
-        return null;
+    public List<UserRequestReportDto> exportExcel(BizPuchsUpdate record) {
+        List<UserRequestReportDto> li = bizPuchsMapper.userRequestReport(record);
+        return li;
     }
+
+    @Override
+    public List<ManagerRequestReportDto> exportManagerExcel(BizPuchsUpdate record) {
+        List<ManagerRequestReportDto> li = bizPuchsMapper.managerRequestReport(record);
+        return li;
+    }
+
+
 
     /*
     日期校验每晚18.30之后的就无法预定7天内的房间

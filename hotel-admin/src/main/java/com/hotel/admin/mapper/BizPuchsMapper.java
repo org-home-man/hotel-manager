@@ -3,7 +3,9 @@ package com.hotel.admin.mapper;
 import java.util.List;
 
 import com.hotel.admin.dto.DateRangeDto;
+import com.hotel.admin.dto.ManagerRequestReportDto;
 import com.hotel.admin.dto.MrR0001DetailDto;
+import com.hotel.admin.dto.UserRequestReportDto;
 import com.hotel.admin.model.*;
 import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.admin.qo.BizPuchsStatusUpdate;
@@ -33,5 +35,9 @@ public interface BizPuchsMapper extends AbstractMapper<BizPuchs> {
 
     //r0001报表
     List<MrR0001DetailDto> r0001MonthReport(MrSummaryQo record);
+
+    List<UserRequestReportDto> userRequestReport(BizPuchsUpdate bizPuchsUpdate);
+
+    List<ManagerRequestReportDto> managerRequestReport(BizPuchsUpdate bizPuchsUpdate);
 
 }

@@ -97,8 +97,75 @@
 		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
 		<result column="update_name" property="updateName" jdbcType="VARCHAR" />
 		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="userReport" type="com.hotel.admin.dto.UserRequestReportDto">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+		<result column="room_code" jdbcType="VARCHAR" property="roomCode" />
+		<result column="last_crt_time" jdbcType="VARCHAR" property="lastCrtTime" />
+		<result column="in_date_start" jdbcType="VARCHAR" property="inDateStart" />
+		<result column="out_date_end" jdbcType="VARCHAR" property="outDateEnd" />
+		<result column="p_name" jdbcType="VARCHAR" property="pName" />
+		<result column="passport" jdbcType="VARCHAR" property="passport" />
+		<result column="birth" jdbcType="VARCHAR" property="birth" />
+		<result column="phone" jdbcType="VARCHAR" property="phone" />
+		<result column="email_address" jdbcType="VARCHAR" property="emailAddress" />
+		<result column="adult_num" jdbcType="INTEGER" property="adultNum" />
+		<result column="child_num" jdbcType="INTEGER" property="childNum" />
+		<result column="room_num" jdbcType="INTEGER" property="roomNum" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="create_time" jdbcType="VARCHAR" property="createTime" />
+		<result column="hotel_code" jdbcType="VARCHAR" property="hotelCode" />
+		<result column="room_type" jdbcType="VARCHAR" property="roomType" />
+		<result column="room_type_key" jdbcType="VARCHAR" property="roomTypeKey" />
+		<result column="room_style" jdbcType="VARCHAR" property="roomStyle" />
+		<result column="bed_type" jdbcType="VARCHAR" property="bedType" />
+		<result column="break_type" jdbcType="VARCHAR" property="breakType" />
+		<result column="room_area" jdbcType="DOUBLE" property="roomArea" />
+		<result column="create_name" jdbcType="VARCHAR" property="createName" />
+		<result column="create_time" jdbcType="VARCHAR" property="createTime" />
+		<result column="update_name" jdbcType="VARCHAR" property="updateName" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
+		<result column="hotel_type" jdbcType="VARCHAR" property="hotelType" />
+		<result column="hotel_level" jdbcType="VARCHAR" property="hotelLevel" />
+		<result column="city_code" jdbcType="VARCHAR" property="cityCode" />
+		<result column="hotel_name" jdbcType="VARCHAR" property="hotelName" />
+		<result column="total_s_amount" jdbcType="DOUBLE" property="totalSAmount" />
+		<result column="hotel_addr" jdbcType="VARCHAR" property="hotelAddr" />
+		<result column="hotel_phone" jdbcType="VARCHAR" property="hotelPhone" />
+		<result column="hotel_web" jdbcType="VARCHAR" property="hotelWeb" />
+		<result column="hotel_type" jdbcType="VARCHAR" property="hotelType" />
+		<result column="children612" jdbcType="VARCHAR" property="children612" />
+		<result column="children46" jdbcType="VARCHAR" property="children46" />
+		<result column="children4" jdbcType="VARCHAR" property="children4" />
+		<result column="hotel_basic_info" jdbcType="VARCHAR" property="hotelBasicInfo" />
 
 	</resultMap>
+
+	<resultMap id="managerReport" type="com.hotel.admin.dto.ManagerRequestReportDto">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+		<result column="in_end" jdbcType="VARCHAR" property="inEnd" />
+		<result column="p_name" jdbcType="VARCHAR" property="pName" />
+		<result column="adult_num" jdbcType="INTEGER" property="adultNum" />
+		<result column="child_num" jdbcType="INTEGER" property="childNum" />
+		<result column="room_num" jdbcType="INTEGER" property="roomNum" />
+		<result column="room_type" jdbcType="VARCHAR" property="roomType" />
+		<result column="bed_type" jdbcType="VARCHAR" property="bedType" />
+		<result column="break_type" jdbcType="VARCHAR" property="breakType" />
+		<result column="hotel_name" jdbcType="VARCHAR" property="hotelName" />
+		<result column="children612" jdbcType="VARCHAR" property="children612" />
+		<result column="children46" jdbcType="VARCHAR" property="children46" />
+		<result column="children4" jdbcType="VARCHAR" property="children4" />
+		<result column="person_num" jdbcType="VARCHAR" property="personNum" />
+		<result column="total_t_amount" jdbcType="VARCHAR" property="totalTAmount" />
+
+	</resultMap>
+
+
 	<sql id="room_sql">
 		r.room_style,r.room_type,r.bed_type,r.break_type,r.intro_c,r.intro_e,r.room_stock,r.recommended
 	</sql>
@@ -363,6 +430,341 @@
       ''
       FROM DUAL
 
+	</select>
+
+	<select id="userRequestReport" parameterType="com.hotel.admin.model.BizPuchsUpdate" resultMap="userReport">
+		select
+			(
+			  select
+			  (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+			  THEN w.cn_name
+			  ELSE w.en_name
+			  END
+			  )
+			  from sys_dict z join sys_dict w on z.id = w.parent_id
+			  where z.code = 'PREFECTURE' and w.code = b.province_code
+			) province_code,
+			(
+			  select
+			  (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+			  THEN w.cn_name
+			  ELSE w.en_name
+			  END
+			  )
+			  from sys_dict z join sys_dict w on z.id = w.parent_id
+			  where z.code = 'DISTRICT' and w.code = b.city_code
+			) city_code,
+			a.hotel_code,
+			(case
+			  when #{local,jdbcType=VARCHAR} =	'1'
+			  then b.hotel_cname
+			  ELSE b.hotel_ename
+			  END
+			) hotel_name,
+			(
+			  select
+			  (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+			  THEN w.cn_name
+			  ELSE w.en_name
+			  END
+			  )
+			  from sys_dict z join sys_dict w on z.id = w.parent_id
+			  where z.code = 'HOTEL_TYPE' and w.code = b.hotel_type
+			) hotel_type,
+			(
+			  select
+			  (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+			  THEN w.cn_name
+			  ELSE w.en_name
+			  END
+			  )
+			  from sys_dict z join sys_dict w on z.id = w.parent_id
+			  where z.code = 'HOTEL_STAR' and w.code = b.hotel_level
+			) hotel_level,
+			(
+			  select
+			  (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+			  THEN w.cn_name
+			  ELSE w.en_name
+			  END
+			  )
+			  from sys_dict z join sys_dict w on z.id = w.parent_id
+			  where z.code = 'ROOM_TYPE' and w.code = c.room_type
+			) room_type,
+			(
+			  select
+			  (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+			  THEN w.cn_name
+			  ELSE w.en_name
+			  END
+			  )
+			  from sys_dict z join sys_dict w on z.id = w.parent_id
+			  where z.code = 'ROOM_STYLE' and w.code = c.room_style
+			) room_style,
+			(
+			  select
+			  (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+			  THEN w.cn_name
+			  ELSE w.en_name
+			  END
+			  )
+			  from sys_dict z join sys_dict w on z.id = w.parent_id
+			  where z.code = 'BED_TYPE' and w.code = c.bed_type
+			) bed_type,
+			(
+			  select
+			  (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+			  THEN w.cn_name
+			  ELSE w.en_name
+			  END
+			  )
+			  from sys_dict z join sys_dict w on z.id = w.parent_id
+			  where z.code = 'BREAK_TYPE' and w.code = c.break_type
+			) break_type,
+			c.room_area,
+			b.hotel_addr,
+			b.hotel_phone,
+			b.hotel_web,
+			a.total_s_amount,
+			a.in_date_start,
+			a.out_date_end,
+			a.p_name,
+			a.passport,
+			a.birth,
+			a.phone,
+			a.email_address,
+			a.adult_num,
+			a.child_num,
+			a.room_num,
+			a.children612,
+			a.children46,
+			a.children4,
+			a.create_name,
+			a.create_time,
+			a.update_name,
+			a.update_time,
+
+			concat('包含：'
+			,
+			CASE WHEN d.iswify = '1'
+				THEN ' wify、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isfront = '1'
+				THEN ' 24H Font、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isbarrifr = '1'
+				THEN '无障碍通道、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isbalcony = '1'
+				THEN ' 阳台/露台、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.iskitchen = '1'
+				THEN ' 厨房、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.iswindow = '1'
+				THEN ' 窗户、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isheat = '1'
+				THEN ' 空调/暖气、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isicebox = '1'
+				THEN ' 冰箱、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isiron = '1'
+				THEN ' 熨衣设备、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isnosmk = '1'
+				THEN ' 禁烟房、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.islandscape = '1'
+				THEN ' 景观房、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.ishighrise = '1'
+				THEN ' 高楼层、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.ispark = '1'
+				THEN ' 停车场、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isgym = '1'
+				THEN ' 健身房、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isswmp = '1'
+				THEN ' 游泳池、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isbeach = '1'
+				THEN '海滩、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.ishotsp = '1'
+				THEN '温泉/大浴场、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.ischildct = '1'
+				THEN '儿童中心、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isroomserv = '1'
+				THEN '客房服务、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isknead = '1'
+				THEN '按摩、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.islounge = '1'
+				THEN '行政酒廊、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.issuper = '1'
+				THEN '附近有 24H 便利店/超市、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isbus = '1'
+				THEN '附近有公交车站、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.istrafic = '1'
+				THEN '附近有轨道交通站、'
+				ELSE ''
+				END
+
+			,
+			CASE WHEN d.isrestau = '1'
+				THEN '附近有餐厅/居酒'
+				ELSE ''
+				END
+
+			) hotel_basic_info
+
+		FROM
+		biz_puchs a left JOIN biz_hotl b on a.hotel_code = b.hotel_code LEFT JOIN biz_room c ON  a.room_code = c.room_code left join biz_room_ext d on a.room_code = d.room_code
+		WHERE a.id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="managerRequestReport" parameterType="com.hotel.admin.model.BizPuchsUpdate" resultMap="managerReport">
+		select
+		(case
+		when #{local,jdbcType=VARCHAR} =	'1'
+		then b.hotel_cname
+		ELSE b.hotel_ename
+		END
+		) hotel_name,
+		a.order_code,
+		(
+		select
+		(CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+		THEN w.cn_name
+		ELSE w.en_name
+		END
+		)
+		from sys_dict z join sys_dict w on z.id = w.parent_id
+		where z.code = 'ROOM_TYPE' and w.code = c.room_type
+		) room_type,
+		(
+		select
+		(CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+		THEN w.cn_name
+		ELSE w.en_name
+		END
+		)
+		from sys_dict z join sys_dict w on z.id = w.parent_id
+		where z.code = 'ROOM_STYLE' and w.code = c.room_style
+		) room_style,
+		(
+		select
+		(CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+		THEN w.cn_name
+		ELSE w.en_name
+		END
+		)
+		from sys_dict z join sys_dict w on z.id = w.parent_id
+		where z.code = 'BED_TYPE' and w.code = c.bed_type
+		) bed_type,
+		(
+		select
+		(CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+		THEN w.cn_name
+		ELSE w.en_name
+		END
+		)
+		from sys_dict z join sys_dict w on z.id = w.parent_id
+		where z.code = 'BREAK_TYPE' and w.code = c.break_type
+		) break_type,
+		(to_days(a.out_date_end)-to_days(a.in_date_start)) in_end,
+		a.p_name,
+		a.adult_num,
+		a.child_num,
+		a.room_num,
+		a.children612,
+		a.children46,
+		a.children4,
+		a.total_t_amount,
+		(a.adult_num+a.children612+a.children46) person_num
+
+		FROM
+		biz_puchs a left JOIN biz_hotl b on a.hotel_code = b.hotel_code LEFT JOIN biz_room c ON  a.room_code = c.room_code
+		WHERE a.id = #{id,jdbcType=VARCHAR}
 	</select>
 
 </mapper>

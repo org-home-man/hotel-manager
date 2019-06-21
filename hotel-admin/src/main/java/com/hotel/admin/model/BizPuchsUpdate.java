@@ -54,6 +54,8 @@ public class BizPuchsUpdate extends BusinessEntity {
 
 	private String  confirmDate;
 
+	private String local;
+
 	public String getconfirmDatee() {
 		return confirmDate;
 	}
@@ -213,5 +215,13 @@ public class BizPuchsUpdate extends BusinessEntity {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getLocal() {
+		return local;
+	}
+
+	public void setLocal(String local) {
+		this.local = local;
 	}
 }
