@@ -89,7 +89,34 @@
     <if test="reportSeq != null and reportSeq != ''">
       AND  report_seq  = #{reportSeq,jdbcType=VARCHAR}
     </if>
+  </update>
 
+  <update id="updHotelName" parameterType="com.hotel.admin.model.MrDetail">
+    update  mr_detail a, biz_hotl b
+    <set>
+      a.hotel_cname = b.hotel_cname, a.hotel_ename = b.hotel_ename
+    </set>
+    where a.hotel_code = b.hotel_code  and a.report_id like '%R0005%'
+    <if test="reportMonth != null and reportSeq != ''">
+      AND  a.report_month  = #{reportMonth,jdbcType=VARCHAR}
+    </if>
+    <if test="reportSeq != null and reportSeq != ''">
+      AND  a.report_seq  = #{reportSeq,jdbcType=VARCHAR}
+    </if>
+  </update>
+
+  <update id="updPandAmt" parameterType="com.hotel.admin.model.MrDetail">
+    update  mr_detail
+    <set>
+      pending_amt = total_settlement_amt
+    </set>
+    where status ='5'
+    <if test="reportMonth != null and reportSeq != ''">
+      AND  report_month  = #{reportMonth,jdbcType=VARCHAR}
+    </if>
+    <if test="reportSeq != null and reportSeq != ''">
+      AND  report_seq  = #{reportSeq,jdbcType=VARCHAR}
+    </if>
   </update>
 
   <select id="r0004ReportSelect" parameterType="com.hotel.admin.qo.MrSummaryQo" resultMap="r0004ReportMap">
