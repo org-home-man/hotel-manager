@@ -10,5 +10,5 @@ public interface SysRoleMapper extends AbstractMapper<SysRole>{
 
 	List<SysRole> findByName(@Param(value = "name") String name);
 
-    void deleteByIds(List<Long> ids);
+    void deleteByIds(@Param("ids") List<Long> ids);
 }

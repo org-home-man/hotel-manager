@@ -12,7 +12,7 @@ public interface SysUserRoleMapper extends AbstractMapper<SysUserRole>{
 
 	int deleteByUserId(@Param(value = "userId") Long userId);
 
-    void deleteByRoleIds(List<Long> ids);
+    void deleteByRoleIds(@Param("ids") List<Long> ids);
 
 	void deleteByUserIds(List<Long> ids);
 }

@@ -27,7 +27,7 @@
     <delete id="deleteByRoleIds">
         delete from sys_role_menu
         where role_id in
-        <foreach collection="ids" index="itm" open="(" separator="," close=")">
+        <foreach collection="ids" item="itm" open="(" separator="," close=")">
             #{itm}
         </foreach>
     </delete>

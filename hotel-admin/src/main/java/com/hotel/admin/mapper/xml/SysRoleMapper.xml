@@ -18,7 +18,7 @@
     <delete id="deleteByIds">
         delete from sys_role
         where id in
-        <foreach collection="ids" index="itm" open="(" separator="," close=")">
+        <foreach collection="ids" item="itm" open="(" separator="," close=")">
             #{itm}
         </foreach>
     </delete>
