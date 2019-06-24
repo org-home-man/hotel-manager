@@ -28,7 +28,7 @@ public class MonReportSchedule {
     private MrSummaryMapper mrSummaryMapper;
 //    @Scheduled(fixedRate = 1000*200) //每15s执行一次
     @Scheduled(cron = "0 0 2 1 * ?") //每月1上午02：:0触发 
-//    @Scheduled(cron = "0 30 01 ? * MON") //每周1上午01:30触发 
+//    @Scheduled(cron = "0 0 13 21 * ?") //每月1上午02：:0触发 
 
 
     public void monReport() throws ParseException {
@@ -69,6 +69,8 @@ public class MonReportSchedule {
         {
             mrSummaryMapper.insertSelective(mrSummary);
             monReportMapper.impMonDeptData(mrDetail);
+            //将酒店名称更新进表
+            monReportMapper.updHotelName(mrDetail);
         }
 
         //按照用户id进行报表统计
@@ -88,5 +90,20 @@ public class MonReportSchedule {
         else {
             System.out.println("mrsummary =" + mrSummary2.getReportId() );
         }
+
+        //用户月报
+        mrSummary.setReportId(lastYear+"R0001");
+        mrSummary.setReportTxt("订单信息明细报表（用户）");
+        mrSummary.setId(null);
+        mrSummary.setCreatTime(null);
+        MrSummary mrSummary3 = mrSummaryMapper.selectOne(mrSummary);
+        mrSummary.setCreatTime(curDateStr);
+        if (mrSummary3  == null) {
+            mrSummaryMapper.insertSelective(mrSummary);
+        }
+        else {
+            System.out.println("mrsummary =" + mrSummary3.getReportId() );
+        }
+        monReportMapper.updPandAmt(mrDetail);
     }
 }

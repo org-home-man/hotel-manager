@@ -14,6 +14,8 @@ public interface MrDetailMapper extends AbstractMapper<MrDetail> {
     int impMonDeptData(MrDetail mrDetail);
     int impMonUserData(MrDetail mrDetail);
     int updDeptInfor(MrDetail mrDetail);
+    int updHotelName(MrDetail mrDetail);
+    int updPandAmt(MrDetail mrDetail);
 
     List<MrR0004DetailDto> r0004ReportSelect(MrSummaryQo record);
 

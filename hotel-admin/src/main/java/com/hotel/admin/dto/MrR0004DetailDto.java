@@ -23,12 +23,21 @@ public class MrR0004DetailDto extends Entity {
     @ExcelColumn(value = "未结算总价",col = 6)
     private String pendingAmt;
 
+    private String deptName;
     public String getDeptId() {
         return deptId;
     }
 
     public void setDeptId(String deptId) {
         this.deptId = deptId;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
     }
 
     public String getOrderNum() {
