@@ -12,6 +12,7 @@ import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.page.Page;
 import com.hotel.core.service.AbstractService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -104,7 +105,7 @@ public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysR
 		//删除角色，删除角色对于的所有关系
 		List<Long> ids = records.stream().map(r -> r.getId()).collect(Collectors.toList());
 		//1.删除角色用户关系表
-		sysUserRoleMapper.deleteByRoleIds(ids);
+		sysUserRoleMapper.deleteByRoleIds( ids);
 		//2.删除角色菜单关系表
 		sysRoleMenuMapper.deleteByRoleIds(ids);
 		//3.删除角色部门关系表

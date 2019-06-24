@@ -33,12 +33,13 @@
   <sql id="QUERY">
     <where>
       <if test="name != null and name != ''">
-        AND u.name = #{name}
+        AND u.name like concat('%', #{name},'%')
       </if>
-      <if test="email != null and email != ''">
-        AND u.email = #{email}
+      <if test="id != null and id != ''">
+        AND u.id = #{id}
       </if>
       AND u.del_flag != -1
+      AND u.name != 'admin'
     </where>
   </sql>
     <delete id="deleteByIds">
