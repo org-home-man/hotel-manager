@@ -24,8 +24,9 @@
     from sys_log
     <where>
         <if test="userName!=null and userName!=''">
-            user_name like CONCAT('%',#{pattern},'%')
+            user_name like CONCAT('%',#{userName},'%')
         </if>
     </where>
+    order by create_time desc
   </select>
 </mapper>

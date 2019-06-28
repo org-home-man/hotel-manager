@@ -3,13 +3,12 @@ package com.hotel.admin.util;
 import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.model.BizPuchs;
 import com.hotel.admin.model.BizRoom;
-import com.hotel.common.redis.RedisCacheTemplate;
+import com.hotel.admin.redis.template.RedisCacheTemplate;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.exception.GlobalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;

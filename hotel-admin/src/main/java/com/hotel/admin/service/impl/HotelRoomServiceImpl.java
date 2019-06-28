@@ -11,6 +11,7 @@ import com.hotel.admin.model.BizRecommendRoom;
 import com.hotel.admin.model.BizRoom;
 import com.hotel.admin.service.HotelRoomService;
 import com.hotel.common.utils.Utils;
+import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.page.Page;
@@ -47,6 +48,7 @@ public class HotelRoomServiceImpl extends AbstractService<BizRoom> implements Ho
 	private BizRoomMapper bizRoomMapper;
 
 	@Override
+	@SystemServiceLog(description = "订单查询异常")
 	public Page findPagePara(HotelRoomQry hotelRoomQry) {
 		try {
 			validateDate(hotelRoomQry);
