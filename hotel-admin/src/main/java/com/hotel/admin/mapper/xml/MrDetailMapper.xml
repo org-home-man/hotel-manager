@@ -122,10 +122,11 @@
   <select id="r0004ReportSelect" parameterType="com.hotel.admin.qo.MrSummaryQo" resultMap="r0004ReportMap">
     select
     dept_name,
-		(select SUM(order_num) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND dept_id = a.dept_id AND status IN ('2','5','6')) order_num,
-		(select SUM(room_num) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND dept_id = a.dept_id AND status IN ('2','5','6')) room_num,
-		(select SUM(total_sell_amt) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND dept_id = a.dept_id AND status IN ('2','5','6')) total_sell_amt,
-		(select SUM(total_settlement_amt) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND dept_id = a.dept_id AND status IN ('5')) total_settlement_amt
+		(select ifnull(SUM(order_num),0) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND dept_id = a.dept_id AND status IN ('2','5','6')) order_num,
+		(select ifnull(SUM(room_num),0) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND dept_id = a.dept_id AND status IN ('2','5','6')) room_num,
+		(select ifnull(SUM(total_sell_amt),0) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND dept_id = a.dept_id AND status IN ('2','5','6')) total_sell_amt,
+		(select ifnull(SUM(total_settlement_amt),0) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND dept_id = a.dept_id AND status IN ('2','5','6')) total_settlement_amt,
+		(select ifnull(SUM(total_settlement_amt),0) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND dept_id = a.dept_id AND status IN ('5')) pending_amt
     from mr_detail a
     where
     report_id = #{reportId,jdbcType=VARCHAR}
@@ -142,10 +143,11 @@
       ELSE hotel_ename
       END
     ) hotel_name,
-		(select SUM(order_num) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND hotel_code = a.hotel_code AND status IN ('2','5','6')) order_num,
-		(select SUM(room_num) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND hotel_code = a.hotel_code AND status IN ('2','5','6')) room_num,
-		(select SUM(total_sell_amt) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND hotel_code = a.hotel_code AND status IN ('2','5','6')) total_sell_amt,
-		(select SUM(total_settlement_amt) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND hotel_code = a.hotel_code AND status IN ('5')) total_settlement_amt
+		(select ifnull(SUM(order_num),0) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND hotel_code = a.hotel_code AND status IN ('2','5','6')) order_num,
+		(select ifnull(SUM(room_num),0) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND hotel_code = a.hotel_code AND status IN ('2','5','6')) room_num,
+		(select ifnull(SUM(total_sell_amt),0) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND hotel_code = a.hotel_code AND status IN ('2','5','6')) total_sell_amt,
+		(select ifnull(SUM(total_settlement_amt),0) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND hotel_code = a.hotel_code AND status IN ('2','5','6')) total_settlement_amt,
+		(select ifnull(SUM(total_settlement_amt),0) from mr_detail where report_id = #{reportId,jdbcType=VARCHAR} AND report_month = #{reportMonth,jdbcType=VARCHAR} AND hotel_code = a.hotel_code AND status IN ('5')) pending_amt
     from mr_detail a
     where
     report_id = #{reportId,jdbcType=VARCHAR}
