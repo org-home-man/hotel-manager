@@ -1,4 +1,4 @@
-package com.hotel.common.redis;
+package com.hotel.admin.redis.template;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public class RedisCacheTemplate {
 
     private static final String REDIS_CHARSET = "utf-8";
 
-    @Resource
+    @Autowired
     private RedisTemplate<Serializable, Serializable> redisTemplate;
 
     /*****************************************************/

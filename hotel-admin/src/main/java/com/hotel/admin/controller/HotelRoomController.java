@@ -6,6 +6,7 @@ import com.hotel.admin.model.BizRoom;
 import com.hotel.admin.model.SysUser;
 import com.hotel.admin.service.BizRoomService;
 import com.hotel.admin.service.HotelRoomService;
+import com.hotel.core.annotation.SystemControllerLog;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.page.PageRequest;
@@ -45,6 +46,7 @@ public class HotelRoomController {
      * @return
      */
     @PostMapping(value = "/page")
+    @SystemControllerLog(description = "查询订单")
     public HttpResult findPage(HotelRoomQry HotelRoomQry) {
         return HttpResult.ok(hotelRoomService.findPagePara(HotelRoomQry));
     }

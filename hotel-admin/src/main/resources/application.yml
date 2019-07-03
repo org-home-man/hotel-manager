@@ -34,6 +34,10 @@ spring:
   # spring boot admin
   application:
     name: hotel-admin
+  # aop
+  aop:
+    proxy-target-class: true
+    auto: true
   #redis
   redis:
     host: 118.24.47.239
@@ -46,7 +50,6 @@ spring:
         max-idle: 50
         min-idle: 2
         max-wait: 10000
-      shutdown-timeout: 100
     timeout: 5000
 # pagehelper
 pagehelper:

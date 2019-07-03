@@ -12,9 +12,8 @@ import com.hotel.common.entity.auth.ISysUser;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.context.UserContext;
-import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
-import com.hotel.common.redis.RedisCacheTemplate;
+import com.hotel.admin.redis.template.RedisCacheTemplate;
 import com.hotel.core.http.HttpStatus;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -26,7 +25,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.websocket.Session;
@@ -178,6 +176,8 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
                         logger.error("websocket通讯异常");
                     }
                 }
+                //清楚前先记录登出日志
+                WebSocketServer.saveLog(session,sysUser,"登出系统");
                 //清除前一个用户的session
                 WebSocketServer.webSocketMap.remove(sysUser.getId());
                 logger.info("踢出上一个用户,用户名 [{}]",sysUser.getName());
