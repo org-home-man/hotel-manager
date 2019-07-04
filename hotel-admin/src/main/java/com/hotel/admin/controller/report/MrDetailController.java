@@ -6,6 +6,7 @@ import com.hotel.admin.qo.WrSummaryQo;
 import com.hotel.admin.service.MrDetailService;
 import com.hotel.admin.service.WrDetailService;
 import com.hotel.admin.util.ExcelUtils;
+import com.hotel.core.annotation.SystemControllerLog;
 import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +41,7 @@ public class MrDetailController {
     导出报表
      */
     @RequestMapping("/r0001ExportExcel")
+    @SystemControllerLog(description = "r0001报表Excel导出")
     public void exportR0001Excel(HttpServletResponse response, MrSummaryQo record) throws IOException {
         Map<String,List<MrR0001DetailDto>> map = mrDetailService.selectR0001All(record);
         ExcelUtils.writeMoreSheetExcel(response,map,MrR0001DetailDto.class,"R0001excel");
@@ -61,6 +63,7 @@ public class MrDetailController {
     导出报表
      */
     @RequestMapping("/r0004ExportExcel")
+    @SystemControllerLog(description = "r0004报表Excel导出")
     public void exportR0004Excel(HttpServletResponse response, MrSummaryQo record) throws IOException {
         Map<String,List<MrR0004DetailDto>> map = new HashMap<>();
          map.put("R0004excel", mrDetailService.findR0004Page(record));
@@ -84,6 +87,7 @@ public class MrDetailController {
     导出报表
      */
     @RequestMapping("/r0005ExportExcel")
+    @SystemControllerLog(description = "r0005报表Excel导出")
     public void exportR0005Excel(HttpServletResponse response, MrSummaryQo record) throws IOException {
         Map<String,List<MrR0005DetailDto>> map = new HashMap<>();
         map.put("R0005excel", mrDetailService.findR0005Page(record));

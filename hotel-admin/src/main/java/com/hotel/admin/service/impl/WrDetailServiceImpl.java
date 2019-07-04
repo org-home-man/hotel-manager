@@ -8,6 +8,7 @@ import com.hotel.admin.qo.WrSummaryQo;
 import com.hotel.admin.service.SysDeptService;
 import com.hotel.admin.service.WrDetailService;
 import com.hotel.admin.service.WrSummaryService;
+import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,7 @@ public class WrDetailServiceImpl implements WrDetailService {
     查询R0002报表
      */
     @Override
+    @SystemServiceLog(description = "r0002报表Excel数据查询")
     public Map<String, List<WrDetailDto>> selectR0002All(WrSummaryQo record) {
         List<SysDept> deptLi =  sysDeptMapper.selectAll();
         Map<String,List<WrDetailDto>> map = new HashMap<>();
@@ -84,6 +86,7 @@ public class WrDetailServiceImpl implements WrDetailService {
     }
 
     @Override
+    @SystemServiceLog(description = "r0003报表Excel数据查询")
     public Map<String, List<WrR0003DetailDto>> selectR0003All(WrSummaryQo record) {
         List<BizHotl> hotlLi = bizHotlMapper.selectAll();
         Map<String,List<WrR0003DetailDto>> map = new HashMap<>();

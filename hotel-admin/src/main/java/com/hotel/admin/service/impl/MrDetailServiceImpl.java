@@ -8,6 +8,7 @@ import com.hotel.admin.qo.WrSummaryQo;
 import com.hotel.admin.service.MrDetailService;
 import com.hotel.admin.service.MrSummaryService;
 import com.hotel.admin.service.WrDetailService;
+import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.context.UserContext;
 import com.hotel.core.exception.GlobalException;
 import org.apache.catalina.User;
@@ -49,6 +50,7 @@ public class MrDetailServiceImpl implements MrDetailService {
     }
 
     @Override
+    @SystemServiceLog(description = "r0001报表Excel数据查询")
     public Map<String,List<MrR0001DetailDto>> selectR0001All(MrSummaryQo record) {
         try {
             record = getMonthDate(record);
