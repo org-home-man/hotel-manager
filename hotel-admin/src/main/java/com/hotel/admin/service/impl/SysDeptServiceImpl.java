@@ -3,6 +3,7 @@ package com.hotel.admin.service.impl;
 import com.hotel.admin.mapper.SysDeptMapper;
 import com.hotel.admin.service.SysDeptService;
 import com.hotel.admin.model.SysDept;
+import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpStatus;
@@ -24,6 +25,7 @@ public class SysDeptServiceImpl extends AbstractService<SysDept> implements SysD
 	private SysDeptMapper sysDeptMapper;
 
 	@Override
+	@SystemServiceLog(description = "机构新增/编辑（业务层）")
 	public int save(SysDept record) {
 		if(record.getId() == null || record.getId() == 0) {
 			return sysDeptMapper.insertSelective(record);
@@ -46,6 +48,7 @@ public class SysDeptServiceImpl extends AbstractService<SysDept> implements SysD
 	}
 
 	@Override
+	@SystemServiceLog(description = "机构删除（业务层）")
 	public int deleteBatch(List<SysDept> records) {
 		try {
 			for(SysDept record:records) {

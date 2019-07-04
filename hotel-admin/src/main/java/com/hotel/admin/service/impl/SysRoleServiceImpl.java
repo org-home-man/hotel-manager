@@ -7,6 +7,7 @@ import com.hotel.admin.model.SysRole;
 import com.hotel.admin.model.SysRoleMenu;
 import com.hotel.admin.service.SysRoleService;
 import com.hotel.common.utils.Utils;
+import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
@@ -36,6 +37,7 @@ public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysR
 	private SysMenuMapper sysMenuMapper;
 
 	@Override
+	@SystemServiceLog(description = "角色新增/编辑（业务层）")
 	public int save(SysRole sysRole) {
 		List<SysRole> byName = sysRoleMapper.findByName(sysRole.getName());
 		if(Utils.isNotEmpty(byName)){
@@ -46,6 +48,7 @@ public class SysRoleServiceImpl extends AbstractService<SysRole> implements SysR
 	}
 
 	@Override
+	@SystemServiceLog(description = "用户更新（业务层）")
 	public int updateNotNull(SysRole sysRole) {
 		Long id = sysRole.getId();
 		if(Utils.isEmpty(id)){

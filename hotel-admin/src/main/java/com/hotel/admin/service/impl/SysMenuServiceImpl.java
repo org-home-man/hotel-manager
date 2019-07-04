@@ -4,6 +4,7 @@ import com.hotel.admin.constants.SysConstants;
 import com.hotel.admin.mapper.SysMenuMapper;
 import com.hotel.admin.model.SysMenu;
 import com.hotel.admin.service.SysMenuService;
+import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class SysMenuServiceImpl extends AbstractService<SysMenu> implements SysM
 	private SysMenuMapper sysMenuMapper;
 
 	@Override
+	@SystemServiceLog(description = "菜单新增/编辑（业务层）")
 	public int save(SysMenu record) {
 		if(record.getId() == null || record.getId() == 0) {
 			return sysMenuMapper.insertSelective(record);

@@ -2,6 +2,7 @@ package com.hotel.admin.controller.sys;
 
 import com.hotel.admin.model.SysMenu;
 import com.hotel.admin.service.SysMenuService;
+import com.hotel.core.annotation.SystemControllerLog;
 import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,7 @@ public class SysMenuController {
 	
 	@PreAuthorize("hasAuthority('sys:menu:add') AND hasAuthority('sys:menu:edit')")
 	@PostMapping(value="/save")
+	@SystemControllerLog(description = "菜单新增/编辑操作")
 	public HttpResult save(SysMenu record) {
 		sysMenuService.save(record);
 		return HttpResult.ok();
@@ -30,6 +32,7 @@ public class SysMenuController {
 
 	@PreAuthorize("hasAuthority('sys:menu:delete')")
 	@PostMapping(value="/delete")
+	@SystemControllerLog(description = "删除菜单操作")
 	public HttpResult delete(@RequestBody List<SysMenu> records) {
 		sysMenuService.delete(records);
 		return HttpResult.ok();

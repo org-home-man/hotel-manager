@@ -6,6 +6,7 @@ import com.hotel.admin.model.SysUser;
 import com.hotel.admin.qo.SysUserQuery;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.util.PasswordUtils;
+import com.hotel.core.annotation.SystemControllerLog;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class SysUserController {
 	
 	@PreAuthorize("hasAuthority('sys:user:add') AND hasAuthority('sys:user:edit')")
 	@PostMapping(value="/save")
+	@SystemControllerLog(description = "用户新增/编辑操作")
 	public HttpResult save(@RequestBody SysUser record) {
 		SysUser user = sysUserService.findById(record.getId());
 		if(user != null) {
@@ -60,6 +62,7 @@ public class SysUserController {
 
 	@PreAuthorize("hasAuthority('sys:user:delete')")
 	@PostMapping(value="/delete")
+	@SystemControllerLog(description = "用户删除操作")
 	public HttpResult delete(@RequestBody List<SysUser> records) {
 		for(SysUser record:records) {
 			SysUser sysUser = sysUserService.findById(record.getId());
@@ -96,6 +99,7 @@ public class SysUserController {
 	}
 
 	@PostMapping(value="/updatePassword")
+	@SystemControllerLog(description = "用户密码修改")
 	public HttpResult updatePassword(SysUserUp record) {
 		sysUserService.updatePassword(record);
 		return HttpResult.ok();

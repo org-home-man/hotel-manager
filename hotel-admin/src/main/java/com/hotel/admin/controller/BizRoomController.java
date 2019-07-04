@@ -66,7 +66,7 @@ public class BizRoomController {
      * @return
      */    
 	@PostMapping(value="/page")
-	@SystemControllerLog(description = "客房信息删除")
+	@SystemControllerLog(description = "客房信息查询")
 	public HttpResult findPage(BizRoomQuery simplePageReq) {
 		return HttpResult.ok(bizRoomService.findPagePara(simplePageReq));
 	}

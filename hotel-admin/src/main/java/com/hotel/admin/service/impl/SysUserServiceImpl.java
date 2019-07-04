@@ -13,6 +13,7 @@ import com.hotel.admin.service.SysMenuService;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.util.PasswordUtils;
 import com.hotel.common.utils.StringUtils;
+import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
@@ -44,6 +45,7 @@ public class SysUserServiceImpl  implements SysUserService {
 
 	@Transactional
 	@Override
+	@SystemServiceLog(description = "用户新增/编辑（业务层）")
 	public int save(SysUser record) {
 		if(record.getId() == null || record.getId() == 0) {
 			// 新增用户
@@ -62,6 +64,7 @@ public class SysUserServiceImpl  implements SysUserService {
 	}
 
 	@Override
+	@SystemServiceLog(description = "用户删除（业务层）")
 	public int delete(SysUser record) {
 		return sysUserMapper.deleteByPrimaryKey(record.getId());
 	}

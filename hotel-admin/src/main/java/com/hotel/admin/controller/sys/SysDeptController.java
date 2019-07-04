@@ -2,6 +2,7 @@ package com.hotel.admin.controller.sys;
 
 import com.hotel.admin.model.SysDept;
 import com.hotel.admin.service.SysDeptService;
+import com.hotel.core.annotation.SystemControllerLog;
 import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +24,7 @@ public class SysDeptController {
 	
 	@PreAuthorize("hasAuthority('sys:dept:add') AND hasAuthority('sys:dept:edit')")
 	@PostMapping(value="/save")
+	@SystemControllerLog(description = "机构新增/编辑操作")
 	public HttpResult save(SysDept record) {
 		sysDeptService.save(record);
 		return HttpResult.ok();
@@ -30,6 +32,7 @@ public class SysDeptController {
 
 	@PreAuthorize("hasAuthority('sys:dept:delete')")
 	@PostMapping(value="/delete")
+	@SystemControllerLog(description = "机构删除操作")
 	public HttpResult delete(@RequestBody List<SysDept> records) {
 		sysDeptService.deleteBatch(records);
 		return HttpResult.ok();

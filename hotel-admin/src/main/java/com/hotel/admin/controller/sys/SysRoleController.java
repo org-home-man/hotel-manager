@@ -5,6 +5,7 @@ import com.hotel.admin.mapper.SysRoleMapper;
 import com.hotel.admin.model.SysRole;
 import com.hotel.admin.model.SysRoleMenu;
 import com.hotel.admin.service.SysRoleService;
+import com.hotel.core.annotation.SystemControllerLog;
 import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,12 +30,14 @@ public class SysRoleController {
 	
 	@PreAuthorize("hasAuthority('sys:role:add')")
 	@PostMapping(value="/save")
+	@SystemControllerLog(description = "角色新增/编辑操作")
 	public HttpResult save(SysRole record) {
 		sysRoleService.save(record);
 		return HttpResult.ok();
 	}
 	@PreAuthorize("hasAuthority('sys:role:edit')")
 	@PostMapping(value="/update")
+	@SystemControllerLog(description = "角色更新操作")
 	public HttpResult update(SysRole record) {
 		sysRoleService.updateNotNull(record);
 		return HttpResult.ok();
@@ -42,6 +45,7 @@ public class SysRoleController {
 
 	@PreAuthorize("hasAuthority('sys:role:delete')")
 	@PostMapping(value="/delete")
+	@SystemControllerLog(description = "角色删除操作")
 	public HttpResult delete(@RequestBody List<SysRole> records) {
 		sysRoleService.deleteBatch(records);
 		return HttpResult.ok();
