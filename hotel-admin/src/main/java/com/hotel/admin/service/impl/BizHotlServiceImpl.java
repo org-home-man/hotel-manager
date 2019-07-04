@@ -11,6 +11,7 @@ import com.hotel.admin.service.BizHotlService;
 import com.hotel.admin.util.IdUtils;
 import com.hotel.common.utils.StringUtils;
 import com.hotel.common.utils.Utils;
+import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
@@ -55,6 +56,7 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 
 	@Override
 	@Transactional
+	@SystemServiceLog(description = "酒店信息保存/编辑（业务层）")
 	public int save(BizHotl record) {
             if(Utils.isEmpty(record.getHotelCode()) || record.getHotelCode() == "0") {
                 System.out.println("licy12345");
@@ -85,6 +87,7 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 
 	@Override
 	@Transactional
+	@SystemServiceLog(description = "酒店信息删除（业务层）")
 	public int delete(List<BizHotl> records) {
 		for(BizHotl record:records) {
 			BizHotl hotel = bizHotlMapper.findById(record);
@@ -103,6 +106,7 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 	}
 
 	@Override
+	@SystemServiceLog(description = "酒店信息查询（业务层）")
 	public Page findPage(BizHotelQueryDto dto) {
 //		a.error("test err");
 //		throw new GlobalException("NotNullEception", HttpStatus.SC_INSUFFICIENT_BUSINESERR);

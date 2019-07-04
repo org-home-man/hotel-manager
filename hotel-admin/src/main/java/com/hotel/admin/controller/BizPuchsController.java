@@ -9,6 +9,7 @@ import com.hotel.admin.model.BizPuchsUpdate;
 import com.hotel.admin.qo.BizPuchsQuery;
 import com.hotel.admin.service.BizPuchsService;
 import com.hotel.admin.util.ExcelUtils;
+import com.hotel.core.annotation.SystemControllerLog;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
@@ -39,6 +40,7 @@ public class BizPuchsController {
 	 * @return
 	 */	
 	@PostMapping(value="/save")
+	@SystemControllerLog(description = "订单保存/编辑")
 	public HttpResult save(BizPuchs record) {
 		bizPuchsService.save(record);
 		return HttpResult.ok();
@@ -50,6 +52,7 @@ public class BizPuchsController {
 	 * @return
 	 */
 	@PostMapping(value="/update")
+	@SystemControllerLog(description = "订单更新")
 	public HttpResult update(BizPuchsUpdate record) {
 		System.out.println("licy");
 		bizPuchsService.updateInfo(record);
@@ -62,6 +65,7 @@ public class BizPuchsController {
 	 * @return
 	 */
 	@PostMapping(value="/confirm")
+	@SystemControllerLog(description = "订单提交")
 	public HttpResult confirm( BizPuchsUpdate record) {
 		bizPuchsService.puchsConfirm(record);
 		return HttpResult.ok();
@@ -84,6 +88,7 @@ public class BizPuchsController {
      * @return
      */    
 	@PostMapping(value="/findPage")
+	@SystemControllerLog(description = "订单查询")
 	public Page findPage(BizPuchsQuery bizPuchsQuery) {
 		bizPuchsService.findPage(bizPuchsQuery);
 		return PageContext.getPage();
@@ -100,6 +105,7 @@ public class BizPuchsController {
 	}
 
 	@PostMapping(value = "orderCancel")
+	@SystemControllerLog(description = "订单取消")
 	public HttpResult OrderCancel(BizPuchsExtDto bizPuchs){
         bizPuchsService.cancel(bizPuchs);
 		return HttpResult.ok();
@@ -112,6 +118,7 @@ public class BizPuchsController {
 	 * @return
 	 */
 	@PostMapping(value="/accountsConfirm")
+	@SystemControllerLog(description = "订单结算")
 	public HttpResult accountsConfirm( BizPuchsUpdate record) {
 		bizPuchsService.accountsConfirm(record);
 		return HttpResult.ok();
@@ -123,6 +130,7 @@ public class BizPuchsController {
 	 * @return
 	 */
 	@RequestMapping(value="/exportExcel")
+	@SystemControllerLog(description = "用户订单信息导出")
 	public void exportExcel(HttpServletResponse response, BizPuchsUpdate record) {
 		List<UserRequestReportDto> li = bizPuchsService.exportExcel(record);
 		Map<String,List<UserRequestReportDto>> map = new HashMap<>();
@@ -136,6 +144,7 @@ public class BizPuchsController {
 	 * @return
 	 */
 	@RequestMapping(value="/exportManagerExcel")
+	@SystemControllerLog(description = "管理员订单信息导出")
 	public void exportManagerExcel(HttpServletResponse response, BizPuchsUpdate record) {
 		List<ManagerRequestReportDto> li = bizPuchsService.exportManagerExcel(record);
 		Map<String,List<ManagerRequestReportDto>> map = new HashMap<>();

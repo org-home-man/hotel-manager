@@ -14,6 +14,7 @@ import com.hotel.admin.websocket.WebSocketServer;
 import com.hotel.common.entity.auth.ISysUser;
 import com.hotel.common.utils.DateUtils;
 import com.hotel.common.utils.Utils;
+import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.context.UserContext;
 import com.hotel.core.exception.GlobalException;
@@ -79,6 +80,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 
     @Override
     @Transactional
+    @SystemServiceLog(description = "订单信息保存（业务层）")
     public int save(BizPuchs record) {
         //根据入住日期和退房日期 生成订单详细信息；详细信息需要订单的 每日的房间价格
         long days = 0;
@@ -157,6 +159,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     }
 
 	@Override
+    @SystemServiceLog(description = "订单信息更新（业务层）")
 	public int updateInfo(BizPuchsUpdate record) {
 		if(record.getOrderCode() == null || record.getOrderCode() == "0") {
 		}
@@ -193,6 +196,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     }
 
     @Override
+    @SystemServiceLog(description = "订单信息提交（业务层）")
     public int puchsConfirm(BizPuchsUpdate record) {
         if (record.getOrderCode() == null || record.getOrderCode() == "0") {
         }
@@ -261,6 +265,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     }
 
     @Override
+    @SystemServiceLog(description = "订单信息查询（业务层）")
     public List<BizPuchsExtDto> findPage(BizPuchsQuery bizPuchsQuery) {
         PageContext.setPagination(false);
 //        String username = UserContext.getCurrentUser().getName();
@@ -283,6 +288,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     }
 
     @Override
+    @SystemServiceLog(description = "订单取消（业务层）")
     public int orderCancel(List<BizPuchsExtDto> bizPuchs) {
         for (BizPuchsExtDto bizPuch : bizPuchs) {
             cancel(bizPuch);
@@ -311,6 +317,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     }
 
     @Override
+    @SystemServiceLog(description = "订单结算（业务层）")
     public int accountsConfirm(BizPuchsUpdate record) {
         if (!Constant.PUCHS_STAT_NO_ACCOUNTS.equals( record.getStatus())) {
             throw new GlobalException("OrderStatusNomatchException");
@@ -320,12 +327,14 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     }
 
     @Override
+    @SystemServiceLog(description = "用户订单信息导出（业务层）")
     public List<UserRequestReportDto> exportExcel(BizPuchsUpdate record) {
         List<UserRequestReportDto> li = bizPuchsMapper.userRequestReport(record);
         return li;
     }
 
     @Override
+    @SystemServiceLog(description = "管理员订单信息导出（业务层）")
     public List<ManagerRequestReportDto> exportManagerExcel(BizPuchsUpdate record) {
         List<ManagerRequestReportDto> li = bizPuchsMapper.managerRequestReport(record);
         return li;
