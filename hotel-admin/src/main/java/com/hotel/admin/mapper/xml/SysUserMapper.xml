@@ -97,4 +97,14 @@
     <select id="findLikeByName" resultType="com.hotel.admin.model.SysUser">
       SELECT u.* from sys_user u where u.name LIKE CONCAT('%',#{name},'%') limit 5
     </select>
+    <select id="selectManager" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      FROM
+        sys_user u
+        INNER JOIN sys_user_role ur ON u.id = ur.user_id
+        INNER JOIN `sys_role` r ON ur.role_id = r.id
+      WHERE
+        r.is_manager = '1'
+    </select>
 </mapper>

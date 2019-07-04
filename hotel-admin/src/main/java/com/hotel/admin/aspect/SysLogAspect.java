@@ -1,30 +1,26 @@
 package com.hotel.admin.aspect;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import com.alibaba.fastjson.JSONObject;
+import com.hotel.admin.model.SysLog;
 import com.hotel.admin.service.SysLogService;
+import com.hotel.admin.util.IPUtils;
 import com.hotel.common.entity.auth.ISysUser;
 import com.hotel.core.annotation.SystemControllerLog;
 import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.context.UserContext;
-import com.hotel.core.exception.GlobalException;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
-import org.aspectj.lang.reflect.MethodSignature;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.alibaba.fastjson.JSONObject;
-import com.hotel.admin.model.SysLog;
-import com.hotel.admin.util.HttpUtils;
-import com.hotel.admin.util.IPUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 
@@ -101,10 +97,10 @@ public class SysLogAspect {
 	 */
 	@AfterThrowing(pointcut = "serviceAspect()",throwing = "e")
 	public void doAfterThrowing(JoinPoint joinPoint,Throwable e){
-		if(e instanceof GlobalException){
-			//不处理业务异常
-			return;
-		}
+//		if(e instanceof GlobalException){
+//			//不处理业务异常
+//			return;
+//		}
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		ISysUser user = UserContext.getCurrentUser();
 		//获取请求ip
@@ -189,56 +185,4 @@ public class SysLogAspect {
 		}
 		return description;
 	}
-
-	private void saveSysLog(ProceedingJoinPoint joinPoint, long time) {
-//		String userName = "admin";
-		if(joinPoint.getTarget() instanceof SysLogService) {
-			return ;
-		}
-		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-		SysLog sysLog = new SysLog();
-		
-//		Method method = signature.getMethod();
-//		com.louis.merak.admin.annotation.SysLog syslogAnno = method.getAnnotation(com.louis.merak.admin.annotation.SysLog.class);
-//		if(syslogAnno != null){
-//			//注解上的描述
-//			sysLog.setOperation(syslogAnno.value());
-//		}
-
-		// 请求的方法名
-		String className = joinPoint.getTarget().getClass().getName();
-		String methodName = signature.getName();
-		if(methodName.indexOf("login")!=-1 ){
-			return;
-		}
-		sysLog.setMethod(className + "." + methodName + "()");
-
-		// 请求的参数
-		Object[] args = joinPoint.getArgs();
-		try{
-			String params = JSONObject.toJSONString(args[0]);
-			if(params.length() > 200) {
-				params = params.substring(0, 200) + "...";
-			}
-			sysLog.setParams(params);
-		} catch (Exception e){
-		}
-
-		// 获取request
-		HttpServletRequest request = HttpUtils.getHttpServletRequest();
-		// 设置IP地址
-		sysLog.setIp(IPUtils.getIpAddr(request));
-
-//		String userName = UserContext.getCurrentUser().getName();
-		// 用户名
-//		sysLog.setUserName(userName);
-		
-		// 执行时长(毫秒)
-		sysLog.setTime(time);
-		
-		// 保存系统日志
-		sysLogService.save(sysLog);
-	}
-
-	
 }

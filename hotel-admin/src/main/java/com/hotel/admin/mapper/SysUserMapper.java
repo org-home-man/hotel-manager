@@ -24,4 +24,6 @@ public interface SysUserMapper extends AbstractMapper<SysUser>{
     List<SysUser> findLikeByName(@Param("name") String name);
 
     void deleteByIds(List<Long> ids);
+
+    List<SysUser> selectManager();
 }

@@ -10,6 +10,16 @@ public class SysSocketMessage extends Entity {
 
     private String status;
 
+    private String messageType;
+
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
+    }
+
     public Long getUserId() {
         return userId;
     }
