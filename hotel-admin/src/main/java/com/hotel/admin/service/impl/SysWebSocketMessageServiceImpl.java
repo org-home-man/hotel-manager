@@ -10,7 +10,10 @@ import com.hotel.core.context.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * websocket消息对象
@@ -19,6 +22,11 @@ import java.util.List;
 public class SysWebSocketMessageServiceImpl implements ISysWebSocketMessageService {
     @Autowired
     private SysSocketMessageMapper socketMessageMapper;
+
+    @Override
+    public void save(SysSocketMessage socketMessage) {
+        socketMessageMapper.insertSelective(socketMessage);
+    }
 
     @Override
     public void update(SysSocketMessage socketMessage) {
@@ -31,12 +39,18 @@ public class SysWebSocketMessageServiceImpl implements ISysWebSocketMessageServi
     }
 
     @Override
-    public List<SysSocketMessage> findAll() {
+    public Set<String> findAll() {
         SysSocketMessage sysSocketMessage = new SysSocketMessage();
         ISysUser currentUser = UserContext.getCurrentUser();
         sysSocketMessage.setUserId(currentUser.getId());
         List<SysSocketMessage> list = socketMessageMapper.selectNoRead(sysSocketMessage);
-        return list;
+        Set<String> types = new HashSet<>();
+        for (SysSocketMessage socketMessage : list) {
+            types.add(socketMessage.getMessageType());
+            socketMessage.setStatus(Constant.BOOL_YES); //已查看
+            socketMessageMapper.updateByPrimaryKeySelective(socketMessage);
+        }
+        return types;
     }
 
     @Override

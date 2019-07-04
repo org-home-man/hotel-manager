@@ -6,9 +6,10 @@
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="message" property="message" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="CHAR" />
+    <result column="message_type" property="messageType" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id,user_id, message, status
+    id,user_id, message, status, message_type
   </sql>
   <select id="selectNoRead" resultMap="BaseResultMap" >
     SELECT

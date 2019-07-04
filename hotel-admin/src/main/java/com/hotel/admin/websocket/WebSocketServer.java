@@ -6,8 +6,10 @@ import com.hotel.admin.dto.SocketMessage;
 import com.hotel.admin.mapper.SysLogMapper;
 import com.hotel.admin.mapper.SysUserMapper;
 import com.hotel.admin.model.SysLog;
+import com.hotel.admin.model.SysSocketMessage;
 import com.hotel.admin.model.SysUser;
 import com.hotel.admin.redis.UserInfoCache;
+import com.hotel.admin.service.ISysWebSocketMessageService;
 import com.hotel.admin.service.SysLogService;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.util.WebSocketUtils;
@@ -34,6 +36,7 @@ public class WebSocketServer {
     public static UserInfoCache userInfoCache ;
     public static SysUserService sysUserService;
     public static SysLogService sysLogService;
+    public static ISysWebSocketMessageService socketMessageService;
 
     static Logger LOGGER = LoggerFactory.getLogger(WebSocketServer.class);
     public static ConcurrentHashMap<Long,Session> webSocketMap = new ConcurrentHashMap<>();
@@ -103,11 +106,7 @@ public class WebSocketServer {
                     heartMessage.setType(Constant.SOCKET_HEAT_BEAT);
                     heartMessage.setMessage("heart report");
                 }
-                try {
-                    session.getBasicRemote().sendText(JSONObject.toJSONString(heartMessage));
-                } catch (IOException e) {
-                    LOGGER.error("websocket send error");
-                }
+                session.getAsyncRemote().sendText(JSONObject.toJSONString(heartMessage));
             }
         }
     }
@@ -129,14 +128,57 @@ public class WebSocketServer {
     public static void sendMessage(String message){
         LOGGER.info("推送消息  推送内容:"+message);
         webSocketMap.forEach( (u,s)-> {
-            try {
                 //推送指定管理员用户
-                s.getBasicRemote().sendText(message);
-            } catch (IOException e) {
-                //
-                LOGGER.info("websocket通讯异常 用户ID [{}]",u);
-            }
+                s.getAsyncRemote().sendText(message);
         });
+    }
+
+    /**
+     * 管理员消息群发
+     * @param message 消息
+     * @param type 消息类型 1-订单 2-日报 3-周报 4-月报 参照 CONSTANT.ORDER_MES
+     */
+    public static void sendMessageToManager(String message,String type){
+        LOGGER.info("推送消息至管理员  推送内容:"+message);
+        List<SysUser> users = sysUserService.findManager();
+        if(Utils.isEmpty(users)){
+            return;
+        }
+        users.forEach( user ->{
+            Long id = user.getId();
+            validateSessionAndSend(id,message,type);
+        });
+    }
+
+    /**
+     * 消息群发给指定用户
+     * @param userIds 用户ID集合
+     * @param message 消息
+     */
+    public static void sendMessageToUsers(List<Long> userIds,String message,String type){
+        LOGGER.info("推送消息至用户  推送内容:"+message);
+        if(Utils.isEmpty(userIds)){
+            return;
+        }
+        userIds.forEach( id ->{
+            validateSessionAndSend(id,message,type);
+        });
+    }
+
+    private static void validateSessionAndSend(Long id,String message,String type){
+        Session session = webSocketMap.get(id);
+        if(null == session){
+            //未连接
+            SysSocketMessage socketMessage = new SysSocketMessage();
+            socketMessage.setStatus("1");
+            socketMessage.setUserId(id);
+            socketMessage.setMessageType(type);
+            socketMessage.setMessage(message);
+            socketMessageService.save(socketMessage);
+        }else{
+            //推送消息
+            session.getAsyncRemote().sendText(message);
+        }
     }
 
     public static void saveLog(Session session, ISysUser sysUser,String message){

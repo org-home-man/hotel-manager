@@ -41,4 +41,11 @@ public interface SysUserService extends NewCurdService<SysUser> {
     int updatePassword(SysUserUp sysUserUp);
 
 	List<SysUser> findLikeByName(String name);
+
+	/**
+	 *
+	 * @return
+	 */
+    List<SysUser> findManager();
+
 }

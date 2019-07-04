@@ -1,6 +1,7 @@
 package com.hotel.admin.config;
 
 import com.hotel.admin.redis.UserInfoCache;
+import com.hotel.admin.service.ISysWebSocketMessageService;
 import com.hotel.admin.service.SysLogService;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.websocket.WebSocketServer;
@@ -24,4 +25,6 @@ public class WebSocketConfig {
 
     @Autowired
     public void setSysLogService(SysLogService sysLogService){WebSocketServer.sysLogService = sysLogService;}
+    @Autowired
+    public void setSysWebSocketMessageService(ISysWebSocketMessageService webSocketMessageService){WebSocketServer.socketMessageService = webSocketMessageService;}
 }

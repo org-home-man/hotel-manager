@@ -51,4 +51,10 @@ public class Constant {
     //客房类型 历史预定最多
     public static final String CUSTROOM_MAXINUM = "02";
 
+    /** websocket消息类型 **/
+    public static final String ORDER_MES = "1";
+    public static final String DAY_MES = "2";
+    public static final String WEEK_MES = "3";
+    public static final String MONTH_MES = "4";
+    public static final String OTHER_MES = "5";
 }

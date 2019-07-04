@@ -214,4 +214,9 @@ public class SysUserServiceImpl  implements SysUserService {
 	public List<SysUser> findLikeByName(String name) {
 		return sysUserMapper.findLikeByName(name);
 	}
+
+	@Override
+	public List<SysUser> findManager() {
+		return sysUserMapper.selectManager();
+	}
 }
