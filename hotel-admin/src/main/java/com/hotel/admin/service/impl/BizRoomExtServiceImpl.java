@@ -2,6 +2,7 @@ package com.hotel.admin.service.impl;
 
 import java.util.List;
 
+import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.page.MybatisPageHelper;
 import com.hotel.core.page.PageRequest;
 import com.hotel.core.page.PageResult;
@@ -29,6 +30,7 @@ public class BizRoomExtServiceImpl implements BizRoomExtService {
 	private BizRoomExtMapper bizRoomExtMapper;
 
 	@Override
+	@SystemServiceLog(description = "客房扩展信息编辑/保存（业务层）")
 	public int save(BizRoomExt record) {
 		if(record.getRoomCode() == null || record.getRoomCode() == "0") {
 			return bizRoomExtMapper.add(record);
@@ -37,6 +39,7 @@ public class BizRoomExtServiceImpl implements BizRoomExtService {
 	}
 
 	@Override
+	@SystemServiceLog(description = "客房扩展信息删除（业务层）")
 	public int delete(BizRoomExt record) {
 		return bizRoomExtMapper.delete(record.getRoomCode());
 	}
@@ -60,6 +63,7 @@ public class BizRoomExtServiceImpl implements BizRoomExtService {
 	}
 
 	@Override
+	@SystemServiceLog(description = "客房扩展信息查询（业务层）")
 	public PageResult findPage(PageRequest pageRequest) {
 		return MybatisPageHelper.findPage(pageRequest, bizRoomExtMapper);
 	}

@@ -3,6 +3,7 @@ package com.hotel.admin.controller;
 import com.hotel.admin.model.BizInv;
 import com.hotel.admin.model.BizPuchs;
 import com.hotel.admin.service.BizInvService;
+import com.hotel.core.annotation.SystemControllerLog;
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class BizInvController {
 	 * @return
 	 */	
 	@PostMapping(value="/save")
+	@SystemControllerLog(description = "库存信息编辑/保存")
 	public HttpResult save(@RequestBody BizInv record) {
 		bizInvService.save(record);
 		return HttpResult.ok();
@@ -43,6 +45,7 @@ public class BizInvController {
      * @return
      */
 	@PostMapping(value="/delete")
+	@SystemControllerLog(description = "库存信息删除")
 	public HttpResult delete(@RequestBody List<BizInv> records) {
 		bizInvService.delete(records);
 		return HttpResult.ok();
@@ -62,6 +65,7 @@ public class BizInvController {
      * @return
      */
 	@PostMapping(value="/findInv")
+	@SystemControllerLog(description = "库存信息查询")
 	public HttpResult findInv(BizPuchs bizPuchs) {
 		return HttpResult.ok(bizInvService.findInventory(bizPuchs));
 	}

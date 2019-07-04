@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hotel.admin.dto.HotelRoomQry;
 import com.hotel.admin.mapper.BizPriseMapper;
+import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.page.MybatisPageHelper;
 import com.hotel.core.page.PageRequest;
@@ -33,6 +34,7 @@ public class BizPriseServiceImpl implements BizPriseService {
 
 	@Override
 	@Transactional
+	@SystemServiceLog(description = "牌价信息保存/编辑（业务层）")
 	public int save(BizPrise record) {
 		if (record.getPriceDateData() ==null) {
 			return 0;
@@ -81,6 +83,7 @@ public class BizPriseServiceImpl implements BizPriseService {
 	}
 
 	@Override
+	@SystemServiceLog(description = "牌价信息删除（业务层）")
 	public int delete(BizPrise record) {
 		return bizPriseMapper.delete(record.getRoomCode());
 	}
@@ -111,6 +114,7 @@ public class BizPriseServiceImpl implements BizPriseService {
 	}
 
 	@Override
+	@SystemServiceLog(description = "牌价信息根据日期查询（业务层）")
 	public List<BizPrise> findByDate(HotelRoomQry record) {
 		List<BizPrise> li =  bizPriseMapper.findByDate(record);
 		return li;

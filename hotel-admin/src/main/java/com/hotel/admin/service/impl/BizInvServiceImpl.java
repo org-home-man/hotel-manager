@@ -6,6 +6,7 @@ import com.hotel.admin.model.BizPuchs;
 import com.hotel.admin.service.BizInvService;
 import com.hotel.common.utils.DateUtils;
 import com.hotel.common.utils.Utils;
+import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.page.MybatisPageHelper;
@@ -39,6 +40,7 @@ public class BizInvServiceImpl implements BizInvService {
 	}
 
 	@Override
+	@SystemServiceLog(description = "库存信息编辑/保存(业务层)")
 	public int save(BizInv record) {
 
 		if (record.getStockDateData() ==null) {
@@ -79,6 +81,7 @@ public class BizInvServiceImpl implements BizInvService {
 	}
 
 	@Override
+	@SystemServiceLog(description = "库存信息删除(业务层)")
 	public int delete(BizInv record) {
 		return bizInvMapper.deleteByPrimaryKey(record);
 	}
@@ -99,6 +102,7 @@ public class BizInvServiceImpl implements BizInvService {
 
 
 	@Override
+	@SystemServiceLog(description = "范围内库存查询(业务层)")
 	public List<BizInv> findCancelBizInv(BizPuchs bizPuchs) {
 		return bizInvMapper.findCancelBizInv(bizPuchs.getRoomCode(),bizPuchs.getInDateStart(),bizPuchs.getOutDateEnd());
 	}
@@ -109,6 +113,7 @@ public class BizInvServiceImpl implements BizInvService {
 	}
 
 	@Override
+	@SystemServiceLog(description = "范围内库存数量查询(业务层)")
 	public Integer findInventory(BizPuchs bizPuchs) {
 		if(Utils.isEmpty(bizPuchs.getRoomCode()) || Utils.isEmpty(bizPuchs.getInDateStart()) || Utils.isEmpty(bizPuchs.getOutDateEnd())){
 			return 0;

@@ -8,6 +8,7 @@ import com.hotel.admin.service.BizRoomService;
 import com.hotel.admin.util.IdUtils;
 import com.hotel.common.utils.DateUtils;
 import com.hotel.common.utils.StringUtils;
+import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpStatus;
@@ -62,6 +63,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 
 	@Override
 	@Transactional
+	@SystemServiceLog(description = "客房信息维护保存（业务层）")
 	public int save(BizRoom record) {
 		/*
 		检查是否推荐为空， 如果被用户选择，那就必须查询客房信息表里面是否存在推荐房源，如果有，就更新为普通，如果没有就不做操作
@@ -176,6 +178,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 	}
 
 	@Override
+	@SystemServiceLog(description = "客房信息删除（业务层）")
 	public int delete(BizRoom record) {
 		return bizRoomMapper.delete(record);
 	}
@@ -206,6 +209,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 	生成客户输入的牌价数据
 	 */
 	@Override
+	@SystemServiceLog(description = "增减牌价信息（业务层）")
 	public Map productDatePrice(BizProPrice bizProPrice) {
 		Map bkMap = new HashMap();
 		/*
@@ -263,6 +267,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 	组装牌价信息用于客户显示
 	 */
 	@Override
+	@SystemServiceLog(description = "查询牌价信息（业务层）")
 	public Map producePriceCalendar(BizProPrice bizProPrice) {
 		System.out.println(bizProPrice);
 		Map bkMap = new HashMap();
@@ -315,6 +320,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 	 * @return
 	 */
 	@Override
+	@SystemServiceLog(description = "增减库存信息（业务层）")
 	public Map productDateStock(BizProInv bizProInv) throws GlobalException{
 		Map bkMap = new HashMap();
 		/*
@@ -373,6 +379,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 	展示库存信息，合并客户生成的库存信息
 	 */
 	@Override
+	@SystemServiceLog(description = "查询库存信息（业务层）")
 	public Map produceStockCalendar(BizProInv bizProInv) {
 		Map bkMap = new HashMap();
 		if (StringUtils.isBlank(bizProInv.getDate())) {
@@ -424,6 +431,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 
 
 	@Override
+	@SystemServiceLog(description = "客房信息分页查询（业务层）")
 	public Page findPagePara(BizRoomQuery bizRoomQuery) {
 
 		List<Map> bizList = bizRoomMapper.findPageByPara(bizRoomQuery);

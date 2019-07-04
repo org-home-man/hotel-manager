@@ -5,6 +5,7 @@ import com.hotel.admin.dto.BizRoomQuery;
 import com.hotel.admin.model.BizProPrice;
 import com.hotel.admin.model.BizRoom;
 import com.hotel.admin.service.BizRoomService;
+import com.hotel.core.annotation.SystemControllerLog;
 import com.hotel.core.exception.GlobalException;
 import com.hotel.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class BizRoomController {
 	 * @return
 	 */	
 	@PostMapping(value="/save")
+	@SystemControllerLog(description = "客房信息编辑/保存")
 	public HttpResult save(BizRoom record) {
 		bizRoomService.save(record);
 		return HttpResult.ok();
@@ -52,6 +54,7 @@ public class BizRoomController {
      * @return
      */
 	@PostMapping(value="/delete")
+	@SystemControllerLog(description = "客房信息删除")
 	public HttpResult delete(@RequestBody List<BizRoom> records) {
 		bizRoomService.delete(records);
 		return HttpResult.ok();
@@ -63,6 +66,7 @@ public class BizRoomController {
      * @return
      */    
 	@PostMapping(value="/page")
+	@SystemControllerLog(description = "客房信息删除")
 	public HttpResult findPage(BizRoomQuery simplePageReq) {
 		return HttpResult.ok(bizRoomService.findPagePara(simplePageReq));
 	}
@@ -73,6 +77,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@RequestMapping(value="/uploadFile")
+	@SystemControllerLog(description = "客房信息图片上传")
 	public String uploadFile(@RequestParam(name="file") MultipartFile uploadFile,HttpServletRequest request)  {
 		String rootPath = request.getServletContext().getRealPath("/upload");
 //		System.out.println(str);
@@ -111,6 +116,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@PostMapping(value="/producePriceCalendar")
+	@SystemControllerLog(description = "增减牌价信息")
 	public HttpResult producePriceCalendar(@RequestBody BizProPrice bizProPrice) {
 		Map map = new HashMap();
 		map = bizRoomService.producePriceCalendar(bizProPrice);
@@ -123,6 +129,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@PostMapping(value="/priceDatePro")
+	@SystemControllerLog(description = "牌价信息查询")
 	public HttpResult priceDatePro(@RequestBody BizProPrice bizProPrice) {
 		Map map = new HashMap();
 		map = bizRoomService.productDatePrice(bizProPrice);
@@ -135,6 +142,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@PostMapping(value="/produceStockCalendar")
+	@SystemControllerLog(description = "增减库存信息")
 	public HttpResult produceStockCalendar(@RequestBody BizProInv bizProInv) {
 		Map map = new HashMap();
 		map = bizRoomService.produceStockCalendar(bizProInv);
@@ -147,6 +155,7 @@ public class BizRoomController {
 	 * @return
 	 */
 	@PostMapping(value="/stockDatePro")
+	@SystemControllerLog(description = "库存信息查询")
 	public HttpResult stockDatePro(@RequestBody BizProInv bizProInv) {
 		Map map = new HashMap();
 		map = bizRoomService.productDateStock(bizProInv);

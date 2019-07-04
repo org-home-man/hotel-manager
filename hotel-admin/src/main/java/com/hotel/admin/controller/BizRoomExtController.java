@@ -2,6 +2,7 @@ package com.hotel.admin.controller;
 
 import com.hotel.admin.model.BizRoomExt;
 import com.hotel.admin.service.BizRoomExtService;
+import com.hotel.core.annotation.SystemControllerLog;
 import com.hotel.core.http.HttpResult;
 import com.hotel.core.page.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class BizRoomExtController {
 	 * @return
 	 */	
 	@PostMapping(value="/save")
+	@SystemControllerLog(description = "客房扩展信息保存")
 	public HttpResult save(BizRoomExt record) {
 		bizRoomExtService.save(record);
 		return HttpResult.ok();
@@ -42,6 +44,7 @@ public class BizRoomExtController {
      * @return
      */
 	@PostMapping(value="/delete")
+	@SystemControllerLog(description = "客房扩展信息删除")
 	public HttpResult delete(@RequestBody List<BizRoomExt> records) {
 		bizRoomExtService.delete(records);
 		return HttpResult.ok();
@@ -53,6 +56,7 @@ public class BizRoomExtController {
      * @return
      */    
 	@PostMapping(value="/findPage")
+	@SystemControllerLog(description = "客房扩展信息查询")
 	public HttpResult findPage(PageRequest pageRequest) {
 		return HttpResult.ok(bizRoomExtService.findPage(pageRequest));
 	}
