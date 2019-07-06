@@ -30,6 +30,11 @@
     create_name, create_time, update_name, update_time
   </sql>
 
+  <sql id="Base_Column_List1">
+    u.id, u.name,real_name,sex, password, salt, email, mobile, status, dept_id, u.del_flag,birthday,dept_number,phone,address,region,net, u.remark,
+    u.create_name, u.create_time, u.update_name, u.update_time
+  </sql>
+
   <sql id="QUERY">
     <where>
       <if test="name != null and name != ''">
@@ -99,7 +104,7 @@
     </select>
     <select id="selectManager" resultMap="BaseResultMap">
       select
-      <include refid="Base_Column_List"/>
+      <include refid="Base_Column_List1"/>
       FROM
         sys_user u
         INNER JOIN sys_user_role ur ON u.id = ur.user_id
