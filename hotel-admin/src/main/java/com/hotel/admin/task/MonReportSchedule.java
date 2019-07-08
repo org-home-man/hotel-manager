@@ -1,5 +1,6 @@
 package com.hotel.admin.task;
 
+import com.hotel.admin.constants.Constant;
 import com.hotel.admin.mapper.BizHotlMapper;
 import com.hotel.admin.mapper.MrDetailMapper;
 import com.hotel.admin.mapper.MrSummaryMapper;
@@ -8,6 +9,7 @@ import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.model.MrDetail;
 import com.hotel.admin.model.MrSummary;
 import com.hotel.admin.model.WrDetail;
+import com.hotel.admin.websocket.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -71,6 +73,7 @@ public class MonReportSchedule {
             monReportMapper.impMonDeptData(mrDetail);
             //将酒店名称更新进表
             monReportMapper.updHotelName(mrDetail);
+            WebSocketServer.sendMessageToManager("酒店汇总月报表生成成功，请注意查看", Constant.MONTH_MES);
         }
 
         //按照用户id进行报表统计
@@ -86,6 +89,7 @@ public class MonReportSchedule {
             mrSummaryMapper.insertSelective(mrSummary);
             monReportMapper.impMonUserData(mrDetail);
             monReportMapper.updDeptInfor(mrDetail);
+            WebSocketServer.sendMessageToManager("公司汇总月报表生成成功，请注意查看", Constant.MONTH_MES);
         }
         else {
             System.out.println("mrsummary =" + mrSummary2.getReportId() );
@@ -103,6 +107,7 @@ public class MonReportSchedule {
         }
         else {
             System.out.println("mrsummary =" + mrSummary3.getReportId() );
+            WebSocketServer.sendMessageToManager("订单信息明细报表（用户）生成成功，请注意查看", Constant.MONTH_MES);
         }
         monReportMapper.updPandAmt(mrDetail);
     }
