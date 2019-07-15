@@ -274,6 +274,12 @@
 			<if test="status != null and status !=''">
 				status = #{status,jdbcType=VARCHAR},
 			</if>
+			<if test="confirmName != null and confirmName !=''">
+				confirm_name = #{confirmName,jdbcType=VARCHAR},
+			</if>
+			<if test="lastCrtTime != null and lastCrtTime !=''">
+				last_crt_time = #{lastCrtTime,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>

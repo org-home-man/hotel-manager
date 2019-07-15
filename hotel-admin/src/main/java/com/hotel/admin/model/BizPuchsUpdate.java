@@ -52,6 +52,12 @@ public class BizPuchsUpdate extends BusinessEntity {
 	/** 订单状态 */
 	private String hotelName;
 
+	/** 订单确认用户 */
+	private String confirmName;
+
+	/** 确认日期 */
+	private String lastCrtTime;
+
 	private String  confirmDate;
 
 	private String local;
@@ -223,5 +229,21 @@ public class BizPuchsUpdate extends BusinessEntity {
 
 	public void setLocal(String local) {
 		this.local = local;
+	}
+
+	public String getConfirmName() {
+		return confirmName;
+	}
+
+	public void setConfirmName(String confirmName) {
+		this.confirmName = confirmName;
+	}
+
+	public String getLastCrtTime() {
+		return lastCrtTime;
+	}
+
+	public void setLastCrtTime(String lastCrtTime) {
+		this.lastCrtTime = lastCrtTime;
 	}
 }

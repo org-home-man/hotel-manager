@@ -261,6 +261,8 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         }
 
         record.setStatus(Constant.PUCHS_STAT_CONFIRM);
+        record.setLastCrtTime(DateUtils.getDateString(new Date(),"yyyyMMdd"));
+        record.setConfirmName(UserContext.getCurrentUser().getName());
         return bizPuchsMapper.puchsConfirm(record);
     }
 
