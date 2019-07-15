@@ -1,11 +1,15 @@
 package com.hotel.admin.task;
 
 import com.alibaba.druid.sql.visitor.functions.Trim;
+import com.alibaba.fastjson.JSONObject;
+import com.hotel.admin.constants.Constant;
+import com.hotel.admin.dto.SocketMessage;
 import com.hotel.admin.mapper.WrDetailMapper;
 import com.hotel.admin.mapper.WrSummaryMapper;
 import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.model.WrDetail;
 import com.hotel.admin.model.WrSummary;
+import com.hotel.admin.websocket.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -68,6 +72,9 @@ public class WeekReportSchedule {
         if(retSummary ==null) {
              wrSummaryMapper.insertSelective(wrSummary);
              weekReportMapper.impWeekData(wrDetail);
+
+            WebSocketServer.sendMessageToManager("公司分类周报表生成成功，请注意查看", Constant.WEEK_MES);
+
         }else {
             System.out.println("retSummary " + retSummary.getReportId() + retSummary.getReportSeq());
         }

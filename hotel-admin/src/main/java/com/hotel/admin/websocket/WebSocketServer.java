@@ -207,7 +207,9 @@ public class WebSocketServer {
         sysLog.setUserName(sysUser.getName());
         sysLog.setOperation(message);
         sysLog.setTime(System.currentTimeMillis());
-        sysLog.setIp(remoteAddress.getHostString());
+        if(null != remoteAddress){
+            sysLog.setIp(remoteAddress.getHostString());
+        }
         try {
             UserContext.getCurrentUser();
         }catch (GlobalException e){
