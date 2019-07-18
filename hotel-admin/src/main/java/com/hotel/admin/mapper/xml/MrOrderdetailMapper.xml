@@ -37,14 +37,14 @@
     <result column="last_crt_time" property="lastCrtTime" jdbcType="VARCHAR" />
     <result column="room_type" property="roomType" jdbcType="VARCHAR" />
     <result column="pop_num" property="popNum" jdbcType="INTEGER" />
-    <result column="order_num" property="orderNum" jdbcType="INTEGER" />
+    <result column="day_num" property="dayNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, report_id, report_month, report_seq, order_code, hotel_code, hotel_cname, hotel_ename, 
     room_code, in_date_start, out_date_end, p_name, passport, birth, phone, email_address, 
-    adult_num, child_num, c_num, room_num, currency, total_s_amount, total_t_amount, 
+    adult_num, child_num,  room_num, currency, total_s_amount, total_t_amount,
     remark, status, create_id, create_name, dept_id, dept_name, create_time, update_name, 
-    update_time, last_crt_time, room_type, pop_num, order_num
+    update_time, confirm_name,last_crt_time, room_type, pop_num, day_num
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -52,4 +52,29 @@
     from mr_orderdetail
     where id = #{id,jdbcType=BIGINT}
   </select>
+
+  <sql id="Select_Column_List" >
+   bp.order_code, h.hotel_code,h.hotel_cname, h.hotel_ename, bp.room_code, bp.in_date_start, bp.out_date_end, bp.p_name, bp.passport, bp.birth, bp.phone, bp.email_address,
+   bp.adult_num, bp.child_num, bp.room_num, bp.currency, bp.total_s_amount,bp.total_t_amount, bp.remark, bp.status, bp.create_id, bp.create_name,
+   pt.id, pt.name, bp.create_time, bp.update_name, bp.update_time, bp.confirm_name, bp.last_crt_time, r.room_type,(bp.adult_num + bp.child_num),(TO_DAYS(bp.out_date_end) - TO_DAYS(bp.in_date_start))
+  </sql>
+
+  <insert id="impMrOrderdetailData" parameterType="com.hotel.admin.model.MrOrderdetail" >
+
+    insert into mr_orderdetail( <include refid="Base_Column_List"/> )
+    SELECT bp.id, #{reportId}, #{reportMonth}, #{reportSeq},
+    <include refid="Select_Column_List"/>  from
+    biz_room r JOIN biz_puchs bp  ON r.room_code=bp.room_code
+    JOIN biz_hotl h ON r.hotel_code =h.hotel_code JOIN sys_user s ON bp.create_id=s.id
+    join sys_dept pt on pt.id = s.dept_id
+    where  1=1
+    <if test="createTimeEnd != null and createTimeEnd != ''">
+      AND bp.create_time  &lt;=  DATE_FORMAT(#{createTimeEnd}, '%Y-%m-%d %H:%i:%S')
+    </if>
+    <if test="createTimeStart != null and createTimeStart != ''">
+      AND  bp.create_time  >= DATE_FORMAT(#{createTimeStart}, '%Y-%m-%d %H:%i:%S')
+    </if>
+
+  </insert>
+
 </mapper>

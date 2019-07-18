@@ -13,7 +13,9 @@ import java.util.List;
 public interface MrDetailMapper extends AbstractMapper<MrDetail> {
     int impMonDeptData(MrDetail mrDetail);
     int impMonUserData(MrDetail mrDetail);
+    int impMonDeptHotelData(MrDetail mrDetail);
     int updDeptInfor(MrDetail mrDetail);
+    int updDeptInforNew(MrDetail mrDetail);
     int updHotelName(MrDetail mrDetail);
     int updPandAmt(MrDetail mrDetail);
 

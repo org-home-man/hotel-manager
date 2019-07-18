@@ -176,7 +176,35 @@ public class MrOrderdetail extends Entity {
     /**
      * 
      */
-    private Integer orderNum;
+    private Integer dayNum;
+
+    private String createTimeStart;
+
+    private String createTimeEnd;
+
+    public Integer getDayNum() {
+        return dayNum;
+    }
+
+    public void setDayNum(Integer dayNum) {
+        this.dayNum = dayNum;
+    }
+
+    public String getCreateTimeStart() {
+        return createTimeStart;
+    }
+
+    public void setCreateTimeStart(String createTimeStart) {
+        this.createTimeStart = createTimeStart;
+    }
+
+    public String getCreateTimeEnd() {
+        return createTimeEnd;
+    }
+
+    public void setCreateTimeEnd(String createTimeEnd) {
+        this.createTimeEnd = createTimeEnd;
+    }
 
     /**
      * 
@@ -722,19 +750,4 @@ public class MrOrderdetail extends Entity {
         this.popNum = popNum;
     }
 
-    /**
-     * 
-     * @return order_num 
-     */
-    public Integer getOrderNum() {
-        return orderNum;
-    }
-
-    /**
-     * 
-     * @param orderNum 
-     */
-    public void setOrderNum(Integer orderNum) {
-        this.orderNum = orderNum;
-    }
 }

@@ -1,14 +1,8 @@
 package com.hotel.admin.task;
 
 import com.hotel.admin.constants.Constant;
-import com.hotel.admin.mapper.BizHotlMapper;
-import com.hotel.admin.mapper.MrDetailMapper;
-import com.hotel.admin.mapper.MrSummaryMapper;
-import com.hotel.admin.mapper.WrDetailMapper;
-import com.hotel.admin.model.BizHotl;
-import com.hotel.admin.model.MrDetail;
-import com.hotel.admin.model.MrSummary;
-import com.hotel.admin.model.WrDetail;
+import com.hotel.admin.mapper.*;
+import com.hotel.admin.model.*;
 import com.hotel.admin.websocket.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,8 +22,11 @@ public class MonReportSchedule {
 
     @Autowired(required=false)
     private MrSummaryMapper mrSummaryMapper;
-//    @Scheduled(fixedRate = 1000*200) //每15s执行一次
-    @Scheduled(cron = "0 0 2 1 * ?") //每月1上午02：:0触发 
+
+    @Autowired(required=false)
+    private MrOrderdetailMapper mrOrderdetailMapper;
+    @Scheduled(fixedRate = 1000*200) //每15s执行一次
+//    @Scheduled(cron = "0 0 2 1 * ?") //每月1上午02：:0触发 
 //    @Scheduled(cron = "0 0 13 21 * ?") //每月1上午02：:0触发 
 
 
@@ -41,9 +38,9 @@ public class MonReportSchedule {
         //获取前七天一周的时间
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(curDate);
-        calendar.add(Calendar.DAY_OF_MONTH,-1);
+        calendar.add(Calendar.DAY_OF_MONTH,0);
         String dateEnd = fmt.format(calendar.getTime());
-        calendar.add(Calendar.DAY_OF_MONTH,1);
+       // calendar.add(Calendar.DAY_OF_MONTH,0);
         calendar.add(Calendar.MONTH,-1);
         String dateStart = fmt.format(calendar.getTime());
         System.out.println("报表生成时间范围" + dateStart +"  "+ dateEnd);
@@ -53,28 +50,69 @@ public class MonReportSchedule {
 
         mrDetail.setCreateTimeStart(dateStart);
         mrDetail.setCreateTimeEnd(dateEnd);
-        //按“所属公司”产生本周内发生的订单信息报表
-        mrDetail.setReportId(lastYear + "R0005");
-        mrSummary.setReportId(lastYear+"R0005");
+
         //获取月份
         String lastMonth = dateStart.substring(4,6);
         System.out.println("lastMonth=" +lastMonth);
         mrDetail.setReportMonth(lastMonth);
         mrSummary.setReportMonth(lastMonth);
 
-        mrDetail.setReportSeq("1");
-        mrSummary.setReportSeq("1");
-        mrSummary.setReportTxt("订单信息-酒店汇总月报表");
-        MrSummary mrSummary1 = mrSummaryMapper.selectOne(mrSummary);
+        mrDetail.setReportSeq("0");
+        mrSummary.setReportSeq("0");
+
+        //月报明细表数据生成
+        mrSummary.setReportId(lastYear+"R0006");
+        mrSummary.setReportTxt("（管）订单月度明细表");
+        mrSummary.setId(null);
+        mrSummary.setCreatTime(null);
+        MrSummary mrSummary4 = mrSummaryMapper.selectOne(mrSummary);
         mrSummary.setCreatTime(curDateStr);
-        if (mrSummary1 == null)
+        MrOrderdetail mrOrderdetail =new MrOrderdetail();
+        mrOrderdetail.setReportId(lastYear+"R0006");
+        mrOrderdetail.setReportMonth(lastMonth);
+        mrOrderdetail.setReportSeq("0");
+        mrOrderdetail.setCreateTimeStart(dateStart);
+        mrOrderdetail.setCreateTimeEnd(dateEnd);
+        if (mrSummary4  == null) {
+            mrSummaryMapper.insertSelective(mrSummary);
+            mrOrderdetailMapper.impMrOrderdetailData(mrOrderdetail);
+            WebSocketServer.sendMessageToManager("（管）订单月度明细表", Constant.MONTH_MES);
+        }
+
+        //按照公司与酒店来统计数据
+        mrDetail.setReportId(lastYear+"R0005");
+        mrSummary.setReportId(lastYear+"R0005");
+        mrSummary.setReportTxt("（管）酒店对账月度统计表");
+        mrSummary.setId(null);
+        mrSummary.setCreatTime(null);
+        MrSummary mrSummary8 = mrSummaryMapper.selectOne(mrSummary);
+        mrSummary.setCreatTime(curDateStr);
+        if (mrSummary8  == null)
         {
             mrSummaryMapper.insertSelective(mrSummary);
-            monReportMapper.impMonDeptData(mrDetail);
-            //将酒店名称更新进表
+            monReportMapper.impMonDeptHotelData(mrDetail);
+            monReportMapper.updDeptInforNew(mrDetail);
             monReportMapper.updHotelName(mrDetail);
-            WebSocketServer.sendMessageToManager("酒店汇总月报表生成成功，请注意查看", Constant.MONTH_MES);
+            WebSocketServer.sendMessageToManager("（管）酒店对账月度统计表生成成功，请注意查看", Constant.MONTH_MES);
         }
+        else {
+            System.out.println("mrsummary =" + mrSummary8.getReportId() );
+        }
+
+        //按“所属公司”产生本周内发生的订单信息报表
+//        mrDetail.setReportId(lastYear + "R0005");
+//        mrSummary.setReportId(lastYear+"R0005");
+//        mrSummary.setReportTxt("订单信息-酒店汇总月报表");
+//        MrSummary mrSummary1 = mrSummaryMapper.selectOne(mrSummary);
+//        mrSummary.setCreatTime(curDateStr);
+//        if (mrSummary1 == null)
+//        {
+//            mrSummaryMapper.insertSelective(mrSummary);
+//            monReportMapper.impMonDeptData(mrDetail);
+//            //将酒店名称更新进表
+//            monReportMapper.updHotelName(mrDetail);
+//            WebSocketServer.sendMessageToManager("酒店汇总月报表生成成功，请注意查看", Constant.MONTH_MES);
+//        }
 
         //按照用户id进行报表统计
         mrDetail.setReportId(lastYear+"R0004");
@@ -109,6 +147,8 @@ public class MonReportSchedule {
             System.out.println("mrsummary =" + mrSummary3.getReportId() );
             WebSocketServer.sendMessageToManager("订单信息明细报表（用户）生成成功，请注意查看", Constant.MONTH_MES);
         }
+
+        //mrOrderdetailMapper.
         monReportMapper.updPandAmt(mrDetail);
     }
 }

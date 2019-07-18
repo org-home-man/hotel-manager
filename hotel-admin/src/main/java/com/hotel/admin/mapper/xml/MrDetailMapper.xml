@@ -47,6 +47,11 @@
     order_num,room_num,total_sell_amt,total_settlement_amt, status
   </sql>
 
+  <sql id="Dept_Hotel_Column_List" >
+     report_id, report_month, report_seq,hotel_code,dept_id,
+    order_num,room_num,total_sell_amt,total_settlement_amt, status,day_num
+  </sql>
+
   <insert id="impMonDeptData" parameterType="com.hotel.admin.model.MrDetail" >
     insert into mr_detail  ( <include refid="Dept_Column_List"/> )
     SELECT #{reportId}, #{reportMonth}, #{reportSeq},
@@ -77,12 +82,43 @@
     group by create_id,create_name,status
   </insert>
 
+  <!--create_id,create_name,hotel_code,dept_id,dept_name,hotel_cname,hotel_ename,-->
+  <insert id="impMonDeptHotelData" parameterType="com.hotel.admin.model.MrDetail" >
+    insert into mr_detail  ( <include refid="Dept_Hotel_Column_List"/> )
+    SELECT #{reportId}, #{reportMonth}, #{reportSeq},hotel_code,dept_id,
+     count(hotel_code),  sum(room_num),  sum(total_s_amount), sum(total_t_amount),status,sum(day_num)
+    from mr_orderdetail
+    where  1=1
+    <if test="createTimeEnd != null and createTimeEnd != ''">
+      and create_time  &lt;=  DATE_FORMAT(#{createTimeEnd}, '%Y-%m-%d %H:%i:%S')
+    </if>
+    <if test="createTimeStart != null and createTimeStart != ''">
+      AND  create_time  >= DATE_FORMAT(#{createTimeStart}, '%Y-%m-%d %H:%i:%S')
+    </if>
+    group by hotel_code,dept_id, status
+  </insert>
+
+
   <update id="updDeptInfor" parameterType="com.hotel.admin.model.MrDetail">
     update  mr_detail a, sys_user b, sys_dept c
     <set>
       a.dept_id = b.dept_id, a.dept_name = c.name
     </set>
-    where a.create_id = b.id and b.dept_id = c.id and a.report_id like '%R0004%'
+    where a.create_id = b.id and b.dept_id = c.id
+    <if test="reportMonth != null and reportSeq != ''">
+      AND  report_month  = #{reportMonth,jdbcType=VARCHAR}
+    </if>
+    <if test="reportSeq != null and reportSeq != ''">
+      AND  report_seq  = #{reportSeq,jdbcType=VARCHAR}
+    </if>
+  </update>
+
+  <update id="updDeptInforNew" parameterType="com.hotel.admin.model.MrDetail">
+    update  mr_detail a, sys_dept c
+    <set>
+       a.dept_name = c.name
+    </set>
+    where  a.dept_id = c.id
     <if test="reportMonth != null and reportSeq != ''">
       AND  report_month  = #{reportMonth,jdbcType=VARCHAR}
     </if>
@@ -96,7 +132,7 @@
     <set>
       a.hotel_cname = b.hotel_cname, a.hotel_ename = b.hotel_ename
     </set>
-    where a.hotel_code = b.hotel_code  and a.report_id like '%R0005%'
+    where a.hotel_code = b.hotel_code
     <if test="reportMonth != null and reportSeq != ''">
       AND  a.report_month  = #{reportMonth,jdbcType=VARCHAR}
     </if>
