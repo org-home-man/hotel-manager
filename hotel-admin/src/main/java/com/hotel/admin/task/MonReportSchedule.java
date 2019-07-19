@@ -25,8 +25,8 @@ public class MonReportSchedule {
 
     @Autowired(required=false)
     private MrOrderdetailMapper mrOrderdetailMapper;
-    @Scheduled(fixedRate = 1000*200) //每15s执行一次
-//    @Scheduled(cron = "0 0 2 1 * ?") //每月1上午02：:0触发 
+//    @Scheduled(fixedRate = 1000*200) //每15s执行一次
+    @Scheduled(cron = "0 0 2 1 * ?") //每月1上午02：:0触发 
 //    @Scheduled(cron = "0 0 13 21 * ?") //每月1上午02：:0触发 
 
 

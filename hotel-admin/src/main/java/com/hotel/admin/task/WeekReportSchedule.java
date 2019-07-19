@@ -28,8 +28,8 @@ public class WeekReportSchedule {
     @Autowired(required=false)
     private WrSummaryMapper wrSummaryMapper;
 
-    @Scheduled(fixedRate = 1000*200) //每15s执行一次
-//    @Scheduled(cron = "0 30 01 ? * MON") //每周1上午01:30触发 
+//    @Scheduled(fixedRate = 1000*200) //每15s执行一次
+    @Scheduled(cron = "0 30 01 ? * MON") //每周1上午01:30触发 
 
     public void weekReport() throws ParseException {
          SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
