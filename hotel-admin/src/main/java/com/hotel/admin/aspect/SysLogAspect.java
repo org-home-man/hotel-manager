@@ -21,6 +21,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
 
@@ -60,7 +61,11 @@ public class SysLogAspect {
 		String params = "";
 		if (joinPoint.getArgs()!=null&&joinPoint.getArgs().length>0){
 			for (int i = 0; i < joinPoint.getArgs().length; i++) {
-				params+= JSONObject.toJSONString(joinPoint.getArgs()[i])+";";
+				Object arg = joinPoint.getArgs()[i];
+				if(arg instanceof HttpServletResponse || arg instanceof HttpServletRequest){
+					continue;
+				}
+				params+= JSONObject.toJSONString(arg)+";";
 			}
 		}
 
