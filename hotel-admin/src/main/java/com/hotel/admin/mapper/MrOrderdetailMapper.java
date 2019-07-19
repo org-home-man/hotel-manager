@@ -8,4 +8,5 @@ public interface MrOrderdetailMapper {
      * @mbggenerated 2019-07-15
      */
     MrOrderdetail selectByPrimaryKey(Long id);
+    int impMrOrderdetailData(MrOrderdetail MrOrderdetail);
 }

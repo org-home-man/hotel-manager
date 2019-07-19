@@ -28,8 +28,8 @@ public class WeekReportSchedule {
     @Autowired(required=false)
     private WrSummaryMapper wrSummaryMapper;
 
-//    @Scheduled(fixedRate = 1000*200) //每15s执行一次
-    @Scheduled(cron = "0 30 01 ? * MON") //每周1上午01:30触发 
+    @Scheduled(fixedRate = 1000*200) //每15s执行一次
+//    @Scheduled(cron = "0 30 01 ? * MON") //每周1上午01:30触发 
 
     public void weekReport() throws ParseException {
          SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
@@ -78,5 +78,32 @@ public class WeekReportSchedule {
         }else {
             System.out.println("retSummary " + retSummary.getReportId() + retSummary.getReportSeq());
         }
+
+        wrSummary.setReportId(lastYear+"R0003");
+        wrSummary.setId(null);
+        wrSummary.setCreatTime(null);
+        wrSummary.setReportTxt("订单信息-酒店分类周报表(管理员）");
+        WrSummary retSummary1 = wrSummaryMapper.selectOne(wrSummary);
+        wrSummary.setCreatTime(curDateStr);
+        if(retSummary1 ==null) {
+            wrSummaryMapper.insertSelective(wrSummary);
+            WebSocketServer.sendMessageToManager("订单信息-酒店分类周报表(管理员），请注意查看", Constant.WEEK_MES);
+        }else {
+            System.out.println("retSummary " + retSummary.getReportId() + retSummary.getReportSeq());
+        }
+
+        wrSummary.setReportId(lastYear+"R0007");
+        wrSummary.setId(null);
+        wrSummary.setCreatTime(null);
+        wrSummary.setReportTxt("（管）订单周明细表");
+        WrSummary retSummary4 = wrSummaryMapper.selectOne(wrSummary);
+        wrSummary.setCreatTime(curDateStr);
+        if(retSummary1 ==null) {
+            wrSummaryMapper.insertSelective(wrSummary);
+            WebSocketServer.sendMessageToManager("（管）订单周明细表，请注意查看", Constant.WEEK_MES);
+        }else {
+            System.out.println("retSummary " + retSummary4.getReportId() + retSummary4.getReportSeq());
+        }
+
     }
 }
