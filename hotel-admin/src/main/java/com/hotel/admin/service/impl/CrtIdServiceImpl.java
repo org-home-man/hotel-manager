@@ -14,10 +14,6 @@ import org.springframework.stereotype.Service;
  * ---------------------------
  * 自增序列表 (CrtIdServiceImpl)         
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-05 15:23:50
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
 @Service
 public class CrtIdServiceImpl implements CrtIdService {

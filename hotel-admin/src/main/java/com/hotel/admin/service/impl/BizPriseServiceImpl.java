@@ -21,10 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
  * ---------------------------
  * 客房牌价表 (BizPriseServiceImpl)         
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-08 16:15:59
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
 @Service
 public class BizPriseServiceImpl implements BizPriseService {

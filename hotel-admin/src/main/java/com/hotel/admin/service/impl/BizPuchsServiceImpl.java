@@ -36,10 +36,6 @@ import java.util.List;
  * ---------------------------
  * 订单信息表 (BizPuchsServiceImpl)
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-30 12:29:00
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
 @Service
 public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements BizPuchsService {

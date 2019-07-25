@@ -330,5 +330,8 @@
     </if>
 
   </select>
+    <select id="selectMaxSequence" resultType="java.lang.String">
+        SELECT MAX(SUBSTR(room_code,13)) FROM `biz_room`
+    </select>
 
 </mapper>

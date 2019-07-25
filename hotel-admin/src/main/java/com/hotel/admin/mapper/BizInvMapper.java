@@ -12,10 +12,6 @@ import org.apache.ibatis.annotations.Param;
  * ---------------------------
  * 客房库存表 (BizInvMapper)         
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-08 16:15:59
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
 public interface BizInvMapper  extends AbstractMapper<BizInv> {
 

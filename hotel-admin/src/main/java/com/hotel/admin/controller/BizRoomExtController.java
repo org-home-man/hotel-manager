@@ -14,10 +14,6 @@ import java.util.List;
  * ---------------------------
  * 客房信息铺表 (BizRoomExtController)         
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-07 17:16:40
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
 @RestController
 @RequestMapping("bizRoomExt")

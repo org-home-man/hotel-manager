@@ -20,10 +20,6 @@ import com.hotel.admin.service.BizPuchsExtService;
  * ---------------------------
  * 订单信息辅助表 (BizPuchsExtController)         
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-30 12:34:59
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
 @RestController
 @RequestMapping("bizPuchsExt")

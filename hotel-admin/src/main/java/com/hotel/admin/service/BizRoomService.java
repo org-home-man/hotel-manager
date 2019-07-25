@@ -15,10 +15,6 @@ import java.util.Map;
  * ---------------------------
  * 客房信息表 (BizRoomService)         
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-01 21:00:17
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
 public interface BizRoomService extends CurdService<BizRoom> {
 

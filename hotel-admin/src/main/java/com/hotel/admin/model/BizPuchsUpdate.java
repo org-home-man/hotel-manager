@@ -6,10 +6,6 @@ import com.hotel.common.entity.BusinessEntity;
  * ---------------------------
  * 订单信息表 (BizPuchs)         
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-30 12:29:00
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
 public class BizPuchsUpdate extends BusinessEntity {
 

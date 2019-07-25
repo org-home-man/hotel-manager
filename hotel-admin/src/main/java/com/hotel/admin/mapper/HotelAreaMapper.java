@@ -11,10 +11,6 @@ import com.hotel.core.page.PageRequest;
  * ---------------------------
  * 地区码表 (HotelAreaMapper)         
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-13 16:24:13
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
 public interface HotelAreaMapper {
 

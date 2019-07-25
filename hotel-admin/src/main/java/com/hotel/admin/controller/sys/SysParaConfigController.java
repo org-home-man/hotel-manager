@@ -12,10 +12,6 @@ import java.util.List;
  * ---------------------------
  * 参数配置表 (SysParaConfigController)
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-05 11:24:49
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
 @RestController
 @RequestMapping("sysParaConfig")

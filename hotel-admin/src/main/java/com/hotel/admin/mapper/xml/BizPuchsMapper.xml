@@ -773,5 +773,8 @@
 		biz_puchs a left JOIN biz_hotl b on a.hotel_code = b.hotel_code LEFT JOIN biz_room c ON  a.room_code = c.room_code
 		WHERE a.id = #{id,jdbcType=VARCHAR}
 	</select>
+    <select id="selectMaxSequence" resultType="java.lang.String">
+		SELECT MAX(SUBSTR(order_code,13)) FROM `biz_puchs`
+	</select>
 
 </mapper>

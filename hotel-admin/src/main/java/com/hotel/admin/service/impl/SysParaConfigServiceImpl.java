@@ -20,10 +20,6 @@ import java.util.Map;
  * ---------------------------
  * 参数配置表 (SysParaConfigServiceImpl)
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-05 11:24:48
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
 @Service
 public class SysParaConfigServiceImpl extends AbstractService<SysParaConfig> implements SysParaConfigService {

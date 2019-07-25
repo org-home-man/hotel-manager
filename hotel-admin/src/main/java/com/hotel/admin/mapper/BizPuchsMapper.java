@@ -16,10 +16,6 @@ import com.hotel.core.mybatis.mapper.AbstractMapper;
  * ---------------------------
  * 订单信息表 (BizPuchsMapper)         
  * ---------------------------
- * 作者：  kitty-generator
- * 时间：  2019-04-30 12:29:00
- * 说明：  我是由代码生成器生生成的
- * ---------------------------
  */
 public interface BizPuchsMapper extends AbstractMapper<BizPuchs> {
 
@@ -39,5 +35,7 @@ public interface BizPuchsMapper extends AbstractMapper<BizPuchs> {
     List<UserRequestReportDto> userRequestReport(BizPuchsUpdate bizPuchsUpdate);
 
     List<ManagerRequestReportDto> managerRequestReport(BizPuchsUpdate bizPuchsUpdate);
+
+    String selectMaxSequence();
 
 }

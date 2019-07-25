@@ -266,6 +266,9 @@
     AND (a.hotel_cname like concat('%',#{hotelname,jdbcType=VARCHAR},'%') or a.hotel_ename  LIKE concat('%', #{hotelname,jdbcType=VARCHAR},'%'))
   </if>
   </select>
+    <select id="selectMaxSequence" resultType="java.lang.String">
+        SELECT MAX(SUBSTR(hotel_code,6)) FROM `biz_hotl`
+    </select>
 
 
 </mapper>
