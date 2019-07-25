@@ -139,6 +139,11 @@ public class BizPuchsExtDto extends BizPuchs{
     /** 酒店网址 */
     private String hotelWeb;
 
+    //订单销售房价
+    private Double totalSAmount;
+    //订单结算房价
+    private Double totalTAmount;
+
     public int getScheduledays() {
         return scheduledays;
     }
@@ -649,4 +654,23 @@ public class BizPuchsExtDto extends BizPuchs{
         this.recommended = recommended;
     }
 
+    @Override
+    public Double getTotalSAmount() {
+        return totalSAmount;
+    }
+
+    @Override
+    public void setTotalSAmount(Double totalSAmount) {
+        this.totalSAmount = totalSAmount;
+    }
+
+    @Override
+    public Double getTotalTAmount() {
+        return totalTAmount;
+    }
+
+    @Override
+    public void setTotalTAmount(Double totalTAmount) {
+        this.totalTAmount = totalTAmount;
+    }
 }
