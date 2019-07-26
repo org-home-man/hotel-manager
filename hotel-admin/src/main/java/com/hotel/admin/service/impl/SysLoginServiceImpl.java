@@ -85,6 +85,7 @@ public class SysLoginServiceImpl implements SysLoginService {
             throw new GlobalException("pwdErException");
         }
 
+        userInfoCache.clearErrorKey(username);
         UserContext.setUser(user);
 
         // 系统登录认证
