@@ -129,11 +129,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                 calendar.add(Calendar.DATE,1);
             }
 
-
-            SocketMessage message = new SocketMessage();
-            message.setType(Constant.SOCKET_ORDER_MESSAGE);
-            message.setMessage("订单号:"+record.getOrderCode());
-            WebSocketServer.sendMessage(JSONObject.toJSONString(message));
+            WebSocketServer.sendMessageToManager("订单号:"+record.getOrderCode(),Constant.ORDER_MES);
 
             return 1;
         }
