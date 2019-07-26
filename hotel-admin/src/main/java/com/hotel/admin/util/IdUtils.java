@@ -51,19 +51,19 @@ public class IdUtils {
         //酒店流水同步
         String hotelSeq = bizHotlMapper.selectMaxSequence();
         String s = redisCacheTemplate.get(HOTEL_CODE);
-        if(null == s){
+        if(null == s && null!=hotelSeq){
             redisCacheTemplate.set(HOTEL_CODE,String.valueOf(Integer.valueOf(hotelSeq)));
         }
         //客房流水同步
         String roomSeq = bizRoomMapper.selectMaxSequence();
         String s1 = redisCacheTemplate.get(ROOM_CODE);
-        if(s1 == null){
+        if(s1 == null && null!=roomSeq){
             redisCacheTemplate.set(ROOM_CODE, String.valueOf(Integer.valueOf(roomSeq)));
         }
         //订单流水同步
         String orderSeq = bizPuchsMapper.selectMaxSequence();
         String s2 = redisCacheTemplate.get(ORDER_CODE);
-        if(s2 == null){
+        if(s2 == null && null!=orderSeq){
             redisCacheTemplate.set(ORDER_CODE,String.valueOf(Integer.valueOf(orderSeq)));
         }
     }
