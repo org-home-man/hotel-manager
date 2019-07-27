@@ -2,17 +2,22 @@ package com.hotel.admin.task;
 
 import com.hotel.admin.constants.Constant;
 import com.hotel.admin.dto.DateRangeDto;
+import com.hotel.admin.dto.SysDictDto;
 import com.hotel.admin.mapper.BizPuchsMapper;
 import com.hotel.admin.mapper.BizRecommendRoomMapper;
+import com.hotel.admin.mapper.SysDictMapper;
 import com.hotel.admin.model.BizRecommendRoom;
+import com.hotel.admin.model.SysDict;
 import com.hotel.admin.qo.BizPuchsStatusUpdate;
 import com.hotel.common.utils.Utils;
+import com.hotel.core.exception.GlobalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -27,8 +32,8 @@ public class DailySchedule {
     @Autowired
     private BizRecommendRoomMapper bizRecommendRoomMapper;
 
-    @Value("${allow.system.days}")
-    private int systemDays;
+    @Autowired
+    private SysDictMapper sysDictMapper;
 
 
     /*
@@ -60,7 +65,7 @@ public class DailySchedule {
         inserOrUpdateRecommend(bizRecommendRoom);
 
         //更新订单状态
-        String sysDate = getSystemDate();
+        String sysDate = getSystemDate(getSystemParams());
         BizPuchsStatusUpdate bizPuchsStatusUpdate = new BizPuchsStatusUpdate();
         bizPuchsStatusUpdate.setInDateStart(sysDate);
         bizPuchsStatusUpdate.setOldStatus(Constant.PUCHS_STAT_NO_CONFIRM);
@@ -112,7 +117,10 @@ public class DailySchedule {
     /*
     获取当前日期+天数 的日期
      */
-    private String getSystemDate() {
+    private String getSystemDate(int systemDays) {
+        if (Utils.isEmpty(systemDays)) {
+            throw new GlobalException("sysException");
+        }
         SimpleDateFormat sdf =  new SimpleDateFormat("yyyyMMdd");
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -122,5 +130,19 @@ public class DailySchedule {
         return dateString;
     }
 
+    /*
+    获取系统参数
+     */
+    private int getSystemParams() {
+        List<SysDictDto> dict = sysDictMapper.findByCode("SYSTEM_DAYS","1");
+        if (dict.size() < 1) {
+            throw new GlobalException("sysExcetpion");
+        }
 
+        try{
+            return Integer.parseInt(dict.get(0).getCode());
+        }catch (Exception e) {
+            throw new GlobalException("sysExcetpion");
+        }
+    }
 }
