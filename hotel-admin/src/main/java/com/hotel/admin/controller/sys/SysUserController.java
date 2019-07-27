@@ -42,7 +42,7 @@ public class SysUserController {
 			if(user == null) {
 				// 新增用户
 				if(sysUserService.findByName(record.getName()) != null) {
-                    throw new GlobalException("noEdit");
+                    throw new GlobalException("userInfoHav");
 				}
 				String password = PasswordUtils.encode(record.getPassword(), salt);
 				record.setSalt(salt);
