@@ -1,6 +1,8 @@
 package com.hotel.admin.service.impl;
 
 import com.hotel.admin.mapper.SysDeptMapper;
+import com.hotel.admin.mapper.SysUserMapper;
+import com.hotel.admin.model.SysUser;
 import com.hotel.admin.service.SysDeptService;
 import com.hotel.admin.model.SysDept;
 import com.hotel.core.annotation.SystemServiceLog;
@@ -23,6 +25,9 @@ public class SysDeptServiceImpl extends AbstractService<SysDept> implements SysD
 
 	@Autowired
 	private SysDeptMapper sysDeptMapper;
+
+	@Autowired
+	private SysUserMapper sysUserMapper;
 
 	@Override
 	@SystemServiceLog(description = "机构新增/编辑（业务层）")
@@ -50,14 +55,17 @@ public class SysDeptServiceImpl extends AbstractService<SysDept> implements SysD
 	@Override
 	@SystemServiceLog(description = "机构删除（业务层）")
 	public int deleteBatch(List<SysDept> records) {
-		try {
-			for(SysDept record:records) {
-				delete(record);
-			}
-		}catch (Exception e) {
-			throw new GlobalException("oraException");
-		}
+		SysUser sysUser = new SysUser();
 
+
+		for(SysDept record:records) {
+			sysUser.setDeptId(record.getId());
+			List<SysUser> li = sysUserMapper.findByDeptId(sysUser);
+			if (li.size() > 0) {
+				throw new GlobalException("havUserNoDelete");
+			}
+			delete(record);
+		}
 		return 1;
 
 	}

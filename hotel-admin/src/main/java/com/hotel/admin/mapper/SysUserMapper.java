@@ -26,4 +26,6 @@ public interface SysUserMapper extends AbstractMapper<SysUser>{
     void deleteByIds(List<Long> ids);
 
     List<SysUser> selectManager();
+
+    List<SysUser> findByDeptId(SysUser user);
 }
