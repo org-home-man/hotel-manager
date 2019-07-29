@@ -134,7 +134,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             return 1;
         }
 
-        bizPuchsMapper.updateByPrimaryKey(record);
+        bizPuchsMapper.updateByPrimaryKeySelective(record);
 
         for (int i = 0 ; i < days ; i++) {
 
