@@ -143,6 +143,8 @@ public class BizPuchsExtDto extends BizPuchs{
     private Double totalSAmount;
     //订单结算房价
     private Double totalTAmount;
+    //标志
+    private String mark;
 
     public int getScheduledays() {
         return scheduledays;
@@ -672,5 +674,13 @@ public class BizPuchsExtDto extends BizPuchs{
     @Override
     public void setTotalTAmount(Double totalTAmount) {
         this.totalTAmount = totalTAmount;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
     }
 }
