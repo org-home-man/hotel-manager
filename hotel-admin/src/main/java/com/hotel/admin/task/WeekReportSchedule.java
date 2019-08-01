@@ -43,6 +43,10 @@ public class WeekReportSchedule {
         String dateEnd = fmt.format(calendar.getTime());
         calendar.add(Calendar.DAY_OF_MONTH,-7);
         String dateStart = fmt.format(calendar.getTime());
+        //获取报表第几周
+        int week = calendar.get(Calendar.WEEK_OF_MONTH);
+        System.out.println("week=" +String.valueOf(week) +"week");
+
         calendar.add(Calendar.DAY_OF_MONTH,6);
         String lastDate =  fmt.format(calendar.getTime());
         //获取年份
@@ -59,9 +63,7 @@ public class WeekReportSchedule {
         System.out.println("lastMonth=" +lastMonth);
         wrDetail.setReportMonth(lastMonth);
         wrSummary.setReportMonth(lastMonth);
-        //获取报表第几周
-        int week = calendar.get(Calendar.WEEK_OF_MONTH);
-        System.out.println("week=" +String.valueOf(week) +"week");
+
 
         wrSummary.setReportSeq(String.valueOf(week));
         wrDetail.setReportSeq(String.valueOf(week));
