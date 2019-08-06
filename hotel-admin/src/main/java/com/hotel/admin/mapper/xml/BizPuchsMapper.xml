@@ -83,6 +83,7 @@
 	<result column="isbus" jdbcType="VARCHAR" property="isbus" />
 	<result column="istrafic" jdbcType="VARCHAR" property="istrafic" />
 	<result column="isrestau" jdbcType="VARCHAR" property="isrestau" />
+	  <result column="mark" jdbcType="VARCHAR" property="mark" />
   </resultMap>
 
 	<resultMap id="r0001ReportMap" type="com.hotel.admin.dto.MrR0001DetailDto">
@@ -181,7 +182,8 @@
 		select bp.*,
 			<include refid="room_sql"/>,
 			<include refid="room_ext_sql"/>,
-			<include refid="hotel_sql"/>
+			<include refid="hotel_sql"/>,
+			IFNULL(#{createName},'1')  mark
 		from
 		    biz_room r JOIN biz_puchs bp  ON r.room_code=bp.room_code
 			JOIN biz_hotl h ON r.hotel_code =h.hotel_code

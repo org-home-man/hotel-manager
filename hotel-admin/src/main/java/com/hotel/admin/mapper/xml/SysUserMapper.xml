@@ -112,4 +112,13 @@
       WHERE
         r.is_manager = '1'
     </select>
+
+  <select id="findByDeptId" parameterType="com.hotel.admin.model.SysUser" resultMap="BaseResultMap">
+    select * from sys_user
+    where dept_id = #{deptId,jdbcType=VARCHAR}
+    AND del_flag = 0
+  </select>
+
+
+
 </mapper>
