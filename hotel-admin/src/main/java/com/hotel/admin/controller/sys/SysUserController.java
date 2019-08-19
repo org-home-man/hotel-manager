@@ -73,8 +73,7 @@ public class SysUserController {
 		sysUserService.delete(records);
 		return HttpResult.ok();
 	}
-	
-//	@PreAuthorize("hasAuthority('sys:user:view')")
+
 	@PostMapping(value="/findByName")
 	public HttpResult findByUserName(String name) {
 		return HttpResult.ok(sysUserService.findByName(name));

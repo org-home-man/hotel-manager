@@ -1,6 +1,7 @@
 package com.hotel.admin.controller;
 
 import com.hotel.admin.dto.HotelRoomQry;
+import com.hotel.admin.dto.RecommendRoomQuery;
 import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.model.BizRoom;
 import com.hotel.admin.model.SysUser;
@@ -65,8 +66,8 @@ public class HotelRoomController {
     }
 
     @PostMapping(value="/findCustroomInfo")
-    public HttpResult findCustroomInfo() {
-        return HttpResult.ok(hotelRoomService.findCustroomInfo());
+    public HttpResult findCustroomInfo(RecommendRoomQuery recommendRoomQuery) {
+        return HttpResult.ok(hotelRoomService.findCustroomInfo(recommendRoomQuery));
     }
 
 }

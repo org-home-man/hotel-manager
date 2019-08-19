@@ -56,8 +56,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 antMatchers("/").permitAll().
                 antMatchers("/login").permitAll().
                 antMatchers("/img/**").permitAll().
+
                 antMatchers("/document/preview/**").permitAll().
                 antMatchers("/document/queryByRelId/**").permitAll().
+                antMatchers("/user/findByName").permitAll().
                 // 验证码
                 antMatchers("/captcha.jpg**").permitAll()
                 // 服务监控

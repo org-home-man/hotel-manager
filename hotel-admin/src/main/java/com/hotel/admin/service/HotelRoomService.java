@@ -1,6 +1,7 @@
 package com.hotel.admin.service;
 
 import com.hotel.admin.dto.HotelRoomQry;
+import com.hotel.admin.dto.RecommendRoomQuery;
 import com.hotel.admin.model.BizHotl;
 import com.hotel.admin.model.BizRecommendRoom;
 import com.hotel.admin.model.BizRoom;
@@ -25,5 +26,5 @@ public interface HotelRoomService extends IService<BizRoom> {
 
     List<BizHotl> findLikeByName(String name);
 
-    List<BizRecommendRoom> findCustroomInfo();
+    List<BizRecommendRoom> findCustroomInfo(RecommendRoomQuery findCustroomInfo);
 }

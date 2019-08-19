@@ -2,6 +2,7 @@ package com.hotel.admin.service.impl;
 
 import com.hotel.admin.dto.HotelRoomDto;
 import com.hotel.admin.dto.HotelRoomQry;
+import com.hotel.admin.dto.RecommendRoomQuery;
 import com.hotel.admin.mapper.BizRecommendRoomMapper;
 import com.hotel.admin.mapper.BizRoomMapper;
 import com.hotel.admin.mapper.HotelRoomMapper;
@@ -72,16 +73,22 @@ public class HotelRoomServiceImpl extends AbstractService<BizRoom> implements Ho
 	用于查询三个广告位的客房
 	 */
 	@Override
-	public List<BizRecommendRoom> findCustroomInfo() {
+	public List<BizRecommendRoom> findCustroomInfo(RecommendRoomQuery recommendRoomQuery) {
 		BizRecommendRoom recoRoom = new BizRecommendRoom();
 		List<BizRoom> bizList =  bizRoomMapper.findByRecommend();
 		if ( bizList.size() > 0 ) {
 			BizRoom br = bizList.get(0);
 			recoRoom.setRoomCode(br.getRoomCode());
+			if ("1".equals( recommendRoomQuery.getLocal() )) {
+				recoRoom.setRemark( br.getHotelName()+" 酒店 "+br.getRoomType()+" 客房促销中");
+			} else {
+				recoRoom.setRemark( br.getHotelName()+" hotel "+br.getRoomType()+" Promotion ");
+			}
+
 		}
 		recoRoom.setCustroomType("03");
 
-		List<BizRecommendRoom> li = bizRecommendRoomMapper.selectAll();
+		List<BizRecommendRoom> li = bizRecommendRoomMapper.findRecommendInfo(recommendRoomQuery);
 		li.add(recoRoom);
 		return li;
 	}

@@ -6,8 +6,73 @@
     <result column="room_code" jdbcType="VARCHAR" property="roomCode" />
     <result column="custroom_type" jdbcType="VARCHAR" property="custroomType" />
   </resultMap>
+  <resultMap id="QueryResultMap" type="com.hotel.admin.model.BizRecommendRoom">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="room_code" jdbcType="VARCHAR" property="roomCode" />
+    <result column="custroom_type" jdbcType="VARCHAR" property="custroomType" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
   <sql id="Base_Column_List">
     id, room_code,custroom_type
   </sql>
+
+  <select id="findRecommendInfo" parameterType="com.hotel.admin.dto.RecommendRoomQuery"  resultMap="QueryResultMap">
+    select
+      t.room_code,
+      t.custroom_type,
+      (
+      case
+       WHEN t.custroom_type = '01'
+       THEN
+          (
+           case
+               when #{local,jdbcType=VARCHAR} = '1'
+               then concat(t.hotel_name, ' 酒店 ',t.room_type,' 客房价格低至 ',t.s_room_price,' 元')
+               else concat(t.hotel_name, ' hotel ',t.room_type,' ,the lowest price of ',t.s_room_price)
+         END
+          )
+       ELSE
+        (
+           case
+               when #{local,jdbcType=VARCHAR} = '1'
+               then concat(t.hotel_name, ' 酒店 ',t.room_type,' 客房好评不断，人气爆棚')
+               else concat(t.hotel_name, ' hotel ',t.room_type,' is highly praised and popularity is booming' )
+         END
+          )
+      END
+      ) remark
+      from
+      (select
+      a.room_code room_code,
+      a.custroom_type custroom_type,
+
+      (case
+          when #{local,jdbcType=VARCHAR} =	'1'
+          then c.hotel_cname
+          ELSE c.hotel_ename
+          END
+      ) hotel_name,
+
+      (
+          select
+          (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+          THEN w.cn_name
+          ELSE w.en_name
+          END
+          )
+          from sys_dict z join sys_dict w on z.id = w.parent_id
+          where z.code = 'ROOM_TYPE' and w.code = b.room_type
+      )  room_type,
+      d.s_room_price s_room_price
+
+
+      from biz_recommend_room a
+      LEFT JOIN biz_room b
+      on a.room_code = b.room_code
+      left join biz_hotl c
+      on b.hotel_code = c.hotel_code
+      left join biz_prise d
+      on a.room_code = d.room_code AND d.price_date = date_format(SYSDATE(),'%Y%m%d') ) t
+  </select>
 
 </mapper>

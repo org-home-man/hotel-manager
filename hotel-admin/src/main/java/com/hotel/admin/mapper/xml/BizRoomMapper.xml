@@ -39,6 +39,7 @@
 
     <result column="hotel_cname" jdbcType="VARCHAR" property="hotelCname" />
     <result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
+    <result column="hotel_name" jdbcType="VARCHAR" property="hotelName" />
     <result column="inventory" jdbcType="INTEGER" property="inventory" />
     <result column="auto_close" jdbcType="INTEGER" property="autoClose" />
     <result column="s_price" jdbcType="DOUBLE" property="sPrice" />
@@ -232,9 +233,27 @@
     where room_code = #{roomCode,jdbcType=VARCHAR}
   </update>
 
-  <select id="findByRecommend" resultMap="BaseResultMap">
-    select * from biz_room
-    where recommended = '01'
+  <select id="findByRecommend" parameterType="com.hotel.admin.dto.RecommendRoomQuery" resultMap="BaseResultMap">
+    select
+      a.room_code room_code,
+      (
+        select
+        (CASE WHEN #{local,jdbcType=VARCHAR} =	'1'
+        THEN w.cn_name
+        ELSE w.en_name
+        END
+        )
+        from sys_dict z join sys_dict w on z.id = w.parent_id
+        where z.code = 'ROOM_TYPE' and w.code = a.room_type
+      )  room_type,
+      (case
+        when #{local,jdbcType=VARCHAR} =	'1'
+        then b.hotel_cname
+        ELSE b.hotel_ename
+        END
+      ) hotel_name
+
+    from biz_room a left JOIN biz_hotl b on a.hotel_code = b.hotel_code and a.recommended = '01'
   </select>
 
   <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
