@@ -214,6 +214,68 @@ public class SysUserServiceImpl  implements SysUserService {
 	}
 
 	@Override
+	@Transactional
+	public int updateUserInfor(SysUserUp record) {
+		String username =  record.getUsername();
+		String pass = record.getPass();
+		String oldPass = record.getOldPass();
+		String checkPass = record.getCheckPass();
+//		if (StringUtils.isBlank(username)) {
+//			throw new GlobalException("sysException",HttpStatus.SC_INTERNAL_SERVER_ERROR);
+//		}
+//		if (StringUtils.isBlank(pass)) {
+//			throw new GlobalException("NotNullException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+//		}
+//		if (StringUtils.isBlank(oldPass)) {
+//
+//			throw new GlobalException("NotNullException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+//		}
+//		if (StringUtils.isBlank(checkPass)) {
+//
+//			throw new GlobalException("NotNullException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+//		}
+//		if (!pass.equals(checkPass)) {
+//			throw new GlobalException("NotCorrectInfoException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+//		} else {
+			SysUser sysUser = sysUserMapper.findByName(username);
+			if (sysUser == null) {
+				throw new GlobalException("sysException",HttpStatus.SC_INTERNAL_SERVER_ERROR);
+			}
+			if ( !PasswordUtils.matches(sysUser.getSalt(), oldPass, sysUser.getPassword()) ) {
+				throw new GlobalException("passErrException",HttpStatus.SC_INSUFFICIENT_BUSINESERR);
+			}
+
+//			String salt = PasswordUtils.getSalt();
+//			String password = PasswordUtils.encode(pass,salt);
+			SysUser user = new SysUser();
+			user.setName(username);
+//			user.setPassword(password);
+//			user.setSalt(salt);
+			user.setRealName(record.getRealName());
+			user.setAddress(record.getAddress());
+			user.setBirthday(record.getBirthday());
+			user.setEmail(record.getEmail());
+			user.setMobile(record.getMobile());
+			user.setNet(record.getNet());
+			user.setPhone(record.getPhone());
+			user.setRemark(record.getRemark());
+			user.setSex(record.getSex());
+			int i = 0;
+			try {
+				i = sysUserMapper.updateUserInfor(user);
+			}catch (Exception e) {
+				throw new GlobalException("oraException",HttpStatus.SC_FORBIDDEN);
+			}
+			if (i!=1) {
+				throw new GlobalException("oraException",HttpStatus.SC_FORBIDDEN);
+			}
+
+//		}
+
+		return 1;
+	}
+
+	@Override
 	public List<SysUser> findLikeByName(String name) {
 		return sysUserMapper.findLikeByName(name);
 	}

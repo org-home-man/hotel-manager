@@ -95,6 +95,56 @@
 
   </update>
 
+  <update id="updateUserInfor" parameterType="com.hotel.admin.model.SysUser" >
+    update  sys_user
+    <set>
+      <if test="real_name != null">
+        real_name = #{real_name,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="dept_number != null">
+        dept_number = #{dept_number,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        region = #{,jdbcType=VARCHAR},
+      </if>
+      <if test="net != null">
+        net = #{,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{,jdbcType=VARCHAR},
+      </if>
+      <if test="updateName != null">
+        update_name = #{updateName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where name= #{name,jdbcType=VARCHAR} and del_flag = 0
+
+  </update>
+
   <select id="findByNameAll" parameterType="java.lang.String" resultMap="BaseResultMap">
     select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u
     where u.name = #{name,jdbcType=VARCHAR}

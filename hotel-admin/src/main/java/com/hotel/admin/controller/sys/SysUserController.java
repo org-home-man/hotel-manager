@@ -105,6 +105,14 @@ public class SysUserController {
 		return HttpResult.ok();
 	}
 
+	@PostMapping(value="/updateUserInfor")
+//	@SystemControllerLog(description = "用户信息修改")
+	public HttpResult updateUserInfor(SysUserUp record) {
+		System.out.println("licy test");
+		sysUserService.updateUserInfor(record);
+		return HttpResult.ok();
+	}
+
 	@PostMapping(value = "/findLikeByName")
 	public HttpResult findLikeByName(String name){
 		List<SysUser> likeByName = sysUserService.findLikeByName(name);
