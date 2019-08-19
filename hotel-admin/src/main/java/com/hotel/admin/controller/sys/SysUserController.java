@@ -107,7 +107,7 @@ public class SysUserController {
 
 	@PostMapping(value="/updateUserInfor")
 //	@SystemControllerLog(description = "用户信息修改")
-	public HttpResult updateUserInfor(SysUserUp record) {
+	public HttpResult updateUserInfor(@RequestBody SysUserUp record) {
 		System.out.println("licy test");
 		sysUserService.updateUserInfor(record);
 		return HttpResult.ok();
