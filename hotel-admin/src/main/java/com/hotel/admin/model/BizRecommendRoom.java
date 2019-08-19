@@ -8,6 +8,8 @@ public class BizRecommendRoom extends Entity {
 
     private String custroomType;
 
+    private String remark;
+
     public String getRoomCode() {
         return roomCode;
     }
@@ -22,5 +24,13 @@ public class BizRecommendRoom extends Entity {
 
     public void setCustroomType(String custroomType) {
         this.custroomType = custroomType;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

@@ -66,6 +66,8 @@ public class BizRoom extends BusinessEntity{
 	private String cityCodeKey;
 	private String cityEname;
 	private String cityCname;
+
+	private String hotelName;
 	/** 酒店星级 */
 	private String hotelLevel;
 	/** 酒店中文名称 */
@@ -674,6 +676,14 @@ public class BizRoom extends BusinessEntity{
 
 	public void setRecommended(String recommended) {
 		this.recommended = recommended;
+	}
+
+	public String getHotelName() {
+		return hotelName;
+	}
+
+	public void setHotelName(String hotelName) {
+		this.hotelName = hotelName;
 	}
 
 	@Override
