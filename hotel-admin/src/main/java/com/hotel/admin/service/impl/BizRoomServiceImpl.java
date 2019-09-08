@@ -2,6 +2,7 @@ package com.hotel.admin.service.impl;
 
 import com.hotel.admin.dto.BizProInv;
 import com.hotel.admin.dto.BizRoomQuery;
+import com.hotel.admin.dto.RecommendRoomQuery;
 import com.hotel.admin.mapper.*;
 import com.hotel.admin.model.*;
 import com.hotel.admin.service.BizRoomService;
@@ -65,7 +66,8 @@ public class BizRoomServiceImpl implements BizRoomService {
 		检查是否推荐为空， 如果被用户选择，那就必须查询客房信息表里面是否存在推荐房源，如果有，就更新为普通，如果没有就不做操作
 		 */
 		if ("01".equals( record.getRecommended() )) {
-			List<BizRoom> reLi =  bizRoomMapper.findByRecommend();
+			RecommendRoomQuery recommendRoomQuery = new RecommendRoomQuery();
+			List<BizRoom> reLi =  bizRoomMapper.findByRecommend(recommendRoomQuery);
 			try{
                 if (reLi.size() > 0) {
                     for (int i = 0 ;i<reLi.size(); i++) {
