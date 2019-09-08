@@ -50,7 +50,7 @@ public class UserInfoCache extends RedisCacheTemplate implements Serializable {
     private static final String SECRET = "chen";
     /** redis中用户token key */
     private static final String TOKEN_KEY = "hotel:token_info";
-    private static final String USER_KEY = "hotel:user_info:";
+    public static final String USER_KEY = "hotel:user_info:";
     private static final String TIME_KEY = "hotel:act_time:"; //活动时间
     private final static String ERROR_KEY = "pwd_error_count:";// 用户密码错误数
 

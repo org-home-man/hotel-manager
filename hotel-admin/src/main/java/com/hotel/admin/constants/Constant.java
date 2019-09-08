@@ -31,6 +31,8 @@ public class Constant {
     public static final String LOGIN_EXPIRED_KEY = "loginExpired";
     //踢出用户
     public static final String REMOVE_LOGIN_KEY = "removeLogin";
+    //删除用户
+    public static final String DELETE_LOGIN_KEY = "deleteLogin";
 
     //待确认
     public static final String PUCHS_STAT_NO_CONFIRM ="1";

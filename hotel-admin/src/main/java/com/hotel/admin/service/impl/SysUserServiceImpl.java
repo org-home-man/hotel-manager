@@ -1,5 +1,8 @@
 package com.hotel.admin.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.hotel.admin.constants.Constant;
+import com.hotel.admin.dto.SocketMessage;
 import com.hotel.admin.dto.SysUserUp;
 import com.hotel.admin.mapper.SysRoleMapper;
 import com.hotel.admin.mapper.SysUserMapper;
@@ -9,10 +12,14 @@ import com.hotel.admin.model.SysRole;
 import com.hotel.admin.model.SysUser;
 import com.hotel.admin.model.SysUserRole;
 import com.hotel.admin.qo.SysUserQuery;
+import com.hotel.admin.redis.UserInfoCache;
 import com.hotel.admin.service.SysMenuService;
 import com.hotel.admin.service.SysUserService;
 import com.hotel.admin.util.PasswordUtils;
+import com.hotel.admin.websocket.WebSocketServer;
+import com.hotel.common.entity.auth.ISysUser;
 import com.hotel.common.utils.StringUtils;
+import com.hotel.common.utils.Utils;
 import com.hotel.core.annotation.SystemServiceLog;
 import com.hotel.core.context.PageContext;
 import com.hotel.core.exception.GlobalException;
@@ -21,10 +28,14 @@ import com.hotel.core.http.HttpStatus;
 import com.hotel.core.page.ColumnFilter;
 import com.hotel.core.page.Page;
 import com.hotel.core.page.PageRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.websocket.Session;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +45,8 @@ import java.util.stream.Collectors;
 @Service
 public class SysUserServiceImpl  implements SysUserService {
 
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	private SysUserMapper sysUserMapper;
 	@Autowired
@@ -42,6 +55,8 @@ public class SysUserServiceImpl  implements SysUserService {
 	private SysUserRoleMapper sysUserRoleMapper;
 	@Autowired
 	private SysRoleMapper sysRoleMapper;
+	@Autowired
+	private UserInfoCache userInfoCache;
 
 	@Transactional
 	@Override
@@ -76,6 +91,29 @@ public class SysUserServiceImpl  implements SysUserService {
 		sysUserRoleMapper.deleteByUserIds(ids);
 		//删除用户
 		sysUserMapper.deleteByIds(ids);
+
+		for (int i = 0;i<ids.size();i++) {
+			List<String> tokens =userInfoCache.sMembers(UserInfoCache.USER_KEY+ids.get(i));
+			for (String tk : tokens) {
+				userInfoCache.clearUserInfoByToken(tk);
+			}
+			//移除前提示
+			Session session = WebSocketServer.webSocketMap.get(ids.get(i));
+			if(Utils.isNotEmpty(session)){
+				try {
+					SocketMessage message = new SocketMessage();
+					message.setType(Constant.SOCKET_LOGIN_EXPIRED);
+					message.setMessage(Constant.DELETE_LOGIN_KEY);
+					session.getBasicRemote().sendText(JSONObject.toJSONString(message));
+				} catch (IOException e) {
+					logger.error("websocket通讯异常");
+				}
+			}
+			//清除前一个用户的session
+			WebSocketServer.webSocketMap.remove(ids.get(i));
+			logger.info("删除用户之后，强制登出用户：",ids.get(i));
+		}
+
 		return 1;
 	}
 
