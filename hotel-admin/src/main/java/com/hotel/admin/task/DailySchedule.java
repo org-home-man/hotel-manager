@@ -1,5 +1,6 @@
 package com.hotel.admin.task;
 
+import com.hotel.admin.aspect.SysLogAspect;
 import com.hotel.admin.constants.Constant;
 import com.hotel.admin.dto.DateRangeDto;
 import com.hotel.admin.dto.SysDictDto;
@@ -11,6 +12,8 @@ import com.hotel.admin.model.SysDict;
 import com.hotel.admin.qo.BizPuchsStatusUpdate;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.exception.GlobalException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,6 +28,8 @@ import java.util.List;
 
 @Component
 public class DailySchedule {
+
+    private static final Logger logger = LoggerFactory.getLogger(DailySchedule.class);
 
     @Autowired
     private BizPuchsMapper bizPuchsMapper;
@@ -56,12 +61,14 @@ public class DailySchedule {
         String groupCode = bizPuchsMapper.findGroupRoomCode();
         bizRecommendRoom.setRoomCode(groupCode);
         bizRecommendRoom.setCustroomType(Constant.CUSTROOM_MAXINUM);
+        logger.info("日跑批历史预定最多的客房信息："+bizRecommendRoom.getRoomCode() );
         inserOrUpdateRecommend(bizRecommendRoom);
 
         //当月价格最低的客房信息
         String lowestRoom = bizPuchsMapper.findMonthLowestRoom(getDateRange());
         bizRecommendRoom.setRoomCode(lowestRoom);
         bizRecommendRoom.setCustroomType(Constant.CUSTROOM_PRICE_LOWEST);
+        logger.info("日跑批价格最低的客房信息："+bizRecommendRoom.getRoomCode() );
         inserOrUpdateRecommend(bizRecommendRoom);
 
         //更新订单状态
@@ -105,10 +112,16 @@ public class DailySchedule {
     private DateRangeDto getDateRange() {
         DateRangeDto dto = new DateRangeDto();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        //设置月初
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH,1);
         String earlyDay = sdf.format(calendar.getTime());
-        String today = sdf.format(new Date());
+
+        //设置月末
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.add(Calendar.MONTH,1);
+        calendar1.add(Calendar.DAY_OF_MONTH,-1);
+        String today = sdf.format(calendar1.getTime());
         dto.setEarlyMonth(earlyDay);
         dto.setTodayMonth(today);
         return dto;
