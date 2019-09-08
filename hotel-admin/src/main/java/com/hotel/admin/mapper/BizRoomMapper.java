@@ -1,6 +1,7 @@
 package com.hotel.admin.mapper;
 
 import com.hotel.admin.dto.BizRoomQuery;
+import com.hotel.admin.dto.RecommendRoomQuery;
 import com.hotel.admin.model.BizRoom;
 
 import java.util.List;
@@ -58,7 +59,7 @@ public interface BizRoomMapper {
     /**
      * 查询是否存在推荐房间
      */
-    List<BizRoom> findByRecommend();
+    List<BizRoom> findByRecommend(RecommendRoomQuery recommendRoomQuery);
 
     /**
      * 根据hotelCode查询客房信息

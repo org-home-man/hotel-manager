@@ -75,7 +75,7 @@ public class HotelRoomServiceImpl extends AbstractService<BizRoom> implements Ho
 	@Override
 	public List<BizRecommendRoom> findCustroomInfo(RecommendRoomQuery recommendRoomQuery) {
 		BizRecommendRoom recoRoom = new BizRecommendRoom();
-		List<BizRoom> bizList =  bizRoomMapper.findByRecommend();
+		List<BizRoom> bizList =  bizRoomMapper.findByRecommend(recommendRoomQuery);
 		if ( bizList.size() > 0 ) {
 			BizRoom br = bizList.get(0);
 			recoRoom.setRoomCode(br.getRoomCode());
