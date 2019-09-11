@@ -72,7 +72,7 @@
       left join biz_hotl c
       on b.hotel_code = c.hotel_code
       left join biz_prise d
-      on a.room_code = d.room_code AND d.price_date = date_format(SYSDATE(),'%Y%m%d') ) t
+      on a.room_code = d.room_code WHERE d.price_date = date_format(SYSDATE(),'%Y%m%d') and b.del_flag = 0 )  t
   </select>
 
 </mapper>

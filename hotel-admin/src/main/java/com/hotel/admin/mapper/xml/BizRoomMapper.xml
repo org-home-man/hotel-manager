@@ -253,7 +253,7 @@
         END
       ) hotel_name
 
-    from biz_room a left JOIN biz_hotl b on a.hotel_code = b.hotel_code and a.recommended = '01' and a.del_flag = 0
+    from biz_room a left JOIN biz_hotl b on a.hotel_code = b.hotel_code WHERE a.recommended = '01' and a.del_flag = 0
   </select>
 
   <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">

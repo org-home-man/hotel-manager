@@ -65,11 +65,12 @@ public class DailySchedule {
         inserOrUpdateRecommend(bizRecommendRoom);
 
         //当月价格最低的客房信息
+        BizRecommendRoom bizLowestRoom = new BizRecommendRoom();
         String lowestRoom = bizPuchsMapper.findMonthLowestRoom(getDateRange());
-        bizRecommendRoom.setRoomCode(lowestRoom);
-        bizRecommendRoom.setCustroomType(Constant.CUSTROOM_PRICE_LOWEST);
-        logger.info("日跑批价格最低的客房信息："+bizRecommendRoom.getRoomCode() );
-        inserOrUpdateRecommend(bizRecommendRoom);
+        bizLowestRoom.setRoomCode(lowestRoom);
+        bizLowestRoom.setCustroomType(Constant.CUSTROOM_PRICE_LOWEST);
+        logger.info("日跑批价格最低的客房信息："+bizLowestRoom.getRoomCode() );
+        inserOrUpdateRecommend(bizLowestRoom);
 
         //更新订单状态
         String sysDate = getSystemDate(getSystemParams());
@@ -119,6 +120,7 @@ public class DailySchedule {
 
         //设置月末
         Calendar calendar1 = Calendar.getInstance();
+        calendar1.set(Calendar.DAY_OF_MONTH,1);
         calendar1.add(Calendar.MONTH,1);
         calendar1.add(Calendar.DAY_OF_MONTH,-1);
         String today = sdf.format(calendar1.getTime());

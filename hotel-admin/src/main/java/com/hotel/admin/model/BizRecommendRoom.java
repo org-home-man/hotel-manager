@@ -2,12 +2,15 @@ package com.hotel.admin.model;
 
 import com.hotel.common.entity.Entity;
 
+import javax.persistence.Transient;
+
 public class BizRecommendRoom extends Entity {
 
     private String roomCode;
 
     private String custroomType;
 
+    @Transient
     private String remark;
 
     public String getRoomCode() {
