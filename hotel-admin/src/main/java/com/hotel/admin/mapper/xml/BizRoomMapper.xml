@@ -11,23 +11,19 @@
 	<result column="bed_type" jdbcType="VARCHAR" property="bedType" />
 	<result column="break_type" jdbcType="VARCHAR" property="breakType" />
     <result column="bed_type_key" jdbcType="VARCHAR" property="bedTypeKey" />
-
 	<result column="room_area" jdbcType="DOUBLE" property="roomArea" />
 	<result column="intro_c" jdbcType="VARCHAR" property="introC" />
 	<result column="intro_e" jdbcType="VARCHAR" property="introE" />
 	<result column="photo" jdbcType="BINARY" property="photo" />
 	<result column="room_stock" jdbcType="INTEGER" property="roomStock" />
 	<result column="recommended" jdbcType="VARCHAR" property="recommended" />
-
     <result column="scheduledays" jdbcType="VARCHAR" property="scheduledays"/>
     <result column="evenlive" jdbcType="VARCHAR" property="evenlive"/>
     <result column="favorableprice" jdbcType="VARCHAR" property="favorableprice"/>
     <result column="present" jdbcType="VARCHAR" property="present"/>
-
     <result column="country_code" jdbcType="VARCHAR" property="countryCode" />
     <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
     <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
-
     <result column="province_cname" jdbcType="VARCHAR" property="provinceCname" />
     <result column="province_ename" jdbcType="VARCHAR" property="provinceEname" />
     <result column="city_cname" jdbcType="VARCHAR" property="cityCname" />
@@ -36,7 +32,6 @@
     <result column="hotel_addr" jdbcType="VARCHAR" property="hotelAddr" />
     <result column="hotel_phone" jdbcType="VARCHAR" property="hotelPhone" />
     <result column="hotel_web" jdbcType="VARCHAR" property="hotelWeb" />
-
     <result column="hotel_cname" jdbcType="VARCHAR" property="hotelCname" />
     <result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
     <result column="hotel_name" jdbcType="VARCHAR" property="hotelName" />
@@ -45,7 +40,6 @@
     <result column="s_price" jdbcType="DOUBLE" property="sPrice" />
     <result column="t_price" jdbcType="DOUBLE" property="tPrice" />
     <result column="s_room_price" jdbcType="DOUBLE" property="sRoomPrice" />
-
     <result column="iswify" jdbcType="VARCHAR" property="iswify" />
     <result column="isfront" jdbcType="VARCHAR" property="isfront" />
     <result column="isbarrifr" jdbcType="VARCHAR" property="isbarrifr" />
@@ -285,7 +279,7 @@
     d.favorableprice favorableprice,
     d.evenlive     evenlive,
     d.present      present,
-    ifnull(b.inventory,a.room_stock)    inventory,
+
     b.auto_close   auto_close,
     c.s_room_price s_room_price,
     c.s_price      s_price,
@@ -322,8 +316,7 @@
     e.isbus        isbus      ,
     e.istrafic     istrafic   ,
     e.isrestau     isrestau
-    from biz_room a LEFT JOIN biz_inv b ON a.room_code=b.room_code AND ifnull(b.inv_date,date_format(SYSDATE(),'%Y%m%d')) = date_format(SYSDATE(),'%Y%m%d')
-    LEFT JOIN biz_prise c ON  a.room_code=c.room_code and c.price_date=date_format(SYSDATE(),'%Y%m%d') LEFT JOIN
+    from biz_room a  LEFT JOIN biz_prise c ON  a.room_code=c.room_code and c.price_date=date_format(SYSDATE(),'%Y%m%d') LEFT JOIN
     biz_hotl d ON a.hotel_code = d.hotel_code LEFT JOIN biz_room_ext e on a.room_code = e.room_code
     WHERE 1=1 AND a.DEL_FLAG = 0 AND d.DEL_FLAG = 0
     <if test="hotelCode != null and hotelCode != ''">

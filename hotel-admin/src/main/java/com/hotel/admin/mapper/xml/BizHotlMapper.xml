@@ -257,8 +257,9 @@
       a.favorableprice,
       a.evenlive,
       a.present,
-      a.room_stock
-  from biz_hotl a where  1=1  AND  del_flag != -1
+      ifnull(b.inventory,a.room_stock)    room_stock
+  from biz_hotl a LEFT JOIN biz_inv b on  ON a.hotel_code=b.hotel_code
+      where  1=1  AND  del_flag != -1 AND ifnull(b.inv_date,date_format(SYSDATE(),'%Y%m%d')) = date_format(SYSDATE(),'%Y%m%d')
   <if test="hotelCode != null and hotelCode!=''">
     AND  a.hotel_code = #{hotelCode,jdbcType=VARCHAR}
   </if>
