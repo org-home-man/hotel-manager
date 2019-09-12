@@ -55,7 +55,6 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 	@SystemServiceLog(description = "酒店信息保存/编辑（业务层）")
 	public int save(BizHotl record) {
             if(Utils.isEmpty(record.getHotelCode()) || record.getHotelCode() == "0") {
-                System.out.println("licy12345");
                 /* 获取自增序列并加1*/
 				String hotelCode = idUtils.generateHotelCode(record);
 				record.setHotelCode(hotelCode);

@@ -163,7 +163,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         for (int index = 0; index < invDate; index++) {
             String newInDate = DateUtils.getDateString(DateUtils.addDays(inDate, index), "yyyyMMdd");
             BizInv inv = new BizInv();
-            inv.setRoomCode(record.getRoomCode());
+            inv.setHotelCode(record.getRoomCode());
             inv.setInvDate(newInDate);
             BizInv bizInvs = bizInvService.findByRoomCode(inv);
             if (bizInvs == null) {
@@ -222,7 +222,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         for (int index = 0; index < invDate; index++) {
             String newInDate = DateUtils.getDateString(DateUtils.addDays(inDate, index), "yyyyMMdd");
             BizInv inv = new BizInv();
-            inv.setRoomCode(record.getRoomCode());
+            inv.setHotelCode(record.getRoomCode());
             inv.setInvDate(newInDate);
             BizInv bizInvs = bizInvService.findByRoomCode(inv);
             if (bizInvs == null) {
@@ -233,7 +233,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 
                 BizInv addInv = new BizInv();
                 addInv.setInvDate(newInDate);
-                addInv.setRoomCode(record.getRoomCode());
+                addInv.setHotelCode(record.getRoomCode());
                 addInv.setInventory(mroom.getRoomStock() - record.getRoomNum());
                 addInv.setAutoClose("Y");
                 bizInvService.addByUser(addInv);

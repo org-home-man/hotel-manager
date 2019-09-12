@@ -12,7 +12,7 @@ import java.util.List;
 public class BizInv extends BusinessEntity {
 
 	/** 客房编号 */
-	private String roomCode;
+	private String hotelCode;
 	/** 库存日期 */
 	private String invDate;
 	/** 库存数量 */
@@ -31,12 +31,12 @@ public class BizInv extends BusinessEntity {
 		this.stockDateData = stockDateData;
 	}
 
-	public String getRoomCode() {
-		return roomCode;
+	public String getHotelCode() {
+		return hotelCode;
 	}
 
-	public void setRoomCode(String roomCode) {
-		this.roomCode = roomCode;
+	public void setHotelCode(String hotelCode) {
+		this.hotelCode = hotelCode;
 	}
 
 	public String getInvDate() {
@@ -66,7 +66,7 @@ public class BizInv extends BusinessEntity {
 	@Override
 	public String toString() {
 		return "BizInv{" +
-				"roomCode='" + roomCode + '\'' +
+				"hotelCode='" + hotelCode + '\'' +
 				", invDate='" + invDate + '\'' +
 				", inventory=" + inventory +
 				", autoClose='" + autoClose + '\'' +

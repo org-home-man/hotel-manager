@@ -20,6 +20,7 @@
       <result column="evenlive" jdbcType="VARCHAR" property="evenlive"/>
       <result column="favorableprice" jdbcType="VARCHAR" property="favorableprice"/>
       <result column="present" jdbcType="VARCHAR" property="present"/>
+      <result column="room_stock" jdbcType="VARCHAR" property="roomStock"/>
 	<result column="hotel_cname" jdbcType="VARCHAR" property="hotelCname" />
 	<result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
     <result column="hotel_addr" jdbcType="VARCHAR" property="hotelAddr" />
@@ -70,6 +71,9 @@
             </if>
             <if test="hotelWeb != null and hotelWeb !=''">
                 hotel_web,
+            </if>
+            <if test="roomStock!=null">
+                room_stock,
             </if>
             <if test="scheduledays!=null">
                 scheduledays,
@@ -126,6 +130,9 @@
             </if>
             <if test="hotelWeb != null and hotelWeb !=''">
                #{hotelWeb,jdbcType=VARCHAR},
+            </if>
+            <if test="roomStock!=null">
+                #{roomStock,jdbcType=INTEGER},
             </if>
             <if test="scheduledays!=null">
                  #{scheduledays,jdbcType=DOUBLE},
@@ -196,6 +203,9 @@
             <if test="hotelFax != null and hotelFax !=''">
                 hotel_fax = #{hotelFax,jdbcType=VARCHAR},
             </if>
+            <if test="roomStock != null and roomStock !=''">
+                room_stock = #{roomStock,jdbcType=INTEGER},
+            </if>
             <if test="hotelWeb != null and hotelWeb !=''">
                 hotel_web = #{hotelWeb,jdbcType=VARCHAR},
             </if>
@@ -228,7 +238,8 @@
      a.scheduledays ,
     a.favorableprice,
     a.evenlive,
-    a.present
+    a.present,
+    a.room_stock
  from biz_hotl a WHERE del_flag != -1
   </select>
 
@@ -245,7 +256,8 @@
       a.scheduledays ,
       a.favorableprice,
       a.evenlive,
-      a.present
+      a.present,
+      a.room_stock
   from biz_hotl a where  1=1  AND  del_flag != -1
   <if test="hotelCode != null and hotelCode!=''">
     AND  a.hotel_code = #{hotelCode,jdbcType=VARCHAR}

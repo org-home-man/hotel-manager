@@ -324,7 +324,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 		/*
 		先查询是否已经有提交牌价信息（根据客房id查询）
 		 */
-		List<BizInv> pli = bizInvMapper.queryById(bizProInv.getRoomCode());
+		List<BizInv> pli = bizInvMapper.queryById(bizProInv.getHotelCode());
 		String priceYear = bizProInv.getStockYear();
 		String[] priceDateInterval = bizProInv.getStockDateInterval();
 		if (StringUtils.isBlank(bizProInv.getInventory())) {
@@ -384,7 +384,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 			a.error("当前日期不能为空，系统错误");
 			throw new GlobalException("NotNullEception");
 		}
-		List<BizInv> bpLi =  bizInvMapper.queryById(bizProInv.getRoomCode());
+		List<BizInv> bpLi =  bizInvMapper.queryById(bizProInv.getHotelCode());
 		if (bpLi.size() > 0) {
 			if(bizProInv.getDateArray() != null && bizProInv.getDateArray().size()>0) {
 				try {

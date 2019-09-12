@@ -20,7 +20,7 @@ public interface BizInvMapper  extends AbstractMapper<BizInv> {
      * @param roomCode
      * @return
      */    
-    BizInv findByRoomCode(BizInv roomCode);
+    BizInv findByHotelCode(BizInv roomCode);
 
     /**
      * 基础分页查询

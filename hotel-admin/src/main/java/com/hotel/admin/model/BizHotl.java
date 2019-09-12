@@ -56,20 +56,14 @@ public class BizHotl extends BusinessEntity{
 	/** 酒店网址 */
 	private String hotelWeb;
 
-	private int scheduledays;
-	private double favorableprice;
-	private int evenlive;
+	private Integer scheduledays;
+	private Double favorableprice;
+	private Integer evenlive;
 	private String present;
 
-	private Byte  delFlag;
+	private Integer roomStock;
 
-//	public Byte getdelFlag() {
-//	return delFlag;
-//}
-//
-//	public void setdelFlag(Byte delFlag) {
-//		this.delFlag = delFlag;
-//	}
+	private Byte  delFlag;
 
 	public String getHotelCode() {
 		return hotelCode;
@@ -83,32 +77,6 @@ public class BizHotl extends BusinessEntity{
 		return countryCode;
 	}
 
-
-	public String getHotelAddr() {
-		return hotelAddr;
-	}
-	public String getHotelPhone() {
-		return hotelPhone;
-	}
-	public String getHotelFax() {
-		return hotelFax;
-	}
-	public String getHotelWeb() {
-		return hotelWeb;
-	}
-	public void setHotelAddr(String hotelAddr) {
-		this.hotelAddr = hotelAddr;
-	}
-	public void setHotelPhone(String hotelPhone) {
-		this.hotelPhone = hotelPhone;
-	}
-	public void setHotelFax(String hotelFax) {
-		this.hotelFax= hotelFax;
-	}
-	public void setHotelWeb(String hotelWeb ) {
-		this.hotelWeb = hotelWeb;
-	}
-
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
 	}
@@ -116,86 +84,98 @@ public class BizHotl extends BusinessEntity{
 	public String getProvinceCode() {
 		return provinceCode;
 	}
-	public String getProvinceCodeKey() {
-		return provinceCodeKey;
-	}
-
-	public String getProvinceCname() {
-		return provinceCname;
-	}
-	public void setProvinceCname(String provinceCname) {
-		this.provinceCname = provinceCname;
-	}
-	public String getProvinceEname() {
-		return provinceEname;
-	}
-	public void setProvinceEname(String provinceEname) {
-		this.provinceEname = provinceEname;
-	}
 
 	public void setProvinceCode(String provinceCode) {
 		this.provinceCode = provinceCode;
-	}
-	public void setProvinceCodeKey(String provinceCodeKey) {
-		this.provinceCodeKey = provinceCodeKey;
 	}
 
 	public String getCityCode() {
 		return cityCode;
 	}
-	public String getCityCodeKey() {
-		return cityCodeKey;
-	}
 
 	public void setCityCode(String cityCode) {
 		this.cityCode = cityCode;
 	}
+
+	public String getProvinceCodeKey() {
+		return provinceCodeKey;
+	}
+
+	public void setProvinceCodeKey(String provinceCodeKey) {
+		this.provinceCodeKey = provinceCodeKey;
+	}
+
+	public String getCityCodeKey() {
+		return cityCodeKey;
+	}
+
 	public void setCityCodeKey(String cityCodeKey) {
 		this.cityCodeKey = cityCodeKey;
 	}
 
-	public String getcityEname() {
-		return cityEname;
+	public String getProvinceCname() {
+		return provinceCname;
 	}
-	public void setcityEname(String cityEname) {
-		this.cityEname = cityEname;
+
+	public void setProvinceCname(String provinceCname) {
+		this.provinceCname = provinceCname;
 	}
-	public String getcityCname() {
+
+	public String getCityCname() {
 		return cityCname;
 	}
-	public void setcityCname(String cityCname) {
+
+	public void setCityCname(String cityCname) {
 		this.cityCname = cityCname;
 	}
 
+	public String getProvinceEname() {
+		return provinceEname;
+	}
+
+	public void setProvinceEname(String provinceEname) {
+		this.provinceEname = provinceEname;
+	}
+
+	public String getCityEname() {
+		return cityEname;
+	}
+
+	public void setCityEname(String cityEname) {
+		this.cityEname = cityEname;
+	}
 
 	public String getHotelType() {
 		return hotelType;
-	}
-	public String getHotelTypeKey() {
-		return hotelTypeKey;
 	}
 
 	public void setHotelType(String hotelType) {
 		this.hotelType = hotelType;
 	}
-	public void setHotelTypeKey(String hotelTypeKey) {
-		this.hotelTypeKey = hotelTypeKey;
-	}
 
 	public String getHotelLevel() {
 		return hotelLevel;
-	}
-	public String getHotelLevelKey() {
-		return hotelLevelKey;
 	}
 
 	public void setHotelLevel(String hotelLevel) {
 		this.hotelLevel = hotelLevel;
 	}
+
+	public String getHotelTypeKey() {
+		return hotelTypeKey;
+	}
+
+	public void setHotelTypeKey(String hotelTypeKey) {
+		this.hotelTypeKey = hotelTypeKey;
+	}
+
+	public String getHotelLevelKey() {
+		return hotelLevelKey;
+	}
+
 	public void setHotelLevelKey(String hotelLevelKey) {
 		this.hotelLevelKey = hotelLevelKey;
 	}
-
 
 	public String getHotelCname() {
 		return hotelCname;
@@ -213,27 +193,59 @@ public class BizHotl extends BusinessEntity{
 		this.hotelEname = hotelEname;
 	}
 
-	public int getScheduledays() {
+	public String getHotelAddr() {
+		return hotelAddr;
+	}
+
+	public void setHotelAddr(String hotelAddr) {
+		this.hotelAddr = hotelAddr;
+	}
+
+	public String getHotelPhone() {
+		return hotelPhone;
+	}
+
+	public void setHotelPhone(String hotelPhone) {
+		this.hotelPhone = hotelPhone;
+	}
+
+	public String getHotelFax() {
+		return hotelFax;
+	}
+
+	public void setHotelFax(String hotelFax) {
+		this.hotelFax = hotelFax;
+	}
+
+	public String getHotelWeb() {
+		return hotelWeb;
+	}
+
+	public void setHotelWeb(String hotelWeb) {
+		this.hotelWeb = hotelWeb;
+	}
+
+	public Integer getScheduledays() {
 		return scheduledays;
 	}
 
-	public void setScheduledays(int scheduledays) {
+	public void setScheduledays(Integer scheduledays) {
 		this.scheduledays = scheduledays;
 	}
 
-	public double getFavorableprice() {
+	public Double getFavorableprice() {
 		return favorableprice;
 	}
 
-	public void setFavorableprice(double favorableprice) {
+	public void setFavorableprice(Double favorableprice) {
 		this.favorableprice = favorableprice;
 	}
 
-	public int getEvenlive() {
+	public Integer getEvenlive() {
 		return evenlive;
 	}
 
-	public void setEvenlive(int evenlive) {
+	public void setEvenlive(Integer evenlive) {
 		this.evenlive = evenlive;
 	}
 
@@ -243,5 +255,21 @@ public class BizHotl extends BusinessEntity{
 
 	public void setPresent(String present) {
 		this.present = present;
+	}
+
+	public Integer getRoomStock() {
+		return roomStock;
+	}
+
+	public void setRoomStock(Integer roomStock) {
+		this.roomStock = roomStock;
+	}
+
+	public Byte getDelFlag() {
+		return delFlag;
+	}
+
+	public void setDelFlag(Byte delFlag) {
+		this.delFlag = delFlag;
 	}
 }

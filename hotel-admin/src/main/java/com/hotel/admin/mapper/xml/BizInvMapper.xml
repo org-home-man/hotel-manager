@@ -3,7 +3,7 @@
 <mapper namespace="com.hotel.admin.mapper.BizInvMapper">
 
   <resultMap id="BaseResultMap" type="com.hotel.admin.model.BizInv">
-	<id column="room_code" jdbcType="VARCHAR" property="roomCode" />
+	<id column="hotel_code" jdbcType="VARCHAR" property="hotelCode" />
 	<result column="inv_date" jdbcType="VARCHAR" property="invDate" />
 	<result column="inventory" jdbcType="INTEGER" property="inventory" />
 	<result column="auto_close" jdbcType="VARCHAR" property="autoClose" />
@@ -13,9 +13,9 @@
 	<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
 
-  <select id="findByRoomCode" parameterType="com.hotel.admin.model.BizInv" resultMap="BaseResultMap">
+  <select id="findByHotelCode" parameterType="com.hotel.admin.model.BizInv" resultMap="BaseResultMap">
     select * from biz_inv
-    where room_code = #{roomCode,jdbcType=VARCHAR} AND inv_date = #{invDate,jdbcType=VARCHAR}
+    where hotel_code = #{hotelCode,jdbcType=VARCHAR} AND inv_date = #{invDate,jdbcType=VARCHAR}
   </select>
   
   <select id="findPage" resultMap="BaseResultMap">
@@ -24,15 +24,15 @@
 
   <select id="queryById" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
-    room_code,
+    hotel_code,
     inv_date,
     inventory
     from biz_inv
-    where room_code = #{roomCode,jdbcType=VARCHAR} ORDER BY inv_date
+    where hotel_code = #{hotelCode,jdbcType=VARCHAR} ORDER BY inv_date
   </select>
   <select id="findCancelBizInv" resultType="com.hotel.admin.model.BizInv">
     select * from biz_inv
-    where room_code = #{roomCode,jdbcType=VARCHAR} AND inv_date >= #{inDate} AND inv_date &lt; #{outDate}
+    where hotel_code = #{hotelCode,jdbcType=VARCHAR} AND inv_date >= #{inDate} AND inv_date &lt; #{outDate}
   </select>
   <select id="selectInventory" resultType="java.lang.Integer">
     SELECT
@@ -40,7 +40,7 @@
     FROM
         (SELECT
               x.date,
-              c.room_code,
+              c.hotel_code,
               c.room_stock
         FROM
               biz_room c
@@ -49,22 +49,22 @@
                WHERE date BETWEEN DATE_FORMAT( #{inDateStart}, '%Y%m%d') AND DATE_FORMAT( #{outDateEnd}, '%Y%m%d')
                ) x
         ) f
-        LEFT JOIN biz_inv bi ON f.room_code = bi.room_code AND f.date = bi.inv_date
-        LEFT JOIN biz_prise g ON f.room_code = g.room_code and f.date = g.price_date
+        LEFT JOIN biz_inv bi ON f.hotel_code = bi.hotel_code AND f.date = bi.inv_date
+        LEFT JOIN biz_prise g ON f.hotel_code = g.hotel_code and f.date = g.price_date
     WHERE
         g.s_price is not null
-        AND f.room_code = #{roomCode}
+        AND f.hotel_code = #{hotelCode}
     GROUP BY
-        f.room_code
+        f.hotel_code
     HAVING
-    count( f.room_code ) = DATEDIFF(DATE_FORMAT( #{outDateEnd}, '%Y%m%d'),DATE_FORMAT( #{inDateStart}, '%Y%m%d') ) +1
+    count( f.hotel_code ) = DATEDIFF(DATE_FORMAT( #{outDateEnd}, '%Y%m%d'),DATE_FORMAT( #{inDateStart}, '%Y%m%d') ) +1
   </select>
 
   <insert id="addByUser" parameterType="com.hotel.admin.model.BizInv">
     insert into biz_inv
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="roomCode != null">
-        room_code,
+      <if test="hotelCode != null">
+        hotel_code,
       </if>
       <if test="invDate != null">
         inv_date,
@@ -83,8 +83,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="roomCode != null">
-        #{roomCode,jdbcType=VARCHAR},
+      <if test="hotelCode != null">
+        #{hotelCode,jdbcType=VARCHAR},
       </if>
       <if test="invDate != null">
         #{invDate,jdbcType=VARCHAR},
@@ -108,8 +108,8 @@
   <update id="updateByUser" parameterType="com.hotel.admin.model.BizInv">
     update biz_inv
     <set>
-      <if test="roomCode != null">
-        room_code = #{roomCode,jdbcType=VARCHAR},
+      <if test="hotelCode != null">
+        hotel_code = #{hotelCode,jdbcType=VARCHAR},
       </if>
       <if test="invDate != null">
         inv_date = #{invDate,jdbcType=VARCHAR},
@@ -127,7 +127,7 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where room_code = #{roomCode,jdbcType=VARCHAR} and inv_date = #{invDate,jdbcType=VARCHAR}
+    where hotel_code = #{hotelCode,jdbcType=VARCHAR} and inv_date = #{invDate,jdbcType=VARCHAR}
   </update>
 
 

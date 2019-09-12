@@ -73,7 +73,7 @@ public class BizInvServiceImpl implements BizInvService {
 
 	@Override
 	public BizInv findByRoomCode(BizInv record){
-		return bizInvMapper.findByRoomCode(record);
+		return bizInvMapper.findByHotelCode(record);
 	}
 
 	@Override
