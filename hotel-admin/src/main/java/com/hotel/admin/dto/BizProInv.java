@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public class BizProInv {
-    private String	roomCode;
     private String  hotelCode;
     private String  provinceCode;
     private String  cityCode;
@@ -51,14 +50,6 @@ public class BizProInv {
 
     public void setStockDateData(List<BizInv> stockDateData) {
         this.stockDateData = stockDateData;
-    }
-
-    public String getRoomCode() {
-        return roomCode;
-    }
-
-    public void setRoomCode(String roomCode) {
-        this.roomCode = roomCode;
     }
 
     public String getHotelCode() {
@@ -184,14 +175,13 @@ public class BizProInv {
     @Override
     public String toString() {
         return "BizProInv{" +
-                "roomCode='" + roomCode + '\'' +
-                ", hotelCode='" + hotelCode + '\'' +
+                "hotelCode='" + hotelCode + '\'' +
                 ", provinceCode='" + provinceCode + '\'' +
                 ", cityCode='" + cityCode + '\'' +
                 ", roomType='" + roomType + '\'' +
                 ", bedType='" + bedType + '\'' +
-                ", priceYear=" + stockYear +
-                ", priceDateInterval=" + Arrays.toString(stockDateInterval) +
+                ", stockYear='" + stockYear + '\'' +
+                ", stockDateInterval=" + Arrays.toString(stockDateInterval) +
                 ", inventory='" + inventory + '\'' +
                 ", isMonday='" + isMonday + '\'' +
                 ", isTuesday='" + isTuesday + '\'' +
@@ -200,7 +190,7 @@ public class BizProInv {
                 ", isFriday='" + isFriday + '\'' +
                 ", isSaterday='" + isSaterday + '\'' +
                 ", isSunday='" + isSunday + '\'' +
-                ", priceDateData=" + stockDateData +
+                ", stockDateData=" + stockDateData +
                 ", dateArray=" + dateArray +
                 ", date='" + date + '\'' +
                 '}';

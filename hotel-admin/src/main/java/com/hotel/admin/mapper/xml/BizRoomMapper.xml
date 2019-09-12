@@ -279,7 +279,7 @@
     d.favorableprice favorableprice,
     d.evenlive     evenlive,
     d.present      present,
-
+    ifnull(b.inventory,d.room_stock)    inventory,
     b.auto_close   auto_close,
     c.s_room_price s_room_price,
     c.s_price      s_price,
@@ -289,7 +289,7 @@
     a.room_area    room_area,
     a.intro_c      intro_c,
     a.intro_e      intro_e,
-    a.room_stock   room_stock,
+    d.room_stock   room_stock,
     a.recommended  recommended,
     e.iswify       iswify     ,
     e.isfront      isfront    ,
@@ -316,9 +316,11 @@
     e.isbus        isbus      ,
     e.istrafic     istrafic   ,
     e.isrestau     isrestau
-    from biz_room a  LEFT JOIN biz_prise c ON  a.room_code=c.room_code and c.price_date=date_format(SYSDATE(),'%Y%m%d') LEFT JOIN
-    biz_hotl d ON a.hotel_code = d.hotel_code LEFT JOIN biz_room_ext e on a.room_code = e.room_code
+    from biz_room a  LEFT JOIN biz_prise c ON  a.room_code=c.room_code LEFT JOIN
+    biz_hotl d ON a.hotel_code = d.hotel_code LEFT JOIN biz_inv b on d.hotel_code = b.hotel_code LEFT JOIN biz_room_ext e on a.room_code = e.room_code
     WHERE 1=1 AND a.DEL_FLAG = 0 AND d.DEL_FLAG = 0
+    and c.price_date=date_format(SYSDATE(),'%Y%m%d')
+    AND ifnull(b.inv_date,date_format(SYSDATE(),'%Y%m%d')) = date_format(SYSDATE(),'%Y%m%d')
     <if test="hotelCode != null and hotelCode != ''">
       AND d.hotel_code = #{hotelCode,jdbcType=VARCHAR}
     </if>
@@ -338,7 +340,7 @@
       AND a.break_type = #{breakType,jdbcType=VARCHAR}
     </if>
     <if test="inventory != null and inventory !=''"  >
-      AND ifnull(b.inventory,a.room_stock) = #{inventory,jdbcType=VARCHAR}  AND ifnull(b.inv_date,date_format(SYSDATE(),'%Y%m%d')) = date_format(SYSDATE(),'%Y%m%d')
+      AND ifnull(b.inventory,d.room_stock) = #{inventory,jdbcType=VARCHAR}  AND ifnull(b.inv_date,date_format(SYSDATE(),'%Y%m%d')) = date_format(SYSDATE(),'%Y%m%d')
     </if>
 
   </select>
