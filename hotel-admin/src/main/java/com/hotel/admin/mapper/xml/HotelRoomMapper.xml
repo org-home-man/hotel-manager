@@ -130,10 +130,10 @@
         a.del_flag = 0
       <choose>
           <when test="roomNum!=null">
-              and IFNULL( bi.inventory, brd.brs ) &gt;= #{roomNum}
+              and p.inventory &gt;= #{roomNum}
           </when>
           <otherwise>
-              and IFNULL( bi.inventory, brd.brs ) &gt; 0
+              and p.inventory &gt; 0
           </otherwise>
       </choose>
     <if test="provinceCode != null and provinceCode!=''">
