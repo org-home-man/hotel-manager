@@ -16,14 +16,24 @@ public class SysDept extends BusinessEntity {
     private Byte delFlag;
     
     private List<SysDept> children;
-    
-    // 非数据库字段
+
+	private String countryName;
+
+	// 非数据库字段
 	@Transient
     private String parentName;
     // 非数据库字段
 	@Transient
     private Integer level;
-    
+
+	public String getCountryName() {
+		return countryName;
+	}
+
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
+	}
+
 	public String getName() {
 		return name;
 	}
