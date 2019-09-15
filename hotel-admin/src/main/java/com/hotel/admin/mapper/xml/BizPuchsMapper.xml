@@ -169,7 +169,7 @@
 
 
 	<sql id="room_sql">
-		r.room_style,r.room_type,r.bed_type,r.break_type,r.intro_c,r.intro_e,r.room_stock,r.recommended
+		r.room_style,r.room_type,r.bed_type,r.break_type,r.intro_c,r.intro_e,h.room_stock,r.recommended
 	</sql>
 	<sql id="room_ext_sql">
 		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
@@ -288,7 +288,7 @@
 	</update>
 
 	<select id="findByRoomCd" resultMap="BaseResultMap" parameterType="java.lang.String">
-		select a.*,b.hotel_code,b.room_style,b.bed_type,b.break_type,b.intro_c,b.intro_e,b.room_stock,b.recommended,c.scheduledays,c.favorableprice,c.evenlive,c.present,
+		select a.*,b.hotel_code,b.room_style,b.bed_type,b.break_type,b.intro_c,b.intro_e,c.room_stock,b.recommended,c.scheduledays,c.favorableprice,c.evenlive,c.present,
 		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
 		d.ischildct,d.isroomserv,d.isknead,d.islounge,d.issuper,d.isbus,d.istrafic,d.isrestau,
 		c.country_code,c.province_code,c.city_code,c.hotel_type,c.hotel_level,c.hotel_cname,c.hotel_ename,c.hotel_addr,c.hotel_phone,c.hotel_fax,c.hotel_web
