@@ -99,7 +99,7 @@
         JOIN biz_hotl b ON a.hotel_code = b.hotel_code
         JOIN biz_room_ext bre ON a.room_code = bre.room_code
           JOIN (
-              (SELECT
+              SELECT
                   f.room_code,
                   ceil(avg(g.s_room_price)) price,
                   ceil(avg(g.t_price)) end_price,
@@ -117,7 +117,7 @@
                          ) x
                   ) f
                   LEFT JOIN biz_hotl bh on f.hotel_code = bh.hotel_code
-                  LEFT JOIN biz_inv bi ON f.room_code = bi.room_code AND f.date = bi.inv_date
+                  LEFT JOIN biz_inv bi ON f.hotel_code = bi.hotel_code AND f.date = bi.inv_date
                   LEFT JOIN biz_prise g ON f.room_code = g.room_code and f.date = g.price_date
               WHERE
                   g.s_price is not null
