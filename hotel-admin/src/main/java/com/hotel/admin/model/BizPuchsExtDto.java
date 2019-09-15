@@ -683,4 +683,7 @@ public class BizPuchsExtDto extends BizPuchs{
     public void setMark(String mark) {
         this.mark = mark;
     }
+
+
+
 }

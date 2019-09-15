@@ -38,8 +38,6 @@ public class BizRoom extends BusinessEntity{
 	private String introE;
 	/** 宣传照片 */
 	private String photo;
-	/** 默认库存数 */
-	private Integer roomStock;
 	/** 是否本期推荐 */
 	private String recommended;
 
@@ -141,6 +139,7 @@ public class BizRoom extends BusinessEntity{
 	private String hotelAddr;
 	private String hotelPhone;
 	private String hotelWeb;
+	private Integer roomStock;
 
 	public int getScheduledays() {
 		return scheduledays;
@@ -662,14 +661,6 @@ public class BizRoom extends BusinessEntity{
 		this.photo = photo;
 	}
 
-	public Integer getRoomStock() {
-		return roomStock;
-	}
-
-	public void setRoomStock(Integer roomStock) {
-		this.roomStock = roomStock;
-	}
-
 	public String getRecommended() {
 		return recommended;
 	}
@@ -684,6 +675,14 @@ public class BizRoom extends BusinessEntity{
 
 	public void setHotelName(String hotelName) {
 		this.hotelName = hotelName;
+	}
+
+	public Integer getRoomStock() {
+		return roomStock;
+	}
+
+	public void setRoomStock(Integer roomStock) {
+		this.roomStock = roomStock;
 	}
 
 	@Override
@@ -702,7 +701,6 @@ public class BizRoom extends BusinessEntity{
 				", introC='" + introC + '\'' +
 				", introE='" + introE + '\'' +
 				", photo='" + photo + '\'' +
-				", roomStock=" + roomStock +
 				", recommended='" + recommended + '\'' +
 				", scheduledays=" + scheduledays +
 				", favorableprice=" + favorableprice +
