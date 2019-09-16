@@ -31,6 +31,6 @@ public interface BizHotlMapper extends AbstractMapper<BizHotl>{
     int deleteUp(BizHotl record);
     int update(BizHotl record);
     BizHotl findById(BizHotl record);
-
+    BizHotl findStook(BizHotl record);
     String selectMaxSequence();
 }

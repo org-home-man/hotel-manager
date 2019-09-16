@@ -13,6 +13,8 @@ public class BizPuchsUpdate extends BusinessEntity {
 	private String orderCode;
 	/** 客房编号 */
 	private String roomCode;
+	/** 客房编号 */
+	private String hotelCode;
 	/** 确定时间 */
 	private String confirmTime;
 	/** 入住日期 */
@@ -57,6 +59,14 @@ public class BizPuchsUpdate extends BusinessEntity {
 	private String  confirmDate;
 
 	private String local;
+
+	public String getHotelCode() {
+		return hotelCode;
+	}
+
+	public void setHotelCode(String hotelCode) {
+		this.hotelCode = hotelCode;
+	}
 
 	public String getconfirmDatee() {
 		return confirmDate;
