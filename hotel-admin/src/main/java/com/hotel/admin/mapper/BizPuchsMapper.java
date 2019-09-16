@@ -29,6 +29,8 @@ public interface BizPuchsMapper extends AbstractMapper<BizPuchs> {
     String findMonthLowestRoom(DateRangeDto record);
     int puchsStatusUpdate(BizPuchsStatusUpdate bizPuchsStatusUpdate);
 
+    int puchsStatusCrtTm(BizPuchsStatusUpdate bizPuchsStatusUpdate);
+
     //r0001报表
     List<MrR0001DetailDto> r0001MonthReport(MrSummaryQo record);
 

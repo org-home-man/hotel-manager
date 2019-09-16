@@ -16,6 +16,9 @@
 	<result column="email_address" jdbcType="VARCHAR" property="emailAddress" />
 	<result column="adult_num" jdbcType="INTEGER" property="adultNum" />
 	<result column="child_num" jdbcType="INTEGER" property="childNum" />
+	  <result column="children612" jdbcType="INTEGER" property="children612" />
+	  <result column="children46" jdbcType="INTEGER" property="children46" />
+	  <result column="children4" jdbcType="INTEGER" property="children4" />
 	<result column="c_num" jdbcType="INTEGER" property="cNum" />
 	<result column="room_num" jdbcType="INTEGER" property="roomNum" />
 	<result column="currency" jdbcType="VARCHAR" property="currency" />
@@ -330,6 +333,16 @@
 			</if>
 		</set>
 		where status = #{oldStatus,jdbcType=VARCHAR} AND  in_date_start &lt;= #{inDateStart,jdbcType=VARCHAR}
+	</update>
+
+	<update id="puchsStatusCrtTm" parameterType="com.hotel.admin.qo.BizPuchsStatusUpdate">
+		update  biz_puchs
+		<set>
+			<if test="status != null and status !=''">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where status = #{oldStatus,jdbcType=VARCHAR} AND  STR_TO_DATE(create_time, '%Y-%m-%d') &lt;= STR_TO_DATE(#{createTime,jdbcType=VARCHAR},'%Y%m%d')
 	</update>
 
 

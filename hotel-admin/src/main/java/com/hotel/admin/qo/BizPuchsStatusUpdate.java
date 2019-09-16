@@ -8,6 +8,8 @@ public class BizPuchsStatusUpdate {
 
     private String inDateStart;
 
+    private String createTime;
+
     public String getOldStatus() {
         return oldStatus;
     }
@@ -30,5 +32,13 @@ public class BizPuchsStatusUpdate {
 
     public void setInDateStart(String inDateStart) {
         this.inDateStart = inDateStart;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 }

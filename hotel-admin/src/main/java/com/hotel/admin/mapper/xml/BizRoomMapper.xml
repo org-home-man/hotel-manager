@@ -319,7 +319,7 @@
     from biz_room a  LEFT JOIN biz_prise c ON  a.room_code=c.room_code LEFT JOIN
     biz_hotl d ON a.hotel_code = d.hotel_code LEFT JOIN biz_inv b on d.hotel_code = b.hotel_code LEFT JOIN biz_room_ext e on a.room_code = e.room_code
     WHERE 1=1 AND a.DEL_FLAG = 0 AND d.DEL_FLAG = 0
-    and c.price_date=date_format(SYSDATE(),'%Y%m%d')
+    and ifnull(c.price_date,date_format(SYSDATE(),'%Y%m%d'))=date_format(SYSDATE(),'%Y%m%d')
     AND ifnull(b.inv_date,date_format(SYSDATE(),'%Y%m%d')) = date_format(SYSDATE(),'%Y%m%d')
     <if test="hotelCode != null and hotelCode != ''">
       AND d.hotel_code = #{hotelCode,jdbcType=VARCHAR}
