@@ -248,6 +248,11 @@
         from biz_hotl a WHERE  id = #{id,jdbcType=INTEGER}
     </select>
 
+    <select id="findStook" parameterType="com.hotel.admin.model.BizHotl" resultMap="BaseResultMap">
+        select *
+        from biz_hotl a WHERE  hotel_code = #{hotelCode,jdbcType=INTEGER}
+    </select>
+
   <select id="findPageByPara" parameterType="com.hotel.admin.dto.BizHotelQueryDto" resultMap="BaseResultMap">
       select
     a.id, a.hotel_code, a.country_code,

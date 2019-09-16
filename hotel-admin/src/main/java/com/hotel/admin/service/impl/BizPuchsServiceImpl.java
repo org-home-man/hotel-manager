@@ -55,6 +55,9 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     private BizRoomMapper bizRoomMapper;
 
     @Autowired
+    private BizHotlMapper bizHotlMapper;
+
+    @Autowired
     private CrtIdMapper crtIdMapper;
     @Autowired
     private SysUserService sysUser;
@@ -129,10 +132,107 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                 calendar.add(Calendar.DATE,1);
             }
 
+            // 预约的时候扣库存数
+            Date outDate = DateUtils.getDate(record.getOutDateEnd(), "yyyyMMdd");
+            Date inDate = DateUtils.getDate(record.getInDateStart(), "yyyyMMdd");
+            int invDate = DateUtils.getDateDiff(outDate, inDate);
+
+            if (invDate <= 0) {
+                throw new GlobalException("inDateExcepiton");
+            }
+            // 判断库存表的库存数是否满足客户需要
+            //如果库存表没有值则将默认库存数插入库存表管理
+            //获取时间跨度
+            for (int index = 0; index < invDate; index++) {
+                String newInDate = DateUtils.getDateString(DateUtils.addDays(inDate, index), "yyyyMMdd");
+                BizInv inv = new BizInv();
+                inv.setHotelCode(record.getHotelCode());
+                inv.setInvDate(newInDate);
+                BizInv bizInvs = bizInvService.findByRoomCode(inv);
+                if (bizInvs == null) {
+                    BizHotl quryStock = new BizHotl();
+                    quryStock.setHotelCode(record.getHotelCode());
+                    BizHotl mroom = bizHotlMapper.findStook(quryStock);
+                    if (mroom.getRoomStock() <= 0 || mroom.getRoomStock() == null) {
+                        throw new GlobalException("RoomStockIsNull");
+                    }
+                    System.out.println("mroom.getRoomStock() =" + mroom.getRoomStock());
+
+                    BizInv addInv = new BizInv();
+                    addInv.setInvDate(newInDate);
+                    addInv.setHotelCode(record.getHotelCode());
+                    addInv.setInventory(mroom.getRoomStock() - record.getRoomNum());
+                    addInv.setAutoClose("Y");
+                    bizInvService.addByUser(addInv);
+                    //将默认库存数插入数据库，将库存数减一
+                } else {
+                    //k库存数大于1这可以减1
+                    if (bizInvs.getInventory() - record.getRoomNum() >= 0) {
+                        bizInvs.setInventory(bizInvs.getInventory() - record.getRoomNum());
+                        bizInvs.setInvDate(newInDate);
+                        bizInvService.update(bizInvs);
+                    } else {
+                        //提示库存数不够
+                        throw new GlobalException("invIsOutException");
+                    }
+                }
+            }
+
             WebSocketServer.sendMessageToManager("订单号:"+record.getOrderCode(),Constant.ORDER_MES);
 
             return 1;
         }
+        //判断库存数是否够用
+        Date outDate = DateUtils.getDate(record.getOutDateEnd(), "yyyyMMdd");
+        Date inDate = DateUtils.getDate(record.getInDateStart(), "yyyyMMdd");
+        int invDate = DateUtils.getDateDiff(outDate, inDate);
+
+        for (int index = 0; index < invDate; index++) {
+            String newInDate = DateUtils.getDateString(DateUtils.addDays(inDate, index), "yyyyMMdd");
+            BizInv inv = new BizInv();
+            inv.setHotelCode(record.getHotelCode());
+            inv.setInvDate(newInDate);
+            BizInv bizInvs = bizInvService.findByRoomCode(inv);
+            System.out.println("record.getHotelCode() =" +record.getHotelCode());
+            if (bizInvs == null) {
+                BizHotl quryStock = new BizHotl();
+                quryStock.setHotelCode(record.getHotelCode());
+                BizHotl mroom = bizHotlMapper.findStook(quryStock);
+                // BizRoom mroom = bizRoomMapper.findById(record.getRoomCode());
+                if (mroom.getRoomStock() <= 0 || mroom.getRoomStock() == null) {
+                    throw new GlobalException("RoomStockIsNull");
+                }
+                if(mroom.getRoomStock() < record.getRoomNum() )
+                {
+                    throw new GlobalException("invIsOutException");
+                }
+            } else {
+                //k库存数大于1这可以减1
+                System.out.println("bizInvs.getInventory() =" +bizInvs.getInventory());
+                if (bizInvs.getInventory() < record.getRoomNum() ) {
+                    throw new GlobalException("invIsOutException");
+                }
+                //判断原来库存数和编辑的库存数的大小，然后还原和扣除库存数
+                //查订单表里面的库存数
+                BizPuchs quryPush = new BizPuchs();
+                quryPush.setOrderCode(record.getOrderCode());
+                BizPuchs retPush = bizPuchsMapper.selectOne(quryPush);
+                //还原库存数
+                if(retPush.getRoomNum()> record.getRoomNum())
+                {
+                    int invNum = retPush.getRoomNum()-record.getRoomNum();
+                    bizInvs.setInventory(bizInvs.getInventory() + invNum);
+                    bizInvs.setInvDate(newInDate);
+                    bizInvService.update(bizInvs);
+                }else  if(retPush.getRoomNum()< record.getRoomNum()){  //减掉增加的库存数
+                    int invNum = record.getRoomNum() - retPush.getRoomNum();
+                    bizInvs.setInventory(bizInvs.getInventory() - invNum);
+                    bizInvs.setInvDate(newInDate);
+                    bizInvService.update(bizInvs);
+                }
+            }
+        }
+
 
         bizPuchsMapper.updateByPrimaryKeySelective(record);
 
@@ -147,6 +247,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             bizPuchsExtMapper.updateByUnique(recordExt);
             calendar.add(Calendar.DATE,1);
         }
+
         return 1;
     }
 
@@ -163,11 +264,15 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         for (int index = 0; index < invDate; index++) {
             String newInDate = DateUtils.getDateString(DateUtils.addDays(inDate, index), "yyyyMMdd");
             BizInv inv = new BizInv();
-            inv.setHotelCode(record.getRoomCode());
+            inv.setHotelCode(record.getHotelCode());
             inv.setInvDate(newInDate);
             BizInv bizInvs = bizInvService.findByRoomCode(inv);
+            System.out.println("record.getHotelCode() =" +record.getHotelCode());
             if (bizInvs == null) {
-                BizRoom mroom = bizRoomMapper.findById(record.getRoomCode());
+                BizHotl quryStock = new BizHotl();
+                quryStock.setHotelCode(record.getHotelCode());
+                BizHotl mroom = bizHotlMapper.findStook(quryStock);
+               // BizRoom mroom = bizRoomMapper.findById(record.getRoomCode());
                 if (mroom.getRoomStock() <= 0 || mroom.getRoomStock() == null) {
                     throw new GlobalException("RoomStockIsNull");
                 }
@@ -175,9 +280,9 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                 {
                     throw new GlobalException("invIsOutException");
                 }
-
             } else {
                 //k库存数大于1这可以减1
+                System.out.println("bizInvs.getInventory() =" +bizInvs.getInventory());
                 if (bizInvs.getInventory() < record.getRoomNum() ) {
                     throw new GlobalException("invIsOutException");
                 }
@@ -209,48 +314,41 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
         if (invDate <= 0) {
             throw new GlobalException("inDateExcepiton");
         }
-
-//System.out.println(inDate +"  " + new Date() );
-//		if(new Date().after(inDate)){
-//			throw new GlobalException("isinDateOutException");
-//		}
-
         // 判断库存表的库存数是否满足客户需要
         //如果库存表没有值则将默认库存数插入库存表管理
         //获取时间跨度
-
-        for (int index = 0; index < invDate; index++) {
-            String newInDate = DateUtils.getDateString(DateUtils.addDays(inDate, index), "yyyyMMdd");
-            BizInv inv = new BizInv();
-            inv.setHotelCode(record.getRoomCode());
-            inv.setInvDate(newInDate);
-            BizInv bizInvs = bizInvService.findByRoomCode(inv);
-            if (bizInvs == null) {
-                BizRoom mroom = bizRoomMapper.findById(record.getRoomCode());
-                if (mroom.getRoomStock() <= 0 || mroom.getRoomStock() == null) {
-                    throw new GlobalException("RoomStockIsNull");
-                }
-
-                BizInv addInv = new BizInv();
-                addInv.setInvDate(newInDate);
-                addInv.setHotelCode(record.getRoomCode());
-                addInv.setInventory(mroom.getRoomStock() - record.getRoomNum());
-                addInv.setAutoClose("Y");
-                bizInvService.addByUser(addInv);
-                //将默认库存数插入数据库，将库存数减一
-            } else {
-                //k库存数大于1这可以减1
-                if (bizInvs.getInventory() - record.getRoomNum() >= 0) {
-
-                    bizInvs.setInventory(bizInvs.getInventory() - record.getRoomNum());
-                    bizInvs.setInvDate(newInDate);
-                    bizInvService.update(bizInvs);
-                } else {
-                    //提示库存数不够
-                    throw new GlobalException("invIsOutException");
-                }
-            }
-        }
+//        for (int index = 0; index < invDate; index++) {
+//            String newInDate = DateUtils.getDateString(DateUtils.addDays(inDate, index), "yyyyMMdd");
+//            BizInv inv = new BizInv();
+//            inv.setHotelCode(record.getRoomCode());
+//            inv.setInvDate(newInDate);
+//            BizInv bizInvs = bizInvService.findByRoomCode(inv);
+//            if (bizInvs == null) {
+//                BizRoom mroom = bizRoomMapper.findById(record.getRoomCode());
+//                if (mroom.getRoomStock() <= 0 || mroom.getRoomStock() == null) {
+//                    throw new GlobalException("RoomStockIsNull");
+//                }
+//
+//                BizInv addInv = new BizInv();
+//                addInv.setInvDate(newInDate);
+//                addInv.setHotelCode(record.getRoomCode());
+//                addInv.setInventory(mroom.getRoomStock() - record.getRoomNum());
+//                addInv.setAutoClose("Y");
+//                bizInvService.addByUser(addInv);
+//                //将默认库存数插入数据库，将库存数减一
+//            } else {
+//                //k库存数大于1这可以减1
+//                if (bizInvs.getInventory() - record.getRoomNum() >= 0) {
+//
+//                    bizInvs.setInventory(bizInvs.getInventory() - record.getRoomNum());
+//                    bizInvs.setInvDate(newInDate);
+//                    bizInvService.update(bizInvs);
+//                } else {
+//                    //提示库存数不够
+//                    throw new GlobalException("invIsOutException");
+//                }
+//            }
+//        }
 
         record.setStatus(Constant.PUCHS_STAT_CONFIRM);
         record.setLastCrtTime(DateUtils.getDateString(new Date(),"yyyyMMdd"));
@@ -285,6 +383,49 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
     @SystemServiceLog(description = "订单取消（业务层）")
     public int orderCancel(List<BizPuchsExtDto> bizPuchs) {
         for (BizPuchsExtDto bizPuch : bizPuchs) {
+
+            //取消订单还原库存
+            Date outDate = DateUtils.getDate(bizPuch.getOutDateEnd(), "yyyyMMdd");
+            Date inDate = DateUtils.getDate(bizPuch.getInDateStart(), "yyyyMMdd");
+            int invDate = DateUtils.getDateDiff(outDate, inDate);
+
+            for (int index = 0; index < invDate; index++) {
+                String newInDate = DateUtils.getDateString(DateUtils.addDays(inDate, index), "yyyyMMdd");
+                BizInv inv = new BizInv();
+                inv.setHotelCode(bizPuch.getHotelCode());
+                inv.setInvDate(newInDate);
+                BizInv bizInvs = bizInvService.findByRoomCode(inv);
+                System.out.println("record.getHotelCode() =" +bizPuch.getHotelCode());
+                if (bizInvs == null) {
+                    BizHotl quryStock = new BizHotl();
+                    quryStock.setHotelCode(bizPuch.getHotelCode());
+                    BizHotl mroom = bizHotlMapper.findStook(quryStock);
+                    // BizRoom mroom = bizRoomMapper.findById(record.getRoomCode());
+                    if (mroom.getRoomStock() <= 0 || mroom.getRoomStock() == null) {
+                        throw new GlobalException("RoomStockIsNull");
+                    }
+                    if(mroom.getRoomStock() < bizPuch.getRoomNum() )
+                    {
+                        throw new GlobalException("invIsOutException");
+                    }
+                } else {
+                    //k库存数大于1这可以减1
+                    System.out.println("bizInvs.getInventory() =" +bizInvs.getInventory());
+                    if (bizInvs.getInventory() < bizPuch.getRoomNum() ) {
+                        throw new GlobalException("invIsOutException");
+                    }
+                    //判断原来库存数和编辑的库存数的大小，然后还原和扣除库存数
+                    //查订单表里面的库存数
+                    BizPuchs quryPush = new BizPuchs();
+                    quryPush.setOrderCode(bizPuch.getOrderCode());
+                    BizPuchs retPush = bizPuchsMapper.selectOne(quryPush);
+                    //还原库存数
+                    bizInvs.setInventory(bizInvs.getInventory() + bizPuch.getRoomNum());
+                    bizInvs.setInvDate(newInDate);
+                    bizInvService.update(bizInvs);
+                }
+            }
+
             cancel(bizPuch);
         }
         return 1;
