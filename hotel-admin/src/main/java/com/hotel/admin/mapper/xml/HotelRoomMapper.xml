@@ -124,7 +124,7 @@
               GROUP BY
                   f.room_code
               HAVING
-              count( f.room_code ) = DATEDIFF(DATE_FORMAT( #{outDateEnd}, '%Y%m%d'),DATE_FORMAT( #{inDateStart}, '%Y%m%d') ) +1)
+              count( f.room_code ) = DATEDIFF(DATE_FORMAT( #{outDateEnd}, '%Y%m%d'),DATE_FORMAT( #{inDateStart}, '%Y%m%d') ) +1
               ) p ON a.room_code = p.room_code
     WHERE
         a.del_flag = 0
