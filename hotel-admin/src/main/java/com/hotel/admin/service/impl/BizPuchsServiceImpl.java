@@ -156,7 +156,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                     if (mroom.getRoomStock() <= 0 || mroom.getRoomStock() == null) {
                         throw new GlobalException("RoomStockIsNull");
                     }
-                    System.out.println("mroom.getRoomStock() =" + mroom.getRoomStock());
+                    LOGGER.info("mroom.getRoomStock() =" + mroom.getRoomStock());
 
                     BizInv addInv = new BizInv();
                     addInv.setInvDate(newInDate);
@@ -282,7 +282,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                 }
             } else {
                 //k库存数大于1这可以减1
-                System.out.println("bizInvs.getInventory() =" +bizInvs.getInventory());
+                LOGGER.info("bizInvs.getInventory() =" +bizInvs.getInventory());
                 if (bizInvs.getInventory() < record.getRoomNum() ) {
                     throw new GlobalException("invIsOutException");
                 }

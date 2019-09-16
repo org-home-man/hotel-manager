@@ -4,23 +4,22 @@ import com.hotel.admin.aspect.SysLogAspect;
 import com.hotel.admin.constants.Constant;
 import com.hotel.admin.dto.DateRangeDto;
 import com.hotel.admin.dto.SysDictDto;
+import com.hotel.admin.mapper.BizInvMapper;
 import com.hotel.admin.mapper.BizPuchsMapper;
 import com.hotel.admin.mapper.BizRecommendRoomMapper;
 import com.hotel.admin.mapper.SysDictMapper;
-import com.hotel.admin.model.BizRecommendRoom;
-import com.hotel.admin.model.SysDict;
+import com.hotel.admin.model.*;
 import com.hotel.admin.qo.BizPuchsStatusUpdate;
+import com.hotel.admin.service.BizInvService;
+import com.hotel.common.utils.DateUtils;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.exception.GlobalException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.awt.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,7 +37,13 @@ public class DailySchedule {
     private BizRecommendRoomMapper bizRecommendRoomMapper;
 
     @Autowired
+    private BizInvMapper bizInvMapper;
+
+    @Autowired
     private SysDictMapper sysDictMapper;
+
+    @Autowired
+    private BizInvService bizInvService;
 
 
     /*
@@ -50,7 +55,7 @@ public class DailySchedule {
 
         逐一确认“已确认”订单，若订单的【入住日期】<=【当前日期】+【7天】（7天天为配置参数），则该订单状态变更成“待结算”
      */
-    @Scheduled(cron = "0 1 0 * * ?")
+    @Scheduled(cron = "0 30 17 * * ?")
     public void dailyTwelveHour() {
         /*
         查询出订单表中当月最低房价客房信息
@@ -72,17 +77,55 @@ public class DailySchedule {
         logger.info("日跑批价格最低的客房信息："+bizLowestRoom.getRoomCode() );
         inserOrUpdateRecommend(bizLowestRoom);
 
-        //更新订单状态
-        String sysDate = getSystemDate(getSystemParams());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String today = sdf.format(new Date());
+
+        //更新17.30订单状态
+        logger.info("执行将未确认订单更新为自动取消订单");
         BizPuchsStatusUpdate bizPuchsStatusUpdate = new BizPuchsStatusUpdate();
-        bizPuchsStatusUpdate.setInDateStart(sysDate);
+        bizPuchsStatusUpdate.setCreateTime(today);
         bizPuchsStatusUpdate.setOldStatus(Constant.PUCHS_STAT_NO_CONFIRM);
         bizPuchsStatusUpdate.setStatus(Constant.PUCHS_STAT_CANCEL_AUTO);
-        bizPuchsMapper.puchsStatusUpdate(bizPuchsStatusUpdate);
+        bizPuchsMapper.puchsStatusCrtTm(bizPuchsStatusUpdate);
 
-        bizPuchsStatusUpdate.setOldStatus(Constant.PUCHS_STAT_CONFIRM);
-        bizPuchsStatusUpdate.setStatus(Constant.PUCHS_STAT_NO_ACCOUNTS);
-        bizPuchsMapper.puchsStatusUpdate(bizPuchsStatusUpdate);
+        logger.info("执行将确认状态的订单更新成待结算订单");
+        String sysDate = getSystemDate(getSystemParams());
+        BizPuchsStatusUpdate statusUpdate = new BizPuchsStatusUpdate();
+        statusUpdate.setInDateStart(sysDate);
+        statusUpdate.setOldStatus(Constant.PUCHS_STAT_CONFIRM);
+        statusUpdate.setStatus(Constant.PUCHS_STAT_NO_ACCOUNTS);
+        bizPuchsMapper.puchsStatusUpdate(statusUpdate);
+
+        //查询出当日创建以前的订单信息 未确认的订单取消之后需要还库存
+        logger.info("执行还原库存信息");
+        BizPuchsUpdate bizPuchsUpdate = new BizPuchsUpdate();
+        bizPuchsUpdate.setStatus(Constant.PUCHS_STAT_NO_CONFIRM);
+        bizPuchsUpdate.setCreateTime(today);
+        List<BizPuchs> bizPuchsList =  bizPuchsMapper.selectPuchsInfo(bizPuchsUpdate);
+        if (bizPuchsList.size()>0) {
+            for (int i = 0 ;i<bizPuchsList.size() ; i++) {
+                //取消订单还原库存
+                Date outDate = DateUtils.getDate(bizPuchsList.get(i).getOutDateEnd(), "yyyyMMdd");
+                Date inDate = DateUtils.getDate(bizPuchsList.get(i).getInDateStart(), "yyyyMMdd");
+                int invDate = DateUtils.getDateDiff(outDate, inDate);
+                for (int index = 0; index < invDate; index++) {
+                    String newInDate = DateUtils.getDateString(DateUtils.addDays(inDate, index), "yyyyMMdd");
+                    BizInv inv = new BizInv();
+                    inv.setHotelCode(bizPuchsList.get(i).getHotelCode());
+                    inv.setInvDate(newInDate);
+                    BizInv bizInvs = bizInvMapper.findByHotelCode(inv);
+                    logger.info("record.getHotelCode() =" + bizPuchsList.get(i).getHotelCode()+","+newInDate);
+                    if (bizInvs == null) {
+                        continue;
+                    } else {
+                        //还原被扣除库存
+                        bizInvs.setInventory(bizInvs.getInventory() + bizPuchsList.get(i).getRoomNum());
+                        bizInvs.setInvDate(newInDate);
+                        bizInvService.update(bizInvs);
+                    }
+                }
+            }
+        }
 
     }
 

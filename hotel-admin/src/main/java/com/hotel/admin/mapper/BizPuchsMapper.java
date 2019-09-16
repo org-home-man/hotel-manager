@@ -31,6 +31,8 @@ public interface BizPuchsMapper extends AbstractMapper<BizPuchs> {
 
     int puchsStatusCrtTm(BizPuchsStatusUpdate bizPuchsStatusUpdate);
 
+    List<BizPuchs> selectPuchsInfo(BizPuchsUpdate bizPuchsUpdate);
+
     //r0001报表
     List<MrR0001DetailDto> r0001MonthReport(MrSummaryQo record);
 
