@@ -106,7 +106,11 @@ public class WebSocketServer {
                     heartMessage.setType(Constant.SOCKET_HEAT_BEAT);
                     heartMessage.setMessage("heart report");
                 }
-                session.getAsyncRemote().sendText(JSONObject.toJSONString(heartMessage));
+                try {
+                    session.getBasicRemote().sendText(JSONObject.toJSONString(heartMessage));
+                } catch (IOException e) {
+                    LOGGER.error("消息推送错误",e);
+                }
             }
         }
     }
@@ -129,7 +133,11 @@ public class WebSocketServer {
         LOGGER.info("推送消息  推送内容:"+message);
         webSocketMap.forEach( (u,s)-> {
                 //推送指定管理员用户
-                s.getAsyncRemote().sendText(message);
+            try {
+                s.getBasicRemote().sendText(message);
+            } catch (IOException e) {
+                LOGGER.error("消息推送错误",e);
+            }
         });
     }
 
@@ -177,7 +185,11 @@ public class WebSocketServer {
             socketMessageService.save(socketMessage);
         }else{
             //推送消息
-            session.getAsyncRemote().sendText(message);
+            try {
+                session.getBasicRemote().sendText(message);
+            } catch (IOException e) {
+                LOGGER.error("消息推送错误",e);
+            }
         }
     }
 
