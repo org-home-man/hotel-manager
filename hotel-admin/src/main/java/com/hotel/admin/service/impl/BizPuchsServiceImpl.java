@@ -126,7 +126,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                 recordExt.setOrderCode(orderCode);
                 recordExt.setLiveDate(sdf.format(calendar.getTime()));
                 recordExt.setSAmount(priceList.get(i).getSRoomPrice()*record.getRoomNum());
-                recordExt.setTAmount(priceList.get(i).getTPrice()*(record.getAdultNum()+record.getChildNum()));
+                recordExt.setTAmount(priceList.get(i).getTPrice()*(record.getAdultNum()+record.getChildren612()+record.getChildren46()));
                 bizPuchsExtMapper.insertSelective(recordExt);
 
                 calendar.add(Calendar.DATE,1);

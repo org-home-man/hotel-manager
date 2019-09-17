@@ -50,11 +50,11 @@ public class BizPuchs extends BusinessEntity {
 	/** 1酒店名称 */
 	private String hotelName;
 	/** 6-12岁儿童 */
-	private String children612;
+	private Integer children612;
 	/** 4-6岁儿童 */
-	private String children46;
+	private Integer children46;
 	/** 4岁以下儿童 */
-	private String children4;
+	private Integer children4;
 
 	private String hotelCode;
 
@@ -67,27 +67,27 @@ public class BizPuchs extends BusinessEntity {
 		this.totalTAmount = totalTAmount;
 	}
 
-	public String getChildren612() {
+	public Integer getChildren612() {
 		return children612;
 	}
 
-	public void setChildren612(String children612) {
+	public void setChildren612(Integer children612) {
 		this.children612 = children612;
 	}
 
-	public String getChildren46() {
+	public Integer getChildren46() {
 		return children46;
 	}
 
-	public void setChildren46(String children46) {
+	public void setChildren46(Integer children46) {
 		this.children46 = children46;
 	}
 
-	public String getChildren4() {
+	public Integer getChildren4() {
 		return children4;
 	}
 
-	public void setChildren4(String children4) {
+	public void setChildren4(Integer children4) {
 		this.children4 = children4;
 	}
 
