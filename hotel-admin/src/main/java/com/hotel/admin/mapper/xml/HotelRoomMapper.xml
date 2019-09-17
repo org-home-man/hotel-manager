@@ -170,7 +170,7 @@
       AND a.room_style = #{roomStyle,jdbcType=VARCHAR}
     </if>
     <if test="roomArea != null">
-      AND a.room_area &gt;= #{roomArea,jdbcType=VARCHAR}
+         AND a.room_area = #{roomArea,jdbcType=VARCHAR}
     </if>
     <if test="iswify != null and iswify !=''">
       AND bre.iswify = #{iswify,jdbcType=VARCHAR}
