@@ -130,6 +130,14 @@
     where hotel_code = #{hotelCode,jdbcType=VARCHAR} and inv_date = #{invDate,jdbcType=VARCHAR}
   </update>
 
+  <update id="retByUserInv" parameterType="com.hotel.admin.qo.BizInvQo">
+    update biz_inv
+    <set>
+        inventory = #{inventory,jdbcType=INTEGER},
+    </set>
+    where hotel_code = #{hotelCode,jdbcType=VARCHAR} and inv_date = #{invDate,jdbcType=VARCHAR}
+  </update>
+
 
   
 </mapper>

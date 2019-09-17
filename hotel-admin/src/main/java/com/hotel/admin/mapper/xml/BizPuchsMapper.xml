@@ -342,7 +342,7 @@
 				status = #{status,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where status = #{oldStatus,jdbcType=VARCHAR} AND  STR_TO_DATE(create_time, '%Y-%m-%d') &lt;= STR_TO_DATE(#{createTime,jdbcType=VARCHAR},'%Y%m%d')
+		where status = #{oldStatus,jdbcType=VARCHAR} AND  STR_TO_DATE(left(create_time,10), '%Y-%m-%d') &lt;= STR_TO_DATE(#{createTime,jdbcType=VARCHAR},'%Y%m%d')
 	</update>
 
 	<!-- 根据订单状态以及创建时间查询订单信息 -->
@@ -351,7 +351,7 @@
 		*
 		from
 		biz_puchs
-		where  status = #{status,jdbcType=VARCHAR} AND  STR_TO_DATE(create_time, '%Y-%m-%d') &lt;= STR_TO_DATE(#{createTime,jdbcType=VARCHAR},'%Y%m%d')
+		where  status = #{status,jdbcType=VARCHAR} AND  STR_TO_DATE(left(create_time,10), '%Y-%m-%d') &lt;= STR_TO_DATE(#{createTime,jdbcType=VARCHAR},'%Y%m%d')
 	</select>
 	
     <select id="selectMaxSequence" resultType="java.lang.String">

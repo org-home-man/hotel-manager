@@ -5,6 +5,7 @@ import java.util.List;
 import com.hotel.admin.model.BizInv;
 import com.hotel.admin.model.BizPuchs;
 import com.hotel.admin.model.SysUser;
+import com.hotel.admin.qo.BizInvQo;
 import com.hotel.core.mybatis.mapper.AbstractMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -36,6 +37,8 @@ public interface BizInvMapper  extends AbstractMapper<BizInv> {
     int addByUser(BizInv code);
 
     int updateByUser(BizInv code);
+
+    int retByUserInv(BizInvQo code);
 
     List<BizInv> findCancelBizInv(@Param("roomCode") String roomCode, @Param("inDate") String inDate, @Param("outDate") String outDate);
 

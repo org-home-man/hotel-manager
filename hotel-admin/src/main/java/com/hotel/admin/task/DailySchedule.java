@@ -9,8 +9,8 @@ import com.hotel.admin.mapper.BizPuchsMapper;
 import com.hotel.admin.mapper.BizRecommendRoomMapper;
 import com.hotel.admin.mapper.SysDictMapper;
 import com.hotel.admin.model.*;
+import com.hotel.admin.qo.BizInvQo;
 import com.hotel.admin.qo.BizPuchsStatusUpdate;
-import com.hotel.admin.service.BizInvService;
 import com.hotel.common.utils.DateUtils;
 import com.hotel.common.utils.Utils;
 import com.hotel.core.exception.GlobalException;
@@ -42,8 +42,6 @@ public class DailySchedule {
     @Autowired
     private SysDictMapper sysDictMapper;
 
-    @Autowired
-    private BizInvService bizInvService;
 
 
     /*
@@ -55,7 +53,7 @@ public class DailySchedule {
 
         逐一确认“已确认”订单，若订单的【入住日期】<=【当前日期】+【7天】（7天天为配置参数），则该订单状态变更成“待结算”
      */
-    @Scheduled(cron = "0 30 17 * * ?")
+    @Scheduled(cron = "0 11 15 * * ?")
     public void dailyTwelveHour() {
         /*
         查询出订单表中当月最低房价客房信息
@@ -80,22 +78,6 @@ public class DailySchedule {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String today = sdf.format(new Date());
 
-        //更新17.30订单状态
-        logger.info("执行将未确认订单更新为自动取消订单");
-        BizPuchsStatusUpdate bizPuchsStatusUpdate = new BizPuchsStatusUpdate();
-        bizPuchsStatusUpdate.setCreateTime(today);
-        bizPuchsStatusUpdate.setOldStatus(Constant.PUCHS_STAT_NO_CONFIRM);
-        bizPuchsStatusUpdate.setStatus(Constant.PUCHS_STAT_CANCEL_AUTO);
-        bizPuchsMapper.puchsStatusCrtTm(bizPuchsStatusUpdate);
-
-        logger.info("执行将确认状态的订单更新成待结算订单");
-        String sysDate = getSystemDate(getSystemParams());
-        BizPuchsStatusUpdate statusUpdate = new BizPuchsStatusUpdate();
-        statusUpdate.setInDateStart(sysDate);
-        statusUpdate.setOldStatus(Constant.PUCHS_STAT_CONFIRM);
-        statusUpdate.setStatus(Constant.PUCHS_STAT_NO_ACCOUNTS);
-        bizPuchsMapper.puchsStatusUpdate(statusUpdate);
-
         //查询出当日创建以前的订单信息 未确认的订单取消之后需要还库存
         logger.info("执行还原库存信息");
         BizPuchsUpdate bizPuchsUpdate = new BizPuchsUpdate();
@@ -119,13 +101,32 @@ public class DailySchedule {
                         continue;
                     } else {
                         //还原被扣除库存
-                        bizInvs.setInventory(bizInvs.getInventory() + bizPuchsList.get(i).getRoomNum());
-                        bizInvs.setInvDate(newInDate);
-                        bizInvService.update(bizInvs);
+                        BizInvQo bizInvQo = new BizInvQo();
+                        bizInvQo.setHotelCode(bizInvs.getHotelCode());
+                        bizInvQo.setInventory(bizInvs.getInventory() + bizPuchsList.get(i).getRoomNum());
+                        bizInvQo.setInvDate(newInDate);
+                        bizInvMapper.retByUserInv(bizInvQo);
                     }
                 }
             }
         }
+
+        //更新17.30订单状态
+        logger.info("执行将未确认订单更新为自动取消订单");
+        BizPuchsStatusUpdate bizPuchsStatusUpdate = new BizPuchsStatusUpdate();
+        bizPuchsStatusUpdate.setCreateTime(today);
+        bizPuchsStatusUpdate.setOldStatus(Constant.PUCHS_STAT_NO_CONFIRM);
+        bizPuchsStatusUpdate.setStatus(Constant.PUCHS_STAT_CANCEL_AUTO);
+        bizPuchsMapper.puchsStatusCrtTm(bizPuchsStatusUpdate);
+
+        logger.info("执行将确认状态的订单更新成待结算订单");
+        String sysDate = getSystemDate(getSystemParams());
+        BizPuchsStatusUpdate statusUpdate = new BizPuchsStatusUpdate();
+        statusUpdate.setInDateStart(sysDate);
+        statusUpdate.setOldStatus(Constant.PUCHS_STAT_CONFIRM);
+        statusUpdate.setStatus(Constant.PUCHS_STAT_NO_ACCOUNTS);
+        bizPuchsMapper.puchsStatusUpdate(statusUpdate);
+
 
     }
 
