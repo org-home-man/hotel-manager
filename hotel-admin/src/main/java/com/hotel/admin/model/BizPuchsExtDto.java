@@ -136,6 +136,8 @@ public class BizPuchsExtDto extends BizPuchs{
     private String hotelAddr;
     /** 酒店电话 */
     private String hotelPhone;
+    /** 酒店电话 */
+    private String hotelFax;
     /** 酒店网址 */
     private String hotelWeb;
 
@@ -233,13 +235,7 @@ public class BizPuchsExtDto extends BizPuchs{
     public String gethotelAddr() {
         return hotelAddr;
     }
-    public void sethotelPhone(String hotelPhone) {
-        this.hotelPhone = hotelPhone;
-    }
 
-    public String gethotelPhone() {
-        return hotelPhone;
-    }
     public void sethotelWeb(String hotelWeb) {
         this.hotelWeb = hotelWeb;
     }
@@ -684,6 +680,19 @@ public class BizPuchsExtDto extends BizPuchs{
         this.mark = mark;
     }
 
+    public String getHotelPhone() {
+        return hotelPhone;
+    }
 
+    public void setHotelPhone(String hotelPhone) {
+        this.hotelPhone = hotelPhone;
+    }
 
+    public String getHotelFax() {
+        return hotelFax;
+    }
+
+    public void setHotelFax(String hotelFax) {
+        this.hotelFax = hotelFax;
+    }
 }

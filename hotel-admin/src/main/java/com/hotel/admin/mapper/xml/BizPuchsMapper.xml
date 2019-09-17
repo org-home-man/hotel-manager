@@ -59,6 +59,7 @@
 	<result column="price" jdbcType="DOUBLE" property="sPrice" />
 	<result column="hotel_addr" jdbcType="VARCHAR" property="hotelAddr" />
 	<result column="hotel_phone" jdbcType="VARCHAR" property="hotelPhone" />
+	  <result column="hotel_fax" jdbcType="VARCHAR" property="hotelFax" />
 	<result column="hotel_web" jdbcType="VARCHAR" property="hotelWeb" />
 	<result column="hotel_type" jdbcType="VARCHAR" property="hotelType" />
 	<result column="iswify" jdbcType="VARCHAR" property="iswify" />
