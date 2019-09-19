@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
@@ -13,6 +14,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @date Oct 29, 2018
  */
 //@EnableDiscoveryClient
+@EnableTransactionManagement
 @SpringBootApplication(scanBasePackages={"com.hotel"})
 @EnableScheduling //开启定时任务
 @EnableAsync //开启异步定时任务
