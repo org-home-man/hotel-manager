@@ -16,7 +16,6 @@ import java.util.List;
  * @Despriction:
  * @Date:Created in 2019-04-20
  */
-@Transactional
 public class BaseService<T extends Entity> implements IService<T> {
     @Autowired
     Mapper<T> mapper;

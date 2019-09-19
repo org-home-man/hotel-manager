@@ -34,7 +34,6 @@ import java.util.List;
  */
 
 @Service
-@Transactional
 public class HotelRoomServiceImpl extends AbstractService<BizRoom> implements HotelRoomService {
 
 	private Logger LOGGER = LoggerFactory.getLogger(HotelRoomServiceImpl.class);
