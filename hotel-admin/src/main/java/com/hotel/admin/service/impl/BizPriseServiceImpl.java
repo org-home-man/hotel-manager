@@ -57,6 +57,9 @@ public class BizPriseServiceImpl implements BizPriseService {
 			if("4".equals( record.getRoomType() ) ) {
 				record.setSRoomPrice(bp.getSPrice()*4);
 			}
+			if("5".equals( record.getRoomType() ) ) {
+				record.setSRoomPrice(bp.getSPrice());
+			}
 			List<BizPrise> bpLi = bizPriseMapper.findById(record);
 
 			if (bpLi.size() >0) {

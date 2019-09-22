@@ -2,6 +2,7 @@ package com.hotel.admin.model;
 
 import com.hotel.common.entity.BusinessEntity;
 
+import javax.persistence.Transient;
 import java.util.Date;
 
 /**
@@ -58,6 +59,7 @@ public class BizPuchs extends BusinessEntity {
 
 	private String hotelCode;
 
+	@Transient
 	private String roomType;
 
 
