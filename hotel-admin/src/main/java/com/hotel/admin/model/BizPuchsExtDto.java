@@ -152,6 +152,9 @@ public class BizPuchsExtDto extends BizPuchs{
     //标志
     private String mark;
 
+    //重要事项
+    private String specialMatters;
+
     public String getIsSeaviewRoom() {
         return isSeaviewRoom;
     }
@@ -722,5 +725,13 @@ public class BizPuchsExtDto extends BizPuchs{
 
     public void setHotelFax(String hotelFax) {
         this.hotelFax = hotelFax;
+    }
+
+    public String getSpecialMatters() {
+        return specialMatters;
+    }
+
+    public void setSpecialMatters(String specialMatters) {
+        this.specialMatters = specialMatters;
     }
 }

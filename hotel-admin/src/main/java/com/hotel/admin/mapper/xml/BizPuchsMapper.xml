@@ -91,6 +91,7 @@
 	<result column="istrafic" jdbcType="VARCHAR" property="istrafic" />
 	<result column="isrestau" jdbcType="VARCHAR" property="isrestau" />
 	  <result column="mark" jdbcType="VARCHAR" property="mark" />
+	  <result column="SpecialMatters" jdbcType="VARCHAR" property="SpecialMatters" />
   </resultMap>
 
 	<resultMap id="r0001ReportMap" type="com.hotel.admin.dto.MrR0001DetailDto">
@@ -183,7 +184,7 @@
 		d.ischildct,d.isroomserv,d.isknead,d.islounge,d.issuper,d.isbus,d.istrafic,d.isrestau
 	</sql>
 	<sql id="hotel_sql">
-		h.country_code,h.province_code,h.city_code,h.hotel_type,h.hotel_level,h.hotel_cname,h.hotel_ename,h.hotel_addr,h.hotel_phone,h.hotel_fax,h.hotel_web,h.present,h.scheduledays,h.favorableprice,h.evenlive
+		h.country_code,h.province_code,h.city_code,h.hotel_type,h.hotel_level,h.hotel_cname,h.hotel_ename,h.hotel_addr,h.hotel_phone,h.hotel_fax,h.hotel_web,h.present,h.scheduledays,h.favorableprice,h.evenlive,h.SpecialMatters
 	</sql>
 	<select id="findPage" resultMap="BaseResultMap">
 		select bp.*,
