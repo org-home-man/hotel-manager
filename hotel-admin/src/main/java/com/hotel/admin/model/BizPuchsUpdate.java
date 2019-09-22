@@ -60,6 +60,8 @@ public class BizPuchsUpdate extends BusinessEntity {
 
 	private String local;
 
+	private String roomType;
+
 	public String getHotelCode() {
 		return hotelCode;
 	}
@@ -251,5 +253,13 @@ public class BizPuchsUpdate extends BusinessEntity {
 
 	public void setLastCrtTime(String lastCrtTime) {
 		this.lastCrtTime = lastCrtTime;
+	}
+
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
 	}
 }

@@ -126,7 +126,12 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                 recordExt.setOrderCode(orderCode);
                 recordExt.setLiveDate(sdf.format(calendar.getTime()));
                 recordExt.setSAmount(priceList.get(i).getSRoomPrice()*record.getRoomNum());
-                recordExt.setTAmount(priceList.get(i).getTPrice()*(record.getAdultNum()+record.getChildren612()+record.getChildren46()));
+                if(!"5".equals( record.getRoomType() )) {
+                    recordExt.setTAmount(priceList.get(i).getTPrice()*(record.getAdultNum()+record.getChildren612()+record.getChildren46()));
+                } else {
+                    recordExt.setTAmount(priceList.get(i).getTPrice());
+                }
+
                 bizPuchsExtMapper.insertSelective(recordExt);
 
                 calendar.add(Calendar.DATE,1);
@@ -244,6 +249,11 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
             recordExt.setLiveDate(sdf.format(calendar.getTime()));
             recordExt.setSAmount(priceList.get(i).getSRoomPrice()*record.getRoomNum());
 //            recordExt.setTAmount(priceList.get(i).getTPrice()*(record.getAdultNum()+record.getChildNum()));
+            if(!"5".equals( record.getRoomType() )) {
+                recordExt.setTAmount(priceList.get(i).getTPrice()*(record.getAdultNum()+record.getChildren612()+record.getChildren46()));
+            } else {
+                recordExt.setTAmount(priceList.get(i).getTPrice());
+            }
             bizPuchsExtMapper.updateByUnique(recordExt);
             calendar.add(Calendar.DATE,1);
         }
@@ -288,6 +298,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
                 }
             }
         }
+
 
         return bizPuchsMapper.updateBizPushs(record);
     }

@@ -58,6 +58,8 @@ public class BizPuchs extends BusinessEntity {
 
 	private String hotelCode;
 
+	private String roomType;
+
 
 	public Double getTotalTAmount() {
 		return totalTAmount;
@@ -241,5 +243,13 @@ public class BizPuchs extends BusinessEntity {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
 	}
 }
