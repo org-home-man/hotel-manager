@@ -60,10 +60,18 @@ public class BizHotl extends BusinessEntity{
 	private Double favorableprice;
 	private Integer evenlive;
 	private String present;
-
+	private String specialMatters;
 	private Integer roomStock;
 
 	private Byte  delFlag;
+
+	public String getSpecialMatters() {
+		return specialMatters;
+	}
+
+	public void setSpecialMatters(String specialMatters) {
+		this.specialMatters = specialMatters;
+	}
 
 	public String getHotelCode() {
 		return hotelCode;

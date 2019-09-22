@@ -51,6 +51,10 @@
     <result column="isiron" jdbcType="VARCHAR" property="isiron" />
     <result column="isnosmk" jdbcType="VARCHAR" property="isnosmk" />
     <result column="islandscape" jdbcType="VARCHAR" property="islandscape" />
+    <result column="isSeaviewRoom" jdbcType="VARCHAR" property="isSeaviewRoom" />
+    <result column="isMountainViewRoom" jdbcType="VARCHAR" property="isMountainViewRoom" />
+    <result column="isCityViewRoom" jdbcType="VARCHAR" property="isCityViewRoom" />
+    <result column="ishighrise" jdbcType="VARCHAR" property="ishighrise" />
     <result column="ishighrise" jdbcType="VARCHAR" property="ishighrise" />
     <result column="ispark" jdbcType="VARCHAR" property="ispark" />
     <result column="isgym" jdbcType="VARCHAR" property="isgym" />
@@ -293,6 +297,9 @@
     e.isiron       isiron     ,
     e.isnosmk      isnosmk    ,
     e.islandscape  islandscape,
+    e.isSeaviewRoom isSeaviewRoom,
+    e.isMountainViewRoom isMountainViewRoom,
+    e.isCityViewRoom isCityViewRoom,
     e.ishighrise   ishighrise ,
     e.ispark       ispark     ,
     e.isgym        isgym      ,

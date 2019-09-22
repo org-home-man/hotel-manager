@@ -16,7 +16,7 @@
 	<result column="room_stock" jdbcType="INTEGER" property="roomStock" />
 	<result column="recommended" jdbcType="VARCHAR" property="recommended" />
 
-<!--    <result column="country_code" jdbcType="VARCHAR" property="countryCode" />-->
+    <result column="specialMatters" jdbcType="VARCHAR" property="specialMatters" />
     <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
     <result column="hotel_type" jdbcType="VARCHAR" property="hotelType" />
     <result column="hotel_level" jdbcType="VARCHAR" property="hotelLevel" />
@@ -48,6 +48,9 @@
     <result column="isiron" jdbcType="VARCHAR" property="isiron" />
     <result column="isnosmk" jdbcType="VARCHAR" property="isnosmk" />
     <result column="islandscape" jdbcType="VARCHAR" property="islandscape" />
+      <result column="isSeaviewRoom" jdbcType="VARCHAR" property="isSeaviewRoom" />
+      <result column="isMountainViewRoom" jdbcType="VARCHAR" property="isMountainViewRoom" />
+      <result column="isCityViewRoom" jdbcType="VARCHAR" property="isCityViewRoom" />
     <result column="ishighrise" jdbcType="VARCHAR" property="ishighrise" />
     <result column="ispark" jdbcType="VARCHAR" property="ispark" />
     <result column="isgym" jdbcType="VARCHAR" property="isgym" />
@@ -65,7 +68,7 @@
   </resultMap>
 
   <sql id="br_hotel_sql">
-    b.hotel_code,b.province_code ,b.city_code,b.hotel_type ,b.hotel_level ,b.hotel_cname ,b.hotel_ename ,b.hotel_addr ,b.hotel_phone ,b.hotel_web,b.scheduledays,b.favorableprice,b.present,b.evenlive
+    b.hotel_code,b.province_code ,b.city_code,b.hotel_type ,b.hotel_level ,b.hotel_cname ,b.hotel_ename ,b.hotel_addr ,b.hotel_phone ,b.hotel_web,b.scheduledays,b.favorableprice,b.present,b.evenlive,b.SpecialMatters
   </sql>
   <sql id="br_hotel_sql2">
     b.hotel_code AS hotelCode,b.province_code AS provinceCode ,b.city_code AS cityCode,b.hotel_type AS hotelType,b.hotel_level AS hotelLevel,b.hotel_cname AS hotelCname,b.hotel_ename AS hotelEname,b.hotel_addr AS hotelAddr,b.hotel_phone AS hotelPhone,b.hotel_web AS hotelWeb
@@ -74,7 +77,7 @@
     a.room_code,a.room_type,a.room_style,a.bed_type,a.break_type,a.room_area,a.photo,a.intro_c,a.intro_e
   </sql>
   <sql id="br_room_ext_sql">
-    iswify,isfront,isbarrifr,isbalcony,iskitchen,iswindow,isheat,isicebox,isiron,isnosmk,islandscape,ishighrise,ispark,isgym,isswmp,isbeach,ishotsp,ischildct,isroomserv,isknead,islounge,issuper,isbus,istrafic,isrestau
+    iswify,isfront,isbarrifr,isbalcony,iskitchen,iswindow,isheat,isicebox,isiron,isnosmk,islandscape,isSeaviewRoom,isMountainViewRoom,isCityViewRoom,ishighrise,ispark,isgym,isswmp,isbeach,ishotsp,ischildct,isroomserv,isknead,islounge,issuper,isbus,istrafic,isrestau
   </sql>
   <sql id="br_price_sql">
     p.price,p.end_price
@@ -214,6 +217,15 @@
     <if test="islandscape != null and islandscape!=''">
         AND bre.islandscape = #{islandscape,jdbcType=VARCHAR}
     </if>
+      <if test="isSeaviewRoom != null and isSeaviewRoom!=''">
+          AND bre.isSeaviewRoom = #{isSeaviewRoom,jdbcType=VARCHAR}
+      </if>
+      <if test="isMountainViewRoom != null and isMountainViewRoom!=''">
+          AND bre.isMountainViewRoom = #{isMountainViewRoom,jdbcType=VARCHAR}
+      </if>
+      <if test="isCityViewRoom != null and isCityViewRoom!=''">
+          AND bre.isCityViewRoom = #{isCityViewRoom,jdbcType=VARCHAR}
+      </if>
     <if test="ishighrise != null and ishighrise!=''">
         AND bre.ishighrise = #{ishighrise,jdbcType=VARCHAR}
     </if>

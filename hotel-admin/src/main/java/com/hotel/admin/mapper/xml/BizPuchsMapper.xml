@@ -73,6 +73,9 @@
 	<result column="isiron" jdbcType="VARCHAR" property="isiron" />
 	<result column="isnosmk" jdbcType="VARCHAR" property="isnosmk" />
 	<result column="islandscape" jdbcType="VARCHAR" property="islandscape" />
+	  <result column="isSeaviewRoom" jdbcType="VARCHAR" property="isSeaviewRoom" />
+	  <result column="isMountainViewRoom" jdbcType="VARCHAR" property="isMountainViewRoom" />
+	  <result column="isCityViewRoom" jdbcType="VARCHAR" property="isCityViewRoom" />
 	<result column="ishighrise" jdbcType="VARCHAR" property="ishighrise" />
 	<result column="ispark" jdbcType="VARCHAR" property="ispark" />
 	<result column="isgym" jdbcType="VARCHAR" property="isgym" />
@@ -176,7 +179,7 @@
 		r.room_style,r.room_type,r.bed_type,r.break_type,r.intro_c,r.intro_e,h.room_stock,r.recommended
 	</sql>
 	<sql id="room_ext_sql">
-		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
+		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.isSeaviewRoom,d.isMountainViewRoom,d.isCityViewRoom,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
 		d.ischildct,d.isroomserv,d.isknead,d.islounge,d.issuper,d.isbus,d.istrafic,d.isrestau
 	</sql>
 	<sql id="hotel_sql">
@@ -293,7 +296,7 @@
 
 	<select id="findByRoomCd" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select a.*,b.hotel_code,b.room_style,b.bed_type,b.break_type,b.intro_c,b.intro_e,c.room_stock,b.recommended,c.scheduledays,c.favorableprice,c.evenlive,c.present,
-		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
+		d.iswify,d.isfront,d.isbarrifr,d.isbalcony,d.iskitchen,d.iswindow,d.isheat,d.isicebox,d.isiron,d.isnosmk,d.islandscape,d.isSeaviewRoom,d.isMountainViewRoom,d.isCityViewRoom,d.ishighrise,d.ispark,d.isgym,d.isswmp,d.isbeach,d.ishotsp,
 		d.ischildct,d.isroomserv,d.isknead,d.islounge,d.issuper,d.isbus,d.istrafic,d.isrestau,
 		c.country_code,c.province_code,c.city_code,c.hotel_type,c.hotel_level,c.hotel_cname,c.hotel_ename,c.hotel_addr,c.hotel_phone,c.hotel_fax,c.hotel_web
 		from biz_puchs a, biz_room b, biz_hotl c, biz_room_ext d

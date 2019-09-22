@@ -133,6 +133,10 @@ public class BizRoom extends BusinessEntity{
 	private String istrafic;
 	/** 附近有餐厅 */
 	private String isrestau;
+	private String isSeaviewRoom;
+	private String isMountainViewRoom;
+	private String isCityViewRoom;
+
 
 	/** 结算价格  */
 	private Double tPrice;
@@ -140,6 +144,31 @@ public class BizRoom extends BusinessEntity{
 	private String hotelPhone;
 	private String hotelWeb;
 	private Integer roomStock;
+
+
+	public String getIsSeaviewRoom() {
+		return isSeaviewRoom;
+	}
+
+	public void setIsSeaviewRoom(String isSeaviewRoom) {
+		this.isSeaviewRoom = isSeaviewRoom;
+	}
+
+	public String getIsMountainViewRoom() {
+		return isMountainViewRoom;
+	}
+
+	public void setIsMountainViewRoom(String isMountainViewRoom) {
+		this.isMountainViewRoom = isMountainViewRoom;
+	}
+
+	public String getIsCityViewRoom() {
+		return isCityViewRoom;
+	}
+
+	public void setIsCityViewRoom(String isCityViewRoom) {
+		this.isCityViewRoom = isCityViewRoom;
+	}
 
 	public int getScheduledays() {
 		return scheduledays;

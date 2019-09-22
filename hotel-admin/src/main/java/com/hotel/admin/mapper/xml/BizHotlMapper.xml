@@ -20,6 +20,7 @@
       <result column="evenlive" jdbcType="VARCHAR" property="evenlive"/>
       <result column="favorableprice" jdbcType="VARCHAR" property="favorableprice"/>
       <result column="present" jdbcType="VARCHAR" property="present"/>
+      <result column="specialMatters" jdbcType="VARCHAR" property="specialMatters"/>
       <result column="room_stock" jdbcType="VARCHAR" property="roomStock"/>
 	<result column="hotel_cname" jdbcType="VARCHAR" property="hotelCname" />
 	<result column="hotel_ename" jdbcType="VARCHAR" property="hotelEname" />
@@ -71,6 +72,9 @@
             </if>
             <if test="hotelWeb != null and hotelWeb !=''">
                 hotel_web,
+            </if>
+            <if test="specialMatters != null and specialMatters !=''">
+                SpecialMatters,
             </if>
             <if test="roomStock!=null">
                 room_stock,
@@ -130,6 +134,9 @@
             </if>
             <if test="hotelWeb != null and hotelWeb !=''">
                #{hotelWeb,jdbcType=VARCHAR},
+            </if>
+            <if test="specialMatters != null and specialMatters !=''">
+                #{specialMatters,jdbcType=VARCHAR},
             </if>
             <if test="roomStock!=null">
                 #{roomStock,jdbcType=INTEGER},
@@ -209,6 +216,9 @@
             <if test="hotelWeb != null and hotelWeb !=''">
                 hotel_web = #{hotelWeb,jdbcType=VARCHAR},
             </if>
+            <if test="specialMatters != null and specialMatters !=''">
+                SpecialMatters = #{specialMatters,jdbcType=VARCHAR},
+            </if>
             <if test="scheduledays!=null">
                 scheduledays= #{scheduledays,jdbcType=DOUBLE},
             </if>
@@ -257,7 +267,7 @@
       select
     a.id, a.hotel_code, a.country_code,
   a.hotel_type, a.hotel_Level,
-  a.hotel_cname, a.hotel_ename, a.create_time,a.create_name,a.update_name, a.update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web,a.province_code,a.city_code,
+  a.hotel_cname, a.hotel_ename, a.create_time,a.create_name,a.update_name, a.update_time, a.hotel_addr, a.hotel_phone, a.hotel_fax, a.hotel_web,a.SpecialMatters,a.province_code,a.city_code,
       a.scheduledays ,
       a.favorableprice,
       a.evenlive,

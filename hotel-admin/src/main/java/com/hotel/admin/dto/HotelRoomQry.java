@@ -95,6 +95,43 @@ public class HotelRoomQry {
 	/** 附近有餐厅 */
 	private String isrestau;
 
+	private String isSeaviewRoom;
+	private String isMountainViewRoom;
+	private String isCityViewRoom;
+	private String  specialMatters;
+
+	public String getSpecialMatters() {
+		return specialMatters;
+	}
+
+	public void setSpecialMatters(String specialMatters) {
+		this.specialMatters = specialMatters;
+	}
+
+	public String getIsSeaviewRoom() {
+		return isSeaviewRoom;
+	}
+
+	public void setIsSeaviewRoom(String isSeaviewRoom) {
+		this.isSeaviewRoom = isSeaviewRoom;
+	}
+
+	public String getIsMountainViewRoom() {
+		return isMountainViewRoom;
+	}
+
+	public void setIsMountainViewRoom(String isMountainViewRoom) {
+		this.isMountainViewRoom = isMountainViewRoom;
+	}
+
+	public String getIsCityViewRoom() {
+		return isCityViewRoom;
+	}
+
+	public void setIsCityViewRoom(String isCityViewRoom) {
+		this.isCityViewRoom = isCityViewRoom;
+	}
+
 	public String getHotelLevel() {
 		return hotelLevel;
 	}

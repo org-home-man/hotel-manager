@@ -141,12 +141,40 @@ public class BizPuchsExtDto extends BizPuchs{
     /** 酒店网址 */
     private String hotelWeb;
 
+    private String isSeaviewRoom;
+    private String isMountainViewRoom;
+    private String isCityViewRoom;
+
     //订单销售房价
     private Double totalSAmount;
     //订单结算房价
     private Double totalTAmount;
     //标志
     private String mark;
+
+    public String getIsSeaviewRoom() {
+        return isSeaviewRoom;
+    }
+
+    public void setIsSeaviewRoom(String isSeaviewRoom) {
+        this.isSeaviewRoom = isSeaviewRoom;
+    }
+
+    public String getIsMountainViewRoom() {
+        return isMountainViewRoom;
+    }
+
+    public void setIsMountainViewRoom(String isMountainViewRoom) {
+        this.isMountainViewRoom = isMountainViewRoom;
+    }
+
+    public String getIsCityViewRoom() {
+        return isCityViewRoom;
+    }
+
+    public void setIsCityViewRoom(String isCityViewRoom) {
+        this.isCityViewRoom = isCityViewRoom;
+    }
 
     public int getScheduledays() {
         return scheduledays;

@@ -15,6 +15,9 @@
 	<result column="isiron" jdbcType="VARCHAR" property="isiron" />
 	<result column="isnosmk" jdbcType="VARCHAR" property="isnosmk" />
 	<result column="islandscape" jdbcType="VARCHAR" property="islandscape" />
+    <result column="isSeaviewRoom" jdbcType="VARCHAR" property="isSeaviewRoom" />
+    <result column="isMountainViewRoom" jdbcType="VARCHAR" property="isMountainViewRoom" />
+    <result column="isCityViewRoom" jdbcType="VARCHAR" property="isCityViewRoom" />
 	<result column="ishighrise" jdbcType="VARCHAR" property="ishighrise" />
 	<result column="ispark" jdbcType="VARCHAR" property="ispark" />
 	<result column="isgym" jdbcType="VARCHAR" property="isgym" />
@@ -69,6 +72,15 @@
       </if>
       <if test="islandscape != null">
         islandscape,
+      </if>
+      <if test="isSeaviewRoom != null">
+        isSeaviewRoom,
+      </if>
+      <if test="isMountainViewRoom != null">
+        isMountainViewRoom,
+      </if>
+      <if test="isCityViewRoom != null">
+        isCityViewRoom,
       </if>
       <if test="ishighrise != null">
         ishighrise,
@@ -149,6 +161,15 @@
       </if>
       <if test="islandscape != null">
         #{islandscape,jdbcType=VARCHAR},
+      </if>
+      <if test="isSeaviewRoom != null">
+        #{isSeaviewRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="isMountainViewRoom != null">
+        #{isMountainViewRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="isCityViewRoom != null">
+        #{isCityViewRoom,jdbcType=VARCHAR},
       </if>
       <if test="ishighrise != null">
         #{ishighrise,jdbcType=VARCHAR},
@@ -238,6 +259,15 @@
       </if>
       <if test="islandscape != null">
         islandscape = #{islandscape,jdbcType=VARCHAR},
+      </if>
+      <if test="isSeaviewRoom != null">
+        isSeaviewRoom = #{isSeaviewRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="isMountainViewRoom != null">
+        isMountainViewRoom = #{isMountainViewRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="isCityViewRoom != null">
+        isCityViewRoom = #{isCityViewRoom,jdbcType=VARCHAR},
       </if>
       <if test="ishighrise != null">
         ishighrise = #{ishighrise,jdbcType=VARCHAR},
