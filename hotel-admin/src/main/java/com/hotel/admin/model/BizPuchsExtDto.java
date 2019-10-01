@@ -153,7 +153,7 @@ public class BizPuchsExtDto extends BizPuchs{
     private String mark;
 
     //重要事项
-    private String specialMatters;
+    private String SpecialMatters;
 
     public String getIsSeaviewRoom() {
         return isSeaviewRoom;
@@ -728,10 +728,10 @@ public class BizPuchsExtDto extends BizPuchs{
     }
 
     public String getSpecialMatters() {
-        return specialMatters;
+        return SpecialMatters;
     }
 
     public void setSpecialMatters(String specialMatters) {
-        this.specialMatters = specialMatters;
+        SpecialMatters = specialMatters;
     }
 }
