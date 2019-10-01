@@ -65,7 +65,12 @@ public class DailySchedule {
         bizRecommendRoom.setRoomCode(groupCode);
         bizRecommendRoom.setCustroomType(Constant.CUSTROOM_MAXINUM);
         logger.info("日跑批历史预定最多的客房信息："+bizRecommendRoom.getRoomCode() );
-        inserOrUpdateRecommend(bizRecommendRoom);
+        try {
+            inserOrUpdateRecommend(bizRecommendRoom);
+        } catch (Exception e) {
+            logger.info("日跑批历史预定最多的客房信息出错，，，错误信息："+e.getMessage());
+        }
+
 
         //当月价格最低的客房信息
         BizRecommendRoom bizLowestRoom = new BizRecommendRoom();
@@ -73,7 +78,12 @@ public class DailySchedule {
         bizLowestRoom.setRoomCode(lowestRoom);
         bizLowestRoom.setCustroomType(Constant.CUSTROOM_PRICE_LOWEST);
         logger.info("日跑批价格最低的客房信息："+bizLowestRoom.getRoomCode() );
-        inserOrUpdateRecommend(bizLowestRoom);
+        try {
+            inserOrUpdateRecommend(bizLowestRoom);
+        } catch (Exception e) {
+            logger.info("日跑批价格最低的客房信息,出错,,错误信息："+e.getMessage());
+        }
+
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String today = sdf.format(new Date());
