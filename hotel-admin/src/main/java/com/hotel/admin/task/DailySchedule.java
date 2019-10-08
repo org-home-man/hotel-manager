@@ -53,7 +53,7 @@ public class DailySchedule {
 
         逐一确认“已确认”订单，若订单的【入住日期】<=【当前日期】+【7天】（7天天为配置参数），则该订单状态变更成“待结算”
      */
-    @Scheduled(cron = "0 11 15 * * ?")
+    @Scheduled(cron = "0 30 17 * * ?")
     public void dailyTwelveHour() {
         /*
         查询出订单表中当月最低房价客房信息
