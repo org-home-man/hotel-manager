@@ -60,6 +60,7 @@ public class BizRoomServiceImpl implements BizRoomService {
 
 	@Override
 	@Transactional
+	@SystemServiceLog(description = "客房信息维护保存（业务层）")
 	public int save(BizRoom record) {
 		/*
 		检查是否推荐为空， 如果被用户选择，那就必须查询客房信息表里面是否存在推荐房源，如果有，就更新为普通，如果没有就不做操作

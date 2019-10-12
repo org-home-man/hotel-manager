@@ -79,6 +79,7 @@ public class BizPuchsServiceImpl extends AbstractService<BizPuchs> implements Bi
 
     @Override
     @Transactional
+    @SystemServiceLog(description = "订单信息保存（业务层）")
     public int save(BizPuchs record) {
         //根据入住日期和退房日期 生成订单详细信息；详细信息需要订单的 每日的房间价格
         long days = 0;
