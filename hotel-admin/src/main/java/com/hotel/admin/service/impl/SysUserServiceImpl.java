@@ -266,7 +266,7 @@ public class SysUserServiceImpl  implements SysUserService {
 		user.setAddress(record.getAddress());
 		user.setBirthday(record.getBirthday());
 		user.setEmail(record.getEmail());
-		user.setRegion(record.getRegino());
+		user.setRegion(record.getRegion());
 		user.setMobile(record.getMobile());
 		user.setNet(record.getNet());
 		user.setPhone(record.getPhone());

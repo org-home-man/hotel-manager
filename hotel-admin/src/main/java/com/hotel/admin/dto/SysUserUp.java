@@ -40,7 +40,7 @@ public class SysUserUp extends BusinessEntity {
     private String net;
     private String remark;
 
-    private String regino;
+    private String region;
 
     private String path;
 
@@ -84,12 +84,12 @@ public class SysUserUp extends BusinessEntity {
         this.path = path;
     }
 
-    public String getRegino() {
-        return regino;
+    public String getRegion() {
+        return region;
     }
 
-    public void setRegino(String regino) {
-        this.regino = regino;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public String getName() {
