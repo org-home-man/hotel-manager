@@ -52,7 +52,6 @@ public class BizHotlServiceImpl extends AbstractService<BizHotl> implements BizH
 
 	@Override
 	@Transactional
-	@SystemServiceLog(description = "酒店信息保存/编辑（业务层）")
 	public int save(BizHotl record) {
             if(Utils.isEmpty(record.getHotelCode()) || record.getHotelCode() == "0") {
                 /* 获取自增序列并加1*/

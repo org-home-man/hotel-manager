@@ -275,9 +275,8 @@ public class SysUserServiceImpl  implements SysUserService {
 		user.setPath(record.getPath());
 		int i = 0;
 		try {
-			System.out.println(user);
+			logger.info("user信息："+user);
 			i = sysUserMapper.updateUserInfor(user);
-			System.out.println(i);
 		}catch (Exception e) {
 			throw new GlobalException("oraException",HttpStatus.SC_FORBIDDEN);
 		}
