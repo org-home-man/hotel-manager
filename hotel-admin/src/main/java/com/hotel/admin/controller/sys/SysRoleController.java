@@ -51,7 +51,7 @@ public class SysRoleController {
 		return HttpResult.ok();
 	}
 
-	@PreAuthorize("hasAuthority('sys:role:view')")
+//	@PreAuthorize("hasAuthority('sys:role:view')")
 	@PostMapping(value="/findPage")
 	public HttpResult findPage(String name) {
 		return HttpResult.ok(sysRoleService.findPage(name));
@@ -65,13 +65,13 @@ public class SysRoleController {
 		return HttpResult.ok(sysRoleStream);
 	}
 	
-	@PreAuthorize("hasAuthority('sys:role:view')")
+//	@PreAuthorize("hasAuthority('sys:role:view')")
 	@PostMapping(value="/findRoleMenus")
 	public HttpResult findRoleMenus(Long roleId) {
 		return HttpResult.ok(sysRoleService.findRoleMenus(roleId));
 	}
 	
-	@PreAuthorize("hasAuthority('sys:role:view')")
+//	@PreAuthorize("hasAuthority('sys:role:view')")
 	@PostMapping(value="/saveRoleMenus")
 	public HttpResult saveRoleMenus(@RequestBody List<SysRoleMenu> records) {
 		for(SysRoleMenu record:records) {

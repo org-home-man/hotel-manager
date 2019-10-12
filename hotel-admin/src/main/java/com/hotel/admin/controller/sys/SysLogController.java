@@ -20,7 +20,7 @@ public class SysLogController {
 	@Autowired
 	private SysLogService sysLogService;
 
-	@PreAuthorize("hasAuthority('sys:log:view')")
+//	@PreAuthorize("hasAuthority('sys:log:view')")
 	@PostMapping(value="/findPage")
 	public HttpResult findPage(String name) {
 		return HttpResult.ok(sysLogService.findPage(name));

@@ -85,13 +85,13 @@ public class SysUserController {
 		return HttpResult.ok(sysUserService.findPermissions(name));
 	}
 	
-	@PreAuthorize("hasAuthority('sys:user:view')")
+//	@PreAuthorize("hasAuthority('sys:user:view')")
 	@PostMapping(value="/findUserRoles")
 	public HttpResult findUserRoles(Long userId) {
 		return HttpResult.ok(sysUserService.findUserRoles(userId));
 	}
 
-	@PreAuthorize("hasAuthority('sys:user:view')")
+//	@PreAuthorize("hasAuthority('sys:user:view')")
 	@PostMapping(value="/findPage")
 	public HttpResult findPage(SysUserQuery qo) {
 		return HttpResult.ok(sysUserService.findPage(qo));

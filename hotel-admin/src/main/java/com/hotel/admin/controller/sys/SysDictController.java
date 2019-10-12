@@ -42,7 +42,7 @@ public class SysDictController {
 		return HttpResult.ok();
 	}
 
-	@PreAuthorize("hasAuthority('sys:dict:view')")
+//	@PreAuthorize("hasAuthority('sys:dict:view')")
 	@PostMapping(value="/findPage")
 	public HttpResult findPage(SysDict sysDict) {
 		return HttpResult.ok(sysDictService.findPage(sysDict));

@@ -38,7 +38,7 @@ public class SysDeptController {
 		return HttpResult.ok();
 	}
 
-	@PreAuthorize("hasAuthority('sys:dept:view')")
+//	@PreAuthorize("hasAuthority('sys:dept:view')")
 	@GetMapping(value="/findTree")
 	public HttpResult findTree() {
 		return HttpResult.ok(sysDeptService.findTree());
