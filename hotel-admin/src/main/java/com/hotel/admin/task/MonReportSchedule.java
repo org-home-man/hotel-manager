@@ -27,9 +27,11 @@ public class MonReportSchedule {
     private MrOrderdetailMapper mrOrderdetailMapper;
 //    @Scheduled(fixedRate = 1000*200) //每15s执行一次
 //    @Scheduled(cron = "0 0 2 1 * ?") //每月1上午02：:0触发 
-    @Scheduled(cron = "0 40 15 14 * ?") //每月1上午02：:0触发 
+   // @Scheduled(cron = "0 40 15 14 * ?") //每月1上午02：:0触发 
 
+//    @Scheduled(cron = "0 0 13 21 * ?") //每月1上午02：:0触发 
 
+    @Scheduled(cron = "${report.month.times}") //每月1上午02：:0触发 
     public void monReport() throws ParseException {
          SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
         //当前日期
