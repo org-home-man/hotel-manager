@@ -87,8 +87,8 @@ public class SysUserServiceImpl  implements SysUserService {
 	@Override
 	public int delete(List<SysUser> records) {
 		List<Long> ids = records.stream().map(r -> r.getId()).collect(Collectors.toList());
-		//先删除用户对于角色关系
-		sysUserRoleMapper.deleteByUserIds(ids);
+		//先删除用户对于角色关系(由于逻辑删除，保持关联关系)
+//		sysUserRoleMapper.deleteByUserIds(ids);
 		//删除用户
 		sysUserMapper.deleteByIds(ids);
 
