@@ -18,8 +18,25 @@ public class BizPuchsQuery extends BusinessEntity {
     private String createTimeStart;
 
     private String createTimeEnd;
-
+    private String  inDateStartOut;
+    private String  inDateStartIn;
     private String name;
+
+    public String getInDateStartOut() {
+        return inDateStartOut;
+    }
+
+    public void setInDateStartOut(String inDateStartOut) {
+        this.inDateStartOut = inDateStartOut;
+    }
+
+    public String getInDateStartIn() {
+        return inDateStartIn;
+    }
+
+    public void setInDateStartIn(String inDateStartIn) {
+        this.inDateStartIn = inDateStartIn;
+    }
 
     public String getName() {
         return name;

@@ -209,11 +209,11 @@
 				<if test="createTimeStart != null and createTimeStart != ''">
 					AND bp.create_time >=  DATE_FORMAT(#{createTimeStart}, '%Y-%m-%d %H:%i:%S')
 				</if>
-				<if test="confirmTimeEnd != null and confirmTimeEnd != ''">
-					AND bp.last_crt_time &lt;= #{confirmTimeEnd}
+				<if test="inDateStartOut != null and inDateStartOut != ''">
+					AND bp.in_date_start &lt;= #{inDateStartOut}
 				</if>
-				<if test="confirmTimeStart != null and confirmTimeStart != ''">
-					AND bp.last_crt_time >= #{confirmTimeStart}
+				<if test="inDateStartIn != null and inDateStartIn != ''">
+					AND bp.in_date_start >= #{inDateStartIn}
 				</if>
 				<if test="hotelName != null and hotelName != ''">
 					AND (h.hotel_cname = #{hotelName} OR h.hotel_ename = #{hotelName})
