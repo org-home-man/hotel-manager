@@ -54,13 +54,16 @@
       AND  c.user_id = u.id AND u.dept_id = e.id group by u.id
     </where>
   </sql>
-    <delete id="deleteByIds">
-      delete from sys_user
+    <update id="deleteByIds">
+      update sys_user
+      <set>
+        del_flag = -1
+      </set>
       where id in
       <foreach collection="ids" item="itm" open="(" separator="," close=")">
         #{itm}
       </foreach>
-    </delete>
+    </update>
     <select id="findPage" resultMap="BaseResultMap" parameterType="com.hotel.admin.qo.SysUserQuery">
     select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u,sys_user_role c,sys_dept e  <include refid="QUERY"></include>
   </select>
