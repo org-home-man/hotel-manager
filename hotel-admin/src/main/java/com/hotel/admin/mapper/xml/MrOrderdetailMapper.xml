@@ -40,7 +40,7 @@
     <result column="day_num" property="dayNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, report_id, report_month, report_seq, order_code, hotel_code, hotel_cname, hotel_ename, 
+    report_id, report_month, report_seq, order_code, hotel_code, hotel_cname, hotel_ename,
     room_code, in_date_start, out_date_end, p_name, passport, birth, phone, email_address, 
     adult_num, child_num,  room_num, currency, total_s_amount, total_t_amount,
     remark, status, create_id, create_name, dept_id, dept_name, create_time, update_name, 
@@ -62,7 +62,7 @@
   <insert id="impMrOrderdetailData" parameterType="com.hotel.admin.model.MrOrderdetail" >
 
     insert into mr_orderdetail( <include refid="Base_Column_List"/> )
-    SELECT bp.id, #{reportId}, #{reportMonth}, #{reportSeq},
+    SELECT #{reportId}, #{reportMonth}, #{reportSeq},
     <include refid="Select_Column_List"/>  from
     biz_room r JOIN biz_puchs bp  ON r.room_code=bp.room_code
     JOIN biz_hotl h ON r.hotel_code =h.hotel_code JOIN sys_user s ON bp.create_id=s.id

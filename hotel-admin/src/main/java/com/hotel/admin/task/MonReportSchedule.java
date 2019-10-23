@@ -79,6 +79,7 @@ public class MonReportSchedule {
             mrSummaryMapper.insertSelective(mrSummary);
             mrOrderdetailMapper.impMrOrderdetailData(mrOrderdetail);
             //插入月报开始时间范围前的未结算年数据
+            mrOrderdetail.setId(null);
             mrOrderdetail.setCreateTimeStart(null);
             mrOrderdetail.setCreateTimeEnd(dateStart);
             mrOrderdetail.setStatus(Constant.PUCHS_STAT_NO_ACCOUNTS);
