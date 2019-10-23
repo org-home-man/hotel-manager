@@ -1,6 +1,7 @@
 package com.hotel.admin.service.impl;
 
 import com.hotel.admin.dto.WrDetailDto;
+import com.hotel.admin.dto.WrPendAmtTotlDto;
 import com.hotel.admin.dto.WrR0003DetailDto;
 import com.hotel.admin.mapper.*;
 import com.hotel.admin.model.*;
@@ -102,6 +103,11 @@ public class WrDetailServiceImpl implements WrDetailService {
         }
         return map;
 
+    }
+
+    @Override
+    public WrPendAmtTotlDto findWrQuery(WrSummaryQo record) {
+        return wrDetailMapper.findWrQuery(record);
     }
 
 

@@ -63,6 +63,15 @@
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
   </resultMap>
 
+  <resultMap id="WrPendAmtTotlDto" type="com.hotel.admin.dto.WrPendAmtTotlDto">
+    <result column="sumTotlSell" property="sumTotlSell" jdbcType="DOUBLE" />
+    <result column="sumTotlSettle" property="sumTotlSettle" jdbcType="DOUBLE" />
+    <result column="sumTotl" property="sumTotl" jdbcType="DOUBLE" />
+
+  </resultMap>
+
+
+
   <sql id="Base_Column_List" >
     id, report_id, report_month, report_seq, order_code, hotel_code,hotel_cname,hotel_ename, room_code, in_date_start,
     out_date_end,p_name, passport, birth, phone, email_address, adult_num, child_num,  room_num,
@@ -291,6 +300,21 @@
     '',
     ''
     FROM DUAL
+  </select>
+
+
+  <select id="findWrQuery" parameterType="com.hotel.admin.qo.WrSummaryQo" resultMap="WrPendAmtTotlDto">
+    select
+        sum(total_s_amount) sumTotlSell,
+        sum(total_t_amount) sumTotlSettle,
+        sum(total_s_amount-total_t_amount) sumTotl
+    from
+    wr_detail a
+    where
+        a.report_id = #{reportId,jdbcType=VARCHAR} and
+        report_month = #{reportMonth,jdbcType=VARCHAR} and
+        report_seq=#{reportSeq,jdbcType=VARCHAR} and
+        a.status ='5'
   </select>
 
 </mapper>

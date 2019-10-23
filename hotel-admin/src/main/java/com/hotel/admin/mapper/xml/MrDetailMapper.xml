@@ -37,6 +37,13 @@
     <result column="pending_amt" property="pendingAmt" jdbcType="VARCHAR" />
   </resultMap>
 
+  <resultMap id="MrPendAmtTotlDto" type="com.hotel.admin.dto.MrPendAmtTotlDto">
+    <result column="sumTotlSell" property="sumTotlSell" jdbcType="DOUBLE" />
+    <result column="sumTotlSettle" property="sumTotlSettle" jdbcType="DOUBLE" />
+    <result column="sumTotl" property="sumTotl" jdbcType="DOUBLE" />
+
+  </resultMap>
+
   <sql id="Dept_Column_List" >
      report_id, report_month, report_seq,hotel_code,dept_id,
     order_num,room_num,total_sell_amt,total_settlement_amt, status,day_num
@@ -228,18 +235,18 @@
 
 
 
-  <select id="r0004ReportSelect" parameterType="com.hotel.admin.qo.MrSummaryQo" resultMap="com.hotel.admin.dto.MrPendAmtTotlDto">
+  <select id="findR0004Data" parameterType="com.hotel.admin.qo.MrSummaryQo" resultMap="MrPendAmtTotlDto">
     select
       sum(total_sell_amt) sumTotlSell,
 	  sum(total_settlement_amt) sumTotlSettle,
 	  sum(total_sell_amt-total_settlement_amt) sumTotl
     from mr_detail a
     where
-    report_id = #{reportId,jdbcType=VARCHAR}
-    AND
-    report_month = #{reportMonth,jdbcType=VARCHAR}
-    AND
-    status = '5'
+      report_id = #{reportId,jdbcType=VARCHAR}
+      AND
+      report_month = #{reportMonth,jdbcType=VARCHAR}
+      AND
+      status = '5'
   </select>
 
 </mapper>

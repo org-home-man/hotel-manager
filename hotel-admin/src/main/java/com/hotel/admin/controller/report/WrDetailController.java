@@ -57,6 +57,12 @@ public class WrDetailController {
         return HttpResult.ok(wrDetailService.findR0003Page(record));
     }
 
+
+    @PostMapping(value = "/wrQuery")
+    public HttpResult wrQuery(WrSummaryQo record) {
+        return HttpResult.ok(wrDetailService.findWrQuery(record));
+    }
+
     /*
     导出报表
      */
