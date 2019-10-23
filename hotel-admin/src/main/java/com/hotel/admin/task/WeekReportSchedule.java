@@ -78,6 +78,7 @@ public class WeekReportSchedule {
             wrSummaryMapper.insertSelective(wrSummary);
             weekReportMapper.impWeekData(wrDetail);
             //插入周期之前的未结算订单信息
+            wrDetail.setId(null);
             wrDetail.setCreateTimeStart(null);
             wrDetail.setCreateTimeEnd(dateStart);
             wrDetail.setStatus(Constant.PUCHS_STAT_NO_ACCOUNTS);

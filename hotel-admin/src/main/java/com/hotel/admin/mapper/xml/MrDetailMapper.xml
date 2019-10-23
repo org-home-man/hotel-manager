@@ -64,7 +64,8 @@
     SELECT #{reportId}, #{reportMonth}, #{reportSeq},hotel_code,dept_id,
       count(hotel_code),  sum(room_num),  sum(total_s_amount), sum(total_t_amount),status,sum((TO_DAYS(out_date_end) - TO_DAYS(in_date_start)))
     FROM (
-    SELECT bp.*,s.dept_id
+        SELECT bp.*,s.dept_id
+        FROM
           biz_puchs bp
           INNER JOIN sys_user s ON bp.create_id=s.id
         <where>
@@ -77,8 +78,8 @@
         </where>
         union
         SELECT bp.*,s.dept_id
-            biz_puchs bp
-            INNER JOIN sys_user s ON bp.create_id=s.id
+        FROM biz_puchs bp
+             INNER JOIN sys_user s ON bp.create_id=s.id
         <where>
           <if test="createTimeEnd != null and createTimeEnd != ''">
             AND  bp.create_time  &lt;=  DATE_FORMAT(#{createTimeStart}, '%Y-%m-%d %H:%i:%S')
