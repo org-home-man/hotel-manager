@@ -34,17 +34,20 @@ public class MonReportSchedule {
     @Scheduled(cron = "${report.month.times}") //每月1上午02：:0触发 
     public void monReport() throws ParseException {
          SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
-        //当前日期
+        //获取上月1号
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.add(Calendar.MONTH,-1);
+        calendar1.set(Calendar.DAY_OF_MONTH,1);
+        String dateStart = fmt.format(calendar1.getTime());
+
+        //获取上月月底
+        Calendar cale = Calendar.getInstance();
+        cale.set(Calendar.DAY_OF_MONTH,0);//设置为1号,当前日期既为本月第一天
+        String dateEnd = fmt.format(cale.getTime());
+
+        //获取当前时间
         String curDateStr = fmt.format(new Date());
-        Date curDate = fmt.parse(curDateStr);
-        //获取前七天一周的时间
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(curDate);
-        calendar.add(Calendar.DAY_OF_MONTH,0);
-        String dateEnd = fmt.format(calendar.getTime());
-       // calendar.add(Calendar.DAY_OF_MONTH,0);
-        calendar.add(Calendar.MONTH,-1);
-        String dateStart = fmt.format(calendar.getTime());
+
         System.out.println("报表生成时间范围" + dateStart +"  "+ dateEnd);
         MrDetail mrDetail = new MrDetail();
         MrSummary mrSummary = new MrSummary();

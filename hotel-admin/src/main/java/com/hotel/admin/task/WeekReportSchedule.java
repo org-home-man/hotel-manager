@@ -36,22 +36,26 @@ public class WeekReportSchedule {
     @Scheduled(cron = "${report.week.times}") //每周1上午01:30触发 
     public void weekReport() throws ParseException {
          SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
-        //当前日期
+        ///当前日期
         String curDateStr = fmt.format(new Date());
+        //获取上周周一和周日
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+        int dayOfWeek=calendar1.get(Calendar.DAY_OF_WEEK)-1;
+        int offset1=1-dayOfWeek;
+        int offset2=7-dayOfWeek;
+        calendar1.add(Calendar.DATE, offset1-7);
+        calendar2.add(Calendar.DATE, offset2-7);
+        Date timePreMonday= calendar1.getTime();
+        Date timeThisMonday = calendar2.getTime();
+        String dateStart = fmt.format(timePreMonday);//获取符合要求格式的上周周一日期
+        String dateEnd = fmt.format(timeThisMonday);
         Date curDate = fmt.parse(curDateStr);
-        //获取前七天一周的时间
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(curDate);
-        calendar.add(Calendar.DAY_OF_MONTH,0);
-        String dateEnd = fmt.format(calendar.getTime());
-        calendar.add(Calendar.DAY_OF_MONTH,-7);
-        String dateStart = fmt.format(calendar.getTime());
         //获取报表第几周
-        int week = calendar.get(Calendar.WEEK_OF_MONTH);
+        int week = calendar1.get(Calendar.WEEK_OF_MONTH);
         LOGGER.info("week=" +String.valueOf(week) +"week");
 
-        calendar.add(Calendar.DAY_OF_MONTH,6);
-        String lastDate =  fmt.format(calendar.getTime());
+        String lastDate =  fmt.format(calendar2.getTime());
         //获取年份
         String lastYear = lastDate.substring(0,4);
         LOGGER.info("报表生成时间范围" + dateStart +"  "+ dateEnd);
