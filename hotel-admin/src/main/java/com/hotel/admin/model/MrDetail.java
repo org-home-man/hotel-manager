@@ -2,6 +2,8 @@ package com.hotel.admin.model;
 
 import com.hotel.common.entity.Entity;
 
+import javax.persistence.Transient;
+
 public class MrDetail extends Entity {
     /**
      * 订单编号
@@ -31,6 +33,17 @@ public class MrDetail extends Entity {
     private String createTimeStart;
 
     private String createTimeEnd;
+
+    @Transient
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getCreateTimeStart() {
         return createTimeStart;

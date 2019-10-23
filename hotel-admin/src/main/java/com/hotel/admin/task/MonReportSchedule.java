@@ -64,7 +64,7 @@ public class MonReportSchedule {
 
         //月报明细表数据生成
         mrSummary.setReportId(lastYear+"R0006");
-        mrSummary.setReportTxt("（管）订单月度明细表");
+        mrSummary.setReportTxt("订单明细及待结算款额表");
         mrSummary.setId(null);
         mrSummary.setCreatTime(null);
         MrSummary mrSummary4 = mrSummaryMapper.selectOne(mrSummary);
@@ -78,26 +78,30 @@ public class MonReportSchedule {
         if (mrSummary4  == null) {
             mrSummaryMapper.insertSelective(mrSummary);
             mrOrderdetailMapper.impMrOrderdetailData(mrOrderdetail);
-            WebSocketServer.sendMessageToManager("（管）订单月度明细表", Constant.MONTH_MES);
+            //插入月报开始时间范围前的未结算年数据
+            mrOrderdetail.setCreateTimeStart(null);
+            mrOrderdetail.setCreateTimeEnd(dateStart);
+            mrOrderdetail.setStatus(Constant.PUCHS_STAT_NO_ACCOUNTS);
+            mrOrderdetailMapper.impMrOrderdetailData(mrOrderdetail);
+            WebSocketServer.sendMessageToManager("订单明细及待结算款额表生成成功,请注意查看", Constant.MONTH_MES);
         }
 
         //按照公司与酒店来统计数据
         mrDetail.setReportId(lastYear+"R0005");
         mrSummary.setReportId(lastYear+"R0005");
-        mrSummary.setReportTxt("（管）酒店对账月度统计表");
+        mrSummary.setReportTxt("酒店分类统计表");
         mrSummary.setId(null);
         mrSummary.setCreatTime(null);
         MrSummary mrSummary8 = mrSummaryMapper.selectOne(mrSummary);
         mrSummary.setCreatTime(curDateStr);
-        if (mrSummary8  == null)
-        {
+        if (mrSummary8  == null){
             mrSummaryMapper.insertSelective(mrSummary);
-            monReportMapper.impMonDeptHotelData(mrDetail);
+            mrDetail.setStatus(Constant.PUCHS_STAT_NO_ACCOUNTS);
+            monReportMapper.impMonDeptData(mrDetail);
             monReportMapper.updDeptInforNew(mrDetail);
             monReportMapper.updHotelName(mrDetail);
-            WebSocketServer.sendMessageToManager("（管）酒店对账月度统计表生成成功，请注意查看", Constant.MONTH_MES);
-        }
-        else {
+            WebSocketServer.sendMessageToManager("酒店分类统计表，请注意查看", Constant.MONTH_MES);
+        }else {
             System.out.println("mrsummary =" + mrSummary8.getReportId() );
         }
 
@@ -119,7 +123,7 @@ public class MonReportSchedule {
         //按照用户id进行报表统计
         mrDetail.setReportId(lastYear+"R0004");
         mrSummary.setReportId(lastYear+"R0004");
-        mrSummary.setReportTxt("订单信息-公司汇总月报表");
+        mrSummary.setReportTxt("公司分类统计表");
         mrSummary.setId(null);
         mrSummary.setCreatTime(null);
         MrSummary mrSummary2 = mrSummaryMapper.selectOne(mrSummary);
@@ -129,7 +133,7 @@ public class MonReportSchedule {
             mrSummaryMapper.insertSelective(mrSummary);
             monReportMapper.impMonUserData(mrDetail);
             monReportMapper.updDeptInfor(mrDetail);
-            WebSocketServer.sendMessageToManager("公司汇总月报表生成成功，请注意查看", Constant.MONTH_MES);
+            WebSocketServer.sendMessageToManager("公司分类统计表生成成功，请注意查看", Constant.MONTH_MES);
         }
         else {
             System.out.println("mrsummary =" + mrSummary2.getReportId() );
@@ -137,7 +141,7 @@ public class MonReportSchedule {
 
         //用户月报
         mrSummary.setReportId(lastYear+"R0001");
-        mrSummary.setReportTxt("订单信息明细报表（用户）");
+        mrSummary.setReportTxt("订单明细及待结算款额表");
         mrSummary.setId(null);
         mrSummary.setCreatTime(null);
         MrSummary mrSummary3 = mrSummaryMapper.selectOne(mrSummary);
@@ -147,7 +151,7 @@ public class MonReportSchedule {
         }
         else {
             System.out.println("mrsummary =" + mrSummary3.getReportId() );
-            WebSocketServer.sendMessageToManager("订单信息明细报表（用户）生成成功，请注意查看", Constant.MONTH_MES);
+            WebSocketServer.sendMessageToManager("订单明细及待结算款额表生成成功，请注意查看", Constant.MONTH_MES);
         }
 
         //mrOrderdetailMapper.
