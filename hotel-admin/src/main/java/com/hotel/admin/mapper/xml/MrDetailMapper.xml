@@ -194,4 +194,20 @@
 
   </select>
 
+
+
+  <select id="r0004ReportSelect" parameterType="com.hotel.admin.qo.MrSummaryQo" resultMap="com.hotel.admin.dto.MrPendAmtTotlDto">
+    select
+      sum(total_sell_amt) sumTotlSell,
+	  sum(total_settlement_amt) sumTotlSettle,
+	  sum(total_sell_amt-total_settlement_amt) sumTotl
+    from mr_detail a
+    where
+    report_id = #{reportId,jdbcType=VARCHAR}
+    AND
+    report_month = #{reportMonth,jdbcType=VARCHAR}
+    AND
+    status = '5'
+  </select>
+
 </mapper>

@@ -83,6 +83,18 @@ public class MrDetailServiceImpl implements MrDetailService {
     }
 
     @Override
+    public MrPendAmtTotlDto findR0004Data(MrSummaryQo record) {
+
+
+        return mrDetailMapper.findR0004Data(record);
+    }
+
+    @Override
+    public MrPendAmtTotlDto findR0005Data(MrSummaryQo record) {
+        return null;
+    }
+
+    @Override
     public int save(MrDetail record) {
         return 0;
     }

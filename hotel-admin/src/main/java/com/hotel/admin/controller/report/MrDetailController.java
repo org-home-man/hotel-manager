@@ -59,6 +59,19 @@ public class MrDetailController {
         return HttpResult.ok(mrDetailService.findR0004Page(record));
     }
 
+
+    /**
+     * 基础查询
+     *
+     * @param
+     * @return
+     */
+    @PostMapping(value = "/r0004Data")
+    public HttpResult r0004Data(MrSummaryQo record) {
+        return HttpResult.ok(mrDetailService.findR0004Data(record));
+    }
+
+
     /*
     导出报表
      */

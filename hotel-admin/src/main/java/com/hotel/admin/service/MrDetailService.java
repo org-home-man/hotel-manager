@@ -20,4 +20,10 @@ public interface MrDetailService extends NewCurdService<MrDetail> {
 
     List<MrR0005DetailDto> findR0005Page(MrSummaryQo record);
 
+    MrPendAmtTotlDto findR0004Data(MrSummaryQo record);
+
+    MrPendAmtTotlDto findR0005Data(MrSummaryQo record);
+
+
+
 }

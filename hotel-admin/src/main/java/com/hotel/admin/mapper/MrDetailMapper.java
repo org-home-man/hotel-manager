@@ -1,5 +1,6 @@
 package com.hotel.admin.mapper;
 
+import com.hotel.admin.dto.MrPendAmtTotlDto;
 import com.hotel.admin.dto.MrR0001DetailDto;
 import com.hotel.admin.dto.MrR0004DetailDto;
 import com.hotel.admin.dto.MrR0005DetailDto;
@@ -22,4 +23,6 @@ public interface MrDetailMapper extends AbstractMapper<MrDetail> {
     List<MrR0004DetailDto> r0004ReportSelect(MrSummaryQo record);
 
     List<MrR0005DetailDto> r0005ReportSelect(MrSummaryQo record);
+
+    MrPendAmtTotlDto findR0004Data(MrSummaryQo record);
 }
