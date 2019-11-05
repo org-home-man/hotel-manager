@@ -36,6 +36,7 @@ public class WeekReportSchedule {
     @Scheduled(cron = "${report.week.times}") //每周1上午01:30触发 
     public void weekReport() throws ParseException {
          SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月");
         ///当前日期
         String curDateStr = fmt.format(new Date());
         //获取上周周一和周日
@@ -64,7 +65,7 @@ public class WeekReportSchedule {
         //按“所属公司”产生本周内发生的订单信息报表
         wrDetail.setReportId(lastYear+"R0002");
         wrSummary.setReportId(lastYear+"R0002");
-        wrSummary.setReportTxt("公司分类统计表");
+        wrSummary.setReportTxt("(管）"+sdf.format(timePreMonday)+week+"周"+"公司分类统计表");
         //获取月份
         String lastMonth = lastDate.substring(4,6);
         LOGGER.info("lastMonth=" +lastMonth);
@@ -87,7 +88,7 @@ public class WeekReportSchedule {
             wrDetail.setCreateTimeEnd(dateStart);
             wrDetail.setStatus(Constant.PUCHS_STAT_NO_ACCOUNTS);
             weekReportMapper.impWeekData(wrDetail);
-            WebSocketServer.sendMessageToManager("公司分类周报表生成成功,请注意查看", Constant.WEEK_MES);
+            WebSocketServer.sendMessageToManager("(管）"+sdf.format(timePreMonday)+week+"周"+"公司分类周报表生成成功,请注意查看", Constant.WEEK_MES);
 
         }else {
             LOGGER.info("retSummary " + retSummary.getReportId() + retSummary.getReportSeq());
@@ -96,12 +97,12 @@ public class WeekReportSchedule {
         wrSummary.setReportId(lastYear+"R0003");
         wrSummary.setId(null);
         wrSummary.setCreatTime(null);
-        wrSummary.setReportTxt("酒店分类统计表");
+        wrSummary.setReportTxt("(管）"+sdf.format(timePreMonday)+week+"周"+"酒店分类统计表");
         WrSummary retSummary1 = wrSummaryMapper.selectOne(wrSummary);
         wrSummary.setCreatTime(curDateStr);
         if(retSummary1 ==null) {
             wrSummaryMapper.insertSelective(wrSummary);
-            WebSocketServer.sendMessageToManager("酒店分类统计表生成成功,请注意查看", Constant.WEEK_MES);
+            WebSocketServer.sendMessageToManager("(管）"+sdf.format(timePreMonday)+week+"周"+"酒店分类统计表生成成功,请注意查看", Constant.WEEK_MES);
         }else {
             LOGGER.info("retSummary " + retSummary.getReportId() + retSummary.getReportSeq());
         }
@@ -109,12 +110,12 @@ public class WeekReportSchedule {
         wrSummary.setReportId(lastYear+"R0007");
         wrSummary.setId(null);
         wrSummary.setCreatTime(null);
-        wrSummary.setReportTxt("订单明细及待结算款额表");
+        wrSummary.setReportTxt("(管）"+sdf.format(timePreMonday)+week+"周"+"订单明细及待结算款额表");
         WrSummary retSummary4 = wrSummaryMapper.selectOne(wrSummary);
         wrSummary.setCreatTime(curDateStr);
         if(retSummary4 ==null) {
             wrSummaryMapper.insertSelective(wrSummary);
-            WebSocketServer.sendMessageToManager("订单明细及待结算款额表生成公共,请注意查看", Constant.WEEK_MES);
+            WebSocketServer.sendMessageToManager("(管）"+sdf.format(timePreMonday)+week+"周"+"订单明细及待结算款额表生成公共,请注意查看", Constant.WEEK_MES);
         }else {
             LOGGER.info("retSummary " + retSummary4.getReportId() + retSummary4.getReportSeq());
         }
