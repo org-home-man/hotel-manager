@@ -12,10 +12,14 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://118.24.47.239:3306/hotel?useUnicode=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8&useSSL=true
+      #url: jdbc:mysql://118.24.47.239:3306/hotel?useUnicode=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8&useSSL=true
+      url: jdbc:mysql://47.104.222.174:3306/hotel?useUnicode=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8&useSSL=false
+      #url: jdbc:mysql://localhost:33698/hotel?useUnicode=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
 #      url: jdbc:mysql://localhost:3306/hotel?useUnicode=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8&useSSL=false
+      #username: japanhotel
+      #password: Hkdg_1@3
       username: root
-      password: admin!#%123
+      password: admin!@#123
 #      password: hotel123
       filters: stat,wall,log4j,config
       max-active: 100
@@ -26,7 +30,7 @@ spring:
       min-evictable-idle-time-millis: 300000
       validation-query: select 'x'
       test-while-idle: true
-      test-on-borrow: false
+      test-on-borrow: true
       test-on-return: false
       pool-prepared-statements: true
       max-open-prepared-statements: 50
@@ -40,9 +44,11 @@ spring:
     auto: true
   #redis
   redis:
-    host: 118.24.47.239
+    host: 47.104.222.174
+    #host: 127.0.0.1
     password: redis!#%123
     port: 6379
+    #port: 8787
     database: 10
     lettuce:
       pool:

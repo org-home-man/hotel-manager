@@ -59,7 +59,7 @@
     <!-- 必须要有的，使用这个配置链接数据库
         @TODO:是否可以扩展
      -->
-    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://118.24.47.239:3306/hotel?useSSL=false" userId="root" password="admin!#%123">
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://47.104.222.174:3306/hotel?useSSL=false" userId="root" password="admin!@#123">
         <!-- 这里面可以设置property属性，每一个property属性都设置到配置的Driver上 -->
     </jdbcConnection>
 
@@ -178,8 +178,8 @@
 
         注意，table里面很多参数都是对javaModelGenerator，context等元素的默认属性的一个复写；
      -->
-    <table tableName="wr_summary"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" enableInsert="false" enableDeleteByPrimaryKey="false" enableUpdateByPrimaryKey="false"></table>
-    <table tableName="mr_summary"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" enableInsert="false" enableDeleteByPrimaryKey="false" enableUpdateByPrimaryKey="false"></table>
+    <table tableName="biz_agreement"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" enableInsert="false" enableDeleteByPrimaryKey="false" enableUpdateByPrimaryKey="false"></table>
+    <!--<table tableName="mr_summary"  enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" enableInsert="false" enableDeleteByPrimaryKey="false" enableUpdateByPrimaryKey="false"></table>-->
 
 </context>
 
