@@ -326,7 +326,7 @@
 		from
 			biz_room a left join biz_prise b on a.room_code = b.room_code
 		where
-			b.price_date BETWEEN #{earlyMonth,jdbcType=VARCHAR} AND #{todayMonth,jdbcType=VARCHAR} and a.del_flag = 0
+			b.price_date BETWEEN #{earlyMonth,jdbcType=VARCHAR} AND #{todayMonth,jdbcType=VARCHAR} and a.del_flag = 0 and b.s_room_price != 0
 		ORDER BY s_room_price desc LIMIT 1
 	</select>
 
