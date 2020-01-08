@@ -486,8 +486,8 @@ public class BizRoomServiceImpl implements BizRoomService {
 		Date[] dates = new Date[dts.length];
 		for (int i = 0;i<dts.length;i++) {
 			String date = dts[i];
-			date = date.replace("Z"," UTC");
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+//			date = date.replace("Z"," UTC");
+			SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 			dates[i] = format.parse(date);
 		}
 
@@ -749,8 +749,9 @@ public class BizRoomServiceImpl implements BizRoomService {
 		Date[] dates = new Date[dts.length];
 		for (int i = 0;i<dts.length;i++) {
 			String date = dts[i];
-			date = date.replace("Z"," UTC");
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+//			date = date.replace("Z"," UTC");
+//			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+			SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 			dates[i] = format.parse(date);
 		}
 
